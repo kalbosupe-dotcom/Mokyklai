@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinonimų ir antonimų paieška</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.05em;
+        }
+        .answer-btn {
+            transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .answer-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .answer-btn.correct {
+            background-color: #dcfce7; /* Šviesiai žalia */
+            border-color: #22c55e; /* Žalia */
+            color: #166534; /* Tamsiai žalia */
+        }
+        .answer-btn.incorrect {
+            background-color: #fee2e2; /* Šviesiai raudona */
+            border-color: #ef4444; /* Raudona */
+            color: #991b1b; /* Tamsiai raudona */
+        }
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-10 text-center">
+        
+        <!-- Antraštė ir užduotis -->
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Žodyno plėtimas</h1>
+        <p id="task-text" class="text-xl text-blue-600 font-semibold mb-4">Užduotis bus čia</p>
+        <div class="bg-blue-50 rounded-xl p-4 mb-8">
+            <p id="word-to-find" class="text-4xl sm:text-5xl font-bold text-gray-900"></p>
+        </div>
+
+        <!-- Atsakymų variantai -->
+        <div id="options-container" class="grid grid-cols-1 gap-4 mb-8">
+            <!-- Mygtukai bus generuojami čia -->
+        </div>
+
+        <!-- Valdymo mygtukai -->
+        <div class="flex items-center justify-center">
+            <button id="next-btn" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300 hidden">
+                Kitas klausimas
+            </button>
+        </div>
+
+        <!-- Grįžtamojo ryšio pranešimas -->
+        <div id="feedback" class="mt-6 text-lg font-medium min-h-[30px]"></div>
+        
+        <!-- Eigos indikatorius -->
+        <div id="progress" class="mt-4 text-sm text-gray-500">
+            Klausimas 1 iš 10
+        </div>
+
+    </div>
+
+    <script>
+        // --- Duomenys ---
+        const questions = [
+            { task: 'Rask sinonimą žodžiui:', word: 'linksmas', options: ['džiugus', 'liūdnas', 'piktas'], correct: 'džiugus' },
+            { task: 'Rask antonimą žodžiui:', word: 'didelis', options: ['mažas', 'aukštas', 'milžiniškas'], correct: 'mažas' },
+            { task: 'Rask sinonimą žodžiui:', word: 'greitas', options: ['vikrus', 'lėtas', 'stiprus'], correct: 'vikrus' },
+            { task: 'Rask antonimą žodžiui:', word: 'šaltas', options: ['karštas', 'vėsus', 'ledinis'], correct: 'karštas' },
+            { task: 'Rask sinonimą žodžiui:', word: 'kalbėti', options: ['šnekėti', 'tylėti', 'klausyti'], correct: 'šnekėti' },
+            { task: 'Rask antonimą žodžiui:', word: 'diena', options: ['naktis', 'rytas', 'vakaras'], correct: 'naktis' },
+            { task: 'Rask sinonimą žodžiui:', word: 'drąsus', options: ['narsus', 'bailus', 'išsigandęs'], correct: 'narsus' },
+            { task: 'Rask antonimą žodžiui:', word: 'lengvas', options: ['sunkus', 'paprastas', 'mažas'], correct: 'sunkus' },
+            { task: 'Rask sinonimą žodžiui:', word: 'namas', options: ['pastatas', 'kelias', 'miškas'], correct: 'pastatas' },
+            { task: 'Rask antonimą žodžiui:', word: 'pradžia', options: ['pabaiga', 'vidurys', 'kelias'], correct: 'pabaiga' }
+        ];
+
+        // --- Būsenos kintamieji ---
+        let currentQuestionIndex = 0;
+        let isAnswered = false;
+
+        // --- DOM elementai ---
+        const taskTextEl = document.getElementById('task-text');
+        const wordToFindEl = document.getElementById('word-to-find');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const progressEl = document.getElementById('progress');
+
+        // --- Funkcijos ---
+
+        /**
+         * Paruošia ir atvaizduoja dabartinį klausimą ekrane.
+         */
+        function displayQuestion() {
+            isAnswered = false;
+            const currentQuestion = questions[currentQuestionIndex];
+
+            taskTextEl.textContent = currentQuestion.task;
+            wordToFindEl.textContent = currentQuestion.word;
+            optionsContainer.innerHTML = '';
+            feedbackEl.innerHTML = '';
+            
+            // Sumaišome atsakymų variantus, kad nebūtų visada toje pačioje vietoje
+            const shuffledOptions = [...currentQuestion.options].sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('answer-btn', 'w-full', 'text-xl', 'font-medium', 'p-4', 'border-2', 'rounded-lg', 'bg-white', 'text-gray-700', 'border-gray-300');
+                button.addEventListener('click', () => checkAnswer(option, button));
+                optionsContainer.appendChild(button);
+            });
+
+            nextBtn.classList.add('hidden');
+            updateProgress();
+        }
+
+        /**
+         * Patikrina vartotojo atsakymą ir pateikia grįžtamąjį ryšį.
+         * @param {string} selectedOption - Vartotojo pasirinktas atsakymas.
+         * @param {HTMLElement} selectedButton - Paspaustas mygtukas.
+         */
+        function checkAnswer(selectedOption, selectedButton) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const currentQuestion = questions[currentQuestionIndex];
+            const isCorrect = selectedOption === currentQuestion.correct;
+            
+            // Išjungiame visus mygtukus po atsakymo
+            const allButtons = optionsContainer.querySelectorAll('.answer-btn');
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                // Pažymime teisingą atsakymą žaliai
+                if (btn.textContent === currentQuestion.correct) {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                feedbackEl.innerHTML = '<span class="text-green-600">Puiku! Teisingai! 🎉</span>';
+            } else {
+                selectedButton.classList.add('incorrect');
+                feedbackEl.innerHTML = '<span class="text-red-600">Bandyk dar kartą.</span>';
+            }
+
+            nextBtn.classList.remove('hidden');
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'Baigti užduotį';
+            }
+        }
+
+        /**
+         * Pereina prie kito klausimo arba užbaigia užduotį.
+         */
+        function goToNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                // Užduotis baigta
+                document.body.innerHTML = `
+                    <div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-10 text-center">
+                        <h1 class="text-4xl font-bold text-green-600 mb-4">Šaunuolis!</h1>
+                        <p class="text-xl text-gray-700 mb-8">Užduotis sėkmingai atlikta. Tu puikiai padirbėjai!</p>
+                        <button onclick="location.reload()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg">
+                            Kartoti užduotį
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        /**
+         * Atnaujina eigos indikatorių.
+         */
+        function updateProgress() {
+            progressEl.textContent = `Klausimas ${currentQuestionIndex + 1} iš ${questions.length}`;
+        }
+
+        // --- Įvykių klausytojai ---
+        nextBtn.addEventListener('click', goToNextQuestion);
+
+        // --- Pradinis paleidimas ---
+        displayQuestion();
+    </script>
+</body>
+</html>

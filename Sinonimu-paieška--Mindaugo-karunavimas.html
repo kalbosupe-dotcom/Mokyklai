@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sinonimų paieška tekste – Mindaugo karūnavimas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f7f7fb;--card:#ffffff;--ink:#1f2937;--muted:#6b7280;--ok:#16a34a;--err:#dc2626;--brand:#0ea5e9;--soft:#e5e7eb;
+    }
+    body{font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Calibri,sans-serif;background:var(--bg);color:var(--ink);margin:0;padding:24px;}
+    h1{font-size:26px;margin:0 0 8px}
+    p.lead{margin:0 0 16px;color:var(--muted)}
+
+    .card{background:var(--card);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:20px;max-width:980px;margin:0 auto 18px}
+
+    /* Teksto blokas */
+    .text{font-size:20px;line-height:1.8}
+    .chip{display:inline-block;padding:.12rem .5rem;border-radius:999px;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;font-weight:600;margin:0 .06rem;cursor:grab;user-select:none}
+    .chip.used{opacity:.55}
+    .chip:active{cursor:grabbing}
+
+    /* Užduočių lentelė */
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+    .row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--soft);border-radius:12px;padding:10px 12px}
+    .prompt{font-weight:700}
+    .drop{flex:1;min-height:40px;border:2px dashed #cbd5e1;border-radius:10px;padding:6px 8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+    .drop.filled{border-style:solid}
+    .tag{display:inline-flex;align-items:center;gap:8px;border:1px solid #d1d5db;border-radius:999px;padding:6px 10px;background:#f3f4f6;font-weight:600}
+    .tag .x{cursor:pointer;border:none;background:transparent;font-size:18px;line-height:1}
+
+    /* Būsenos spalvos po patikrinimo */
+    .row.ok{border-color:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.08) inset}
+    .row.err{border-color:var(--err);box-shadow:0 0 0 3px rgba(220,38,38,.08) inset}
+
+    /* Valdikliai */
+    .controls{display:flex;gap:10px;justify-content:center;margin:16px auto}
+    button{border:none;border-radius:12px;padding:10px 16px;font-size:16px;font-weight:700;cursor:pointer}
+    .primary{background:var(--brand);color:#fff}
+    .ghost{background:#e5e7eb}
+
+    .result{font-weight:800;text-align:center}
+    .legend{font-size:14px;color:var(--muted);text-align:center;margin-top:6px}
+    .footer{display:flex;gap:10px;justify-content:center;margin-top:10px}
+
+    /* Dideli, patogūs elementai disleksikams */
+    .text .chip, .tag{letter-spacing:.2px}
+    @media (prefers-reduced-motion:no-preference){
+      .row{transition:border-color .2s ease, box-shadow .2s ease}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Sinonimų paieška tekste</h1>
+    <p class="lead">Nutempk žodžius <strong>iš teksto</strong> prie atitinkamų sąrašo žodžių. Žodis tekste liks, o į dėžutę įsikels jo kopija. Spausk <em>Patikrinti</em>, kai baigsi.</p>
+  </div>
+
+  <div class="card text" id="sourceText">
+    1253 metais <strong>Mindaugas</strong> buvo karūnuotas Lietuvos <span class="chip" draggable="true" data-value="karaliumi">karaliumi</span>.
+    Karūnavimo <span class="chip" draggable="true" data-value="iškilmės">iškilmės</span> vyko su svečių iš įvairių <span class="chip" draggable="true" data-value="kraštų">kraštų</span> dalyvavimu.
+    Šis <span class="chip" draggable="true" data-value="įvykis">įvykis</span> turėjo didelę <span class="chip" draggable="true" data-value="reikšmę">reikšmę</span>
+    Lietuvos tarptautiniam <span class="chip" draggable="true" data-value="pripažinimui">pripažinimui</span>.
+    Mindaugas siekė <span class="chip" draggable="true" data-value="sutvirtinti">sutvirtinti</span> savo valdžią ir išvengti vidinių <span class="chip" draggable="true" data-value="kovų">kovų</span>.
+    Nors jo <span class="chip" draggable="true" data-value="valdymas">valdymas</span> nebuvo ilgas, jis paliko ryškią <span class="chip" draggable="true" data-value="žymę">žymę</span> Lietuvos istorijoje.
+  </div>
+
+  <div class="card">
+    <h2>Sinonimų sąrašas</h2>
+    <div class="grid" id="targets"></div>
+
+    <div class="controls">
+      <button class="ghost" id="resetBtn">Išvalyti</button>
+      <button class="primary" id="checkBtn">Patikrinti</button>
+    </div>
+
+    <p class="result" id="resultLine" aria-live="polite"></p>
+    <p class="legend">Žalia – teisinga pora, raudona – reikia pataisyti. Spausk „Išvalyti“, jei nori pradėti iš naujo.</p>
+
+    <div class="footer">
+      <button class="ghost" id="downloadBtn">Atsisiųsti užduotį</button>
+    </div>
+  </div>
+
+  <script>
+    // Teisingos sinonimų poros
+    const PAIRS = [
+      { prompt: 'šalis', answer: 'kraštų' },
+      { prompt: 'įvertinimas', answer: 'pripažinimui' },
+      { prompt: 'ginčai', answer: 'kovų' },
+      { prompt: 'sustiprinti', answer: 'sutvirtinti' },
+      { prompt: 'renginys', answer: 'įvykis' },
+      { prompt: 'pėdsakas', answer: 'žymę' },
+      { prompt: 'svarba', answer: 'reikšmę' },
+      { prompt: 'valdovas', answer: 'karaliumi' },
+      { prompt: 'šventė', answer: 'iškilmės' },
+      { prompt: 'vadovavimas', answer: 'valdymas' },
+    ];
+
+    // Sumašome eiles, kad kiekvieną kartą būtų skirtinga tvarka
+    function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a }
+    const rows = shuffle([...PAIRS]);
+
+    const targetsRoot = document.getElementById('targets');
+    const resultLine = document.getElementById('resultLine');
+
+    // Sukuriame eiles su "drop" zonomis
+    rows.forEach((row, idx)=>{
+      const el = document.createElement('div');
+      el.className = 'row';
+      el.dataset.idx = idx;
+      el.innerHTML = `
+        <div class="prompt">${row.prompt}</div>
+        <div class="drop" data-target="${row.answer}" aria-label="Numesti zoną"></div>
+      `;
+      targetsRoot.appendChild(el);
+    });
+
+    // Drag & Drop logika
+    function onDragStart(e){
+      const val = e.target.dataset.value;
+      e.dataTransfer.setData('text/plain', val);
+      e.dataTransfer.effectAllowed = 'copy';
+    }
+
+    function onDragOver(e){ e.preventDefault(); e.dataTransfer.dropEffect='copy' }
+
+    function onDrop(e){
+      e.preventDefault();
+      const val = e.dataTransfer.getData('text/plain');
+      const box = e.currentTarget;
+
+      // Išvalome seną pasirinkimą, jei buvo
+      box.innerHTML = '';
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = val;
+      tag.dataset.value = val; // saugome tikrą reikšmę
+      const x = document.createElement('button');
+      x.className = 'x';
+      x.type = 'button';
+      x.textContent = '✖';
+      x.title = 'Pašalinti';
+      x.addEventListener('click',()=>{ box.innerHTML=''; box.classList.remove('filled');
+        markUsage(val, -1);
+      });
+      tag.appendChild(x);
+      box.appendChild(tag);
+      box.classList.add('filled');
+
+      markUsage(val, +1);
+
+      box.parentElement.classList.remove('ok','err');
+      resultLine.textContent = '';
+    }
+
+    // Sužymime, kiek kartų konkreti teksto žyma panaudota
+    function markUsage(value, delta){
+      document.querySelectorAll('.chip[data-value="'+CSS.escape(value)+'"]').forEach(ch=>{
+        ch.dataset.used = String((+ch.dataset.used||0)+delta);
+        const usedCount = +ch.dataset.used||0;
+        ch.classList.toggle('used', usedCount>0);
+      });
+    }
+
+    // Pritvirtiname drag įvykius prie visų chipų
+    document.querySelectorAll('.chip').forEach(ch=>{
+      ch.addEventListener('dragstart', onDragStart);
+    });
+
+    // Pritvirtiname drop įvykius prie dėžučių
+    document.querySelectorAll('.drop').forEach(d=>{
+      d.addEventListener('dragover', onDragOver);
+      d.addEventListener('drop', onDrop);
+    });
+
+    // Patikrinimas
+    document.getElementById('checkBtn').addEventListener('click', ()=>{
+      let okCount = 0;
+      document.querySelectorAll('.row').forEach(row=>{
+        row.classList.remove('ok','err');
+        const box = row.querySelector('.drop');
+        const picked = box.querySelector('.tag')?.dataset.value || '';
+        const expect = box.dataset.target;
+        if(picked && picked === expect){
+          row.classList.add('ok'); okCount++;
+        } else {
+          row.classList.add('err');
+        }
+      });
+      resultLine.textContent = `Teisingų porų: ${okCount} / ${rows.length}`;
+    });
+
+    // Išvalymas
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.querySelectorAll('.drop').forEach(box=>{
+        const val = box.querySelector('.tag')?.dataset.value;
+        if(val){ markUsage(val, -1); }
+        box.innerHTML=''; box.classList.remove('filled');
+      });
+      document.querySelectorAll('.row').forEach(r=>r.classList.remove('ok','err'));
+      resultLine.textContent='';
+    });
+
+    // Atsisiųsti kaip HTML
+    document.getElementById('downloadBtn').addEventListener('click', ()=>{
+      const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sinonimu_paieška_mindaugas.html';
+      a.click();
+    });
+  </script>
+</body>
+</html>
