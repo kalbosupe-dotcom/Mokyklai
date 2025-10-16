@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <title>Linksnių užduotis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 26px;
+      line-height: 1.8;
+      text-align: center;
+      background: #f7f7f7;
+    }
+    .card {
+      display: none;
+      padding: 40px;
+      margin: 20px auto;
+      max-width: 600px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .active {
+      display: block;
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+    .options button {
+      display: block;
+      margin: 15px auto;
+      padding: 20px;
+      width: 80%;
+      font-size: 28px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: 2px solid #444;
+      background: #eee;
+    }
+    .options button.correct { background: #a6f3a6; border-color: green; }
+    .options button.wrong { background: #f8a6a6; border-color: red; }
+    .check-btn, .next-btn {
+      margin-top: 30px;
+      padding: 15px 40px;
+      font-size: 28px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background: #4caf50;
+      color: white;
+    }
+    .next-btn { background: #2196f3; }
+    .result {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cards"></div>
+
+  <script>
+    const tasks = [
+      {q:"Vardininkas | kas?", opts:["katė","katės","katę"], correct:0},
+      {q:"Vardininkas | kas?", opts:["draugas","draugo","draugą"], correct:0},
+      {q:"Kilmininkas | ko?", opts:["katė","katės","katę"], correct:1},
+      {q:"Kilmininkas | ko?", opts:["knyga","knygos","knygą"], correct:1},
+      {q:"Naudininkas | kam?", opts:["draugui","draugas","draugo"], correct:0},
+      {q:"Naudininkas | kam?", opts:["miestui","miesto","miestas"], correct:0},
+      {q:"Galininkas | ką?", opts:["katę","katė","katės"], correct:0},
+      {q:"Galininkas | ką?", opts:["knygą","knyga","knygos"], correct:0},
+      {q:"Įnagininkas | kuo?", opts:["draugu","draugas","draugui"], correct:0},
+      {q:"Įnagininkas | kuo?", opts:["miestu","miestas","miestui"], correct:0},
+      {q:"Vietininkas | kur? kame?", opts:["katėje","katė","katę"], correct:0},
+      {q:"Vietininkas | kur? kame?", opts:["knygoje","knyga","knygą"], correct:0},
+      {q:"Šauksmininkas", opts:["kate!","katė","katę"], correct:0},
+      {q:"Šauksmininkas", opts:["drauge!","draugas","draugo"], correct:0}
+    ];
+
+    let results = [];
+
+    // sumaišyti masyvą (Fisher-Yates algoritmas)
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function createCards() {
+      const container = document.getElementById("cards");
+      tasks.forEach((t, index) => {
+        const div = document.createElement("div");
+        div.className = "card";
+        if (index===0) div.classList.add("active");
+
+        // paruošiame atsakymus su teisingumo žyma
+        let options = t.opts.map((o,i)=>({text:o, isCorrect:(i===t.correct)}));
+        options = shuffleArray(options); // sumaišome
+
+        div.innerHTML = `
+          <div class="question">${t.q}</div>
+          <div class="options">
+            ${options.map((o,i)=>`<button data-correct="${o.isCorrect}">${o.text}</button>`).join("")}
+          </div>
+          <button class="check-btn">Pasitikrinti</button>
+          <button class="next-btn" style="display:none">Toliau</button>
+        `;
+        container.appendChild(div);
+
+        const opts = div.querySelectorAll(".options button");
+        let chosen = null;
+        opts.forEach((btn,i)=>{
+          btn.onclick=()=>{
+            opts.forEach(b=>b.style.borderColor="#444");
+            btn.style.borderColor="blue";
+            chosen = btn;
+          };
+        });
+
+        const checkBtn = div.querySelector(".check-btn");
+        const nextBtn = div.querySelector(".next-btn");
+
+        checkBtn.onclick=()=>{
+          if(chosen===null) return;
+          opts.forEach(b=>{
+            if(b.dataset.correct==="true"){
+              b.classList.add("correct");
+            } else if(b===chosen){
+              b.classList.add("wrong");
+            }
+          });
+          results[index] = (chosen.dataset.correct==="true")?1:0;
+          checkBtn.style.display="none";
+          nextBtn.style.display="inline-block";
+        };
+
+        nextBtn.onclick=()=>{
+          div.classList.remove("active");
+          if(index<tasks.length-1){
+            container.children[index+1].classList.add("active");
+          } else {
+            showResults();
+          }
+        };
+      });
+    }
+
+    function showResults(){
+      const container = document.getElementById("cards");
+      const div = document.createElement("div");
+      div.className="card active";
+
+      let total = results.reduce((a,b)=>a+b,0);
+      let percent = Math.round(total/results.length*100);
+
+      div.innerHTML = `
+        <div class="question">Rezultatai</div>
+        <div>
+          ${results.map((r,i)=>`Užduotis ${i+1}: ${r? "✔":"✘"}`).join("<br>")}
+        </div>
+        <div class="result">Bendras rezultatas: ${total} / ${results.length} (${percent}%)</div>
+        <button class="next-btn" onclick="location.reload()">Pradėti iš naujo</button>
+      `;
+      container.innerHTML="";
+      container.appendChild(div);
+    }
+
+    createCards();
+  </script>
+</body>
+</html>
