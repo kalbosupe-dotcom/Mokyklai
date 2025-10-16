@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakinio Dalys: Atmintinė (Horizontali versija)</title>
+    <style>
+        /* BENDRI STILIAI DISLEKSIKAMS */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.5;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 950px; 
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 35px; 
+        }
+
+        h1 {
+            text-align: center;
+            color: #0077b6;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        /* HORIZONTALIOS ANTRAŠTĖS (Vietoj vertikalių etikečių) */
+        .group-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: left;
+            padding: 8px 15px;
+            margin: 15px 0 5px 0;
+            border-radius: 8px;
+            color: #ffffff;
+        }
+        
+        #header-pagrindines {
+            background-color: #0d6efd; /* Mėlyna */
+        }
+
+        #header-antrininkes {
+            background-color: #dc3545; /* Raudona */
+        }
+        
+        /* SEPCIFINIAI SEKCIJŲ STILIAI */
+        .section-box {
+            border-radius: 10px;
+            margin-bottom: 12px; 
+            padding: 12px 15px;
+            border: 1px solid transparent; 
+        }
+
+        .section-title {
+            font-size: 1.7em; 
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 3px solid; 
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title span {
+            font-size: 1.3em; 
+            margin-right: 15px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 180px 1fr; 
+            gap: 2px 15px;
+            font-size: 1.1em; 
+        }
+        
+        .role {
+            font-weight: bold;
+            padding: 5px 0;
+            white-space: nowrap; 
+        }
+        
+        .info-box {
+            background-color: #f8f9fa;
+            padding: 5px 8px;
+            border-radius: 5px;
+        }
+        
+        /* PAVYZDŽIO STILIAI */
+        .pavyzdys-box {
+            grid-column: 1 / span 2; 
+            margin-top: 8px;
+            padding: 5px 0 0 0; 
+            border-top: 1px dashed #ccc;
+        }
+        .pavyzdys-label {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+        .pavyzdys-text {
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        /* SPALVŲ KODAVIMAS */
+        .veiksnys { border-color: #0d6efd; background-color: #e3f2fd; }
+        .veiksnys .section-title { color: #0d6efd; border-bottom-color: #bbdefb; }
+        .veiksnys .role { color: #0d6efd; }
+        
+        .tarinys { border-color: #198754; background-color: #e8f5e9; }
+        .tarinys .section-title { color: #198754; border-bottom-color: #c3e6cb; }
+        .tarinys .role { color: #198754; }
+
+        .papildinys { border-color: #ff9800; background-color: #fff3e0; }
+        .papildinys .section-title { color: #ff9800; border-bottom-color: #ffecb3; }
+        .papildinys .role { color: #ff9800; }
+
+        .pazyminys { border-color: #6f42c1; background-color: #f3e5f5; }
+        .pazyminys .section-title { color: #6f42c1; border-bottom-color: #e1bee7; }
+        .pazyminys .role { color: #6f42c1; }
+
+        .aplinkybe { border-color: #dc3545; background-color: #ffebee; }
+        .aplinkybe .section-title { color: #dc3545; border-bottom-color: #f5c6cb; }
+        .aplinkybe .role { color: #dc3545; }
+        
+        /* Pavyzdžių paryškinimas */
+        .highlight-veiksnys { font-weight: bold; color: #0d6efd; }
+        .highlight-tarinys { font-weight: bold; color: #198754; }
+        .highlight-papildinys { font-weight: bold; color: #ff9800; }
+        .highlight-pazyminys { font-weight: bold; color: #6f42c1; }
+        .highlight-aplinkybe { font-weight: bold; color: #dc3545; }
+        
+        /* Tekstų paryškinimas be žvaigždučių */
+        .info-box strong {
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>SAKINIO DALYS</h1>
+    
+    <div id="header-pagrindines" class="group-header">PAGRINDINĖS SAKINIO DALYS</div>
+
+    <div class="section-box veiksnys">
+        <div class="section-title"><span>🔵</span> VEIKSNYS</div>
+        <div class="content-grid">
+            <div class="role">KAS TAI?</div>
+            <div class="info-box">Pagrindinė dalis, nurodanti, <strong>kas atlieka veiksmą</strong> arba apie ką kalbama.</div>
+            <div class="role">KLAUSIMAI</div>
+            <div class="info-box"><strong>KAS?</strong></div>
+            <div class="role">DAŽNIAUSIAI BŪNA</div>
+            <div class="info-box">Daiktavardis arba įvardis.</div>
+            <div class="pavyzdys-box">
+                <span class="pavyzdys-label">PAVYZDYS:</span>
+                <span class="pavyzdys-text"><span class="highlight-veiksnys">Berniukas</span> žaidžia.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box tarinys">
+        <div class="section-title"><span>🟢</span> TARINYS</div>
+        <div class="content-grid">
+            <div class="role">KAS TAI?</div>
+            <div class="info-box">Pagrindinė dalis, nurodanti, <strong>ką veiksnys veikia</strong> arba koks jis yra.</div>
+            <div class="role">KLAUSIMAI</div>
+            <div class="info-box"><strong>KĄ VEIKIA? KĄ DARO? KOKS YRA?</strong></div>
+            <div class="role">DAŽNIAUSIAI BŪNA</div>
+            <div class="info-box">Veiksmažodis.</div>
+            <div class="pavyzdys-box">
+                <span class="pavyzdys-label">PAVYZDYS:</span>
+                <span class="pavyzdys-text">Saulė <span class="highlight-tarinys">šviečia</span>.</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="header-antrininkes" class="group-header">ANTRININKĖS SAKINIO DALYS</div>
+
+    <div class="section-box papildinys">
+        <div class="section-title"><span>🟠</span> PAPILDINYS</div>
+        <div class="content-grid">
+            <div class="role">KAS TAI?</div>
+            <div class="info-box">Papildo tarinį ir nurodo, į ką <strong>nukreiptas veiksmas</strong>.</div>
+            <div class="role">KLAUSIMAI</div>
+            <div class="info-box"><strong>KĄ? KO? KAM? KUO? KAME?</strong> (Linksnio klausimai)</div>
+            <div class="role">DAŽNIAUSIAI BŪNA</div>
+            <div class="info-box">Daiktavardis.</div>
+            <div class="pavyzdys-box">
+                <span class="pavyzdys-label">PAVYZDYS:</span>
+                <span class="pavyzdys-text">Berniukas skaito <span class="highlight-papildinys">knygą</span> (KĄ?).</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box pazyminys">
+        <div class="section-title"><span>🟣</span> PAŽYMINYS</div>
+        <div class="content-grid">
+            <div class="role">KAS TAI?</div>
+            <div class="info-box">Nurodo daiktavardžio <strong>požymį</strong>, savybę ar priklausomybę.</div>
+            <div class="role">KLAUSIMAI</div>
+            <div class="info-box"><strong>KOKS? KOKIA? KIENO? KURIS?</strong></div>
+            <div class="role">DAŽNIAUSIAI BŪNA</div>
+            <div class="info-box">Būdvardis arba prieveiksmis.</div>
+            <div class="pavyzdys-box">
+                <span class="pavyzdys-label">PAVYZDYS:</span>
+                <span class="pavyzdys-text"><span class="highlight-pazyminys">Mažas</span> berniukas žaidžia (KOKS?).</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box aplinkybe">
+        <div class="section-title"><span>🔴</span> APLINKYBĖ</div>
+        <div class="content-grid">
+            <div class="role">KAS TAI?</div>
+            <div class="info-box">Nurodo veiksmo <strong>aplinkybes</strong> (laiką, vietą, būdą ar priežastį).</div>
+            <div class="role">KLAUSIMAI</div>
+            <div class="info-box"><strong>KAIP? KUR? KADA? KODĖL?</strong></div>
+            <div class="role">DAŽNIAUSIAI BŪNA</div>
+            <div class="info-box">Prieveiksmis arba daiktavardis su prielinksniu.</div>
+            <div class="pavyzdys-box">
+                <span class="pavyzdys-label">PAVYZDYS:</span>
+                <span class="pavyzdys-text">Mokiniai grįžo <span class="highlight-aplinkybe">vakare</span> (KADA?).</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
