@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vienarūšės Sakinio Dalys</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 24px;
+            line-height: 1.8;
+            padding: 30px;
+            margin: 0 auto;
+            max-width: 900px;
+            background-color: #f0f2f5;
+        }
+        .card {
+            border: 2px solid #ccc;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .intro-text {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1e66c6;
+            margin-bottom: 20px;
+        }
+        .intro-text + p {
+            margin-top: 0;
+        }
+		
+        .sentence-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .word {
+            display: inline-block;
+            margin: 0 2px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+            border: 1px solid transparent;
+        }
+        .word:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .selected {
+            background-color: #ffffa3;
+            border-color: #f5c800;
+        }
+        .correct {
+            background-color: #a8e6a8 !important;
+            border-color: #228b22 !important;
+            color: #225a22;
+        }
+        .incorrect {
+            background-color: #ff9999 !important;
+            border-color: #cc0000 !important;
+            color: #990000;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .action-button {
+            padding: 15px 30px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #1e66c6;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .action-button:hover {
+            background-color: #164e9a;
+            transform: translateY(-2px);
+        }
+        .result-container {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="card-intro" class="card">
+        <h2 class="intro-text">Kas yra vienarūšės sakinio dalys?</h2>
+        <p>Vienarūšės sakinio dalys atlieka <strong>tą pačią funkciją</strong> ir atsako į <strong>tą patį klausimą</strong>. Jos siejamos su tuo pačiu sakinio žodžiu. Dažnai jos jungiamos jungtukais <strong>ir, arba, bet, o</strong>.</p>
+        <p><strong>Pavyzdžiai:</strong></p>
+        <ul>
+            <li>Parke auga medžiai, krūmai ir gėlės.</li>
+            <li>Berniukas skaitė knygą, žurnalą ir laikraštį.</li>
+            <li>Mokytoja davė rašiklį arba pieštuką.</li>
+        </ul>
+        <div class="button-container">
+            <button onclick="showCard('card-task-1')" class="action-button">Pradėti užduotį</button>
+        </div>
+    </div>
+    
+    <div id="card-task-1" class="card hidden">
+        <h2 class="intro-text">Užduotis Nr. 1 | pažymėk vienarūšes sakinio dalis</h2>
+        <div class="sentence-container" id="sentence-1"></div>
+        <div class="button-container">
+            <button onclick="checkAnswers(1)" class="action-button">Pasitikrinti</button>
+        </div>
+    </div>
+    
+    <div id="card-task-2" class="card hidden">
+        <h2 class="intro-text">Užduotis Nr. 2 | pažymėk vienarūšes sakinio dalis</h2>
+        <div class="sentence-container" id="sentence-2"></div>
+        <div class="button-container">
+            <button onclick="checkAnswers(2)" class="action-button">Pasitikrinti</button>
+        </div>
+    </div>
+    
+    <div id="card-task-3" class="card hidden">
+        <h2 class="intro-text">Užduotis Nr. 3 | pažymėk vienarūšes sakinio dalis</h2>
+        <div class="sentence-container" id="sentence-3"></div>
+        <div class="button-container">
+            <button onclick="checkAnswers(3)" class="action-button">Pasitikrinti</button>
+        </div>
+    </div>
+    
+    <div id="card-task-4" class="card hidden">
+        <h2 class="intro-text">Užduotis Nr. 4 | pažymėk vienarūšes sakinio dalis</h2>
+        <div class="sentence-container" id="sentence-4"></div>
+        <div class="button-container">
+            <button onclick="checkAnswers(4)" class="action-button">Pasitikrinti</button>
+        </div>
+    </div>
+    
+    <div id="card-task-5" class="card hidden">
+        <h2 class="intro-text">Užduotis Nr. 5 | pažymėk vienarūšes sakinio dalis</h2>
+        <div class="sentence-container" id="sentence-5"></div>
+        <div class="button-container">
+            <button onclick="checkAnswers(5)" class="action-button">Pasitikrinti</button>
+        </div>
+    </div>
+    
+    <div id="card-results" class="card hidden">
+        <h2 class="intro-text">Tavo rezultatai</h2>
+        <div class="result-container" id="final-results"></div>
+    </div>
+    
+    <script>
+        const sentences = [
+            { id: 1, text: "Miške radome baravykų, voveraičių ir gūdukų.", correct: ["baravykų", "voveraičių", "gūdukų"] },
+            { id: 2, text: "Ant stalo gulėjo obuoliai, kriaušės ir bananai.", correct: ["obuoliai", "kriaušės", "bananai"] },
+            { id: 3, text: "Berniukas nupiešė namą, medį ir saulę.", correct: ["namą", "medį", "saulę"] },
+            { id: 4, text: "Mama nusipirko duonos, sūrio, dešros ir pieno.", correct: ["duonos", "sūrio", "dešros", "pieno"] },
+            { id: 5, text: "Ant stalo buvo pyragas, sausainiai, saldainiai ir šokoladas.", correct: ["pyragas", "sausainiai", "saldainiai", "šokoladas"] }
+        ];
+
+        let totalCorrect = 0;
+        let totalWords = 0;
+    
+        function showCard(cardId) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.add('hidden');
+            });
+            document.getElementById(cardId).classList.remove('hidden');
+            if (cardId.startsWith('card-task-')) {
+                const cardIndex = parseInt(cardId.split('-')[2]);
+                renderSentence(sentences[cardIndex - 1]);
+            }
+        }
+    
+        function renderSentence(sentenceObj) {
+            const container = document.getElementById(`sentence-${sentenceObj.id}`);
+            container.innerHTML = "";
+            const words = sentenceObj.text.split(/([,.\s])/g).filter(Boolean);
+            words.forEach(word => {
+                const span = document.createElement("span");
+                span.className = "word";
+                span.textContent = word;
+                if (!word.match(/^[,\s.]+$/)) {
+                    span.addEventListener("click", () => {
+                        span.classList.toggle("selected");
+                    });
+                } else {
+                    span.style.padding = "0";
+                    span.style.margin = "0";
+                }
+                container.appendChild(span);
+            });
+        }
+    
+        function checkAnswers(cardId) {
+            const sentenceObj = sentences[cardId - 1];
+            const words = document.getElementById(`sentence-${cardId}`).querySelectorAll('.word');
+            let cardCorrect = 0;
+            const correctWordsInCard = sentenceObj.correct.length;
+    
+            words.forEach(wordSpan => {
+                const isSelected = wordSpan.classList.contains('selected');
+                const cleanWord = wordSpan.textContent.replace(/[,.]/g, '');
+                const isCorrect = sentenceObj.correct.includes(cleanWord);
+    
+                if (isSelected && isCorrect) {
+                    wordSpan.classList.remove('selected');
+                    wordSpan.classList.add('correct');
+                    cardCorrect++;
+                } else if (isSelected && !isCorrect) {
+                    wordSpan.classList.remove('selected');
+                    wordSpan.classList.add('incorrect');
+                } else if (!isSelected && isCorrect) {
+                    wordSpan.classList.add('correct');
+                }
+    
+                wordSpan.style.cursor = 'default';
+                wordSpan.removeEventListener('click', () => {});
+            });
+    
+            totalCorrect += cardCorrect;
+            totalWords += correctWordsInCard;
+            
+            const buttonContainer = document.getElementById(`card-task-${cardId}`).querySelector('.button-container');
+            buttonContainer.innerHTML = '';
+            
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Kitas';
+            nextButton.className = 'action-button';
+            nextButton.onclick = () => {
+                if (cardId < sentences.length) {
+                    showCard(`card-task-${cardId + 1}`);
+                } else {
+                    showFinalResults();
+                }
+            };
+            buttonContainer.appendChild(nextButton);
+        }
+    
+        function showFinalResults() {
+            showCard('card-results');
+            const resultElement = document.getElementById('final-results');
+            const percentage = totalWords > 0 ? ((totalCorrect / totalWords) * 100).toFixed(0) : 0;
+            resultElement.innerHTML = `Teisingai pažymėta: <b>${totalCorrect}</b> iš <b>${totalWords}</b> (${percentage}%)`;
+        }
+    </script>
+    
+</body>
+</html>
