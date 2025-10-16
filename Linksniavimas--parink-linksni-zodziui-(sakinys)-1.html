@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linksnių Užduotis</title>
+    <style>
+        /* Dyslexia-friendly styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 22px; /* Increased base font size */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .card {
+            display: none; /* Initially hide all cards */
+        }
+
+        .card.active {
+            display: block; /* Show only the active card */
+        }
+
+        .card h2 {
+            font-size: 2em; /* Larger heading */
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .card .sentence {
+            font-size: 1.8em; /* Larger sentence text */
+            margin-bottom: 40px;
+            line-height: 1.6;
+            letter-spacing: 1.5px;
+        }
+
+        .card .sentence b {
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        .card .instruction {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Increased gap between options */
+            margin-bottom: 40px;
+        }
+
+        .option-label {
+            display: block;
+            background-color: #e9ecef;
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.4em; /* Larger option text */
+            border: 3px solid transparent;
+        }
+        
+        .option-label:hover {
+            background-color: #d0d6db;
+            transform: translateY(-2px);
+        }
+
+        /* Hide the actual radio button */
+        input[type="radio"] {
+            display: none;
+        }
+        
+        /* Style label when radio is checked */
+        input[type="radio"]:checked + .option-label {
+            border-color: #007bff;
+        }
+
+        /* Feedback styles */
+        .option-label.correct {
+            background-color: #28a745;
+            color: #ffffff;
+            border-color: #28a745;
+        }
+
+        .option-label.incorrect {
+            background-color: #dc3545;
+            color: #ffffff;
+            border-color: #dc3545;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 1.2em; /* Larger button text */
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        #check-btn {
+            background-color: #007bff;
+        }
+        #check-btn:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+
+        #next-btn {
+            background-color: #28a745;
+            display: none; /* Hidden by default */
+        }
+        
+        #results-card ul {
+            list-style-type: none;
+            padding: 0;
+            font-size: 1.2em;
+            text-align: left;
+            max-width: 400px;
+            margin: 30px auto;
+        }
+
+        #results-card li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            line-height: 1.8;
+        }
+        #results-card li:last-child {
+            border-bottom: none;
+        }
+        
+        #final-score {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-top: 40px;
+            color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- This div will hold all the question cards -->
+        <div id="quiz-container"></div>
+        
+        <!-- Results Card -->
+        <div id="results-card" class="card">
+            <h2>Rezultatai</h2>
+            <ul id="results-list"></ul>
+            <div id="final-score"></div>
+        </div>
+    </div>
+
+    <script>
+        const allCases = [
+            "Vardininkas | kas?",
+            "Kilmininkas | ko?",
+            "Naudininkas | kam?",
+            "Galininkas | ką?",
+            "Įnagininkas | kuo?",
+            "Vietininkas | kur? kame?",
+            "Šauksmininkas"
+        ];
+
+        // The 14 questions for the quiz
+        const quizData = [
+            { sentence: "<b>Dangus</b> šiandien giedras.", correctAnswer: "Vardininkas | kas?" },
+            { sentence: "Parduotuvėje dirba maloni <b>pardavėja</b>.", correctAnswer: "Vardininkas | kas?" },
+            { sentence: "Man trūksta tavo <b>pagalbos</b>.", correctAnswer: "Kilmininkas | ko?" },
+            { sentence: "Šiandien nėra stipraus <b>vėjo</b>.", correctAnswer: "Kilmininkas | ko?" },
+            { sentence: "Padaviau knygą <b>draugui</b>.", correctAnswer: "Naudininkas | kam?" },
+            { sentence: "Gėlės skirtos mylimai <b>mamai</b>.", correctAnswer: "Naudininkas | kam?" },
+            { sentence: "Aš matau gražų <b>paveikslą</b>.", correctAnswer: "Galininkas | ką?" },
+            { sentence: "Vaikas valgo saldų <b>obuolį</b>.", correctAnswer: "Galininkas | ką?" },
+            { sentence: "Aš piešiu spalvotu <b>pieštuku</b>.", correctAnswer: "Įnagininkas | kuo?" },
+            { sentence: "Važiuoju į mokyklą <b>autobusu</b>.", correctAnswer: "Įnagininkas | kuo?" },
+            { sentence: "Paukštis tupi mažame <b>lizde</b>.", correctAnswer: "Vietininkas | kur? kame?" },
+            { sentence: "Knygos sudėtos <b>lentynoje</b>.", correctAnswer: "Vietininkas | kur? kame?" },
+            { sentence: "<b>Broli</b>, ateik čia greičiau!", correctAnswer: "Šauksmininkas" },
+            { sentence: "Laba diena, gerbiama <b>mokytoja</b>!", correctAnswer: "Šauksmininkas" }
+        ];
+
+        // Sumaišome klausimų tvarką, kad kiekvieną kartą būtų vis kitaip
+        shuffleArray(quizData);
+
+        let currentCardIndex = 0;
+        const userResults = [];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsCard = document.getElementById('results-card');
+        const resultsList = document.getElementById('results-list');
+        const finalScoreEl = document.getElementById('final-score');
+
+        // Function to shuffle an array (Fisher-Yates shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to get random options for a card
+        function getOptionsForCard(correctAnswer) {
+            const options = [correctAnswer];
+            const otherCases = allCases.filter(c => c !== correctAnswer);
+            const shuffledOtherCases = shuffleArray(otherCases);
+            
+            options.push(shuffledOtherCases[0]);
+            options.push(shuffledOtherCases[1]);
+
+            return shuffleArray(options);
+        }
+
+        function renderCard() {
+            // Clear previous card
+            quizContainer.innerHTML = ''; 
+
+            if (currentCardIndex >= quizData.length) {
+                showResults();
+                return;
+            }
+
+            const cardData = quizData[currentCardIndex];
+            const options = getOptionsForCard(cardData.correctAnswer);
+
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card active';
+            cardElement.id = `card-${currentCardIndex}`;
+            
+            let optionsHTML = '';
+            options.forEach((option, index) => {
+                const optionId = `option-${currentCardIndex}-${index}`;
+                optionsHTML += `
+                    <div>
+                        <input type="radio" name="answer-${currentCardIndex}" id="${optionId}" value="${option}">
+                        <label for="${optionId}" class="option-label" data-value="${option}">${option}</label>
+                    </div>
+                `;
+            });
+            
+            cardElement.innerHTML = `
+                <h2>Užduotis ${currentCardIndex + 1} / ${quizData.length}</h2>
+                <p class="instruction">Parink tinkamą linksnį paryškintam daiktavardžiui.</p>
+                <p class="sentence">${cardData.sentence}</p>
+                <div class="options">
+                    ${optionsHTML}
+                </div>
+                <button id="check-btn" class="button" onclick="checkAnswer()">Pasitikrinti</button>
+                <button id="next-btn" class="button" onclick="nextCard()">Toliau</button>
+            `;
+
+            quizContainer.appendChild(cardElement);
+        }
+
+        function checkAnswer() {
+            const cardData = quizData[currentCardIndex];
+            const selectedRadio = document.querySelector(`input[name="answer-${currentCardIndex}"]:checked`);
+
+            if (!selectedRadio) {
+                // In a real app, you might show a message, but for simplicity, we do nothing.
+                return;
+            }
+
+            const userAnswer = selectedRadio.value;
+            const isCorrect = userAnswer === cardData.correctAnswer;
+            userResults.push(isCorrect);
+            
+            const allLabels = document.querySelectorAll(`#card-${currentCardIndex} .option-label`);
+            allLabels.forEach(label => {
+                const labelValue = label.dataset.value;
+                if (labelValue === cardData.correctAnswer) {
+                    label.classList.add('correct');
+                }
+                if (labelValue === userAnswer && !isCorrect) {
+                    label.classList.add('incorrect');
+                }
+            });
+            
+            // Disable inputs and check button, show next button
+            document.getElementById('check-btn').disabled = true;
+            document.querySelectorAll(`input[name="answer-${currentCardIndex}"]`).forEach(radio => radio.disabled = true);
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        function nextCard() {
+            currentCardIndex++;
+            renderCard();
+        }
+
+        function showResults() {
+            quizContainer.style.display = 'none';
+            resultsCard.classList.add('active');
+
+            let resultsHTML = '';
+            quizData.forEach((card, index) => {
+                const resultText = userResults[index] ? 'Teisingai' : 'Neteisingai';
+                const resultColor = userResults[index] ? 'green' : 'red';
+                resultsHTML += `<li>Užduotis ${index + 1}: <span style="color: ${resultColor}; font-weight: bold;">${resultText}</span></li>`;
+            });
+            resultsList.innerHTML = resultsHTML;
+            
+            const correctCount = userResults.filter(Boolean).length;
+            const totalCount = quizData.length;
+            const percentage = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
+            
+            finalScoreEl.innerText = `Bendras rezultatas: ${correctCount} / ${totalCount} (${percentage}%)`;
+        }
+
+        // Initial render
+        renderCard();
+    </script>
+
+</body>
+</html>
+
+
+
