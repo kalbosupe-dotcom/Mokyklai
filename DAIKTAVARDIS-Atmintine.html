@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daiktavardžio Schema (Disleksikams)</title>
+    <style>
+        /* Pagrindinis stilius disleksikams */
+        body {
+            font-family: 'Arial', sans-serif; /* Šriftas be serijų */
+            background-color: #f4f7f6; /* Šviesus fonas */
+            color: #333;
+            line-height: 1.6; /* Didelis eilučių tarpas */
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px; /* Padidintas plotis, kad tilptų 3 stulpeliai */
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0077b6; /* Ryški mėlyna spalva */
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .section {
+            border-radius: 10px;
+            margin-bottom: 25px;
+            padding: 15px;
+            border-left: 8px solid; /* Spalvų kodavimas kairėje */
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            letter-spacing: 0.5px;
+            color: #333;
+        }
+
+        .category-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .example {
+            font-weight: normal;
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        /* 1. ATPAŽINIMAS (Žalia) */
+        .section-1 { border-left-color: #4CAF50; background-color: #e8f5e9; }
+        /* 2. RŪŠYS (Oranžinė) */
+        .section-2 { border-left-color: #FF9800; background-color: #fff3e0; }
+        /* 3. GIMINĖ (Mėlyna) */
+        .section-3 { border-left-color: #2196F3; background-color: #e3f2fd; }
+        /* 4. SKAIČIUS (Violetinė) */
+        .section-4 { border-left-color: #9C27B0; background-color: #f3e5f5; }
+        /* 5. LINKSNIAI (Raudona) */
+        .section-5 { border-left-color: #F44336; background-color: #ffebee; }
+
+        /* Linksnių lentelė */
+        .linksniu-lentele {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 10px;
+        }
+        .linksniu-lentele th, .linksniu-lentele td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 1.05em;
+        }
+        .linksniu-lentele th {
+            background-color: #F44336;
+            color: white;
+            font-weight: bold;
+        }
+        .linksniu-lentele td:nth-child(2) {
+            font-weight: bold; /* Klausimas paryškintas */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DAIKTAVARDIS</h1>
+
+    <div class="section section-1">
+        <h2>1. ATPAŽINIMAS (KAS TAI?)</h2>
+        <p>Daiktavardis – tai žodis, kuris reiškia:</p>
+        <div class="category-box" style="background-color: #dcedc8;">
+            <span>GYVUS asmenis: <span class="example">žmogus, mama, vaikas</span></span>
+        </div>
+        <div class="category-box" style="background-color: #dcedc8;">
+            <span>NEGYVUS daiktus: <span class="example">stalas, akmuo, knyga</span></span>
+        </div>
+        <div class="category-box" style="background-color: #dcedc8;">
+            <span>REIŠKINIUS / BŪSENAS: <span class="example">lietus, karas, meilė</span></span>
+        </div>
+    </div>
+
+    <div class="section section-2">
+        <h2>2. DAIKTAVARDŽIŲ RŪŠYS (Klasifikacija)</h2>
+        <div class="category-box" style="background-color: #ffecb3;">
+            <span>KONKRETŪS: <span class="example">Galima paliesti / pamatyti (knyga, namas)</span></span>
+        </div>
+        <div class="category-box" style="background-color: #ffecb3;">
+            <span>ABSTRAKTŪS: <span class="example">Galima justi / negalima paliesti (džiaugsmas, tiesa)</span></span>
+        </div>
+    </div>
+
+    <div class="section section-3">
+        <h2>3. GIMINĖ</h2>
+        <div class="category-box" style="background-color: #bbdefb;">
+            <span>VYRIŠKOJI (Vyr. g.): <span class="example">stalas, vaikas, jautis</span></span>
+        </div>
+        <div class="category-box" style="background-color: #bbdefb;">
+            <span>MOTERIŠKOJI (Mot. g.): <span class="example">knyga, mama, žuvis</span></span>
+        </div>
+    </div>
+
+    <div class="section section-4">
+        <h2>4. SKAIČIUS</h2>
+        <div class="category-box" style="background-color: #e1bee7;">
+            <span>VIENASKAITA: <span class="example">vienas daiktas (brolis)</span></span>
+        </div>
+        <div class="category-box" style="background-color: #e1bee7;">
+            <span>DAUGISKAITA: <span class="example">daug daiktų (stiklai)</span></span>
+        </div>
+    </div>
+
+    <div class="section section-5">
+        <h2>5. LINKSNIAI (7)</h2>
+        <p>Linksnio pavadinimas, klausimas ir pavyzdys:</p>
+        <table class="linksniu-lentele">
+            <thead>
+                <tr>
+                    <th>Linksmas</th>
+                    <th>Klausimas</th>
+                    <th>Pavyzdys (vnsk. / dgsk.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Vardininkas</td><td>KAS?</td><td>Stalas / Stalai</td></tr>
+                <tr><td>Kilmininkas</td><td>KO?</td><td>Stalo / Stalų</td></tr>
+                <tr><td>Naudininkas</td><td>KAM?</td><td>Stalui / Stalams</td></tr>
+                <tr><td>Galininkas</td><td>KĄ?</td><td>Stalą / Stalus</td></tr>
+                <tr><td>Įnagininkas</td><td>KUO?</td><td>Stalu / Stalais</td></tr>
+                <tr><td>Vietininkas</td><td>KUR? / KAME?</td><td>Stale / Staluose</td></tr>
+                <tr><td>Šauksmininkas</td><td>EI!</td><td>Stale! / Stalai!</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
