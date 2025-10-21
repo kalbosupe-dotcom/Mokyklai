@@ -309,7 +309,7 @@
     </div>
 
     <script>
-        // Vardų valdymas
+ // Vardų valdymas
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
@@ -394,7 +394,7 @@
                 correctAnswers++;
             } else {
                 const correctWord = formatCorrectAnswer(words[currentWordIndex].word, correctSyllables);
-                feedbackEl.innerHTML = `<span class="text-error">❌ Beveik... Teisingas atsakymas:</span><br><span style="color: #1A4D7A;">\${correctWord}</span>`;
+                feedbackEl.innerHTML = `<span class="text-error">❌ Beveik... Teisingas atsakymas:</span><br><span style="color: #1A4D7A;">${correctWord}</span>`;
             }
 
             checkBtn.classList.add('hidden');
@@ -435,11 +435,20 @@
             const totalWords = words.length;
             const percentage = ((correctAnswers / totalWords) * 100).toFixed(0);
 
-            finalScoreEl.innerHTML = `\${correctAnswers} / \${totalWords} <span style="font-size: 24px;">teisingų atsakymų</span>`;
-            accuracyEl.textContent = `Tikslumas: \${percentage}%`;
+            finalScoreEl.innerHTML = `${correctAnswers} / ${totalWords} <span style="font-size: 24px;">teisingų atsakymų</span>`;
+            accuracyEl.textContent = `Tikslumas: ${percentage}%`;
             
             // Siųsti rezultatus į Google Sheets
             sendResultToSheet('Skiemenavimas (Biologija)', percentage);
         }
 
-        
+        function updateProgress() {
+            progressEl.textContent = `Žodis ${currentWordIndex + 1} iš ${words.length}`;
+        }
+
+        // --- Įvykių klausytojai ---
+        checkBtn.addEventListener('click', checkAnswer);
+        nextBtn.addEventListener('click', goToNextWord);
+
+        // --- Pradinis paleidimas ---
+        displayWord();
