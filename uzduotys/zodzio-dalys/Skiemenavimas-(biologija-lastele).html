@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Žodžių skiemenavimas - Kalbos Upė</title>
     <link rel="stylesheet" href="../../css/style.css">
-    <script src="../../js/results.js"></script>
     <style>
         /* Disleksikams pritaikyti stiliai */
         body {
@@ -309,7 +308,47 @@
     </div>
 
     <script>
-         // Vardų valdymas
+    <script>
+        // --- Vardų valdymas (integruotas) ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+            
+            console.log('Rezultatas:', {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            });
+            
+            // Vėliau integruosime su Google Sheets
+        }
+
+        // Vardas
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
@@ -452,3 +491,4 @@
 
         // --- Pradinis paleidimas ---
         displayWord();
+    </script>
