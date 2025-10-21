@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skiemenavimas - Kalbos Upė</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/results.js"></script>
+    <style>
+        .task-container {
+            background-color: #ffffff;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            border: 3px solid #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #E8F4F8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+        
+        <div class="task-container">
+            <div class="student-info">
+                <span>Mokinys: <strong id="studentNameDisplay"></strong></span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+            
+            <h1>Skiemenavimas</h1>
+            
+            <!-- ČIA ĮDEDI SAVO ESAMOS UŽDUOTIES TURINĮ -->
+            <!-- Pavy
