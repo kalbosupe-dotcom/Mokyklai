@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktyvi linksnių užduotis</title>
+    <style>
+        /* Aiškesnis, disleksijai pritaikytas stilius */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #main-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        #card-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #card-header h1 {
+            font-size: 2.5rem; /* Didesnis pavadinimas */
+            color: #005a9c;
+            margin: 0;
+        }
+        
+        #card-progress {
+            font-size: 1.5rem; /* Didesnis tekstas */
+            color: #555;
+            font-weight: bold;
+        }
+
+        #card {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        /* Kairė pusė su linksniais */
+        #cases-column {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Didesnis tarpas */
+        }
+
+        .case-row {
+            display: flex;
+            align-items: center;
+            border: 2px solid #d0e0ff;
+            border-radius: 10px;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .case-name {
+            font-size: 1.6rem; /* Labai didelis, aiškus šriftas */
+            font-weight: bold;
+            color: #333;
+            width: 45%;
+        }
+        
+        .case-name span {
+            font-weight: normal;
+            font-size: 1.4rem;
+            color: #666;
+            margin-left: 5px;
+        }
+
+        .drop-zone {
+            width: 55%;
+            height: 60px; /* Aukštesnė vieta žodžiui */
+            background-color: #e9efff;
+            border: 2px dashed #a0b8ff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .drop-zone.hovered {
+            background-color: #d0e0ff;
+            border-color: #005a9c;
+        }
+
+        /* Dešinė pusė su žodžiais */
+        #words-column {
+            width: 35%;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* Didesni tarpai tarp žodžių */
+        }
+
+        .draggable-word {
+            font-size: 1.8rem; /* Labai didelis, aiškus šriftas */
+            padding: 15px 25px;
+            background-color: #ffffff;
+            border: 2px solid #a0b8ff;
+            border-radius: 10px;
+            cursor: grab;
+            user-select: none;
+            text-align: center;
+            width: 90%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s, color 0.3s, background-color 0.3s;
+        }
+        
+        .draggable-word:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .drop-zone .draggable-word {
+            cursor: default;
+            box-shadow: none;
+            background-color: #cceeff;
+            border-color: #005a9c;
+        }
+
+        /* Valdymo mygtukai */
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            font-size: 1.4rem; /* Didesni mygtukai */
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        #prev-btn, #next-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        #prev-btn:disabled {
+            background-color: #a0cfff;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #check-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #check-btn:disabled {
+             background-color: #8fcca0;
+             cursor: not-allowed;
+             transform: none;
+        }
+
+        #reset-btn {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        /* Atsakymų stilius (paryškintas) */
+        .correct {
+            border-width: 3px !important;
+            border-color: #28a745 !important;
+            background-color: #d4edda !important;
+        }
+        .correct .draggable-word {
+            font-weight: bold;
+            color: #155724;
+            border-color: #28a745 !important;
+            background-color: #c3e6cb !important;
+        }
+
+        .incorrect {
+            border-width: 3px !important;
+            border-color: #dc3545 !important;
+            background-color: #f8d7da !important;
+        }
+        .incorrect .draggable-word {
+            font-weight: bold;
+            color: #721c24;
+            border-color: #dc3545 !important;
+            background-color: #f5c6cb !important;
+        }
+        
+        /* Rezultatų langas */
+        #results-container {
+            display: none; /* Pagal nutylėjimą paslėptas */
+            text-align: center;
+        }
+
+        #results-container h2 {
+            font-size: 2.2rem;
+            color: #005a9c;
+        }
+
+        #results-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        #results-list li {
+            font-size: 1.5rem;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #total-score {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 30px;
+            color: #005a9c;
+        }
+
+        #restart-btn {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        /* Media Queries for smaller screens */
+        @media (max-width: 768px) {
+            #card {
+                flex-direction: column;
+            }
+            #cases-column, #words-column {
+                width: 100%;
+            }
+            .case-name {
+                font-size: 1.4rem;
+            }
+            .case-name span {
+                 font-size: 1.2rem;
+            }
+            .draggable-word {
+                font-size: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="main-container">
+        <div id="card-header">
+            <h1>Žodžių linksniavimas</h1>
+            <p id="card-progress">1 / 10 kortelė</p>
+        </div>
+        
+        <div id="card">
+            <div id="cases-column">
+                <!-- Bus sugeneruota su JavaScript -->
+            </div>
+            <div id="words-column">
+                <!-- Bus sugeneruota su JavaScript -->
+            </div>
+        </div>
+
+        <div id="controls">
+            <button id="prev-btn" class="control-btn" disabled>Atgal</button>
+            <button id="reset-btn" class="control-btn">Iš naujo</button>
+            <button id="check-btn" class="control-btn">Pasitikrinti</button>
+            <button id="next-btn" class="control-btn">Toliau</button>
+        </div>
+
+        <div id="results-container">
+            <h2>Užduoties rezultatai</h2>
+            <ul id="results-list"></ul>
+            <p id="total-score"></p>
+            <button id="restart-btn" class="control-btn">Žaisti iš naujo</button>
+        </div>
+    </div>
+
+    <script>
+        // Duomenys: 10 žodžių ir jų linksniai
+        const cardsData = [
+            { word: 'stalas', forms: ['stalas', 'stalo', 'stalui', 'stalą', 'stalu', 'stale', 'stale'] },
+            { word: 'knyga', forms: ['knyga', 'knygos', 'knygai', 'knygą', 'knyga', 'knygoje', 'knyga'] },
+            { word: 'pieštukas', forms: ['pieštukas', 'pieštuko', 'pieštukui', 'pieštuką', 'pieštuku', 'pieštuke', 'pieštuke'] },
+            { word: 'saulė', forms: ['saulė', 'saulės', 'saulei', 'saulę', 'saule', 'saulėje', 'saule'] },
+            { word: 'namas', forms: ['namas', 'namo', 'namui', 'namą', 'namu', 'name', 'name'] },
+            { word: 'miškas', forms: ['miškas', 'miško', 'miškui', 'mišką', 'mišku', 'miške', 'miške'] },
+            { word: 'gėlė', forms: ['gėlė', 'gėlės', 'gėlei', 'gėlę', 'gėle', 'gėlėje', 'gėle'] },
+            { word: 'mokinys', forms: ['mokinys', 'mokinio', 'mokiniui', 'mokinį', 'mokiniu', 'mokinyje', 'mokiny'] },
+            { word: 'upė', forms: ['upė', 'upės', 'upei', 'upę', 'upe', 'upėje', 'upe'] },
+            { word: 'langas', forms: ['langas', 'lango', 'langui', 'langą', 'langu', 'lange', 'lange'] },
+        ];
+
+        const cases = [
+            { name: 'Vardininkas', question: 'kas?' },
+            { name: 'Kilmininkas', question: 'ko?' },
+            { name: 'Naudininkas', question: 'kam?' },
+            { name: 'Galininkas', question: 'ką?' },
+            { name: 'Įnagininkas', question: 'kuo?' },
+            { name: 'Vietininkas', question: 'kur? kame?' },
+            { name: 'Šauksmininkas', question: '' },
+        ];
+
+        let currentCardIndex = 0;
+        let scores = new Array(cardsData.length).fill(null);
+
+        const casesColumn = document.getElementById('cases-column');
+        const wordsColumn = document.getElementById('words-column');
+        const cardProgress = document.getElementById('card-progress');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const checkBtn = document.getElementById('check-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        const resultsContainer = document.getElementById('results-container');
+        const resultsList = document.getElementById('results-list');
+        const totalScoreEl = document.getElementById('total-score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // Funkcija, kuri sumaišo masyvo elementus
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Kortelės sukūrimas
+        function createCard(index) {
+            casesColumn.innerHTML = '';
+            wordsColumn.innerHTML = '';
+            clearFeedback();
+            
+            cardProgress.textContent = `${index + 1} / ${cardsData.length} kortelė`;
+            checkBtn.disabled = false; // Įjungti mygtuką naujai kortelei
+
+            // Pakeisti mygtuko tekstą paskutinėje kortelėje
+            if (index === cardsData.length - 1) {
+                nextBtn.textContent = 'Rezultatai';
+            } else {
+                nextBtn.textContent = 'Toliau';
+            }
+
+            cases.forEach((caseInfo, i) => {
+                const caseRow = document.createElement('div');
+                caseRow.className = 'case-row';
+                const caseName = document.createElement('div');
+                caseName.className = 'case-name';
+                caseName.innerHTML = `${caseInfo.name} <span>${caseInfo.question}</span>`;
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.caseIndex = i;
+                caseRow.appendChild(caseName);
+                caseRow.appendChild(dropZone);
+                casesColumn.appendChild(caseRow);
+            });
+            
+            const shuffledWords = shuffleArray([...cardsData[index].forms]);
+            shuffledWords.forEach((word, i) => {
+                const wordEl = document.createElement('div');
+                wordEl.className = 'draggable-word';
+                wordEl.textContent = word;
+                wordEl.draggable = true;
+                wordEl.id = `word-${index}-${i}`; 
+                wordsColumn.appendChild(wordEl);
+            });
+
+            addDragAndDropListeners();
+            updateNavButtons();
+        }
+
+        // Drag & Drop logika
+        function addDragAndDropListeners() {
+            const draggables = document.querySelectorAll('.draggable-word');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('hovered');
+                });
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('hovered');
+                });
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('hovered');
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggableElement = document.getElementById(id);
+                    
+                    if(zone.children.length > 0) {
+                        wordsColumn.appendChild(zone.firstElementChild);
+                    }
+                    if (draggableElement) {
+                        zone.appendChild(draggableElement);
+                    }
+                    clearFeedback();
+                });
+            });
+        }
+        
+        // Pasitikrinimo funkcija
+        function checkAnswers() {
+            if (scores[currentCardIndex] !== null) return; // Neleisti tikrinti kelis kartus
+
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                zone.classList.remove('correct', 'incorrect');
+                const droppedWord = zone.querySelector('.draggable-word');
+                if(droppedWord) {
+                    const caseIndex = zone.dataset.caseIndex;
+                    const correctForm = cardsData[currentCardIndex].forms[caseIndex];
+                    if (droppedWord.textContent === correctForm) {
+                        zone.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                } else {
+                    zone.classList.add('incorrect');
+                }
+            });
+            scores[currentCardIndex] = correctCount;
+            checkBtn.disabled = true; // Išjungti mygtuką po patikrinimo
+        }
+        
+        function clearFeedback() {
+             const dropZones = document.querySelectorAll('.drop-zone');
+             dropZones.forEach(zone => zone.classList.remove('correct', 'incorrect'));
+        }
+
+        function resetCard() {
+            createCard(currentCardIndex);
+            // Ištrinti rezultatą, kad būtų galima tikrinti iš naujo
+            scores[currentCardIndex] = null;
+        }
+
+        function updateNavButtons() {
+            prevBtn.disabled = currentCardIndex === 0;
+            // KLAIDOS PATAISYMAS: Mygtukas "Toliau" neturi būti išjungtas paskutinėje
+            // kortelėje, nes jis veda į rezultatus.
+        }
+        
+        function showResults() {
+            document.getElementById('card').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
+            document.getElementById('card-header').style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            resultsList.innerHTML = '';
+            let totalCorrect = 0;
+            const totalWords = cardsData.length * 7;
+
+            cardsData.forEach((card, index) => {
+                const score = scores[index] === null ? 0 : scores[index];
+                totalCorrect += score;
+                const percentage = (score / 7 * 100).toFixed(0);
+                const listItem = document.createElement('li');
+                listItem.textContent = `"${card.word}": Teisinga ${score}/7 - ${percentage}%`;
+                resultsList.appendChild(listItem);
+            });
+
+            const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
+            totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} - ${totalPercentage}%`;
+        }
+        
+        function restartGame() {
+            scores.fill(null);
+            currentCardIndex = 0;
+            resultsContainer.style.display = 'none';
+            document.getElementById('card').style.display = 'flex';
+            document.getElementById('controls').style.display = 'flex';
+            document.getElementById('card-header').style.display = 'block';
+            createCard(currentCardIndex);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                createCard(currentCardIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentCardIndex === cardsData.length - 1) {
+                showResults();
+            } else if (currentCardIndex < cardsData.length - 1) {
+                currentCardIndex++;
+                createCard(currentCardIndex);
+            }
+        });
+
+        checkBtn.addEventListener('click', checkAnswers);
+        resetBtn.addEventListener('click', resetCard);
+        restartBtn.addEventListener('click', restartGame);
+
+        createCard(currentCardIndex);
+    </script>
+
+</body>
+</html>
+
