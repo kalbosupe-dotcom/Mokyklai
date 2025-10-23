@@ -334,17 +334,33 @@
         }
 
         function sendResultToSheet(taskName, score) {
-            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
-            const timestamp = new Date().toLocaleString('lt-LT');
-            
-            console.log('Rezultatas:', {
-                name: studentName,
-                task: taskName,
-                score: score,
-                timestamp: timestamp
-            });
-            
-            // Vėliau integruosime su Google Sheets
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+        const timestamp = new Date().toLocaleString('lt-LT');
+    
+        const data = {
+            name: studentName,
+            task: taskName,
+            score: score,
+            timestamp: timestamp
+    };
+    
+        console.log('Siunčiamas rezultatas:', data);
+    
+    // Siųsti į Google Sheets
+    fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+    })
+    .catch(error => {
+        console.error('Klaida siunčiant rezultatą:', error);
+    });
         }
 
         // Vardas
