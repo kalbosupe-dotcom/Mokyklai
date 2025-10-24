@@ -493,7 +493,7 @@
             accuracyEl.textContent = `Tikslumas: ${percentage}%`;
             
             // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('Skiemenavimas (Biologija-lastelė)', percentage);
+            sendResultToSheet('Skiemenavimas (Įvairūs žodžiai)', percentage);
         }
 
         function updateProgress() {
