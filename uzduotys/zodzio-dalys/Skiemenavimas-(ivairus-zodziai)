@@ -285,7 +285,7 @@
         
         <div class="task-card">
             <h1>Žodžių skiemenavimas</h1>
-            <h2>Biologija | Ląstelės sandara</h2>
+            <h2>Įvairūs žodžiai</h2>
             <p id="instruction" class="instruction">Paspausk tarp raidžių, kad pažymėtum, kur baigiasi skiemuo.</p>
             
             <div id="word-container" class="word-container word-container-text"></div>
