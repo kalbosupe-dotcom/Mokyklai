@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../css/style.css"> 
     
     <style>
-        /* Išsaugomi UNIKALŪS šios užduoties stiliai, pritaikyti disleksikams */
+        /* CSS PRIDĖTAS IŠ JŪSŲ SKIEMENAVIMO PAVYZDŽIO, BET PATAISYTA VARDŲ BLOKUI */
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
             background-color: #E8F4F8;
@@ -25,10 +25,9 @@
             box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
         }
         
-        /* Grįžimo mygtukas (CSS stiliaus tikimasi iš bendro failo, bet paliekamas čia pavyzdžiui) */
         .back-btn {
             display: inline-block;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             padding: 12px 24px;
             background-color: #7CB3E9;
             color: white;
@@ -41,6 +40,37 @@
         .back-btn:hover {
             background-color: #4A90E2;
         }
+        
+        /* --- MOKINIO INFO BLOKAS --- */
+        .student-info {
+            background-color: #ffffff;
+            padding: 15px 20px; /* Šiek tiek mažesnis padding */
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+        /* --- END MOKINIO INFO BLOKAS --- */
         
         h1 {
             font-size: 32px;
@@ -76,9 +106,9 @@
         }
         
         /* Spalvos pavyzdžių kortelėms */
-        .card.noun { background-color: #7CB3E9; color: white; } /* Mėlyna */
-        .card.adjective { background-color: #4ECDC4; color: white; } /* Žalia */
-        .card.verb { background-color: #FF6B6B; color: white; } /* Raudona */
+        .card.noun { background-color: #7CB3E9; color: white; }
+        .card.adjective { background-color: #4ECDC4; color: white; }
+        .card.verb { background-color: #FF6B6B; color: white; }
 
         .card h2 { font-size: 20px; color: white; margin-bottom: 5px; }
         .card p { font-size: 18px; color: white; margin: 3px 0; }
@@ -114,7 +144,6 @@
             border: none;
             transition: transform 0.2s ease;
         }
-        /* Spalvų gradientai mygtukams */
         .answer-btn.noun-btn { background: linear-gradient(135deg, #3498db, #2980b9); }
         .answer-btn.adjective-btn { background: linear-gradient(135deg, #2ecc71, #27ae60); }
         .answer-btn.verb-btn { background: linear-gradient(135deg, #e74c3c, #c0392b); }
@@ -144,11 +173,18 @@
     <div class="task-wrapper">
         <a href="kalbos-dalys-sarasas.html" class="back-btn">← Grįžti į sąrašą</a> 
         
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+        
         <h1>Atpažink kalbos dalis</h1>
         <h2>Daiktavardis, Būdvardis, Veiksmažodis</h2>
         
         <p style="text-align: center; font-size: 20px; margin-bottom: 30px;">
-            Išmokime kalbos dalių spalvas! Spausk ant kortelių norėdamas išgirsti pavyzdį.
+            Išmokime kalbos dalių spalvas! Spausk ant kortelių norėdamas išgirsti pavyzdį (jei veikia garsas).
         </p>
 
         <div class="cards">
@@ -200,6 +236,70 @@
     </div>
 
     <script>
+        // --- FUNKCIJOS VARDUI IR REZULTATAMS ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            // PAKEISKITE ŠIĄ NUORODĄ Į SAVO VEIKIANTĮ GOOGLE APPS SCRIPT URL
+            const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec'; 
+
+            fetch(GOOGLE_SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        // --- Vardo paleidimas ---
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+        // --- Pabaiga FUNKCIJŲ VARDUI IR REZULTATAMS ---
+
+
+        // --- UŽDUOTIES LOGIKA ---
+        
         // Žodžių sąrašas (20 žodžių)
         const words = [
             {word: 'NAMAS', type: 'daiktavardis'},
@@ -228,10 +328,10 @@
 
         let currentQuestionIndex = 0;
         let correctAnswers = 0;
+        const totalWords = words.length; // Visų žodžių skaičius, kad nereikėtų kartoti
 
         function playSound(wordType) {
             console.log('Skamba: ' + wordType);
-            // Reikia pridėti garso atkūrimo logiką vėliau, pvz., new Audio().play();
         }
 
         function startQuiz() {
@@ -243,7 +343,7 @@
         }
 
         function showNextQuestion() {
-            if (currentQuestionIndex >= words.length) {
+            if (currentQuestionIndex >= totalWords) {
                 showResults();
                 return;
             }
@@ -284,13 +384,16 @@
         }
 
         function showResults() {
-            const percentage = Math.round((correctAnswers / words.length) * 100);
+            const percentage = Math.round((correctAnswers / totalWords) * 100);
             const quizSection = document.getElementById('quizSection');
+            
+            // Rezultatų siuntimas į Google Sheets
+            sendResultToSheet('Kalbos dalys: Atpažinimas (D, B, V)', percentage); // <--- NAUJAS UŽDUOTIES PAVADINIMAS
             
             quizSection.innerHTML = `
                 <h2 style="text-align: center; color: #0D3B66;">🎉 Puiku! Užduotis baigta!</h2>
                 <div style="text-align: center; font-size: 28px; margin: 30px 0; color: #4A90E2; font-weight: bold;">
-                    🎯 Tavo rezultatas: ${correctAnswers}/${words.length} (${percentage}%)
+                    🎯 Tavo rezultatas: ${correctAnswers}/${totalWords} (${percentage}%)
                 </div>
                 <div style="text-align: center; font-size: 18px; color: #27ae60;">
                     ${percentage >= 80 ? '🌟 Puiku! Tu puikiai išmokai spalvų sistemą!' : 
