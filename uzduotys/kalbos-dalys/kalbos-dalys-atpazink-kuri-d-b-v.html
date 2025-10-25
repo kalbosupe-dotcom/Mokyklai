@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../css/style.css"> 
     
     <style>
-        /* CSS PRIDĖTAS IŠ JŪSŲ SKIEMENAVIMO PAVYZDŽIO, BET PATAISYTA VARDŲ BLOKUI */
+        /* Išsaugomi UNIKALŪS šios užduoties stiliai, pritaikyti disleksikams */
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
             background-color: #E8F4F8;
@@ -44,7 +44,7 @@
         /* --- MOKINIO INFO BLOKAS --- */
         .student-info {
             background-color: #ffffff;
-            padding: 15px 20px; /* Šiek tiek mažesnis padding */
+            padding: 15px 20px; 
             border-radius: 10px;
             margin-bottom: 20px;
             border: 2px solid #4A90E2;
@@ -70,7 +70,6 @@
         .change-name-btn:hover {
             background-color: #0D3B66;
         }
-        /* --- END MOKINIO INFO BLOKAS --- */
         
         h1 {
             font-size: 32px;
@@ -80,7 +79,7 @@
         }
         
         h2 {
-            font-size: 28px;
+            font-size: 24px;
             color: #4A90E2;
             text-align: center;
             margin-bottom: 20px;
@@ -105,13 +104,13 @@
             transform: translateY(-3px);
         }
         
-        /* Spalvos pavyzdžių kortelėms */
-        .card.noun { background-color: #007bff; color: white; }
-        .card.adjective { background-color: #28a745; color: white; }
-        .card.verb { background-color: #dc3545; color: white; }
+        /* Spalvos pavyzdžių kortelėms (RYŠKESNĖS SPALVOS) */
+        .card.noun { background-color: #007bff; color: white; } 
+        .card.adjective { background-color: #28a745; color: white; } 
+        .card.verb { background-color: #dc3545; color: white; } 
 
-        .card h2 { font-size: 24px; color: white; margin-bottom: 5px; }
-        .card p { font-size: 22px; color: white; margin: 3px 0; }
+        .card h2 { font-size: 20px; color: white; margin-bottom: 5px; }
+        .card p { font-size: 18px; color: white; margin: 3px 0; }
 
         /* Quiz Stiliai */
         .quiz-section { display: none; margin-top: 30px; }
@@ -130,23 +129,35 @@
         }
         
         .answer-buttons {
-            grid-template-columns: repeat(3, 1fr); 
+            grid-template-columns: repeat(3, 1fr); /* 3 stulpeliai dideliuose ekranuose */
             display: grid; 
             gap: 15px;
         }
+        
+        /* --- ADAPTYVUMAS: MYGTUKAI VIENAS PO KITO MOBILIUOSIUOSE --- */
+        @media (max-width: 600px) {
+            .answer-buttons {
+                grid-template-columns: 1fr; /* Vienas stulpelis mažuose ekranuose */
+                display: flex; /* Naudojame flexbox, kad užtikrintume vertikalų išdėstymą */
+                flex-direction: column;
+            }
+        }
+        /* --- END ADAPTYVUMAS --- */
+        
         .answer-btn {
             padding: 15px;
             border-radius: 10px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             color: white;
             border: none;
             transition: transform 0.2s ease;
         }
-        .answer-btn.noun-btn { background: linear-gradient(135deg, #3498db, #2980b9); }
-        .answer-btn.adjective-btn { background: linear-gradient(135deg, #2ecc71, #27ae60); }
-        .answer-btn.verb-btn { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        /* Spalvų gradientai mygtukams (RYŠKESNĖS SPALVOS) */
+        .answer-btn.noun-btn { background: linear-gradient(135deg, #007bff, #0056b3); }
+        .answer-btn.adjective-btn { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .answer-btn.verb-btn { background: linear-gradient(135deg, #dc3545, #b82d3b); }
         
         .feedback { display: none; margin-top: 20px; font-size: 20px; }
         .feedback.correct { color: #155724; background: #d4edda; padding: 10px; border-radius: 8px; }
@@ -184,7 +195,7 @@
         <h2>Daiktavardis, Būdvardis, Veiksmažodis</h2>
         
         <p style="text-align: center; font-size: 20px; margin-bottom: 30px;">
-            Susipažink su kalbos dalimis ir atlik užduotį su 20 žodžių!
+            Išmokime kalbos dalių spalvas! Spausk ant kortelių norėdamas išgirsti pavyzdį (jei veikia garsas).
         </p>
 
         <div class="cards">
@@ -236,7 +247,36 @@
     </div>
 
     <script>
-        // --- FUNKCIJOS VARDUI IR REZULTATAMS ---
+        // Žodžių sąrašas (20 žodžių)
+        const words = [
+            {word: 'NAMAS', type: 'daiktavardis'},
+            {word: 'GRAŽUS', type: 'budvardis'},
+            {word: 'BĖGA', type: 'veiksmažodis'},
+            {word: 'KNYGA', type: 'daiktavardis'},
+            {word: 'DIDELIS', type: 'budvardis'},
+            {word: 'SKAITO', type: 'veiksmažodis'},
+            {word: 'VAIKAS', type: 'daiktavardis'},
+            {word: 'MĖLYNAS', type: 'budvardis'},
+            {word: 'ŽAIDŽIA', type: 'veiksmažodis'},
+            {word: 'MAMA', type: 'daiktavardis'},
+            
+            // Papildomi 10 žodžių
+            {word: 'MIESTAS', type: 'daiktavardis'},
+            {word: 'SAULĖTAS', type: 'budvardis'},
+            {word: 'ŠYPSOSI', type: 'veiksmažodis'},
+            {word: 'STALAS', type: 'daiktavardis'},
+            {word: 'AUKŠTAS', type: 'budvardis'},
+            {word: 'DIRBA', type: 'veiksmažodis'},
+            {word: 'ŽUVĖDRA', type: 'daiktavardis'},
+            {word: 'JUODAS', type: 'budvardis'},
+            {word: 'ŠVIEČIA', type: 'veiksmažodis'},
+            {word: 'VANDUO', type: 'daiktavardis'}
+        ];
+
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        const totalWords = words.length; 
+
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
             
@@ -273,7 +313,6 @@
         
             console.log('Siunčiamas rezultatas:', data);
         
-            // PAKEISKITE ŠIĄ NUORODĄ Į SAVO VEIKIANTĮ GOOGLE APPS SCRIPT URL
             const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec'; 
 
             fetch(GOOGLE_SHEET_URL, {
@@ -292,43 +331,8 @@
             });
         }
         
-        // --- Vardo paleidimas ---
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
-        // --- Pabaiga FUNKCIJŲ VARDUI IR REZULTATAMS ---
-
-
-        // --- UŽDUOTIES LOGIKA ---
-        
-        // Žodžių sąrašas (20 žodžių)
-        const words = [
-            {word: 'NAMAS', type: 'daiktavardis'},
-            {word: 'GRAŽUS', type: 'budvardis'},
-            {word: 'BĖGA', type: 'veiksmažodis'},
-            {word: 'KNYGA', type: 'daiktavardis'},
-            {word: 'DIDELIS', type: 'budvardis'},
-            {word: 'SKAITO', type: 'veiksmažodis'},
-            {word: 'VAIKAS', type: 'daiktavardis'},
-            {word: 'MĖLYNAS', type: 'budvardis'},
-            {word: 'ŽAIDŽIA', type: 'veiksmažodis'},
-            {word: 'MAMA', type: 'daiktavardis'},
-            
-            // Papildomi 10 žodžių
-            {word: 'MIESTAS', type: 'daiktavardis'},
-            {word: 'SAULĖTAS', type: 'budvardis'},
-            {word: 'ŠYPSOSI', type: 'veiksmažodis'},
-            {word: 'STALAS', type: 'daiktavardis'},
-            {word: 'AUKŠTAS', type: 'budvardis'},
-            {word: 'DIRBA', type: 'veiksmažodis'},
-            {word: 'ŽUVĖDRA', type: 'daiktavardis'},
-            {word: 'JUODAS', type: 'budvardis'},
-            {word: 'ŠVIEČIA', type: 'veiksmažodis'},
-            {word: 'VANDUO', type: 'daiktavardis'}
-        ];
-
-        let currentQuestionIndex = 0;
-        let correctAnswers = 0;
-        const totalWords = words.length; // Visų žodžių skaičius, kad nereikėtų kartoti
 
         function playSound(wordType) {
             console.log('Skamba: ' + wordType);
@@ -387,8 +391,7 @@
             const percentage = Math.round((correctAnswers / totalWords) * 100);
             const quizSection = document.getElementById('quizSection');
             
-            // Rezultatų siuntimas į Google Sheets
-            sendResultToSheet('Kalbos dalys: Atpažinimas (D, B, V)', percentage); // <--- NAUJAS UŽDUOTIES PAVADINIMAS
+            sendResultToSheet('Kalbos dalys: Atpažinimas (D, B, V)', percentage); 
             
             quizSection.innerHTML = `
                 <h2 style="text-align: center; color: #0D3B66;">🎉 Puiku! Užduotis baigta!</h2>
