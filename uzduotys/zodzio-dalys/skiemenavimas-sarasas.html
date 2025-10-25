@@ -1,92 +1,50 @@
-<!DOCTYPE html>
-<html lang="lt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skiemenavimo užduotys - Kalbos Upė</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <style>
-        body {
-            font-family: 'OpenDyslexic', Arial, sans-serif;
-            background-color: #E8F4F8;
-            line-height: 1.8;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 30px;
-            padding: 12px 24px;
-            background-color: #7CB3E9;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        
-        .back-btn:hover {
-            background-color: #4A90E2;
-        }
-        
-        h1 {
-            font-size: 36px;
-            color: #0D3B66;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .intro {
-            background-color: #ffffff;
-            padding: 25px;
-            margin: 30px 0;
-            border-radius: 10px;
-            border: 2px solid #4A90E2;
-            text-align: center;
-            font-size: 18px;
-            color: #1A4D7A;
-        }
-        
+/* Pakeiskite esamas .task-grid ir .task-card taisykles į šias: */
         .task-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            /* Pašaliname grid'ą, pereiname prie vieno stulpelio sąrašo */
+            display: block; 
+            gap: 0;
             margin-top: 30px;
         }
         
         .task-card {
             background-color: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            border: 3px solid #4A90E2;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 15px 25px; /* Mažesnis padding'as */
+            border-radius: 8px; /* Mažesnis apvalinimas */
+            border: 1px solid #D4E9F7; /* Subtilesnė linija aplink kortelę */
+            margin-bottom: 15px; /* Atstumas tarp kortelių */
+            transition: background-color 0.3s ease;
             text-decoration: none;
-            display: block;
+            display: flex; /* Naudojame Flexbox, kad išdėstytume turinį eilutėje */
+            align-items: center;
+            justify-content: space-between;
         }
         
         .task-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(26, 77, 122, 0.25);
-            border-color: #0D3B66;
+            transform: none; /* Atšaukiame kėlimo efektą */
+            box-shadow: 0 2px 8px rgba(26, 77, 122, 0.1); /* Subtilesnis šešėlis */
+            border-color: #4A90E2;
+            background-color: #F7FBFE; /* Šiek tiek pašviesiname užvedus */
+        }
+        
+        /* Stiliai užduoties turiniui (pavadinimas ir aprašas) */
+        .task-content {
+            flex-grow: 1; /* Leidžia užimti visą prieinamą vietą */
         }
         
         .task-card h2 {
-            font-size: 22px;
+            font-size: 20px; /* Šiek tiek mažesnis šriftas */
             color: #0D3B66;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
         }
         
         .task-card p {
-            font-size: 16px;
-            color: #1A4D7A;
+            font-size: 14px; /* Mažesnis aprašo šriftas */
+            color: #888;
             margin: 0;
         }
         
+        /* Išsaugome .task-badge tik dėl to, kad jį naudoja jūsų esamos kortelės. */
+        /* Bet dabar jis atlieka progreso/žodžių skaičiaus funkciją. */
         .task-badge {
             display: inline-block;
             background-color: #7CB3E9;
@@ -94,101 +52,18 @@
             padding: 5px 12px;
             border-radius: 15px;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 0; /* Panaikiname nereikalingą margin */
+            flex-shrink: 0; /* Neleidžiame jam mažėti */
         }
-        
+
+        /* Pataisome media užklausą, kad gerai atrodytų mažuose ekranuose */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
+            .task-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
             }
-            
-            .task-grid {
-                grid-template-columns: 1fr;
+            .task-badge {
+                margin-top: 10px;
             }
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
-        
-        <h1>🔤 Skiemenavimo užduotys</h1>
-        
-        <div class="intro">
-            <p>Pasirink temą ir pradėk mokytis skiemenuoti žodžius! Kiekviena užduotis pritaikyta disleksikams.</p>
-        </div>
-        
-        <div class="task-grid">
-            <!-- Užduotis 1 - jau turime -->
-            <a href="skiemenavimas-(biologija-lastele).html" class="task-card">
-                <h2>Biologija: Ląstelės sandara</h2>
-                <p>Skiemenuok biologijos terminus apie ląstelių sandarą.</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 2 - naujas -->
-            <a href="Skiemenavimas-(isimintini-zodziai).html" class="task-card">
-                <h2>Įsimintini žodžiai</h2>
-                <p>Dažnai rašomi netaisyklingai: mįslė, ąsotis, įžūlus...</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 3 -->
-            <a href="Skiemenavimas-(tarptautiniai-zodziai).html" class="task-card">
-                <h2>Tarptautiniai žodžiai</h2>
-                <p>Be "j" šaknyje: čempionas, stadionas, projektas...</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 4 -->
-            <a href="Skiemenavimas-(ilgi-zodziai).html" class="task-card">
-                <h2>Ilgi žodžiai</h2>
-                <p>Sudėtingesni žodžiai su 4-6 skiemenimis.</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 5 -->
-            <a href="Skiemenavimas-(dvigarsiai).html" class="task-card">
-                <h2>Žodžiai su dvigarsiais</h2>
-                <p>Kaip skiemenuoti: ai, ei, ui, au, eu, ie, uo...</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 6 -->
-            <a href="Skiemenavimas-(dvibalsiai).html" class="task-card">
-                <h2>Žodžiai su dvibalsiais</h2>
-                <p>Kaip skiemenuoti: ą, ę, į, ų, ė...</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 7 -->
-            <a href="Skiemenavimas-(sudetiniai).html" class="task-card">
-                <h2>Sudėtiniai žodžiai</h2>
-                <p>Žodžiai iš dviejų dalių: geležinkelis, saulėgrąža...</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 8 -->
-            <a href="Skiemenavimas-(svetimzodziai).html" class="task-card">
-                <h2>Svetimžodžiai</h2>
-                <p>Dažni svetimžodžiai lietuvių kalboje.</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 9 -->
-            <a href="Skiemenavimas-(trumpi-zodziai).html" class="task-card">
-                <h2>Trumpi žodžiai</h2>
-                <p>Paprastesni žodžiai su 1-2 skiemenimis pradedantiesiems.</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <!-- Užduotis 10 -->
-            <a href="nauja.html" class="task-card">
-                <h2>Įvairūs žodžiai</h2>
-                <p>Įvairūs žodžiai iš skirtingų temų</p>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-        </div>
-    </div>
-</body>
-</html>
