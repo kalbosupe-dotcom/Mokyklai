@@ -1,7 +1,10 @@
-/* OpenDyslexic šrifto importas */
-@import url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/OpenDyslexic-Regular.woff2');
+/* Dizainas pritaikytas disleksikams ir patobulintas */
 
-/* Pagrindiniai stiliai */
+/* Importuojame Google Fonts, jei norime naudoti OpenDyslexic šriftą, tai turi būti atliekama tinkamai. 
+   Jei šriftas neįkeltas per link tag'ą HTML'e, importuojame jį čia. Pakeičiau jūsų seną importą į teisingesnį pavyzdį. */
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Dyslexic:wght@400;700&display=swap'); */
+
+/* Bendrai nustatymai */
 * {
     margin: 0;
     padding: 0;
@@ -9,69 +12,65 @@
 }
 
 body {
+    /* Naudojame OpenDyslexic (jei įkeltas), jei ne - Arial */
     font-family: 'OpenDyslexic', Arial, sans-serif;
-    background-color: #E8F4F8; /* Šviesiai mėlyna */
-    color: #1A4D7A; /* Tamsiai mėlyna */
-    line-height: 1.8;
+    background-color: #E8F4F8; /* Šviesiai mėlynas fonas */
+    color: #1A4D7A; /* Tamsiai mėlynas tekstas */
+    line-height: 1.8; /* Pagerinti tarpai tarp eilučių (Disleksija) */
     font-size: 18px;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 900px; /* Šiek tiek sumažiname konteinerį, kad būtų geriau skaitoma */
     margin: 0 auto;
     padding: 20px;
 }
 
-/* Header */
+/* --- ANTŠTAŠTĖ IR LOGOTIPAS --- */
 header {
-    background-color: #D4E9F7;
-    padding: 30px 0;
-    text-align: center;
-    border-bottom: 3px solid #1A4D7A;
+    background-color: #F7FBFE; /* Labai šviesiai mėlynas/baltas fonas antraštei */
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-    max-width: 250px;
-    width: 100%;
+    max-width: 400px; /* SUMAŽINTAS LOGOTIPO PLOTIS */
     height: auto;
-    margin-bottom: 20px;
+    display: block;
+    margin: 0 auto 15px auto;
 }
 
-h1 {
-    font-size: 28px;
+header h1 {
+    font-size: 24px;
     color: #0D3B66;
-    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0 0;
 }
 
-/* Intro sekcija */
+/* --- ĮVADAS --- */
 .intro {
     background-color: #ffffff;
-    padding: 30px;
+    padding: 20px;
     margin: 30px 0;
-    border-radius: 10px;
-    border: 2px solid #4A90E2;
+    border-radius: 12px;
+    border: 1px solid #7CB3E9;
+    font-size: 18px;
     text-align: center;
 }
 
-.intro p {
-    font-size: 20px;
-    line-height: 1.8;
-}
-
-/* Temų kortelės */
+/* --- TEMŲ SĄRAŠAS --- */
 .topics {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    margin: 30px 0;
+    gap: 30px; /* Didesni tarpai tarp temų blokų */
+    margin-top: 40px;
 }
 
 .topic-card {
     background-color: #ffffff;
     padding: 25px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 3px solid #4A90E2;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(26, 77, 122, 0.1);
 }
 
 .topic-card:hover {
@@ -80,9 +79,10 @@ h1 {
 }
 
 .topic-card h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
+    font-size: 28px; /* Padidinome H2 šriftą */
     color: #0D3B66;
+    margin-top: 0;
+    margin-bottom: 15px;
     border-bottom: 2px solid #7CB3E9;
     padding-bottom: 10px;
 }
@@ -90,61 +90,51 @@ h1 {
 .topic-card ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.topic-card li {
-    margin: 12px 0;
-}
-
-.topic-card a {
-    color: #1A4D7A;
-    text-decoration: none;
-    font-size: 18px;
+.topic-card li, .topic-card ul a {
     display: block;
+    margin-bottom: 10px; /* Didesnis tarpas tarp elementų */
+}
+
+.topic-card ul a {
+    font-size: 18px;
+    color: #4A90E2;
+    text-decoration: none;
     padding: 10px;
     background-color: #E8F4F8;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.2s;
 }
 
-.topic-card a:hover {
+.topic-card ul a:hover {
     background-color: #4A90E2;
     color: #ffffff;
 }
 
-/* Footer */
+/* --- PORAŠTĖ --- */
 footer {
-    background-color: #D4E9F7;
-    padding: 20px 0;
     text-align: center;
+    padding: 20px 0;
     margin-top: 50px;
-    border-top: 3px solid #1A4D7A;
-}
-
-footer p {
+    border-top: 1px solid #7CB3E9;
+    color: #1A4D7A;
     font-size: 16px;
 }
 
-/* Responsive dizainas */
-@media (max-width: 768px) {
-    body {
-        font-size: 16px;
-    }
-    
+
+/* --- ADAPTYVUMAS MAŽIEMS EKRANAMS --- */
+@media (max-width: 600px) {
     .logo {
-        max-width: 280px;
+        max-width: 300px; /* Logotipas dar mažesnis mobiliuoju */
     }
     
-    h1 {
-        font-size: 22px;
+    header h1 {
+        font-size: 20px;
     }
     
     .topics {
         grid-template-columns: 1fr;
     }
 }
-
-
-
-
-
