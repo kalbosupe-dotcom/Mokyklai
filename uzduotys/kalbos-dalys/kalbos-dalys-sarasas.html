@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atpažink kalbos dalis</title>
+    <title>Kalbos dalių užduotys - Kalbos Upė</title>
     <link rel="stylesheet" href="../../css/style.css">
     <style>
         /* Bendrai pritaikyti stiliai disleksikams */
@@ -43,60 +43,58 @@
             text-align: center;
         }
         
-        /* Įvadinė dalis */
+        /* Įvadinė dalis (be rėmelio) */
         .intro {
-            /* Pašaliname rėmelį, foną ir papildomą erdvę */
-            background-color: transparent; /* Skaidrus fonas */
-            padding: 0; /* Nėra vidinio atstumo */
-            margin: 30px 0 30px 0; /* Paliekame tik išorinį atstumą */
-            border-radius: 0;
-            border: none; /* Pašaliname rėmelio liniją */
+            background-color: transparent; 
+            padding: 0; 
+            margin: 30px 0 30px 0; 
+            border: none; 
             text-align: center;
-            font-size: 22px;
+            font-size: 18px; /* Sumažinau šriftą atgal, kad atrodytų geriau */
             color: #1A4D7A;
         }
         
-        /* --- NAUJAS SĄRAŠO IŠDĖSTYMAS (vietoj tinklelio) --- */
+        /* --- NAUJAS SĄRAŠO IŠDĖSTYMAS --- */
         .task-grid {
-            display: block; /* Pašaliname grid'ą */
+            display: block; 
             gap: 0;
             margin-top: 30px;
         }
         
         .task-card {
             background-color: #ffffff;
-            padding: 15px 25px; /* Mažesnis padding'as */
-            border-radius: 8px; /* Mažesnis apvalinimas */
-            border: 1px solid #D4E9F7; /* Subtilesnė linija aplink kortelę */
-            margin-bottom: 15px; /* Atstumas tarp kortelių */
+            padding: 15px 25px; 
+            border-radius: 8px; 
+            border: 1px solid #D4E9F7; 
+            margin-bottom: 15px; 
             transition: background-color 0.3s ease;
             text-decoration: none;
-            display: flex; /* Naudojame Flexbox, kad išdėstytume turinį eilutėje */
+            display: flex; 
             align-items: center;
-            justify-content: space-between; /* Išdėsto kraštuose */
+            justify-content: space-between; 
         }
         
         .task-card:hover {
-            transform: none; /* Atšaukiame kėlimo efektą */
-            box-shadow: 0 2px 8px rgba(26, 77, 122, 0.1); /* Subtilesnis šešėlis */
+            transform: none; 
+            box-shadow: 0 2px 8px rgba(26, 77, 122, 0.1); 
             border-color: #4A90E2;
-            background-color: #F7FBFE; /* Šiek tiek pašviesiname užvedus */
+            background-color: #F7FBFE; 
         }
 
         /* Kortelės turinys (pavadinimas ir aprašas) */
         .task-content {
-            flex-grow: 1; /* Leidžia užimti visą prieinamą vietą centre */
+            flex-grow: 1; 
         }
         
         .task-card h2 {
-            font-size: 24px; /* Šiek tiek mažesnis šriftas */
+            font-size: 20px; 
             color: #0D3B66;
             margin-bottom: 5px;
         }
         
         .task-card p {
-            font-size: 20px; /* Mažesnis aprašo šriftas */
-            color: #4A90E2;
+            font-size: 16px; /* Šriftas: kadangi tai aprašas, palikau neutralų dydį */
+            color: #1A4D7A; /* Palikau jį mėlynos šešėlyje spalvos */
             margin: 0;
         }
         
@@ -107,7 +105,7 @@
             color: white;
             padding: 5px 12px;
             border-radius: 15px;
-            font-size: 16px;
+            font-size: 14px;
             margin-top: 0;
             flex-shrink: 0;
         }
@@ -145,8 +143,7 @@
                     <h2>Kalbos dalys | ATMINTINĖ</h2>
                     <p>Pasikartok kalbos dalis.</p>
                 </div>
-                <span class="task-badge">atmintinė</span>
-            </a>
+                <span class="task-badge" style="background-color: #4ECDC4;">atmintinė</span> </a>
 
             <a href="isrusiuok-kalbos-dalis-d-b-v.html" class="task-card">
                 <div class="task-content">
@@ -156,7 +153,7 @@
                 <span class="task-badge">20 žodžių</span>
             </a>
             
-            <a href="isrusiuok-kalbos-dalis-d-b-v-p.html.html" class="task-card">
+            <a href="isrusiuok-kalbos-dalis-d-b-v-p.html" class="task-card">
                 <div class="task-content">
                     <h2>Išrūšiuok kalbos dalis</h2>
                     <p>Daiktavardis, būdvardis, veiksmažodis, prieveiksmis.</p>
@@ -164,60 +161,20 @@
                 <span class="task-badge">10 žodžių</span>
             </a>
             
-            <a href="Skiemenavimas-isimintini-zodziai.html" class="task-card">
+            <a href="pvz-ivardziai.html" class="task-card">
                 <div class="task-content">
-                    <h2>Įsimintini žodžiai</h2>
-                    <p>Dažnai rašomi netaisyklingai: mįslė, ąsotis, įžūlus...</p>
+                    <h2>Įvardžiai</h2>
+                    <p>Atpažink įvardžius ir jų rūšis</p>
                 </div>
-                <span class="task-badge">10 žodžių</span>
+                <span class="task-badge">15 žodžių</span>
             </a>
             
-            <a href="Skiemenavimas-tarptautiniai-zodziai.html" class="task-card">
+            <a href="pvz-skaitvardziai.html" class="task-card">
                 <div class="task-content">
-                    <h2>Tarptautiniai žodžiai</h2>
-                    <p>Su ir be "j" šaknyje: čempionas, stadionas, projektas...</p>
+                    <h2>Skaitvardžiai</h2>
+                    <p>Atpažink ir surūšiuok skaitvardžius</p>
                 </div>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <a href="Skiemenavimas-ilgi-zodziai.html" class="task-card">
-                <div class="task-content">
-                    <h2>Ilgi žodžiai</h2>
-                    <p>Sudėtingesni žodžiai, turintys 4-6 skiemenis.</p>
-                </div>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <a href="Skiemenavimas-dvigarsiai.html" class="task-card">
-                <div class="task-content">
-                    <h2>Žodžiai su dvigarsiais</h2>
-                    <p>Kaip skiemenuoti: al, el, ul...</p>
-                </div>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <a href="Skiemenavimas-dvibalsiai.html" class="task-card">
-                <div class="task-content">
-                    <h2>Žodžiai su dvibalsiais</h2>
-                    <p>Kaip skiemenuoti: ai, ei, ui, au, eu, ie, uo...</p>
-                </div>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <a href="Skiemenavimas-sudetiniai.html" class="task-card">
-                <div class="task-content">
-                    <h2>Sudėtiniai žodžiai</h2>
-                    <p>Žodžiai iš dviejų dalių: geležinkelis, saulėgrąža...</p>
-                </div>
-                <span class="task-badge">10 žodžių</span>
-            </a>
-            
-            <a href="Skiemenavimas-svetimzodziai.html" class="task-card">
-                <div class="task-content">
-                    <h2>Svetimžodžiai</h2>
-                    <p>Dažni svetimžodžiai lietuvių kalboje.</p>
-                </div>
-                <span class="task-badge">10 žodžių</span>
+                <span class="task-badge">15 žodžių</span>
             </a>
             
         </div>
