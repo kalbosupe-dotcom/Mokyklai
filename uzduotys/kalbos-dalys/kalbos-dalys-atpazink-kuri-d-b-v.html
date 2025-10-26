@@ -3,119 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atpažink kalbos dalis (D, B, V) - Kalbos Upė</title>
+    <title>Kalbos dalys: Atpažinimas (D, B, V) - Kalbos Upė</title>
     
     <link rel="stylesheet" href="../../css/style.css"> 
     
     <style>
-        /* Išsaugomi UNIKALŪS šios užduoties stiliai, pritaikyti disleksikams */
-        body {
-            font-family: 'OpenDyslexic', Arial, sans-serif;
-            background-color: #E8F4F8;
-            line-height: 1.8;
-            padding: 20px;
+        /* Paliekame tik UNIKALIUS šios užduoties stilius. */
+        
+        .answer-buttons {
+            grid-template-columns: repeat(3, 1fr); 
+            display: grid; 
+            gap: 15px;
         }
         
-        .task-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
-        }
-        
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 12px 24px;
-            background-color: #7CB3E9;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        
-        .back-btn:hover {
-            background-color: #4A90E2;
-        }
-        
-        /* --- MOKINIO INFO BLOKAS --- */
-        .student-info {
-            background-color: #ffffff;
-            padding: 15px 20px; 
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid #4A90E2;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .change-name-btn {
-            background-color: #4A90E2;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .change-name-btn:hover {
-            background-color: #0D3B66;
-        }
-        
-        h1 {
-            font-size: 32px;
-            color: #0D3B66;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-        
-        h2 {
-            font-size: 24px;
-            color: #4A90E2;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        /* Kortelės viršuje su pavyzdžiais */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .card {
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-        .card:hover {
-            transform: translateY(-3px);
-        }
-        
-        /* Spalvos pavyzdžių kortelėms (RYŠKESNĖS SPALVOS) */
+        /* Spalvos pavyzdžių kortelėms (naudojamos ryškesnės spalvos) */
         .card.noun { background-color: #007bff; color: white; } 
         .card.adjective { background-color: #28a745; color: white; } 
         .card.verb { background-color: #dc3545; color: white; } 
 
+        /* Spalvų gradientai mygtukams (naudojamos ryškesnės spalvos) */
+        .answer-btn.noun-btn { background: linear-gradient(135deg, #007bff, #0056b3); }
+        .answer-btn.adjective-btn { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .answer-btn.verb-btn { background: linear-gradient(135deg, #dc3545, #b82d3b); }
+
+        /* Adaptacija: Mygtukai vienas po kito mobiliuoju (perkelta iš jūsų kodo) */
+        @media (max-width: 600px) {
+            .answer-buttons {
+                grid-template-columns: 1fr; 
+                display: flex; 
+                flex-direction: column;
+            }
+        }
+        
+        /* Išsaugome specifinius stilius dėl vizualumo */
         .card h2 { font-size: 20px; color: white; margin-bottom: 5px; }
         .card p { font-size: 18px; color: white; margin: 3px 0; }
-
-        /* Quiz Stiliai */
-        .quiz-section { display: none; margin-top: 30px; }
-        .quiz-section.active { display: block; }
-
         .word-display {
             font-size: 48px; 
             font-weight: bold;
@@ -127,62 +49,12 @@
             border: 3px solid #4A90E2;
             color: #0D3B66;
         }
-        
-        .answer-buttons {
-            grid-template-columns: repeat(3, 1fr); /* 3 stulpeliai dideliuose ekranuose */
-            display: grid; 
-            gap: 15px;
-        }
-        
-        /* --- ADAPTYVUMAS: MYGTUKAI VIENAS PO KITO MOBILIUOSIUOSE --- */
-        @media (max-width: 600px) {
-            .answer-buttons {
-                grid-template-columns: 1fr; /* Vienas stulpelis mažuose ekranuose */
-                display: flex; /* Naudojame flexbox, kad užtikrintume vertikalų išdėstymą */
-                flex-direction: column;
-            }
-        }
-        /* --- END ADAPTYVUMAS --- */
-        
-        .answer-btn {
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            color: white;
-            border: none;
-            transition: transform 0.2s ease;
-        }
-        /* Spalvų gradientai mygtukams (RYŠKESNĖS SPALVOS) */
-        .answer-btn.noun-btn { background: linear-gradient(135deg, #007bff, #0056b3); }
-        .answer-btn.adjective-btn { background: linear-gradient(135deg, #28a745, #1e7e34); }
-        .answer-btn.verb-btn { background: linear-gradient(135deg, #dc3545, #b82d3b); }
-        
-        .feedback { display: none; margin-top: 20px; font-size: 20px; }
-        .feedback.correct { color: #155724; background: #d4edda; padding: 10px; border-radius: 8px; }
-        .feedback.incorrect { color: #721c24; background: #f8d7da; padding: 10px; border-radius: 8px; }
-        
-        .btn-start {
-            background-color: #4A90E2; 
-            color: white; 
-            border: none; 
-            padding: 15px 30px; 
-            border-radius: 10px;
-            font-size: 18px; 
-            cursor: pointer;
-            display: block;
-            margin: 20px auto;
-            transition: background-color 0.3s;
-        }
-        .btn-start:hover {
-            background-color: #0D3B66;
-        }
+
     </style>
 </head>
 <body>
     <div class="task-wrapper">
-        <a href="kalbos-dalys-sarasas.html" class="back-btn">← Grįžti į sąrašą</a> 
+        <a href="../../index.html" class="back-btn">← Grįžti į užduočių banką</a> 
         
         <div class="student-info">
             <span style="font-size: 18px; color: #1A4D7A;">
@@ -277,6 +149,7 @@
         let correctAnswers = 0;
         const totalWords = words.length; 
 
+        // --- Vardų ir rezultatų siuntimo funkcijos (pradžia) ---
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
             
@@ -313,6 +186,7 @@
         
             console.log('Siunčiamas rezultatas:', data);
         
+            // PASTABA: GOOGLE SHEET URL naudojamas iš jūsų pavyzdžio.
             const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec'; 
 
             fetch(GOOGLE_SHEET_URL, {
@@ -333,6 +207,8 @@
         
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
+        // --- Vardų ir rezultatų siuntimo funkcijos (pabaiga) ---
+
 
         function playSound(wordType) {
             console.log('Skamba: ' + wordType);
