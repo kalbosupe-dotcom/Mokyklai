@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mejozė ir Mitozė - Kalbos Upė</title>
     <link rel="stylesheet" href="../../css/style.css">
-    <style>
+<style>
         /* Disleksikams pritaikyti stiliai */
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
@@ -112,14 +112,13 @@
         /* Flip kortelė */
         .flip-card {
             perspective: 1000px;
-            min-height: 120px;
+            height: 140px; /* FIKSUOTAS AUKŠTIS */
         }
         
         .flip-card-inner {
             position: relative;
             width: 100%;
             height: 100%;
-            min-height: 120px;
             text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
@@ -142,29 +141,33 @@
             padding: 20px;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 18px;
-            line-height: 1.6;
+            font-size: 16px;
+            line-height: 1.5;
             background-color: #ffffff;
             color: #1A4D7A;
             border: 3px solid #7CB3E9;
             box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
+            transition: all 0.3s;
         }
         
         .flip-card-back {
             transform: rotateY(180deg);
         }
         
-        .flip-card:hover .flip-card-inner {
+        .flip-card:hover .flip-card-front,
+        .flip-card:hover .flip-card-back {
             box-shadow: 0 8px 20px rgba(26, 77, 122, 0.25);
         }
         
         /* Rezultatų rėmeliai */
-        .correct-border {
+        .correct-border .flip-card-front,
+        .correct-border .flip-card-back {
             border-color: #4ECDC4 !important;
             box-shadow: 0 0 0 4px #4ECDC4 !important;
         }
         
-        .incorrect-border {
+        .incorrect-border .flip-card-front,
+        .incorrect-border .flip-card-back {
             border-color: #FF6B6B !important;
             box-shadow: 0 0 0 4px #FF6B6B !important;
         }
@@ -261,8 +264,12 @@
                 font-size: 20px;
             }
             
+            .flip-card {
+                height: 120px;
+            }
+            
             .flip-card-front, .flip-card-back {
-                font-size: 16px;
+                font-size: 14px;
                 padding: 15px;
             }
         }
