@@ -1,0 +1,236 @@
+/* Dizainas pritaikytas disleksikams ir patobulintas */
+
+/* Bendrai nustatymai */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'OpenDyslexic', Arial, sans-serif;
+    background-color: #F7FBFE; /* Labai šviesus fonas */
+    color: #1A4D7A; 
+    line-height: 1.8; /* Didesni tarpai tarp eilučių */
+    font-size: 18px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- ANTŠTAŠTĖ IR LOGOTIPAS --- */
+header {
+    background-color: #E8F4F8; /* Šviesiai mėlynas fonas */
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    max-width: 300px; /* SUMAŽINTAS LOGOTIPO PLOTIS */
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #0D3B66;
+    text-align: center;
+    margin: 0;
+}
+
+/* --- ĮVADAS --- */
+.intro {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 12px;
+    border: 1px solid #7CB3E9;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* --- FILTRAVIMO VALDIKLIAI --- */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(26, 77, 122, 0.1);
+    margin: 20px 0;
+}
+
+.filter-group {
+    flex: 1 1 250px; 
+}
+
+.filter-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #0D3B66;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #7CB3E9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'OpenDyslexic', Arial, sans-serif;
+    background-color: #E8F4F8;
+    color: #1A4D7A;
+}
+
+.results-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 10px 0;
+    border-bottom: 2px solid #D4E9F7;
+    font-weight: bold;
+    color: #0D3B66;
+}
+
+.reset-filters {
+    background-color: #FF6B6B;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'OpenDyslexic', Arial, sans-serif;
+    transition: background-color 0.3s;
+}
+.reset-filters:hover {
+    background-color: #c0392b;
+}
+
+/* --- UŽDUOČIŲ KORTELĖS (GENERUOJAMA JS) --- */
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.task-card-filtered {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    border: 3px solid #7CB3E9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: #1A4D7A;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.task-card-filtered:hover {
+    border-color: #4A90E2;
+    box-shadow: 0 6px 15px rgba(26, 77, 122, 0.2);
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #7CB3E9;
+}
+
+.task-title {
+    font-size: 20px;
+    color: #0D3B66;
+    margin-bottom: 5px;
+    line-height: 1.3;
+}
+
+.task-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.task-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed #D4E9F7;
+    padding-top: 10px;
+}
+
+.task-dalykas {
+    font-weight: bold;
+    color: #4A90E2;
+}
+
+/* SUP ŽYMĖS (BADGES) */
+.sup-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.sup-badge {
+    padding: 3px 8px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+/* Spalvos SUP pritaikymams */
+.sup-disleksija { background-color: #4ECDC4; } /* Žalia/Turkio */
+.sup-disgrafija { background-color: #FFC300; } /* Geltona/Auksinė */
+.sup-demesio { background-color: #FF6B6B; } /* Raudona */
+.sup-kalbos { background-color: #7CB3E9; } /* Mėlyna */
+
+.no-results {
+    text-align: center;
+    grid-column: 1 / -1; 
+    padding: 40px;
+    color: #FF6B6B;
+}
+
+/* --- PORAŠTĖ --- */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+    border-top: 1px solid #7CB3E9;
+    color: #1A4D7A;
+    font-size: 16px;
+}
+
+
+/* --- ADAPTYVUMAS MAŽIEMS EKRANAMS --- */
+@media (max-width: 768px) {
+    .logo {
+        max-width: 250px; 
+    }
+    header h1 {
+        font-size: 20px;
+    }
+    .filter-controls {
+        flex-direction: column;
+    }
+    .results-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
