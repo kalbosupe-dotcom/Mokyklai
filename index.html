@@ -10,23 +10,31 @@
     <header>
         <div class="container header-content">
             <img src="images/logo.png" alt="Kalbos Upė" class="logo">
-            <h1>Interaktyvios užduotys - pritaikyta SUP - tinka visiems</h1>
+            <h1>Interaktyvios užduotys - pritaikytą mokiniams su SUP - tinka visiems</h1>
         </div>
     </header>
 
     <main class="container main-content">
         <section class="intro">
-            <p>Sveiki atvykę į "Kalbos Upę" - interaktyvių užduočių platformą, pritaikytą mokiniams, turintiems specialiųjų ugdymosi poreikių. Pasirinkite kriterijus, kad rastumėte tinkančias užduotis.</p>
+            <p>Sveiki atvykę į "Kalbos Upę" - interaktyvių užduočių platformą, pritaikytą mokiniams su specialiaisiais ugdymosi poreikiais. Pasirinkite kriterijus, kad rastumėte tinkančias užduotis.</p>
         </section>
         
         <div class="filter-controls">
+            
+            <div class="filter-group full-width">
+                <label for="search-input">Paieška pagal raktinį žodį:</label>
+                <input type="text" id="search-input" class="filter-select" placeholder="Įveskite raktinį žodį (pvz., linksniavimas, ląstelė, veiksmažodis)">
+            </div>
+            
             <div class="filter-group">
                 <label for="dalykas-select">Dalykas:</label>
                 <select id="dalykas-select" class="filter-select">
                     <option value="visi">Visi dalykai</option>
                     <option value="lietuviu">Lietuvių kalba</option>
+                    <option value="anglu">Anglų kalba</option>
                     <option value="matematika">Matematika</option>
-                    </select>
+                    <option value="biologija">Biologija</option>
+                </select>
             </div>
 
             <div class="filter-group">
@@ -38,7 +46,7 @@
                     <option value="7">7 klasė</option>
                     <option value="8">8 klasė</option>
                     <option value="9">9 klasė</option>
-                    </select>
+                </select>
             </div>
 
             <div class="filter-group">
@@ -59,7 +67,7 @@
         </div>
 
         <div class="task-grid" id="task-grid">
-            <p>Pasirinkite filtrus aukščiau, kad pamatytumėte užduotis.</p>
+            <p class="no-results-msg">Pasirinkite filtrus aukščiau, kad pamatytumėte užduotis.</p>
         </div>
     </main>
 
@@ -70,8 +78,7 @@
     </footer>
     
     <script>
-        // --- UŽDUOČIŲ DUOMENŲ BAZĖ ---
-        // SVARBU: PRIDĖKITE ČIA VISAS SAVO UŽDUOTIS IR JŲ METADUOMENIS!
+        // --- UŽDUOČIŲ DUOMENŲ BAZĖ (SU TEMA LAUKU) ---
         const taskDatabase = [
             {
                 id: 'L001',
@@ -79,8 +86,9 @@
                 description: 'Daiktavardžio, būdvardžio ir veiksmažodžio atpažinimas.',
                 url: 'uzduotys/kalbos-dalys/kalbos-dalys-atpazink-kuri-d-b-v.html',
                 dalykas: 'lietuviu',
-                klase: 5,
-                sup: ['disleksija', 'disgrafija']
+                klase: 7, 
+                sup: ['disleksija', 'disgrafija'],
+                tema: 'Kalbos dalys'
             },
             {
                 id: 'L002',
@@ -89,7 +97,8 @@
                 url: 'uzduotys/zodzio-dalys/skiemenavimas-ilgi-zodziai.html',
                 dalykas: 'lietuviu',
                 klase: 6,
-                sup: ['disleksija', 'kalbos']
+                sup: ['disleksija', 'kalbos'],
+                tema: 'Žodžio dalys'
             },
             {
                 id: 'L003',
@@ -98,30 +107,56 @@
                 url: 'uzduotys/zodzio-dalys/skiemenavimas-isimintini-zodziai.html',
                 dalykas: 'lietuviu',
                 klase: 7,
-                sup: ['disleksija']
+                sup: ['disleksija'],
+                tema: 'Žodžio dalys'
+            },
+            {
+                id: 'B001',
+                title: 'Ląstelės sandara',
+                description: 'Atpažinkite pagrindines ląstelės dalis.',
+                url: 'uzduotys/biologija/lasteles-sandara.html',
+                dalykas: 'biologija',
+                klase: 8,
+                sup: ['disleksija'],
+                tema: 'Ląstelė'
             }
-            // PRIDĖKITE ČIA kitas užduotis ateityje, nurodydami jų klases ir pritaikymą.
+            // PRIDĖKITE ČIA kitas užduotis, nurodydami jų klases, SUP ir BŪTINAI temą!
         ];
         // --- FILTRAVIMO LOGIKA ---
 
         const dalykasSelect = document.getElementById('dalykas-select');
         const klaseSelect = document.getElementById('klase-select');
         const supSelect = document.getElementById('sup-select');
+        const searchInput = document.getElementById('search-input'); // NAUJAS
         const taskGrid = document.getElementById('task-grid');
         const resultCount = document.getElementById('result-count');
         const resetButton = document.querySelector('.reset-filters');
+        const noResultsMsg = document.querySelector('.no-results-msg');
+
 
         function filterTasks() {
             const selectedDalykas = dalykasSelect.value;
             const selectedKlase = klaseSelect.value;
             const selectedSup = supSelect.value;
+            const searchTerm = searchInput.value.toLowerCase().trim(); // NAUJAS: Paieškos tekstas
+            
+            if (noResultsMsg) noResultsMsg.style.display = 'none';
 
             const filteredTasks = taskDatabase.filter(task => {
+                const taskKlase = task.klase; 
+                const filterKlase = selectedKlase === 'visos' ? 'visos' : parseInt(selectedKlase);
+
                 const dalykasMatch = selectedDalykas === 'visi' || task.dalykas === selectedDalykas;
-                const klaseMatch = selectedKlase === 'visos' || task.klase === parseInt(selectedKlase);
+                const klaseMatch = selectedKlase === 'visos' || taskKlase === filterKlase;
                 const supMatch = selectedSup === 'visi' || task.sup.includes(selectedSup);
                 
-                return dalykasMatch && klaseMatch && supMatch;
+                // Paieškos sąlyga: Tikriname title, description ir temą
+                const searchMatch = searchTerm === '' || 
+                                    task.title.toLowerCase().includes(searchTerm) ||
+                                    task.description.toLowerCase().includes(searchTerm) ||
+                                    (task.tema && task.tema.toLowerCase().includes(searchTerm)); 
+
+                return dalykasMatch && klaseMatch && supMatch && searchMatch;
             });
 
             renderTasks(filteredTasks);
@@ -132,13 +167,13 @@
             
             if (tasks.length === 0) {
                 taskGrid.innerHTML = '<p class="no-results">Pagal pasirinktus kriterijus užduočių nerasta. Pabandykite keisti filtrus.</p>';
+                taskGrid.style.display = 'grid'; 
             } else {
                 tasks.forEach(task => {
                     const taskCard = document.createElement('a');
                     taskCard.href = task.url;
                     taskCard.classList.add('task-card-filtered');
                     
-                    // SUP etiketės generavimas
                     const supBadges = task.sup.map(sup => `<span class="sup-badge sup-${sup}">${sup.charAt(0).toUpperCase() + sup.slice(1)}</span>`).join('');
 
                     taskCard.innerHTML = `
@@ -147,7 +182,7 @@
                             <span class="task-id">ID: ${task.id}</span>
                         </div>
                         <h3 class="task-title">${task.title}</h3>
-                        <p class="task-description">${task.description}</p>
+                        <p class="task-topic">Tema: ${task.tema}</p> <p class="task-description">${task.description}</p>
                         <div class="task-footer">
                             <span class="task-dalykas">${task.dalykas.charAt(0).toUpperCase() + task.dalykas.slice(1)}</span>
                             <div class="sup-badges">${supBadges}</div>
@@ -164,6 +199,7 @@
             dalykasSelect.value = 'visi';
             klaseSelect.value = 'visos';
             supSelect.value = 'visi';
+            searchInput.value = ''; // Išvalome paieškos lauką
             filterTasks(); 
         }
 
@@ -171,6 +207,7 @@
         dalykasSelect.addEventListener('change', filterTasks);
         klaseSelect.addEventListener('change', filterTasks);
         supSelect.addEventListener('change', filterTasks);
+        searchInput.addEventListener('input', filterTasks); // NAUJAS klausytojas paieškai
         resetButton.addEventListener('click', resetFilters);
 
         // Pradinis paleidimas
@@ -178,4 +215,3 @@
     </script>
 </body>
 </html>
-
