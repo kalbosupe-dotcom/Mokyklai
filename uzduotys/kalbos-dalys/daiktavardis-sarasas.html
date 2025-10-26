@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalbos dalių užduotys - Daiktavardis</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* Bendrai pritaikyti stiliai disleksikams */
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Grįžimo mygtukas */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        h1 {
+            font-size: 36px;
+            color: #0D3B66;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        /* Įvadinė dalis (be rėmelio) */
+        .intro {
+            background-color: transparent; 
+            padding: 0; 
+            margin: 30px 0 30px 0; 
+            border: none; 
+            text-align: center;
+            font-size: 20px;
+            color: #1A4D7A;
+        }
+        
+        /* --- NAUJAS SĄRAŠO IŠDĖSTYMAS --- */
+        .task-grid {
+            display: block; 
+            gap: 0;
+            margin-top: 30px;
+        }
+        
+        .task-card {
+            background-color: #ffffff;
+            padding: 15px 25px; 
+            border-radius: 8px; 
+            border: 1px solid #D4E9F7; 
+            margin-bottom: 15px; 
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: flex; 
+            align-items: center;
+            justify-content: space-between; 
+        }
+        
+        .task-card:hover {
+            transform: none; 
+            box-shadow: 0 2px 8px rgba(26, 77, 122, 0.1); 
+            border-color: #4A90E2;
+            background-color: #F7FBFE; 
+        }
+
+        /* Kortelės turinys (pavadinimas ir aprašas) */
+        .task-content {
+            flex-grow: 1; 
+        }
+        
+        .task-card h2 {
+            font-size: 22px; 
+            color: #0D3B66;
+            margin-bottom: 5px;
+        }
+        
+        .task-card p {
+            font-size: 20px;
+            color: #1A4D7A;
+            margin: 0;
+        }
+        
+        /* Žodžių skaičiaus ženklelis */
+        .task-badge {
+            display: inline-block;
+            background-color: #7CB3E9;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 16px;
+            margin-top: 0;
+            flex-shrink: 0;
+        }
+        
+        /* Išdėstymas mažiems ekranams */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+            .task-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+            }
+            .task-badge {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+        
+        <h1>🔤 Kalbos dalių rūšiavimo užduotys</h1>
+        
+        <div class="intro">
+            <p>Pasirink temą ir pradėk mokytis.</p>
+        </div>
+        
+        <div class="task-grid">
+
+            <a href="daiktavardis-atmintine.html" class="task-card">
+                <div class="task-content">
+                    <h2>Daiktavardis | ATMINTINĖ</h2>
+                    <p>Pasikartok.</p>
+                </div>
+                <span class="task-badge" style="background-color: #4ECDC4;">atmintinė</span> </a>
+
+            <a href="daiktavardis-nurodyk-kategorijas-gimine-skaicius-linksnis.html" class="task-card">
+                <div class="task-content">
+                    <h2>Nurodyk daiktavardžio kategorijas: giminė, skaičius, linksnis</h2>
+                    <p>Daiktavardis, būdvardis, veiksmažodis</p>
+                </div>
+                <span class="task-badge">20 žodžių</span>
+            </a>
+
+            <a href="kalbos-dalys-atpazink-kuri-d-b-v-p.html" class="task-card">
+                <div class="task-content">
+                    <h2>Atpažink kalbos dalis</h2>
+                    <p>Daiktavardis, būdvardis, veiksmažodis, prieveiksmis</p>
+                </div>
+                <span class="task-badge">20 žodžių</span>
+            </a>
+                        
+            <a href="isrusiuok-kalbos-dalis-d-b-v.html" class="task-card">
+                <div class="task-content">
+                    <h2>Išrūšiuok kalbos dalis</h2>
+                    <p>Daiktavardis, būdvardis, veiksmažodis</p>
+                </div>
+                <span class="task-badge">20 žodžių</span>
+            </a>
+            
+            <a href="isrusiuok-kalbos-dalis-d-b-v-p.html" class="task-card">
+                <div class="task-content">
+                    <h2>Išrūšiuok kalbos dalis</h2>
+                    <p>Daiktavardis, būdvardis, veiksmažodis, prieveiksmis.</p>
+                </div>
+                <span class="task-badge">10 žodžių</span>
+            </a>
+            
+            <a href="pvz-ivardziai.html" class="task-card">
+                <div class="task-content">
+                    <h2>Įvardžiai</h2>
+                    <p>Atpažink įvardžius ir jų rūšis</p>
+                </div>
+                <span class="task-badge">15 žodžių</span>
+            </a>
+            
+            <a href="pvz-skaitvardziai.html" class="task-card">
+                <div class="task-content">
+                    <h2>Skaitvardžiai</h2>
+                    <p>Atpažink ir surūšiuok skaitvardžius</p>
+                </div>
+                <span class="task-badge">15 žodžių</span>
+            </a>
+            
+        </div>
+    </div>
+</body>
+</html>
