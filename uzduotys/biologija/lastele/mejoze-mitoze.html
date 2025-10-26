@@ -299,7 +299,7 @@
         <button id="reset-btn" class="btn-reset" onclick="location.reload()">Pradėti iš naujo</button>
     </div>
 
-    <script>
+<script>
         // --- Vardų valdymas ---
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
@@ -320,7 +320,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
+            alert(`Vardas pakeistas į: ${newName}`);
             location.reload();
         }
 
@@ -411,3 +411,56 @@
             if (isInitiallyFlipped) {
                 wrapper.classList.add('flipped');
             }
+            
+            wrapper.addEventListener('click', toggleCard);
+            container.appendChild(wrapper);
+        }
+
+        function toggleCard(event) {
+            if (isChecked) return;
+            event.currentTarget.classList.toggle('flipped');
+        }
+
+        function checkAllAnswers() {
+            if (isChecked) return;
+            isChecked = true;
+            checkBtn.classList.add('disabled');
+            resetBtn.classList.add('visible');
+
+            let correctCount = 0;
+            const allCards = document.querySelectorAll('.flip-card');
+            const totalCards = allCards.length;
+
+            allCards.forEach(card => {
+                const columnType = card.dataset.column; 
+                const isFlipped = card.classList.contains('flipped'); 
+
+                const isCorrect = !isFlipped; 
+
+                card.classList.remove('correct-border', 'incorrect-border');
+                
+                if (isCorrect) {
+                    card.classList.add('correct-border');
+                    correctCount++;
+                } else {
+                    card.classList.add('incorrect-border');
+                    card.classList.remove('flipped'); 
+                }
+                card.classList.add('disabled');
+            });
+
+            const accuracy = ((correctCount / totalCards) * 100).toFixed(0);
+            
+            if (correctCount === totalCards) {
+                feedbackEl.innerHTML = '<span class="success">✅ Puiku! Visos kortelės teisingose vietose!</span>';
+            } else {
+                feedbackEl.innerHTML = '<span class="error">❌ Patikrinimas baigtas! Žiūrėk teisingus atsakymus.</span>';
+            }
+            
+            scoreEl.textContent = `Teisingai: ${correctCount} iš ${totalCards} (${accuracy}%)`;
+            
+            sendResultToSheet('Mejozė ir Mitozė', accuracy);
+        }
+
+        initializeTest();
+    </script>
