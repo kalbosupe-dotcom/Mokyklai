@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalbos dalys: Rūšiavimas (D, B, V) - Kalbos Upė</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+        }
+        
+        .task-wrapper {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+        
+        h1 {
+            font-size: 32px;
+            color: #0D3B66;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 20px;
+            color: #4A90E2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .instruction {
+            text-align: center;
+            font-size: 18px;
+            color: #1A4D7A;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            background: #ffffff;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 2px solid #4A90E2;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(45deg, #4ECDC4, #27ae60);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        /* Score display */
+        .score {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+            border: 2px solid #4A90E2;
+        }
+        
+        .score h3 {
+            color: #0D3B66;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        
+        .score p {
+            color: #1A4D7A;
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        .score span {
+            color: #4A90E2;
+            font-weight: bold;
+        }
+        /* Game area layout */
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin: 20px 0;
+        }
+        
+        /* Words pool */
+        .words-pool {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 400px;
+            border: 3px solid #4A90E2;
+        }
+        
+        .words-pool h3 {
+            text-align: center;
+            color: #0D3B66;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        #wordsContainer {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .word-item {
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            border: 3px solid #7CB3E9;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: grab;
+            transition: all 0.3s ease;
+            user-select: none;
+            color: #1A4D7A;
+        }
+        
+        .word-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 77, 122, 0.3);
+            border-color: #4A90E2;
+        }
+        
+        .word-item:active {
+            cursor: grabbing;
+        }
+        
+        /* Sorting boxes */
+        .sorting-boxes {
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .drop-box {
+            border: 3px dashed #7CB3E9;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-box.noun {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-color: #2196f3;
+        }
+        
+        .drop-box.adjective {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            border-color: #4caf50;
+        }
+        
+        .drop-box.verb {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border-color: #f44336;
+        }
+        
+        .drop-box h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #0D3B66;
+        }
+        
+        .drop-box .description {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+            color: #1A4D7A;
+        }
+        
+        .dropped-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            min-height: 40px;
+        }
+        
+        .dropped-word {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid transparent;
+            cursor: grab;
+            transition: all 0.3s ease;
+            color: #1A4D7A;
+        }
+        
+        .dropped-word:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dropped-word.correct {
+            border-color: #4caf50;
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .dropped-word.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+            color: #c62828;
+        }
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        /* Feedback */
+        .feedback {
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        /* Results */
+        .results {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            display: none;
+            border: 3px solid #4ECDC4;
+            margin-top: 20px;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results h2 {
+            color: #0D3B66;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        /* Shake animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: 1fr;
+            }
+            
+            #wordsContainer {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 16px;
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="task-wrapper">
+        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+        
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+        
+        <h1>🎯 Kalbos dalys: Rūšiavimas</h1>
+        <h2>Daiktavardis, Būdvardis, Veiksmažodis</h2>
+        
+        <div class="instruction">
+            Vilkite žodžius į tinkamas spalvotas dėžutes pagal kalbos dalį!
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="score">
+            <h3>📊 Jūsų rezultatas</h3>
+            <p>Teisingai surūšiuota: <span id="correctCount">0</span> / <span id="totalWords">15</span> | Tikslumas: <span id="accuracy">0%</span></p>
+        </div>
+        <div class="game-area">
+            <div class="words-pool">
+                <h3>📝 Žodžiai</h3>
+                <div id="wordsContainer"></div>
+            </div>
+            
+            <div class="sorting-boxes">
+                <div class="drop-box noun" data-type="daiktavardis">
+                    <h3>📦 Daiktavardis</h3>
+                    <div class="description">Kas?</div>
+                    <div class="dropped-words" id="nounBox"></div>
+                </div>
+                
+                <div class="drop-box adjective" data-type="budvardis">
+                    <h3>🎨 Būdvardis</h3>
+                    <div class="description">Koks? Kokia?</div>
+                    <div class="dropped-words" id="adjectiveBox"></div>
+                </div>
+                
+                <div class="drop-box verb" data-type="veiksmažodis">
+                    <h3>⚡ Veiksmažodis</h3>
+                    <div class="description">Ką veikia?</div>
+                    <div class="dropped-words" id="verbBox"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+        
+        <div class="controls">
+            <button class="btn" onclick="checkAnswers()" id="checkBtn">✅ Patikrinti atsakymus</button>
+            <button class="btn" onclick="resetGame()" id="resetBtn">🔄 Pradėti iš naujo</button>
+        </div>
+        
+        <div class="results" id="results">
+            <h2>🎉 Puiku! Užduotis baigta!</h2>
+            <div id="finalScore"></div>
+            <div id="encouragement"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+        // --- Žodžių sąrašas ---
+        const words = [
+            {word: 'NAMAS', type: 'daiktavardis'}, 
+            {word: 'GRAŽUS', type: 'budvardis'}, 
+            {word: 'BĖGA', type: 'veiksmažodis'},
+            {word: 'KNYGA', type: 'daiktavardis'}, 
+            {word: 'DIDELIS', type: 'budvardis'}, 
+            {word: 'SKAITO', type: 'veiksmažodis'},
+            {word: 'VAIKAS', type: 'daiktavardis'}, 
+            {word: 'MĖLYNAS', type: 'budvardis'}, 
+            {word: 'ŽAIDŽIA', type: 'veiksmažodis'},
+            {word: 'MAMA', type: 'daiktavardis'}, 
+            {word: 'ŠILTAS', type: 'budvardis'}, 
+            {word: 'EINA', type: 'veiksmažodis'},
+            {word: 'DRAUGAS', type: 'daiktavardis'}, 
+            {word: 'LINKSMAS', type: 'budvardis'}, 
+            {word: 'MOKO', type: 'veiksmažodis'}
+        ];
+
+        let draggedElement = null;
+        let correctAnswers = 0;
+        let checkedAnswers = false;
+        let touchElement = null;
+        let touchOffset = {x: 0, y: 0};
+        let isDragging = false;
+        let startPos = {x: 0, y: 0};
+
+        // --- Touch event handlers ---
+        function handleTouchStart(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            touchElement = e.target;
+            isDragging = false;
+            
+            const touch = e.touches[0];
+            const rect = touchElement.getBoundingClientRect();
+            touchOffset.x = touch.clientX - rect.left;
+            touchOffset.y = touch.clientY - rect.top;
+            startPos.x = touch.clientX;
+            startPos.y = touch.clientY;
+            
+            touchElement.style.transition = 'none';
+            touchElement.style.transform = 'scale(1.05)';
+            touchElement.style.boxShadow = '0 8px 25px rgba(0,0,0,0.3)';
+            
+            document.querySelectorAll('.drop-box').forEach(box => {
+                box.style.borderWidth = '4px';
+            });
+        }
+
+        function handleTouchMove(e) {
+            if (!touchElement) return;
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const touch = e.touches[0];
+            const moveX = Math.abs(touch.clientX - startPos.x);
+            const moveY = Math.abs(touch.clientY - startPos.y);
+            
+            if (!isDragging && (moveX > 10 || moveY > 10)) {
+                isDragging = true;
+                touchElement.style.position = 'fixed';
+                touchElement.style.zIndex = '1000';
+                touchElement.style.opacity = '0.9';
+                touchElement.style.pointerEvents = 'none';
+            }
+            
+            if (isDragging) {
+                touchElement.style.left = (touch.clientX - touchOffset.x) + 'px';
+                touchElement.style.top = (touch.clientY - touchOffset.y) + 'px';
+                
+                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                const dropBox = elementBelow?.closest('.drop-box');
+                
+                document.querySelectorAll('.drop-box').forEach(box => {
+                    if (box === dropBox) {
+                        box.style.transform = 'scale(1.05)';
+                        box.style.borderStyle = 'solid';
+                    } else {
+                        box.style.transform = 'scale(1)';
+                        box.style.borderStyle = 'dashed';
+                    }
+                });
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (!touchElement) return;
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const touch = e.changedTouches[0];
+            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            const dropBox = elementBelow?.closest('.drop-box');
+            
+            document.querySelectorAll('.drop-box').forEach(box => {
+                box.style.borderWidth = '3px';
+                box.style.borderStyle = 'dashed';
+                box.style.transform = 'scale(1)';
+            });
+            
+            if (isDragging && dropBox) {
+                const droppedWordsContainer = dropBox.querySelector('.dropped-words');
+                
+                if (touchElement.classList.contains('dropped-word')) {
+                    const newDroppedWord = document.createElement('div');
+                    newDroppedWord.className = 'dropped-word';
+                    newDroppedWord.textContent = touchElement.textContent;
+                    newDroppedWord.dataset.type = touchElement.dataset.type;
+                    newDroppedWord.dataset.expectedType = dropBox.dataset.type;
+                    droppedWordsContainer.appendChild(newDroppedWord);
+                    touchElement.remove();
+                    
+                    dropBox.style.backgroundColor = '#e8f5e8';
+                    setTimeout(() => {
+                        dropBox.style.backgroundColor = '';
+                    }, 500);
+                } else {
+                    const droppedWord = document.createElement('div');
+                    droppedWord.className = 'dropped-word';
+                    droppedWord.textContent = touchElement.textContent;
+                    droppedWord.dataset.type = touchElement.dataset.type;
+                    droppedWord.dataset.expectedType = dropBox.dataset.type;
+                    droppedWordsContainer.appendChild(droppedWord);
+                    touchElement.remove();
+                    
+                    dropBox.style.backgroundColor = '#e8f5e8';
+                    setTimeout(() => {
+                        dropBox.style.backgroundColor = '';
+                    }, 500);
+                }
+                
+                addDragToDroppedWords();
+                updateScore();
+                updateProgress();
+                
+                if (document.querySelectorAll('.word-item').length === 0) {
+                    showFeedback('Visi žodžiai surūšiuoti! Dabar patikrinkite atsakymus.', 'success');
+                }
+            } else {
+                touchElement.style.transition = 'all 0.3s ease';
+                touchElement.style.position = '';
+                touchElement.style.zIndex = '';
+                touchElement.style.opacity = '';
+                touchElement.style.transform = '';
+                touchElement.style.left = '';
+                touchElement.style.top = '';
+                touchElement.style.boxShadow = '';
+                touchElement.style.pointerEvents = '';
+                
+                if (isDragging) {
+                    touchElement.style.animation = 'shake 0.5s ease-in-out';
+                    setTimeout(() => {
+                        touchElement.style.animation = '';
+                    }, 500);
+                }
+            }
+            
+            touchElement = null;
+            isDragging = false;
+        }
+        function addDragToDroppedWords() {
+            document.querySelectorAll('.dropped-word').forEach(droppedWord => {
+                if (!droppedWord.dataset.dragEnabled) {
+                    droppedWord.dataset.dragEnabled = 'true';
+                    droppedWord.draggable = true;
+                    droppedWord.style.cursor = 'grab';
+                    
+                    droppedWord.addEventListener('dragstart', e => { 
+                        draggedElement = e.target; 
+                        e.target.style.opacity = '0.5';
+                    });
+                    droppedWord.addEventListener('dragend', e => { 
+                        draggedElement = null; 
+                        e.target.style.opacity = '1';
+                    });
+                    droppedWord.addEventListener('touchstart', handleTouchStart, {passive: false});
+                    droppedWord.addEventListener('touchmove', handleTouchMove, {passive: false});
+                    droppedWord.addEventListener('touchend', handleTouchEnd, {passive: false});
+                }
+            });
+        }
+
+        function initGame() {
+            const container = document.getElementById('wordsContainer');
+            container.innerHTML = '';
+            const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+            
+            shuffledWords.forEach(wordData => {
+                const wordElement = document.createElement('div');
+                wordElement.className = 'word-item';
+                wordElement.textContent = wordData.word;
+                wordElement.draggable = true;
+                wordElement.dataset.type = wordData.type;
+                
+                wordElement.addEventListener('dragstart', e => { 
+                    draggedElement = e.target; 
+                    e.target.style.opacity = '0.5';
+                });
+                wordElement.addEventListener('dragend', e => { 
+                    draggedElement = null; 
+                    e.target.style.opacity = '1';
+                });
+                
+                wordElement.addEventListener('touchstart', handleTouchStart, {passive: false});
+                wordElement.addEventListener('touchmove', handleTouchMove, {passive: false});
+                wordElement.addEventListener('touchend', handleTouchEnd, {passive: false});
+                
+                container.appendChild(wordElement);
+            });
+            
+            document.querySelectorAll('.drop-box').forEach(box => {
+                box.addEventListener('dragover', e => e.preventDefault());
+                box.addEventListener('drop', e => {
+                    e.preventDefault();
+                    if (draggedElement) {
+                        const dropBox = e.currentTarget.querySelector('.dropped-words');
+                        
+                        if (draggedElement.classList.contains('dropped-word')) {
+                            const newDroppedWord = document.createElement('div');
+                            newDroppedWord.className = 'dropped-word';
+                            newDroppedWord.textContent = draggedElement.textContent;
+                            newDroppedWord.dataset.type = draggedElement.dataset.type;
+                            newDroppedWord.dataset.expectedType = e.currentTarget.dataset.type;
+                            dropBox.appendChild(newDroppedWord);
+                            draggedElement.remove();
+                        } else {
+                            const droppedWord = document.createElement('div');
+                            droppedWord.className = 'dropped-word';
+                            droppedWord.textContent = draggedElement.textContent;
+                            droppedWord.dataset.type = draggedElement.dataset.type;
+                            droppedWord.dataset.expectedType = e.currentTarget.dataset.type;
+                            dropBox.appendChild(droppedWord);
+                            draggedElement.remove();
+                        }
+                        
+                        addDragToDroppedWords();
+                        updateScore();
+                        updateProgress();
+                        
+                        if (document.querySelectorAll('.word-item').length === 0) {
+                            showFeedback('Visi žodžiai surūšiuoti! Dabar patikrinkite atsakymus.', 'success');
+                        }
+                    }
+                });
+            });
+            
+            addDragToDroppedWords();
+            updateScore();
+            updateProgress();
+        }
+
+        function checkAnswers() {
+            if (checkedAnswers) return;
+            const droppedWords = document.querySelectorAll('.dropped-word');
+            correctAnswers = 0;
+            
+            droppedWords.forEach(word => {
+                if (word.dataset.type === word.dataset.expectedType) {
+                    word.classList.add('correct');
+                    correctAnswers++;
+                } else {
+                    word.classList.add('incorrect');
+                }
+            });
+            
+            checkedAnswers = true;
+            updateScore();
+            
+            const percentage = Math.round((correctAnswers / words.length) * 100);
+            const resultsDiv = document.getElementById('results');
+            const finalScore = document.getElementById('finalScore');
+            const encouragement = document.getElementById('encouragement');
+            
+            finalScore.innerHTML = `
+                <div style="font-size: 48px; margin-bottom: 15px;">🎯</div>
+                <div style="font-size: 24px; color: #4A90E2; font-weight: bold;">
+                    Tavo rezultatas: ${correctAnswers}/${words.length} (${percentage}%)
+                </div>
+            `;
+            
+            let encouragementText = '';
+            let encouragementColor = '';
+            
+            if (percentage >= 90) {
+                encouragementText = '🌟 Puiku! Tu puikiai moki rūšiuoti kalbos dalis!';
+                encouragementColor = '#27ae60';
+            } else if (percentage >= 70) {
+                encouragementText = '👍 Gerai! Dar truputį patreniruok!';
+                encouragementColor = '#f39c12';
+            } else {
+                encouragementText = '💪 Neblogai! Pabandyk dar kartą!';
+                encouragementColor = '#e74c3c';
+            }
+            
+            encouragement.innerHTML = `
+                <div style="color: ${encouragementColor}; font-size: 20px; margin-top: 20px;">
+                    ${encouragementText}
+                </div>
+            `;
+            
+            resultsDiv.classList.add('show');
+            document.getElementById('checkBtn').disabled = true;
+            
+            sendResultToSheet('Kalbos dalys: Rūšiavimas (D, B, V)', percentage);
+        }
+
+        function updateScore() {
+            const placedWords = document.querySelectorAll('.dropped-word').length;
+            const accuracy = placedWords > 0 ? Math.round((correctAnswers / placedWords) * 100) : 0;
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('totalWords').textContent = words.length;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+        }
+
+        function updateProgress() {
+            const placedWords = document.querySelectorAll('.dropped-word').length;
+            const progress = (placedWords / words.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = message;
+            feedback.className = `feedback show ${type}`;
+            setTimeout(() => feedback.classList.remove('show'), 3000);
+        }
+
+        function resetGame() {
+            document.querySelectorAll('.dropped-words').forEach(box => box.innerHTML = '');
+            correctAnswers = 0;
+            checkedAnswers = false;
+            document.getElementById('checkBtn').disabled = false;
+            document.getElementById('results').classList.remove('show');
+            initGame();
+        }
+
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
