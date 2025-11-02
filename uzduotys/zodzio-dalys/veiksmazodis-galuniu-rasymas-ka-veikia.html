@@ -491,13 +491,13 @@
             { stem: "šluoj", correct: "-a", full: "šluoja" },
             { stem: "pjaun", correct: "-a", full: "pjauna" },
             // 3 žodžiai su -i
-            { stem: "tup", correct: "-a", full: "tupi" },
-            { stem: "tur", correct: "-a", full: "turi" },
-            { stem: "nor", correct: "-a", full: "nori" },
+            { stem: "tup", correct: "-i", full: "tupi" },
+            { stem: "tur", correct: "-i", full: "turi" },
+            { stem: "nor", correct: "-i", full: "nori" },
             // 3 žodžiai su -o
-            { stem: "stat", correct: "-a", full: "stato" },
-            { stem: "mėt", correct: "-a", full: "mėto" },
-            { stem: "raš", correct: "-a", full: "rašo" }
+            { stem: "stat", correct: "-o", full: "stato" },
+            { stem: "mėt", correct: "-o", full: "mėto" },
+            { stem: "raš", correct: "-o", full: "rašo" }
         ];
 
         // Sumaišyti žodžius
@@ -524,7 +524,7 @@
                 card.className = 'card quiz-card';
                 
                 // Galūnių variantai
-                const options = ["-ia", "-a", "-e", "-ie"];
+                const options = ["-ia", "-a", "-e", "-i", "-o"];
                 const shuffledOptions = shuffleArray(options);
                 
                 card.innerHTML = `
