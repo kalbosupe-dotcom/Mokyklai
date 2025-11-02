@@ -386,10 +386,10 @@
             <div class="examples-box">
                 <h3>📝 Pavyzdžiai:</h3>
                 <ul>
-                    <li><span class="example-word">žaidžia</li>
-                    <li><span class="example-word">šoka</li>
-                    <li><span class="example-word">žiūri</li>
-                    <li><span class="example-word">skaito</li>
+                    <li><span class="example-word">žaidžia</span></li>
+                    <li><span class="example-word">šoka</span></li>
+                    <li><span class="example-word">žiūri</span></li>
+                    <li><span class="example-word">skaito</span></li>
                 </ul>
             </div>
 
@@ -435,7 +435,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: ${newName}`);
+            alert(`Vardas pakeistas į: \${newName}`);
             location.reload();
         }
 
@@ -456,6 +456,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
+                    
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
@@ -480,24 +481,20 @@
             { stem: "puč", correct: "-ia", full: "pučia" },
             { stem: "šnypšč", correct: "-ia", full: "šnypščia" },
             { stem: "pliaup", correct: "-ia", full: "pliaupia" },
-            { stem: "snaudž", correct: "-ia", full: "snaudžia" },
             { stem: "klaus", correct: "-ia", full: "klausia" },
             { stem: "švilp", correct: "-ia", full: "švilpia" },
             { stem: "krykšč", correct: "-ia", full: "krykščia" },
             { stem: "šauk", correct: "-ia", full: "šaukia" },
             { stem: "verk", correct: "-ia", full: "verkia" },
-            // 3 žodžiai su -a
+            { stem: "gird", correct: "-i", full: "girdi" },
+            { stem: "mat", correct: "-o", full: "mato" },
+            { stem: "dirb", correct: "-a", full: "dirba" },
+            { stem: "mieg", correct: "-a", full: "miega" },
             { stem: "krent", correct: "-a", full: "krenta" },
             { stem: "šluoj", correct: "-a", full: "šluoja" },
             { stem: "pjaun", correct: "-a", full: "pjauna" },
-            // 3 žodžiai su -i
             { stem: "tup", correct: "-i", full: "tupi" },
-            { stem: "tur", correct: "-i", full: "turi" },
-            { stem: "nor", correct: "-i", full: "nori" },
-            // 3 žodžiai su -o
-            { stem: "stat", correct: "-o", full: "stato" },
-            { stem: "mėt", correct: "-o", full: "mėto" },
-            { stem: "raš", correct: "-o", full: "rašo" }
+            { stem: "tur", correct: "-i", full: "turi" }
         ];
 
         // Sumaišyti žodžius
@@ -514,6 +511,25 @@
         let currentWordIndex = 0;
         let userAnswers = [];
 
+        // Funkcija, kuri parenka 4 galūnes (būtinai su teisingu atsakymu)
+        function getRandomOptions(correctAnswer) {
+            const allOptions = ["-ia", "-a", "-e", "-i", "-o"];
+            
+            // Pašaliname teisingą atsakymą iš sąrašo
+            const otherOptions = allOptions.filter(opt => opt !== correctAnswer);
+            
+            // Sumaišome likusias galūnes
+            const shuffledOthers = shuffleArray(otherOptions);
+            
+            // Paimame 3 atsitiktines galūnes
+            const selectedOthers = shuffledOthers.slice(0, 3);
+            
+            // Pridedame teisingą atsakymą ir sumaišome visus 4
+            const finalOptions = shuffleArray([correctAnswer, ...selectedOthers]);
+            
+            return finalOptions;
+        }
+
         // Sukurti užduočių korteles
         function createQuizCards() {
             const container = document.getElementById('quiz-cards-container');
@@ -523,16 +539,15 @@
                 card.id = `card-quiz-${index}`;
                 card.className = 'card quiz-card';
                 
-                // Galūnių variantai
-                const options = ["-ia", "-a", "-e", "-i", "-o"];
-                const shuffledOptions = shuffleArray(options);
+                // Gauname 4 galūnių variantus (su teisingu atsakymu)
+                const options = getRandomOptions(word.correct);
                 
                 card.innerHTML = `
                     <h2>Užduotis ${index + 1} / 20</h2>
                     <div class="word-display">${word.stem}_</div>
                     <div class="question-text">Ką veikia? Parink teisingą galūnę:</div>
                     <div class="options-grid">
-                        ${shuffledOptions.map(opt => `
+                        ${options.map(opt => `
                             <button class="option-btn" data-option="${opt}" onclick="selectOption(${index}, '${opt}')">${opt}</button>
                         `).join('')}
                     </div>
@@ -606,6 +621,7 @@
 
             selectedOption = null;
         }
+        
         function nextWord(index) {
             document.getElementById(`card-quiz-${index}`).classList.remove('active');
             
