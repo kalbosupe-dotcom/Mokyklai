@@ -1,0 +1,167 @@
+<style>
+  /* CSS stiliai */
+  .container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  h2 {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  .formula {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  label, button, input {
+    display: block;
+    margin-top: 10px;
+  }
+  input[type="number"] {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+  button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1em;
+  }
+  button:hover {
+    background-color: #218838;
+  }
+  #atsakymo_zona {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  .teisingas {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  .neteisingas {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+</style>
+
+<div class="container">
+  <h2>🔬 Garso Bangos Ilgio Uždavinys</h2>
+
+  <div class="formula">
+    $\lambda = v / f$ (Bangos ilgis = Greitis / Dažnis)
+  </div>
+
+  <div id="uzdavinio_tekstas">
+    </div>
+
+  <label for="atsakymas">Jūsų atsakymas (apvalintas iki 2 skaičių po kablelio):</label>
+  <input type="number" id="atsakymas" step="0.01" placeholder="Įveskite skaičių">
+
+  <button onclick="patikrintiAtsakyma()">Tikrinti</button>
+
+  <div id="atsakymo_zona">
+    Įveskite atsakymą ir spauskite Tikrinti.
+  </div>
+</div>
+
+<script>
+  // JavaScript kodas
+  let v_greitis, f_daznis, lambda_ilgis, teisingas_atsakymas, sprendziamas_parametras;
+
+  /**
+   * Generuoja naują atsitiktinį uždavinį
+   */
+  function generuotiUzdavini() {
+    // Atsitiktinai parenkama, ką reikės rasti (1=lambda, 2=v, 3=f)
+    sprendziamas_parametras = Math.floor(Math.random() * 3) + 1;
+
+    // Generuojami du atsitiktiniai skaičiai (greitis ir dažnis)
+    v_greitis = Math.floor(Math.random() * 200) + 300; // Greitis 300-500 m/s
+    f_daznis = Math.floor(Math.random() * 500) + 100; // Dažnis 100-600 Hz
+
+    // Apskaičiuojamas trečias parametras
+    lambda_ilgis = v_greitis / f_daznis;
+
+    let uzdavinio_tekstas = document.getElementById('uzdavinio_tekstas');
+    
+    // Uždavinio generavimas
+    if (sprendziamas_parametras === 1) {
+      // Rasti lambda
+      uzdavinio_tekstas.innerHTML = `Garso greitis ($v$) yra **${v_greitis} m/s**, o jo dažnis ($f$) yra **${f_daznis} Hz**. Koks yra bangos ilgis ($\lambda$)?`;
+      teisingas_atsakymas = lambda_ilgis;
+    } else if (sprendziamas_parametras === 2) {
+      // Rasti v
+      teisingas_atsakymas = v_greitis;
+      v_greitis = null; // Pažymime, kad reikia rasti
+      uzdavinio_tekstas.innerHTML = `Garso banga turi bangos ilgį ($\lambda$) **${lambda_ilgis.toFixed(2)} m** ir dažnį ($f$) **${f_daznis} Hz**. Koks yra garso greitis ($v$)?`;
+    } else {
+      // Rasti f
+      teisingas_atsakymas = f_daznis;
+      f_daznis = null; // Pažymime, kad reikia rasti
+      uzdavinio_tekstas.innerHTML = `Garso banga sklinda **${v_greitis} m/s** greičiu, o jos bangos ilgis ($\lambda$) yra **${lambda_ilgis.toFixed(2)} m**. Koks yra bangos dažnis ($f$)?`;
+    }
+    
+    // Atstatome atsakymų laukus
+    document.getElementById('atsakymas').value = '';
+    document.getElementById('atsakymo_zona').textContent = 'Įveskite atsakymą ir spauskite Tikrinti.';
+    document.getElementById('atsakymo_zona').className = '';
+  }
+
+  /**
+   * Tikrina vartotojo įvestą atsakymą
+   */
+  function patikrintiAtsakyma() {
+    const vartotojoAtsakymas = parseFloat(document.getElementById('atsakymas').value);
+    const atsakymoZona = document.getElementById('atsakymo_zona');
+    
+    // Apvaliname atsakymus iki 2 skaičių po kablelio tikrinimui
+    const apvalintasTeisingas = parseFloat(teisingas_atsakymas.toFixed(2));
+    const apvalintasVartotojo = parseFloat(vartotojoAtsakymas.toFixed(2));
+
+    if (isNaN(vartotojoAtsakymas)) {
+      atsakymoZona.textContent = 'Prašome įvesti skaičių.';
+      atsakymoZona.className = 'neteisingas';
+      return;
+    }
+
+    if (apvalintasVartotojo === apvalintasTeisingas) {
+      atsakymoZona.textContent = `✅ Teisingai! Teisingas atsakymas yra ${apvalintasTeisingas}.`;
+      atsakymoZona.className = 'teisingas';
+      
+      // Sukuriame mygtuką naujai užduočiai
+      const naujasUzdavinysBtn = document.createElement('button');
+      naujasUzdavinysBtn.textContent = 'Generuoti naują uždavinį';
+      naujasUzdavinysBtn.onclick = generuotiUzdavini;
+      atsakymoZona.appendChild(naujasUzdavinysBtn);
+      
+    } else {
+      atsakymoZona.textContent = `❌ Neteisingai. Bandykite dar kartą! (Teisingas atsakymas: ${apvalintasTeisingas})`;
+      atsakymoZona.className = 'neteisingas';
+    }
+  }
+
+  // Paleisti pirmo uždavinio generavimą puslapio įkėlimo metu
+  generuotiUzdavini();
+</script>
