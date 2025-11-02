@@ -1,167 +1,1169 @@
-<style>
-  /* CSS stiliai */
-  .container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-  }
-  h2 {
-    color: #007bff;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-  }
-  .formula {
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  label, button, input {
-    display: block;
-    margin-top: 10px;
-  }
-  input[type="number"] {
-    padding: 8px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-  }
-  button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-size: 1em;
-  }
-  button:hover {
-    background-color: #218838;
-  }
-  #atsakymo_zona {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: bold;
-  }
-  .teisingas {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-  }
-  .neteisingas {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎧 Garso Bangos - Fizikos Užduotis</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/opendyslexic');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            display: none;
+        }
+        
+        .card.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .theory-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .theory-section h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .formula-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #667eea;
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+        }
+        
+        .variable-list {
+            list-style: none;
+            padding: 15px;
+        }
+        
+        .variable-list li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .variable-list strong {
+            color: #667eea;
+            font-size: 1.2em;
+        }
+        
+        .question-box {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #764ba2;
+            font-size: 1.2em;
+            line-height: 2;
+        }
+        
+        .input-group {
+            margin: 25px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            font-size: 1.1em;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 3px solid #28a745;
+            color: #155724;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 3px solid #dc3545;
+            color: #721c24;
+            display: block;
+        }
+        
+        .feedback-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .hint-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .hint-box.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .hint-box strong {
+            color: #856404;
+        }
+        
+        .results-summary {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .score-circle .score {
+            font-size: 3em;
+            font-weight: bold;
+        }
+        
+        .score-circle .label {
+            font-size: 1.2em;
+        }
+        
+        .results-details {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .result-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-item.correct {
+            border-left-color: #28a745;
+        }
+        
+        .result-item.incorrect {
+            border-left-color: #dc3545;
+        }
+        
+        .emoji-large {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .score-circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .score-circle .score {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎧 Garso Bangos - Fizikos Užduotis</h1>
+            <p class="subtitle">7 klasė | Interaktyvios užduotys su formulėmis</p>
+        </div>
 
-<div class="container">
-  <h2>🔬 Garso Bangos Ilgio Uždavinys</h2>
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0%</div>
+            </div>
+            <p style="text-align: center; margin-top: 10px; color: #666;">
+                <strong>Užduotis: <span id="currentTask">0</span> / 11</strong>
+            </p>
+        </div>
 
-  <div class="formula">
-    $\lambda = v / f$ (Bangos ilgis = Greitis / Dažnis)
-  </div>
+        <!-- Teorijos Kortelė -->
+        <div class="card active" id="card0">
+            <div class="card-header">
+                <h2>📚 Teorija: Garso Bangų Formulės</h2>
+            </div>
 
-  <div id="uzdavinio_tekstas">
+            <div class="theory-section">
+                <h3>🎵 Pagrindinė Formulė</h3>
+                <div class="formula-box">
+                    λ = v · T = v / f
+                </div>
+                <p style="text-align: center; color: #666; margin-top: 10px;">
+                    Garso bangos ilgis priklauso nuo garso greičio ir periodo (arba dažnio)
+                </p>
+            </div>
+
+            <div class="theory-section">
+                <h3>📖 Kintamieji ir Vienetai</h3>
+                <ul class="variable-list">
+                    <li>
+                        <strong>λ</strong> - <strong>bangos ilgis</strong> (metrais, m)
+                    </li>
+                    <li>
+                        <strong>v</strong> - <strong>garso greitis</strong> (metrais per sekundę, m/s)
+                    </li>
+                    <li>
+                        <strong>T</strong> - <strong>periodas</strong> (sekundėmis, s)
+                    </li>
+                    <li>
+                        <strong>f</strong> - <strong>dažnis</strong> (hercais, Hz)
+                    </li>
+                </ul>
+            </div>
+
+            <div class="theory-section">
+                <h3>🔄 Papildomos Formulės</h3>
+                
+                <div style="margin: 20px 0;">
+                    <p style="font-weight: bold; color: #764ba2; margin-bottom: 10px;">
+                        Kai žinome bangos ilgį ir dažnį:
+                    </p>
+                    <div class="formula-box">
+                        λ = v / f  arba  v = λ · f
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <p style="font-weight: bold; color: #764ba2; margin-bottom: 10px;">
+                        Kai žinome bangos ilgį ir periodą:
+                    </p>
+                    <div class="formula-box">
+                        λ = v · T  arba  v = λ / T
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <p style="font-weight: bold; color: #764ba2; margin-bottom: 10px;">
+                        Kai žinome garso greitį ir bangos ilgį:
+                    </p>
+                    <div class="formula-box">
+                        f = v / λ
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <p style="font-weight: bold; color: #764ba2; margin-bottom: 10px;">
+                        Kai žinome bangos ilgį ir garso greitį:
+                    </p>
+                    <div class="formula-box">
+                        T = λ / v
+                    </div>
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <p style="font-weight: bold; color: #764ba2; margin-bottom: 10px;">
+                        Ryšys tarp periodo ir dažnio:
+                    </p>
+                    <div class="formula-box">
+                        T = 1 / f
+                    </div>
+                </div>
+            </div>
+
+            <div class="theory-section" style="background: #e8f5e9; border-left-color: #28a745;">
+                <h3>💡 Svarbu Žinoti!</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 10px 0;">✅ Garso greitis ore ~ 340 m/s</li>
+                    <li style="padding: 10px 0;">✅ Garso greitis vandenyje ~ 1500 m/s</li>
+                    <li style="padding: 10px 0;">✅ Ultragarso banga ~ 1540 m/s (audiniuose)</li>
+                    <li style="padding: 10px 0;">✅ Didesnis dažnis = trumpesnė banga</li>
+                    <li style="padding: 10px 0;">✅ Didesnis periodas = ilgesnė banga</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-next" onclick="nextCard()">Pradėti Užduotis ➜</button>
+            </div>
+        </div>
+        <!-- Užduotis 1 -->
+        <div class="card" id="card1">
+            <div class="card-header">
+                <h2>📝 Užduotis 1</h2>
+            </div>
+
+            <div class="question-box">
+                Garso greitis ore yra <strong>340 m/s</strong>, o bangos periodas <strong>T = 0,005 s</strong>. 
+                <br><br>
+                Koks yra bangos ilgis <strong>(λ)</strong>?
+            </div>
+
+            <div class="input-group">
+                <label for="answer1">Jūsų atsakymas (m):</label>
+                <input type="number" id="answer1" step="0.01" placeholder="Įveskite atsakymą metrais">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(1)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(1)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint1">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>λ = v · T</strong>. 
+                Padauginkite garso greitį iš periodo.
+            </div>
+
+            <div class="feedback" id="feedback1"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next1" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+
+        <!-- Užduotis 2 -->
+        <div class="card" id="card2">
+            <div class="card-header">
+                <h2>📝 Užduotis 2</h2>
+            </div>
+
+            <div class="question-box">
+                Garso greitis vandenyje yra <strong>1500 m/s</strong>. Dažnis yra <strong>f = 500 Hz</strong>. 
+                <br><br>
+                Koks yra bangos ilgis <strong>(λ)</strong>?
+            </div>
+
+            <div class="input-group">
+                <label for="answer2">Jūsų atsakymas (m):</label>
+                <input type="number" id="answer2" step="0.01" placeholder="Įveskite atsakymą metrais">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(2)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(2)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint2">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>λ = v / f</strong>. 
+                Padalinkite garso greitį iš dažnio.
+            </div>
+
+            <div class="feedback" id="feedback2"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next2" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+
+        <!-- Užduotis 3 -->
+        <div class="card" id="card3">
+            <div class="card-header">
+                <h2>📝 Užduotis 3</h2>
+            </div>
+
+            <div class="question-box">
+                Konkrečius tonas sklinda <strong>330 m/s</strong> greičiu. Jo dažnis <strong>f = 165 Hz</strong>. 
+                <br><br>
+                Apskaičiuokite bangos ilgį <strong>(λ)</strong>.
+            </div>
+
+            <div class="input-group">
+                <label for="answer3">Jūsų atsakymas (m):</label>
+                <input type="number" id="answer3" step="0.01" placeholder="Įveskite atsakymą metrais">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(3)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(3)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint3">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>λ = v / f</strong>. 
+                Padalinkite 330 iš 165.
+            </div>
+
+            <div class="feedback" id="feedback3"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next3" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+        <!-- Užduotis 4 -->
+        <div class="card" id="card4">
+            <div class="card-header">
+                <h2>📝 Užduotis 4</h2>
+            </div>
+
+            <div class="question-box">
+                Ultragarso banga audiniuose sklinda <strong>1540 m/s</strong> greičiu. Periodas <strong>T = 0,0001 s</strong>. 
+                <br><br>
+                Koks bangos ilgis <strong>(λ)</strong>?
+            </div>
+
+            <div class="input-group">
+                <label for="answer4">Jūsų atsakymas (m):</label>
+                <input type="number" id="answer4" step="0.001" placeholder="Įveskite atsakymą metrais">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(4)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(4)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint4">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>λ = v · T</strong>. 
+                Padauginkite 1540 iš 0,0001.
+            </div>
+
+            <div class="feedback" id="feedback4"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next4" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+
+        <!-- Užduotis 5 -->
+        <div class="card" id="card5">
+            <div class="card-header">
+                <h2>📝 Užduotis 5</h2>
+            </div>
+
+            <div class="question-box">
+                Bangos ilgis yra <strong>λ = 2 m</strong>, o jos dažnis <strong>f = 170 Hz</strong>. 
+                <br><br>
+                Koks yra garso greitis <strong>(v)</strong>?
+            </div>
+
+            <div class="input-group">
+                <label for="answer5">Jūsų atsakymas (m/s):</label>
+                <input type="number" id="answer5" step="1" placeholder="Įveskite atsakymą m/s">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(5)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(5)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint5">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>v = λ · f</strong>. 
+                Padauginkite bangos ilgį iš dažnio.
+            </div>
+
+            <div class="feedback" id="feedback5"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next5" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+
+        <!-- Užduotis 6 -->
+        <div class="card" id="card6">
+            <div class="card-header">
+                <h2>📝 Užduotis 6</h2>
+            </div>
+
+            <div class="question-box">
+                Garso banga turi bangos ilgį <strong>λ = 0,5 m</strong> ir periodą <strong>T = 0,0015 s</strong>. 
+                <br><br>
+                Apskaičiuokite garso greitį <strong>(v)</strong>.
+            </div>
+
+            <div class="input-group">
+                <label for="answer6">Jūsų atsakymas (m/s):</label>
+                <input type="number" id="answer6" step="0.1" placeholder="Įveskite atsakymą m/s">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(6)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(6)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint6">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>v = λ / T</strong>. 
+                Padalinkite bangos ilgį iš periodo.
+            </div>
+
+            <div class="feedback" id="feedback6"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next6" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+        <!-- Užduotis 7 -->
+        <div class="card" id="card7">
+            <div class="card-header">
+                <h2>📝 Užduotis 7</h2>
+            </div>
+
+            <div class="question-box">
+                Bangos ilgis yra <strong>λ = 0,85 m</strong>, o garso greitis <strong>v = 340 m/s</strong>. 
+                <br><br>
+                Koks yra bangos dažnis <strong>(f)</strong>?
+            </div>
+
+            <div class="input-group">
+                <label for="answer7">Jūsų atsakymas (Hz):</label>
+                <input type="number" id="answer7" step="1" placeholder="Įveskite atsakymą Hz">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(7)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(7)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint7">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>f = v / λ</strong>. 
+                Padalinkite garso greitį iš bangos ilgio.
+            </div>
+
+            <div class="feedback" id="feedback7"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next7" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+
+        <!-- Užduotis 8 -->
+        <div class="card" id="card8">
+            <div class="card-header">
+                <h2>📝 Užduotis 8</h2>
+            </div>
+
+            <div class="question-box">
+                Garso banga sklinda <strong>1000 m/s</strong> greičiu ir jos bangos ilgis <strong>λ = 10 m</strong>. 
+                <br><br>
+                Koks yra dažnis <strong>(f)</strong>?
+            </div>
+
+            <div class="input-group">
+                <label for="answer8">Jūsų atsakymas (Hz):</label>
+                <input type="number" id="answer8" step="1" placeholder="Įveskite atsakymą Hz">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(8)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(8)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint8">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>f = v / λ</strong>. 
+                Padalinkite 1000 iš 10.
+            </div>
+
+            <div class="feedback" id="feedback8"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next8" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+
+        <!-- Užduotis 9 -->
+        <div class="card" id="card9">
+            <div class="card-header">
+                <h2>📝 Užduotis 9</h2>
+            </div>
+
+            <div class="question-box">
+                Bangos ilgis yra <strong>λ = 3 m</strong>, o garso greitis <strong>v = 600 m/s</strong>. 
+                <br><br>
+                Koks yra bangos periodas <strong>(T)</strong>?
+            </div>
+
+            <div class="input-group">
+                <label for="answer9">Jūsų atsakymas (s):</label>
+                <input type="number" id="answer9" step="0.001" placeholder="Įveskite atsakymą sekundėmis">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(9)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(9)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint9">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>T = λ / v</strong>. 
+                Padalinkite bangos ilgį iš garso greičio.
+            </div>
+
+            <div class="feedback" id="feedback9"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next9" style="display: none;">Kita Užduotis ➜</button>
+            </div>
+        </div>
+        <!-- Užduotis 10 -->
+        <div class="card" id="card10">
+            <div class="card-header">
+                <h2>📝 Užduotis 10</h2>
+            </div>
+
+            <div class="question-box">
+                Dažnis yra <strong>f = 250 Hz</strong>, o garso greitis <strong>v = 350 m/s</strong>. 
+                <br><br>
+                Pirmiausia raskite bangos ilgį <strong>(λ)</strong>, o tada apskaičiuokite periodą <strong>(T)</strong>, 
+                žinodami, kad <strong>T = 1 / f</strong>. (Tai kombinuotas uždavinys)
+                <br><br>
+                <strong>Įveskite periodo reikšmę (T):</strong>
+            </div>
+
+            <div class="input-group">
+                <label for="answer10">Jūsų atsakymas (s):</label>
+                <input type="number" id="answer10" step="0.0001" placeholder="Įveskite periodo reikšmę sekundėmis">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="showHint(10)">💡 Patarimas</button>
+                <button class="btn-primary" onclick="checkAnswer(10)">Tikrinti</button>
+            </div>
+
+            <div class="hint-box" id="hint10">
+                <strong>💡 Patarimas:</strong> Naudokite formulę <strong>T = 1 / f</strong>. 
+                Padalinkite 1 iš dažnio (250 Hz). Atsakymas turėtų būti 0,004 s.
+            </div>
+
+            <div class="feedback" id="feedback10"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next10" style="display: none;">Peržiūrėti Rezultatus ➜</button>
+            </div>
+        </div>
+
+        <!-- Rezultatų Kortelė -->
+        <div class="card" id="card11">
+            <div class="card-header">
+                <h2>🎉 Rezultatai</h2>
+            </div>
+
+            <div class="results-summary">
+                <div class="emoji-large" id="resultEmoji">🎯</div>
+                
+                <div class="score-circle">
+                    <div class="score" id="finalScore">0</div>
+                    <div class="label">iš 10</div>
+                </div>
+
+                <h3 id="resultMessage" style="color: #667eea; margin: 20px 0;">Puiku!</h3>
+                <p id="resultDescription" style="font-size: 1.1em; color: #666;">
+                    Jūs atlikote visas užduotis!
+                </p>
+            </div>
+
+            <div class="results-details">
+                <h3 style="color: #667eea; margin-bottom: 20px;">📊 Detalūs Rezultatai:</h3>
+                <div id="detailedResults"></div>
+            </div>
+
+            <div class="theory-section" style="background: #fff3cd; border-left-color: #ffc107;">
+                <h3>💡 Ką Išmokote?</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0;">✅ Kaip skaičiuoti bangos ilgį pagal greitį ir periodą</li>
+                    <li style="padding: 8px 0;">✅ Kaip naudoti formulę λ = v / f</li>
+                    <li style="padding: 8px 0;">✅ Kaip rasti garso greitį iš bangos ilgio ir dažnio</li>
+                    <li style="padding: 8px 0;">✅ Kaip apskaičiuoti dažnį ir periodą</li>
+                    <li style="padding: 8px 0;">✅ Ryšį tarp periodo ir dažnio (T = 1 / f)</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-primary" onclick="restartQuiz()">🔄 Pradėti iš Naujo</button>
+            </div>
+        </div>
+
     </div>
+    <script>
+        // Globalūs kintamieji
+        let currentCard = 0;
+        const totalCards = 11; // 0 = teorija, 1-10 = užduotys, 11 = rezultatai
+        let userAnswers = [];
+        let correctAnswers = 0;
 
-  <label for="atsakymas">Jūsų atsakymas (apvalintas iki 2 skaičių po kablelio):</label>
-  <input type="number" id="atsakymas" step="0.01" placeholder="Įveskite skaičių">
+        // Teisingi atsakymai kiekvienai užduočiai
+        const answers = {
+            1: 1.7,      // 340 * 0.005 = 1.7 m
+            2: 3,        // 1500 / 500 = 3 m
+            3: 2,        // 330 / 165 = 2 m
+            4: 0.154,    // 1540 * 0.0001 = 0.154 m
+            5: 340,      // 2 * 170 = 340 m/s
+            6: 333.33,   // 0.5 / 0.0015 = 333.33 m/s
+            7: 400,      // 340 / 0.85 = 400 Hz
+            8: 100,      // 1000 / 10 = 100 Hz
+            9: 0.005,    // 3 / 600 = 0.005 s
+            10: 0.004    // 1 / 250 = 0.004 s
+        };
 
-  <button onclick="patikrintiAtsakyma()">Tikrinti</button>
+        // Tolerancija klaidoms (procentais)
+        const tolerance = 0.02; // 2% tolerancija
 
-  <div id="atsakymo_zona">
-    Įveskite atsakymą ir spauskite Tikrinti.
-  </div>
-</div>
+        // Užduočių pavadinimai rezultatams
+        const taskNames = {
+            1: "Bangos ilgis (v ir T)",
+            2: "Bangos ilgis (v ir f)",
+            3: "Bangos ilgis (tonas)",
+            4: "Ultragarso banga",
+            5: "Garso greitis (λ ir f)",
+            6: "Garso greitis (λ ir T)",
+            7: "Dažnis (λ ir v)",
+            8: "Dažnis (greita banga)",
+            9: "Periodas (λ ir v)",
+            10: "Kombinuotas uždavinys"
+        };
 
-<script>
-  // JavaScript kodas
-  let v_greitis, f_daznis, lambda_ilgis, teisingas_atsakymas, sprendziamas_parametras;
+        // Inicializacija
+        window.onload = function() {
+            updateProgress();
+            // Inicializuoti atsakymų masyvą
+            for (let i = 1; i <= 10; i++) {
+                userAnswers[i] = { answered: false, correct: false, userValue: null };
+            }
+        };
 
-  /**
-   * Generuoja naują atsitiktinį uždavinį
-   */
-  function generuotiUzdavini() {
-    // Atsitiktinai parenkama, ką reikės rasti (1=lambda, 2=v, 3=f)
-    sprendziamas_parametras = Math.floor(Math.random() * 3) + 1;
+        // Atnaujinti pažangos juostą
+        function updateProgress() {
+            const progress = (currentCard / totalCards) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressBar').textContent = Math.round(progress) + '%';
+            document.getElementById('currentTask').textContent = currentCard;
+        }
 
-    // Generuojami du atsitiktiniai skaičiai (greitis ir dažnis)
-    v_greitis = Math.floor(Math.random() * 200) + 300; // Greitis 300-500 m/s
-    f_daznis = Math.floor(Math.random() * 500) + 100; // Dažnis 100-600 Hz
+        // Pereiti į kitą kortelę
+        function nextCard() {
+            if (currentCard < totalCards) {
+                document.getElementById('card' + currentCard).classList.remove('active');
+                currentCard++;
+                
+                // Jei pasiekėme rezultatų kortelę, generuojame rezultatus
+                if (currentCard === 11) {
+                    generateResults();
+                }
+                
+                document.getElementById('card' + currentCard).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
 
-    // Apskaičiuojamas trečias parametras
-    lambda_ilgis = v_greitis / f_daznis;
+        // Grįžti į ankstesnę kortelę
+        function prevCard() {
+            if (currentCard > 0) {
+                document.getElementById('card' + currentCard).classList.remove('active');
+                currentCard--;
+                document.getElementById('card' + currentCard).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
 
-    let uzdavinio_tekstas = document.getElementById('uzdavinio_tekstas');
-    
-    // Uždavinio generavimas
-    if (sprendziamas_parametras === 1) {
-      // Rasti lambda
-      uzdavinio_tekstas.innerHTML = `Garso greitis ($v$) yra **${v_greitis} m/s**, o jo dažnis ($f$) yra **${f_daznis} Hz**. Koks yra bangos ilgis ($\lambda$)?`;
-      teisingas_atsakymas = lambda_ilgis;
-    } else if (sprendziamas_parametras === 2) {
-      // Rasti v
-      teisingas_atsakymas = v_greitis;
-      v_greitis = null; // Pažymime, kad reikia rasti
-      uzdavinio_tekstas.innerHTML = `Garso banga turi bangos ilgį ($\lambda$) **${lambda_ilgis.toFixed(2)} m** ir dažnį ($f$) **${f_daznis} Hz**. Koks yra garso greitis ($v$)?`;
-    } else {
-      // Rasti f
-      teisingas_atsakymas = f_daznis;
-      f_daznis = null; // Pažymime, kad reikia rasti
-      uzdavinio_tekstas.innerHTML = `Garso banga sklinda **${v_greitis} m/s** greičiu, o jos bangos ilgis ($\lambda$) yra **${lambda_ilgis.toFixed(2)} m**. Koks yra bangos dažnis ($f$)?`;
-    }
-    
-    // Atstatome atsakymų laukus
-    document.getElementById('atsakymas').value = '';
-    document.getElementById('atsakymo_zona').textContent = 'Įveskite atsakymą ir spauskite Tikrinti.';
-    document.getElementById('atsakymo_zona').className = '';
-  }
+        // Rodyti patarimą
+        function showHint(taskNum) {
+            const hint = document.getElementById('hint' + taskNum);
+            hint.classList.add('show');
+        }
 
-  /**
-   * Tikrina vartotojo įvestą atsakymą
-   */
-  function patikrintiAtsakyma() {
-    const vartotojoAtsakymas = parseFloat(document.getElementById('atsakymas').value);
-    const atsakymoZona = document.getElementById('atsakymo_zona');
-    
-    // Apvaliname atsakymus iki 2 skaičių po kablelio tikrinimui
-    const apvalintasTeisingas = parseFloat(teisingas_atsakymas.toFixed(2));
-    const apvalintasVartotojo = parseFloat(vartotojoAtsakymas.toFixed(2));
+        // Tikrinti atsakymą
+        function checkAnswer(taskNum) {
+            const userInput = document.getElementById('answer' + taskNum).value;
+            const feedback = document.getElementById('feedback' + taskNum);
+            const nextButton = document.getElementById('next' + taskNum);
+            
+            // Patikrinti ar įvestas atsakymas
+            if (userInput === '' || userInput === null) {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '<span class="feedback-icon">⚠️</span> Prašome įvesti atsakymą!';
+                return;
+            }
 
-    if (isNaN(vartotojoAtsakymas)) {
-      atsakymoZona.textContent = 'Prašome įvesti skaičių.';
-      atsakymoZona.className = 'neteisingas';
-      return;
-    }
+            const userAnswer = parseFloat(userInput);
+            const correctAnswer = answers[taskNum];
+            
+            // Apskaičiuoti toleranciją
+            const maxDiff = correctAnswer * tolerance;
+            const diff = Math.abs(userAnswer - correctAnswer);
+            
+            // Patikrinti ar atsakymas teisingas
+            const isCorrect = diff <= maxDiff;
+            
+            // Išsaugoti atsakymą
+            if (!userAnswers[taskNum].answered) {
+                userAnswers[taskNum] = {
+                    answered: true,
+                    correct: isCorrect,
+                    userValue: userAnswer,
+                    correctValue: correctAnswer
+                };
+                
+                if (isCorrect) {
+                    correctAnswers++;
+                }
+            }
+            
+            // Rodyti grįžtamąjį ryšį
+            if (isCorrect) {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = '<span class="feedback-icon">✅</span> <strong>Teisingai!</strong> Puikus darbas! Atsakymas: ' + correctAnswer;
+                nextButton.style.display = 'block';
+                document.getElementById('answer' + taskNum).disabled = true;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '<span class="feedback-icon">❌</span> <strong>Neteisingai.</strong> Teisingas atsakymas: ' + correctAnswer + '. Bandykite dar kartą arba paspauskite "Patarimas".';
+            }
+        }
+        // Generuoti rezultatus
+        function generateResults() {
+            const scoreElement = document.getElementById('finalScore');
+            const emojiElement = document.getElementById('resultEmoji');
+            const messageElement = document.getElementById('resultMessage');
+            const descriptionElement = document.getElementById('resultDescription');
+            const detailedElement = document.getElementById('detailedResults');
+            
+            // Apskaičiuoti procentinį rezultatą
+            const percentage = (correctAnswers / 10) * 100;
+            
+            // Nustatyti emoji ir pranešimą pagal rezultatą
+            if (percentage === 100) {
+                emojiElement.textContent = '🏆';
+                messageElement.textContent = 'Puiku! Tobulas rezultatas!';
+                descriptionElement.textContent = 'Jūs atsakėte teisingai į visas užduotis! Esate tikras garso bangų ekspertas!';
+            } else if (percentage >= 80) {
+                emojiElement.textContent = '🌟';
+                messageElement.textContent = 'Labai gerai!';
+                descriptionElement.textContent = 'Jūs puikiai išmanote garso bangų formules ir gebate jas taikyti praktikoje!';
+            } else if (percentage >= 60) {
+                emojiElement.textContent = '👍';
+                messageElement.textContent = 'Gerai!';
+                descriptionElement.textContent = 'Jūs suprantate pagrindines garso bangų sąvokas. Dar šiek tiek praktikos ir būsite ekspertas!';
+            } else if (percentage >= 40) {
+                emojiElement.textContent = '📚';
+                messageElement.textContent = 'Neblogai!';
+                descriptionElement.textContent = 'Jūs esate teisingame kelyje. Peržiūrėkite teoriją ir bandykite dar kartą!';
+            } else {
+                emojiElement.textContent = '💪';
+                messageElement.textContent = 'Reikia daugiau praktikos!';
+                descriptionElement.textContent = 'Nesijaudinkite! Mokymasis reikalauja laiko. Peržiūrėkite teoriją ir bandykite iš naujo!';
+            }
+            
+            // Rodyti galutinį rezultatą
+            scoreElement.textContent = correctAnswers;
+            
+            // Generuoti detalius rezultatus
+            let detailedHTML = '';
+            for (let i = 1; i <= 10; i++) {
+                const task = userAnswers[i];
+                const resultClass = task.correct ? 'correct' : 'incorrect';
+                const icon = task.correct ? '✅' : '❌';
+                const statusText = task.correct ? 'Teisingai' : 'Neteisingai';
+                
+                detailedHTML += `
+                    <div class="result-item ${resultClass}">
+                        <div>
+                            <strong>${i}. ${taskNames[i]}</strong>
+                            <br>
+                            <span style="color: #666;">
+                                Jūsų atsakymas: ${task.userValue !== null ? task.userValue : 'Neatsakyta'} | 
+                                Teisingas: ${task.correctValue}
+                            </span>
+                        </div>
+                        <div style="font-size: 1.5em;">
+                            ${icon} ${statusText}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            detailedElement.innerHTML = detailedHTML;
+        }
 
-    if (apvalintasVartotojo === apvalintasTeisingas) {
-      atsakymoZona.textContent = `✅ Teisingai! Teisingas atsakymas yra ${apvalintasTeisingas}.`;
-      atsakymoZona.className = 'teisingas';
-      
-      // Sukuriame mygtuką naujai užduočiai
-      const naujasUzdavinysBtn = document.createElement('button');
-      naujasUzdavinysBtn.textContent = 'Generuoti naują uždavinį';
-      naujasUzdavinysBtn.onclick = generuotiUzdavini;
-      atsakymoZona.appendChild(naujasUzdavinysBtn);
-      
-    } else {
-      atsakymoZona.textContent = `❌ Neteisingai. Bandykite dar kartą! (Teisingas atsakymas: ${apvalintasTeisingas})`;
-      atsakymoZona.className = 'neteisingas';
-    }
-  }
+        // Pradėti testą iš naujo
+        function restartQuiz() {
+            // Atstatyti kintamuosius
+            currentCard = 0;
+            correctAnswers = 0;
+            userAnswers = [];
+            
+            // Inicializuoti atsakymų masyvą
+            for (let i = 1; i <= 10; i++) {
+                userAnswers[i] = { answered: false, correct: false, userValue: null };
+            }
+            
+            // Išvalyti visus įvesties laukus ir grįžtamąjį ryšį
+            for (let i = 1; i <= 10; i++) {
+                const input = document.getElementById('answer' + i);
+                const feedback = document.getElementById('feedback' + i);
+                const hint = document.getElementById('hint' + i);
+                const nextButton = document.getElementById('next' + i);
+                
+                if (input) {
+                    input.value = '';
+                    input.disabled = false;
+                }
+                
+                if (feedback) {
+                    feedback.className = 'feedback';
+                    feedback.style.display = 'none';
+                }
+                
+                if (hint) {
+                    hint.classList.remove('show');
+                }
+                
+                if (nextButton) {
+                    nextButton.style.display = 'none';
+                }
+            }
+            
+            // Grįžti į pirmą kortelę
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            document.getElementById('card0').classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-  // Paleisti pirmo uždavinio generavimą puslapio įkėlimo metu
-  generuotiUzdavini();
-</script>
+        // Klaviatūros palaikymas (Enter mygtukas)
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                // Rasti aktyvią kortelę
+                const activeCard = document.querySelector('.card.active');
+                if (activeCard) {
+                    const cardId = activeCard.id;
+                    const cardNum = parseInt(cardId.replace('card', ''));
+                    
+                    // Jei tai užduotis (1-10), tikrinti atsakymą
+                    if (cardNum >= 1 && cardNum <= 10) {
+                        const input = document.getElementById('answer' + cardNum);
+                        if (input && document.activeElement === input) {
+                            checkAnswer(cardNum);
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
