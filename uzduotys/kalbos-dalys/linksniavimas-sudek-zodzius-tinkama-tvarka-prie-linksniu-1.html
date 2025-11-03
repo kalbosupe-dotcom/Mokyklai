@@ -105,7 +105,6 @@
             gap: 20px;
             margin-top: 20px;
         }
-
         /* Kairė pusė su linksniais */
         #cases-column {
             width: 55%;
@@ -128,9 +127,9 @@
             font-size: 1.3rem;
             font-weight: bold;
             color: #0D3B66;
-            width: 55%; /* PAKEISTA: iš 50% į 55% */
+            width: 55%;
             line-height: 1.4;
-            white-space: nowrap; /* PRIDĖTA: Neleisti lūžti į kitas eilutes */
+            white-space: nowrap;
         }
         
         .case-name span {
@@ -141,7 +140,7 @@
         }
 
         .drop-zone {
-            width: 45%; /* PAKEISTA: iš 50% į 45% */
+            width: 45%;
             height: 55px;
             background-color: #E8F4F8;
             border: 2px dashed #7CB3E9;
@@ -156,6 +155,7 @@
             background-color: #D4E9F7;
             border-color: #4A90E2;
         }
+
         /* Dešinė pusė su žodžiais */
         #words-column {
             width: 30%;
@@ -183,6 +183,7 @@
             transition: transform 0.2s, box-shadow 0.2s, color 0.3s, background-color 0.3s;
             color: #1A4D7A;
             font-weight: bold;
+            touch-action: none; /* PRIDĖTA - neleidžia scroll'inti tempiant */
         }
         
         .draggable-word:active {
@@ -202,7 +203,6 @@
             color: #0D3B66;
             font-weight: bold;
         }
-
         /* Valdymo mygtukai */
         #controls {
             display: flex;
@@ -530,18 +530,117 @@
             updateNavButtons();
         }
 
-        // Drag & Drop logika
+        // Touch event handlers - NAUJAS KODAS
+        let touchedElement = null;
+        let clone = null;
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            touchedElement = e.target;
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            
+            // Sukuriame vizualinę kopiją
+            clone = touchedElement.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.pointerEvents = 'none';
+            clone.style.opacity = '0.8';
+            clone.style.zIndex = '1000';
+            clone.style.left = touch.clientX - touchedElement.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - touchedElement.offsetHeight / 2 + 'px';
+            clone.style.width = touchedElement.offsetWidth + 'px';
+            document.body.appendChild(clone);
+            
+            touchedElement.style.opacity = '0.3';
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!clone) return;
+            
+            const touch = e.touches[0];
+            clone.style.left = touch.clientX - clone.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - clone.offsetHeight / 2 + 'px';
+            
+            // Pažymime drop zoną, jei virš jos
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                    zone.classList.add('hovered');
+                } else {
+                    zone.classList.remove('hovered');
+                }
+            });
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            if (!touchedElement) return;
+            
+            const touch = e.changedTouches[0];
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let dropped = false;
+            
+            // Tikriname, ar paleista virš drop zonos
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                    
+                    // Jei zonoje jau yra žodis, grąžiname jį atgal
+                    if(zone.children.length > 0) {
+                        wordsColumn.appendChild(zone.firstElementChild);
+                    }
+                    
+                    // Perkeliame žodį į zoną
+                    zone.appendChild(touchedElement);
+                    zone.classList.remove('hovered');
+                    dropped = true;
+                    clearFeedback();
+                }
+            });
+            
+            // Jei nepaleista virš zonos ir žodis buvo zonoje, grąžiname į sąrašą
+            if (!dropped && touchedElement.parentElement.classList.contains('drop-zone')) {
+                wordsColumn.appendChild(touchedElement);
+            }
+            
+            // Išvalome
+            touchedElement.style.opacity = '1';
+            if (clone) {
+                document.body.removeChild(clone);
+                clone = null;
+            }
+            touchedElement = null;
+            
+            // Pašaliname visas hovered klases
+            dropZones.forEach(zone => zone.classList.remove('hovered'));
+        }
+
+        // Drag & Drop logika su touch palaikymu - ATNAUJINTAS KODAS
         function addDragAndDropListeners() {
             const draggables = document.querySelectorAll('.draggable-word');
             const dropZones = document.querySelectorAll('.drop-zone');
 
             draggables.forEach(draggable => {
+                // Desktop drag events
                 draggable.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', e.target.id);
                 });
+
+                // Touch events for mobile/tablet - NAUJAS KODAS
+                draggable.addEventListener('touchstart', handleTouchStart, { passive: false });
+                draggable.addEventListener('touchmove', handleTouchMove, { passive: false });
+                draggable.addEventListener('touchend', handleTouchEnd, { passive: false });
             });
 
             dropZones.forEach(zone => {
+                // Desktop drop events
                 zone.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     zone.classList.add('hovered');
@@ -565,7 +664,6 @@
                 });
             });
         }
-        
         // Pasitikrinimo funkcija
         function checkAnswers() {
             if (scores[currentCardIndex] !== null) return;
@@ -621,6 +719,7 @@
                 showResults();
             }
         }
+
         function showResults() {
             document.getElementById('card').style.display = 'none';
             document.getElementById('controls').style.display = 'none';
@@ -644,7 +743,7 @@
             totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} - ${totalPercentage}%`;
             
             // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('Linksniavimas | priskirk linksnį | Daiktavardžiai (I)', totalPercentage);
+            sendResultToSheet('L0004 Linksniavimas | priskirk linksnį | Daiktavardžiai (I)', totalPercentage);
         }
         
         function restartGame() {
