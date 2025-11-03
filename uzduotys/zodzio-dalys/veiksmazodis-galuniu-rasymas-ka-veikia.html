@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veiksmažodžio galūnės - Kalbos Upė</title>
     <link rel="stylesheet" href="../../css/style.css">
+    
+    <!-- ✅ PRIDĖTAS results.js -->
+    <script src="../../js/results.js"></script>
+    <script>
+        // ✅ UŽDUOTIES ID (iš taskDatabase)
+        const TASK_ID = 'L0013';
+    </script>
+    
     <style>
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
@@ -415,65 +423,10 @@
         </div>
     </div>
     <script>
-        // --- Vardų valdymas ---
-        function showNamePrompt() {
-            const studentName = localStorage.getItem('studentName');
-            
-            if (!studentName) {
-                const name = prompt('Įvesk savo vardą:');
-                if (name && name.trim() !== '') {
-                    localStorage.setItem('studentName', name.trim());
-                    return name.trim();
-                } else {
-                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
-                    return showNamePrompt();
-                }
-            }
-            return studentName;
-        }
-
-        function changeName() {
-            localStorage.removeItem('studentName');
-            const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
-            location.reload();
-        }
-
-        function sendResultToSheet(taskName, score) {
-            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
-            const timestamp = new Date().toLocaleString('lt-LT');
-        
-            const data = {
-                name: studentName,
-                taskId: TASK_ID,
-                task: taskName,
-                score: score,
-                timestamp: timestamp
-            };
-        
-            console.log('Siunčiamas rezultatas:', data);
-        
-            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(() => {
-                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
-            })
-            .catch(error => {
-                console.error('Klaida siunčiant rezultatą:', error);
-            });
-        }
-        
+        // ✅ results.js jau įkelia showNamePrompt() ir changeName()
+        // Tiesiog atvaizduojame vardą
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
-
-        const TASK_ID = 'L0401';
         
         // --- UŽDUOČIŲ DUOMENYS ---
         const words = [
@@ -666,9 +619,13 @@
             });
             document.getElementById('results-details').innerHTML = detailsHTML;
             
-            // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('Veiksmažodžio galūnės: -ia ar -e?', percentage);
+            // ✅ Siųsti rezultatus į Google Sheets (naudojant results.js funkciją)
+            sendResultToSheet(
+                'Veiksmažodžio galūnės: -ia ar -e?', 
+                `${correctAnswers}/${totalQuestions} (${percentage}%)`
+            );
         }
     </script>
 </body>
 </html>
+
