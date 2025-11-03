@@ -84,121 +84,7 @@
             display: block;
         }
 
-        /* ATMINTINĖS STILIAI */
-        .cheatsheet h1 {
-            text-align: center;
-            color: #0D3B66;
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-
-        .group-header {
-            font-size: 1.4rem;
-            font-weight: bold;
-            text-align: left;
-            padding: 10px 15px;
-            margin: 20px 0 10px 0;
-            border-radius: 8px;
-            color: #ffffff;
-        }
-        
-        #header-pagrindines {
-            background-color: #0d6efd;
-        }
-
-        #header-antrininkes {
-            background-color: #dc3545;
-        }
-        
-        .section-box {
-            border-radius: 10px;
-            margin-bottom: 15px;
-            padding: 15px;
-            border: 2px solid transparent;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 3px solid;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title span {
-            font-size: 1.3em;
-            margin-right: 15px;
-        }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 8px 15px;
-            font-size: 1rem;
-        }
-        
-        .role {
-            font-weight: bold;
-            padding: 5px 0;
-            white-space: nowrap;
-        }
-        
-        .info-box {
-            background-color: #f8f9fa;
-            padding: 8px 10px;
-            border-radius: 5px;
-            line-height: 1.6;
-        }
-        
-        .pavyzdys-box {
-            grid-column: 1 / span 2;
-            margin-top: 10px;
-            padding: 8px 0 0 0;
-            border-top: 1px dashed #ccc;
-        }
-
-        .pavyzdys-label {
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 1rem;
-        }
-
-        .pavyzdys-text {
-            font-style: italic;
-            font-weight: normal;
-        }
-
-        /* SPALVŲ KODAVIMAS */
-        .veiksnys { border-color: #0d6efd; background-color: #e3f2fd; }
-        .veiksnys .section-title { color: #0d6efd; border-bottom-color: #bbdefb; }
-        .veiksnys .role { color: #0d6efd; }
-        
-        .tarinys { border-color: #198754; background-color: #e8f5e9; }
-        .tarinys .section-title { color: #198754; border-bottom-color: #c3e6cb; }
-        .tarinys .role { color: #198754; }
-
-        .papildinys { border-color: #ff9800; background-color: #fff3e0; }
-        .papildinys .section-title { color: #ff9800; border-bottom-color: #ffecb3; }
-        .papildinys .role { color: #ff9800; }
-
-        .pazyminys { border-color: #6f42c1; background-color: #f3e5f5; }
-        .pazyminys .section-title { color: #6f42c1; border-bottom-color: #e1bee7; }
-        .pazyminys .role { color: #6f42c1; }
-
-        .aplinkybe { border-color: #dc3545; background-color: #ffebee; }
-        .aplinkybe .section-title { color: #dc3545; border-bottom-color: #f5c6cb; }
-        .aplinkybe .role { color: #dc3545; }
-        
-        .highlight-veiksnys { font-weight: bold; color: #0d6efd; }
-        .highlight-tarinys { font-weight: bold; color: #198754; }
-        .highlight-papildinys { font-weight: bold; color: #ff9800; }
-        .highlight-pazyminys { font-weight: bold; color: #6f42c1; }
-        .highlight-aplinkybe { font-weight: bold; color: #dc3545; }
-        /* UŽDUOTIES STILIAI */
+        /* ĮVADO STILIAI */
         .intro-text {
             font-size: 1.8rem;
             font-weight: bold;
@@ -221,7 +107,7 @@
         .intro-content li {
             margin-bottom: 10px;
         }
-
+        /* UŽDUOTIES STILIAI */
         .sentence-container {
             margin-top: 30px;
             text-align: center;
@@ -249,6 +135,7 @@
             font-size: 1.2rem;
             color: #1A4D7A;
             font-weight: 500;
+            user-select: none;
         }
 
         .word:hover {
@@ -309,33 +196,8 @@
             border: 3px solid #4ECDC4;
         }
 
-        .hidden {
-            display: none;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
-            .cheatsheet h1 {
-                font-size: 1.8rem;
-            }
-
-            .group-header {
-                font-size: 1.2rem;
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .pavyzdys-box {
-                grid-column: 1;
-            }
-
             .word {
                 font-size: 1rem;
                 padding: 8px 12px;
@@ -368,7 +230,7 @@
         </div>
 
         <!-- KORTELĖ 1: ĮVADAS Į UŽDUOTĮ -->
-        <div id="card-intro" class="card">
+        <div id="card-intro" class="card active">
             <h2 class="intro-text">Kas yra vienarūšės sakinio dalys?</h2>
             <div class="intro-content">
                 <p>Vienarūšės sakinio dalys atlieka <strong>tą pačią funkciją</strong> ir atsako į <strong>tą patį klausimą</strong>. Jos siejamos su tuo pačiu sakinio žodžiu. Dažnai jos jungiamos jungtukais <strong>ir, arba, bet, o</strong>.</p>
@@ -434,6 +296,7 @@
             </div>
         </div>
     </div>
+
     <script>
         // --- Vardų valdymas ---
         function showNamePrompt() {
@@ -503,7 +366,7 @@
         let totalCorrect = 0;
         let totalWords = 0;
         let taskResults = [];
-    
+        // Kortelių rodymo funkcija
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
@@ -516,17 +379,19 @@
             }
         }
     
+        // Sakinio atvaizdavimas
         function renderSentence(sentenceObj) {
             const container = document.getElementById(`sentence-${sentenceObj.id}`);
             container.innerHTML = "";
-            const words = sentenceObj.text.split(/([,.\s])/g).filter(Boolean);
+            const words = sentenceObj.text.split(/(\s+|[,.])/g).filter(w => w.trim().length > 0 || w.match(/[,.]/));
             
             words.forEach(word => {
                 const span = document.createElement("span");
                 span.className = "word";
                 span.textContent = word;
                 
-                if (!word.match(/^[,\s.]+$/)) {
+                // Jei tai ne skyrybos ženklas ar tarpas
+                if (!word.match(/^[,.\s]+$/)) {
                     span.addEventListener("click", () => {
                         span.classList.toggle("selected");
                     });
@@ -536,11 +401,13 @@
                     span.style.cursor = "default";
                     span.style.border = "none";
                     span.style.background = "transparent";
+                    span.style.pointerEvents = "none";
                 }
                 container.appendChild(span);
             });
         }
     
+        // Atsakymų tikrinimas
         function checkAnswers(cardId) {
             const sentenceObj = sentences[cardId - 1];
             const words = document.getElementById(`sentence-${cardId}`).querySelectorAll('.word');
@@ -549,7 +416,7 @@
     
             words.forEach(wordSpan => {
                 const isSelected = wordSpan.classList.contains('selected');
-                const cleanWord = wordSpan.textContent.replace(/[,.]/g, '');
+                const cleanWord = wordSpan.textContent.replace(/[,.]/g, '').trim();
                 const isCorrect = sentenceObj.correct.includes(cleanWord);
     
                 if (isSelected && isCorrect) {
@@ -564,7 +431,7 @@
                 }
     
                 wordSpan.style.cursor = 'default';
-                wordSpan.onclick = null;
+                wordSpan.style.pointerEvents = 'none';
             });
     
             totalCorrect += cardCorrect;
@@ -588,6 +455,7 @@
             buttonContainer.appendChild(nextButton);
         }
     
+        // Galutinių rezultatų rodymas
         function showFinalResults() {
             showCard('card-results');
             const resultElement = document.getElementById('final-results');
@@ -623,4 +491,3 @@
     </script>
 </body>
 </html>
-
