@@ -1,5 +1,5 @@
-// Google Sheets Web App URL (vėliau įdėsime tikrą)
-const SHEET_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+// Google Sheets Web App URL
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
 
 // Funkcija vardui įvesti prieš užduotį
 function showNamePrompt() {
@@ -26,17 +26,13 @@ function sendResultToSheet(taskName, score) {
     
     const data = {
         name: studentName,
-        taskId: TASK_ID,
         task: taskName,
         score: score,
         timestamp: timestamp
     };
     
-    // Kol kas tik console.log, vėliau integruosime su tikru Sheet
-    console.log('Rezultatas:', data);
+    console.log('Siunčiamas rezultatas:', data);
     
-    // Kai turėsime Google Apps Script URL, atkomentuosime:
-    /*
     fetch(SHEET_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -46,12 +42,11 @@ function sendResultToSheet(taskName, score) {
         body: JSON.stringify(data)
     })
     .then(() => {
-        console.log('Rezultatas išsiųstas į Google Sheets');
+        console.log('✅ Rezultatas išsiųstas į Google Sheets');
     })
     .catch(error => {
-        console.error('Klaida siunčiant rezultatą:', error);
+        console.error('❌ Klaida siunčiant rezultatą:', error);
     });
-    */
 }
 
 // Funkcija vardui pakeisti
