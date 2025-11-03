@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veiksmažodžio galūnės sakiniuose - Kalbos Upė</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 35px;
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        /* ATMINTINĖS STILIAI */
+        .cheatsheet h1 {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .rule-box {
+            background-color: #E8F4F8;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+            margin-bottom: 20px;
+        }
+
+        .rule-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 15px;
+        }
+
+        .rule-content {
+            font-size: 1.2rem;
+            color: #1A4D7A;
+            line-height: 1.8;
+        }
+
+        .examples-box {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #7CB3E9;
+            margin-top: 15px;
+        }
+
+        .example-item {
+            padding: 8px 0;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #0D3B66;
+        }
+        /* UŽDUOTIES STILIAI */
+        .task-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .task-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 10px;
+        }
+
+        .task-progress {
+            font-size: 1.2rem;
+            color: #4A90E2;
+            font-weight: bold;
+        }
+
+        .sentence-box {
+            background-color: #E8F4F8;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #7CB3E9;
+            margin: 20px 0;
+            font-size: 1.4rem;
+            line-height: 2;
+            text-align: center;
+            color: #1A4D7A;
+        }
+
+        .verb-stem {
+            font-weight: bold;
+            color: #0D3B66;
+            background-color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .input-box {
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .galune-input {
+            width: 60px;
+            font-size: 1.4rem;
+            padding: 8px 12px;
+            border: 3px solid #7CB3E9;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+            color: #0D3B66;
+            background-color: #ffffff;
+            transition: all 0.3s;
+        }
+
+        .galune-input:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .galune-input.correct {
+            border-color: #27ae60;
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .galune-input.incorrect {
+            border-color: #e74c3c;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .feedback-message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        .feedback-correct {
+            color: #27ae60;
+        }
+
+        .feedback-incorrect {
+            color: #e74c3c;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            padding: 15px 35px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4ECDC4, #27ae60);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* REZULTATŲ STILIAI */
+        .result-container {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #1A4D7A;
+        }
+
+        .result-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 30px;
+        }
+
+        .result-details {
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            padding: 12px;
+            margin: 10px 0;
+            background-color: #ffffff;
+            border-radius: 8px;
+            font-size: 1.2rem;
+        }
+
+        .result-item.correct-item {
+            border-left: 4px solid #27ae60;
+        }
+
+        .result-item.incorrect-item {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .total-score {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        .score-percentage {
+            font-size: 3rem;
+            margin-top: 15px;
+        }
+
+        .score-good {
+            color: #27ae60;
+        }
+
+        .score-bad {
+            color: #e74c3c;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card {
+                padding: 25px;
+            }
+
+            .cheatsheet h1 {
+                font-size: 1.8rem;
+            }
+
+            .task-title {
+                font-size: 1.5rem;
+            }
+
+            .sentence-box {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+
+            .galune-input {
+                width: 50px;
+                font-size: 1.2rem;
+            }
+
+            .action-button {
+                font-size: 1.1rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+        
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+
+        <!-- KORTELĖ 1: ATMINTINĖ -->
+        <div id="card-cheatsheet" class="card active cheatsheet">
+            <h1>📖 Veiksmažodžio galūnės</h1>
+            
+            <div class="rule-box">
+                <div class="rule-title">Kai veiksmažodis atsako į klausimą "Ką veikia?"</div>
+                <div class="rule-content">
+                    <p>Veiksmažodis esamuoju laiku, trečiuoju asmeniu, vienaskaita gali turėti šias galūnes:</p>
+                    
+                    <div class="examples-box">
+                        <div class="example-item">
+                            <span class="highlight">-ia</span> → 
+                            žaidž<strong>ia</strong>, pieš<strong>ia</strong>, klaus<strong>ia</strong>, švilp<strong>ia</strong>
+                        </div>
+                        <div class="example-item">
+                            <span class="highlight">-i</span> → 
+                            gird<strong>i</strong>, tup<strong>i</strong>, tur<strong>i</strong>
+                        </div>
+                        <div class="example-item">
+                            <span class="highlight">-o</span> → 
+                            mat<strong>o</strong>, nes<strong>o</strong>, ved<strong>o</strong>
+                        </div>
+                        <div class="example-item">
+                            <span class="highlight">-a</span> → 
+                            dirb<strong>a</strong>, mieg<strong>a</strong>, krent<strong>a</strong>, šluoj<strong>a</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button onclick="showCard('card-task-1')" class="action-button btn-primary">▶️ Pradėti užduotis</button>
+            </div>
+        </div>
+
+        <!-- UŽDUOČIŲ KORTELĖS (bus sugeneruotos dinamiškai) -->
+        <div id="task-cards-container"></div>
+
+        <!-- KORTELĖ: REZULTATAI -->
+        <div id="card-results" class="card">
+            <div class="result-title">🎉 Užduoties rezultatai</div>
+            <div class="result-container">
+                <div class="result-details" id="result-details"></div>
+                <div class="total-score" id="total-score"></div>
+            </div>
+            <div class="button-container">
+                <button onclick="location.reload()" class="action-button btn-success">🔄 Pradėti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- UŽDUOČIŲ DUOMENYS ---
+        const tasks = [
+            { id: 1, sentence: "Vaikas [VERB] su kamuoliu kieme.", stem: "žaidž", correct: "-ia", full: "žaidžia" },
+            { id: 2, sentence: "Mergaitė [VERB] gražų paveikslą.", stem: "pieš", correct: "-ia", full: "piešia" },
+            { id: 3, sentence: "Katė [VERB] ant sofos.", stem: "snaudž", correct: "-ia", full: "snaudžia" },
+            { id: 4, sentence: "Vėjas [VERB] pro langą.", stem: "puč", correct: "-ia", full: "pučia" },
+            { id: 5, sentence: "Žaltys [VERB] žolėje.", stem: "šnypšč", correct: "-ia", full: "šnypščia" },
+            { id: 6, sentence: "Lietus [VERB] į stogą.", stem: "pliaup", correct: "-ia", full: "pliaupia" },
+            { id: 7, sentence: "Mokinys [VERB] mokytoją.", stem: "klaus", correct: "-ia", full: "klausia" },
+            { id: 8, sentence: "Paukštis [VERB] medyje.", stem: "švilp", correct: "-ia", full: "švilpia" },
+            { id: 9, sentence: "Pelė [VERB] kampuose.", stem: "krykšč", correct: "-ia", full: "krykščia" },
+            { id: 10, sentence: "Berniukas [VERB] pagalbos.", stem: "šauk", correct: "-ia", full: "šaukia" },
+            { id: 11, sentence: "Kūdikis [VERB] naktimis.", stem: "verk", correct: "-ia", full: "verkia" },
+            { id: 12, sentence: "Mokinys [VERB] mokytojo balsą.", stem: "gird", correct: "-i", full: "girdi" },
+            { id: 13, sentence: "Vaikas [VERB] paukštį danguje.", stem: "mat", correct: "-o", full: "mato" },
+            { id: 14, sentence: "Tėtis [VERB] biure.", stem: "dirb", correct: "-a", full: "dirba" },
+            { id: 15, sentence: "Šuo [VERB] būdoje.", stem: "mieg", correct: "-a", full: "miega" },
+            { id: 16, sentence: "Lapas [VERB] nuo medžio.", stem: "krent", correct: "-a", full: "krenta" },
+            { id: 17, sentence: "Mama [VERB] grindis.", stem: "šluoj", correct: "-a", full: "šluoja" },
+            { id: 18, sentence: "Sodininkas [VERB] žolę.", stem: "pjaun", correct: "-a", full: "pjauna" },
+            { id: 19, sentence: "Varna [VERB] ant tvoros.", stem: "tup", correct: "-i", full: "tupi" },
+            { id: 20, sentence: "Mokinys [VERB] daug knygų.", stem: "tur", correct: "-i", full: "turi" }
+        ];
+
+        let currentTaskIndex = 0;
+        let userAnswers = [];
+        // --- KORTELIŲ GENERAVIMAS ---
+        function generateTaskCards() {
+            const container = document.getElementById('task-cards-container');
+            
+            tasks.forEach((task, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.id = `card-task-${task.id}`;
+                cardDiv.className = 'card';
+                
+                const sentenceWithInput = task.sentence.replace('[VERB]', 
+                    `<span class="verb-stem">${task.stem}</span><span class="input-box"><input type="text" class="galune-input" id="input-${task.id}" maxlength="4" autocomplete="off"></span>`
+                );
+                
+                cardDiv.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-title">Įrašyk teisingą galūnę</div>
+                        <div class="task-progress">${index + 1} / ${tasks.length}</div>
+                    </div>
+                    
+                    <div class="sentence-box">
+                        ${sentenceWithInput}
+                    </div>
+                    
+                    <div class="feedback-message" id="feedback-${task.id}"></div>
+                    
+                    <div class="button-container">
+                        <button onclick="checkAnswer(${task.id})" class="action-button btn-primary" id="check-btn-${task.id}">✅ Patikrinti</button>
+                    </div>
+                `;
+                
+                container.appendChild(cardDiv);
+            });
+        }
+
+        // --- KORTELIŲ RODYMAS ---
+        function showCard(cardId) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(cardId).classList.add('active');
+            
+            // Fokusuoti į input lauką
+            if (cardId.startsWith('card-task-')) {
+                const taskId = parseInt(cardId.split('-')[2]);
+                setTimeout(() => {
+                    const input = document.getElementById(`input-${taskId}`);
+                    if (input) input.focus();
+                }, 100);
+            }
+        }
+
+        // --- ATSAKYMO TIKRINIMAS ---
+        function checkAnswer(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            const input = document.getElementById(`input-${taskId}`);
+            const feedback = document.getElementById(`feedback-${taskId}`);
+            const checkBtn = document.getElementById(`check-btn-${taskId}`);
+            
+            const userAnswer = input.value.trim();
+            const isCorrect = userAnswer === task.correct;
+            
+            // Išsaugoti atsakymą
+            userAnswers.push({
+                taskId: taskId,
+                sentence: task.sentence.replace('[VERB]', task.full),
+                userAnswer: userAnswer,
+                correctAnswer: task.correct,
+                isCorrect: isCorrect
+            });
+            
+            // Rodyti feedback
+            if (isCorrect) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
+            } else {
+                input.classList.add('incorrect');
+                input.classList.remove('correct');
+                feedback.innerHTML = `❌ <span class="feedback-incorrect">Neteisinga. Teisingas atsakymas: <strong>${task.correct}</strong></span>`;
+            }
+            
+            // Išjungti input ir pakeisti mygtuką
+            input.disabled = true;
+            checkBtn.style.display = 'none';
+            
+            const buttonContainer = document.getElementById(`card-task-${taskId}`).querySelector('.button-container');
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'action-button btn-secondary';
+            
+            if (taskId < tasks.length) {
+                nextBtn.textContent = '➡️ Toliau';
+                nextBtn.onclick = () => showCard(`card-task-${taskId + 1}`);
+            } else {
+                nextBtn.textContent = '🏁 Rezultatai';
+                nextBtn.onclick = () => showResults();
+            }
+            
+            buttonContainer.appendChild(nextBtn);
+        }
+        // --- REZULTATŲ RODYMAS ---
+        function showResults() {
+            showCard('card-results');
+            
+            const resultDetails = document.getElementById('result-details');
+            const totalScoreEl = document.getElementById('total-score');
+            
+            let correctCount = 0;
+            let detailsHTML = '';
+            
+            userAnswers.forEach((answer, index) => {
+                if (answer.isCorrect) correctCount++;
+                
+                const itemClass = answer.isCorrect ? 'correct-item' : 'incorrect-item';
+                const icon = answer.isCorrect ? '✅' : '❌';
+                const statusText = answer.isCorrect 
+                    ? `<span style="color: #27ae60;">Teisingai</span>` 
+                    : `<span style="color: #e74c3c;">Neteisingai (turėjo būti: <strong>${answer.correctAnswer}</strong>)</span>`;
+                
+                detailsHTML += `
+                    <div class="result-item ${itemClass}">
+                        ${icon} <strong>Užduotis ${index + 1}:</strong> ${statusText}
+                    </div>
+                `;
+            });
+            
+            resultDetails.innerHTML = detailsHTML;
+            
+            const totalTasks = tasks.length;
+            const percentage = Math.round((correctCount / totalTasks) * 100);
+            const scoreClass = percentage >= 70 ? 'score-good' : 'score-bad';
+            
+            totalScoreEl.innerHTML = `
+                <div>Teisingai atsakyta: <strong>${correctCount} / ${totalTasks}</strong></div>
+                <div class="score-percentage ${scoreClass}">${percentage}%</div>
+            `;
+            
+            // Siųsti rezultatus į Google Sheets
+            sendResultToSheet('L0404 Veiksmažodžio galūnė (Ką veikia?) | Įrašyti', percentage);
+        }
+
+        // --- ENTER KLAVIŠO PALAIKYMAS ---
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const activeCard = document.querySelector('.card.active');
+                if (activeCard && activeCard.id.startsWith('card-task-')) {
+                    const taskId = parseInt(activeCard.id.split('-')[2]);
+                    const checkBtn = document.getElementById(`check-btn-${taskId}`);
+                    if (checkBtn && checkBtn.style.display !== 'none') {
+                        checkAnswer(taskId);
+                    }
+                }
+            }
+        });
+
+        // --- INICIALIZACIJA ---
+        generateTaskCards();
+    </script>
+</body>
+</html>
