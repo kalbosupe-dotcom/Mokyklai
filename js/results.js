@@ -26,6 +26,7 @@ function sendResultToSheet(taskName, score) {
     
     const data = {
         name: studentName,
+        taskId: TASK_ID,
         task: taskName,
         score: score,
         timestamp: timestamp
