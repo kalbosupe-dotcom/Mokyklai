@@ -366,100 +366,8 @@
             </span>
             <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
         </div>
-        <!-- KORTELĖ 1: ATMINTINĖ -->
-        <div id="card-cheatsheet" class="card active cheatsheet">
-            <h1>📚 SAKINIO DALYS - ATMINTINĖ</h1>
-            
-            <div id="header-pagrindines" class="group-header">PAGRINDINĖS SAKINIO DALYS</div>
 
-            <div class="section-box veiksnys">
-                <div class="section-title"><span>🔵</span> VEIKSNYS</div>
-                <div class="content-grid">
-                    <div class="role">KAS TAI?</div>
-                    <div class="info-box">Pagrindinė dalis, nurodanti, <strong>kas atlieka veiksmą</strong> arba apie ką kalbama.</div>
-                    <div class="role">KLAUSIMAI</div>
-                    <div class="info-box"><strong>KAS?</strong></div>
-                    <div class="role">DAŽNIAUSIAI BŪNA</div>
-                    <div class="info-box">Daiktavardis arba įvardis.</div>
-                    <div class="pavyzdys-box">
-                        <span class="pavyzdys-label">PAVYZDYS:</span>
-                        <span class="pavyzdys-text"><span class="highlight-veiksnys">Berniukas</span> žaidžia.</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-box tarinys">
-                <div class="section-title"><span>🟢</span> TARINYS</div>
-                <div class="content-grid">
-                    <div class="role">KAS TAI?</div>
-                    <div class="info-box">Pagrindinė dalis, nurodanti, <strong>ką veiksnys veikia</strong> arba koks jis yra.</div>
-                    <div class="role">KLAUSIMAI</div>
-                    <div class="info-box"><strong>KĄ VEIKIA? KĄ DARO? KOKS YRA?</strong></div>
-                    <div class="role">DAŽNIAUSIAI BŪNA</div>
-                    <div class="info-box">Veiksmažodis.</div>
-                    <div class="pavyzdys-box">
-                        <span class="pavyzdys-label">PAVYZDYS:</span>
-                        <span class="pavyzdys-text">Saulė <span class="highlight-tarinys">šviečia</span>.</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="header-antrininkes" class="group-header">ANTRININKĖS SAKINIO DALYS</div>
-
-            <div class="section-box papildinys">
-                <div class="section-title"><span>🟠</span> PAPILDINYS</div>
-                <div class="content-grid">
-                    <div class="role">KAS TAI?</div>
-                    <div class="info-box">Papildo tarinį ir nurodo, į ką <strong>nukreiptas veiksmas</strong>.</div>
-                    <div class="role">KLAUSIMAI</div>
-                    <div class="info-box"><strong>KĄ? KO? KAM? KUO? KAME?</strong> (Linksnio klausimai)</div>
-                    <div class="role">DAŽNIAUSIAI BŪNA</div>
-                    <div class="info-box">Daiktavardis.</div>
-                    <div class="pavyzdys-box">
-                        <span class="pavyzdys-label">PAVYZDYS:</span>
-                        <span class="pavyzdys-text">Berniukas skaito <span class="highlight-papildinys">knygą</span> (KĄ?).</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-box pazyminys">
-                <div class="section-title"><span>🟣</span> PAŽYMINYS</div>
-                <div class="content-grid">
-                    <div class="role">KAS TAI?</div>
-                    <div class="info-box">Nurodo daiktavardžio <strong>požymį</strong>, savybę ar priklausomybę.</div>
-                    <div class="role">KLAUSIMAI</div>
-                    <div class="info-box"><strong>KOKS? KOKIA? KIENO? KURIS?</strong></div>
-                    <div class="role">DAŽNIAUSIAI BŪNA</div>
-                    <div class="info-box">Būdvardis arba prieveiksmis.</div>
-                    <div class="pavyzdys-box">
-                        <span class="pavyzdys-label">PAVYZDYS:</span>
-                        <span class="pavyzdys-text"><span class="highlight-pazyminys">Mažas</span> berniukas žaidžia (KOKS?).</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-box aplinkybe">
-                <div class="section-title"><span>🔴</span> APLINKYBĖ</div>
-                <div class="content-grid">
-                    <div class="role">KAS TAI?</div>
-                    <div class="info-box">Nurodo veiksmo <strong>aplinkybes</strong> (laiką, vietą, būdą ar priežastį).</div>
-                    <div class="role">KLAUSIMAI</div>
-                    <div class="info-box"><strong>KAIP? KUR? KADA? KODĖL?</strong></div>
-                    <div class="role">DAŽNIAUSIAI BŪNA</div>
-                    <div class="info-box">Prieveiksmis arba daiktavardis su prielinksniu.</div>
-                    <div class="pavyzdys-box">
-                        <span class="pavyzdys-label">PAVYZDYS:</span>
-                        <span class="pavyzdys-text">Mokiniai grįžo <span class="highlight-aplinkybe">vakare</span> (KADA?).</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-container">
-                <button onclick="showCard('card-intro')" class="action-button">▶️ Pradėti užduotį</button>
-            </div>
-        </div>
-
-        <!-- KORTELĖ 2: ĮVADAS Į UŽDUOTĮ -->
+        <!-- KORTELĖ 1: ĮVADAS Į UŽDUOTĮ -->
         <div id="card-intro" class="card">
             <h2 class="intro-text">Kas yra vienarūšės sakinio dalys?</h2>
             <div class="intro-content">
@@ -476,7 +384,7 @@
             </div>
         </div>
         
-        <!-- KORTELĖS 3-7: UŽDUOTYS -->
+        <!-- KORTELĖS 2-6: UŽDUOTYS -->
         <div id="card-task-1" class="card">
             <h2 class="intro-text">Užduotis 1 / 5 | pažymėk vienarūšes sakinio dalis</h2>
             <div class="sentence-container" id="sentence-1"></div>
@@ -517,7 +425,7 @@
             </div>
         </div>
         
-        <!-- KORTELĖ 8: REZULTATAI -->
+        <!-- KORTELĖ 7: REZULTATAI -->
         <div id="card-results" class="card">
             <h2 class="intro-text">🎉 Užduoties rezultatai</h2>
             <div class="result-container" id="final-results"></div>
