@@ -794,11 +794,19 @@
                     return; // Praleisti šį žodį
                 }
                 
-                // Tikriname, ar žodis yra veiksnys
+                // Tikriname, ar žodis yra veiksnys (PATAISYTA LOGIKA)
                 let isVeiksnys = false;
                 myth.veiksniai.forEach(v => {
-                    if (v === word || v.includes(word)) {
+                    // Tikslus atitikmuo
+                    if (v === word) {
                         isVeiksnys = true;
+                    }
+                    // Arba žodis yra sudėtinio veiksnio dalis (tik jei veiksnys turi tarpą)
+                    else if (v.includes(' ')) {
+                        const parts = v.split(/[\s–—-]+/).filter(p => p.length > 0);
+                        if (parts.includes(word)) {
+                            isVeiksnys = true;
+                        }
                     }
                 });
                 
