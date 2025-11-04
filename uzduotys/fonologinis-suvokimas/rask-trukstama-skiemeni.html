@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fonologinis suvokimas - Skiemenys</title>
+    <title>Fonologinis suvokimas - Rask trūkstamą skiemenį</title>
     <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic&display=swap" rel="stylesheet">
     <style>
         * {
@@ -96,31 +96,6 @@
             font-size: 22px;
             color: #2c3e50;
             font-weight: bold;
-        }
-
-        .zodis-su-tarpais {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .zodis-dalis {
-            padding: 5px 10px;
-            background: #e8f4f8;
-            border-radius: 5px;
-        }
-
-        .trukstamas {
-            display: inline-block;
-            min-width: 60px;
-            padding: 5px 10px;
-            background: #fff3cd;
-            border: 2px dashed #ffc107;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-            color: #856404;
         }
 
         .pasirinkimai-cell {
@@ -253,7 +228,7 @@
 
 <div class="container">
     <div class="header">
-        <h1>FONOLOGINIO SUVOKIMO UŽDUOTIS</h1>
+        <h1>UŽDUOTIS | Fonologinis suvokimas</h1>
     </div>
 
     <div class="instrukcijos">
@@ -279,17 +254,10 @@
     <table class="uzduotis-table">
         <!-- 1. trečianis -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="zodis-dalis">tre</span>
-                    <span class="zodis-dalis">čia</span>
-                    <span class="trukstamas" id="trukstamas-1">___</span>
-                    <span class="zodis-dalis">nis</span>
-                </div>
-            </td>
+            <td class="zodis-cell">trečianis</td>
             <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(1, 'die', false)">die</button>
-                <button class="skiemuo-btn" onclick="tikrinti(1, 'tie', true)">tie</button>
+                <button class="skiemuo-btn" onclick="tikrinti(1, 'die', true)">die</button>
+                <button class="skiemuo-btn" onclick="tikrinti(1, 'tie', false)">tie</button>
                 <button class="skiemuo-btn" onclick="tikrinti(1, 'dė', false)">dė</button>
                 <span id="rezultatas-1" class="rezultatas"></span>
                 <div id="patarimas-1" class="patarimas">💡 Patarimas: Teisingas žodis: tre-čia-die-nis</div>
@@ -299,91 +267,59 @@
 
         <!-- 2. lodija -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="zodis-dalis">lo</span>
-                    <span class="trukstamas" id="trukstamas-2">___</span>
-                    <span class="zodis-dalis">ja</span>
-                </div>
-            </td>
+            <td class="zodis-cell">lodija</td>
             <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(2, 'mė', false)">mė</button>
+                <button class="skiemuo-btn" onclick="tikrinti(2, 'mė', true)">mė</button>
                 <button class="skiemuo-btn" onclick="tikrinti(2, 'me', false)">me</button>
-                <button class="skiemuo-btn" onclick="tikrinti(2, 'mie', true)">mie</button>
+                <button class="skiemuo-btn" onclick="tikrinti(2, 'mie', false)">mie</button>
                 <span id="rezultatas-2" class="rezultatas"></span>
-                <div id="patarimas-2" class="patarimas">💡 Patarimas: Teisingas žodis: lo-mi-ja (laivas)</div>
-                <div id="pilnas-2" class="pilnas-zodis">✅ Teisingas žodis: <strong>lomija</strong></div>
+                <div id="patarimas-2" class="patarimas">💡 Patarimas: Teisingas žodis: me-lo-di-ja</div>
+                <div id="pilnas-2" class="pilnas-zodis">✅ Teisingas žodis: <strong>melodija</strong></div>
             </td>
         </tr>
 
         <!-- 3. kenė -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="zodis-dalis">k</span>
-                    <span class="trukstamas" id="trukstamas-3">___</span>
-                    <span class="zodis-dalis">nė</span>
-                </div>
-            </td>
+            <td class="zodis-cell">kenė</td>
             <td class="pasirinkimai-cell">
                 <button class="skiemuo-btn" onclick="tikrinti(3, 'io', false)">io</button>
                 <button class="skiemuo-btn" onclick="tikrinti(3, 'lio', true)">lio</button>
                 <button class="skiemuo-btn" onclick="tikrinti(3, 'lo', false)">lo</button>
                 <span id="rezultatas-3" class="rezultatas"></span>
-                <div id="patarimas-3" class="patarimas">💡 Patarimas: Teisingas žodis: klio-nė (svirnas)</div>
-                <div id="pilnas-3" class="pilnas-zodis">✅ Teisingas žodis: <strong>klionė</strong></div>
+                <div id="patarimas-3" class="patarimas">💡 Patarimas: Teisingas žodis: ke-lio-nė</div>
+                <div id="pilnas-3" class="pilnas-zodis">✅ Teisingas žodis: <strong>kelionė</strong></div>
             </td>
         </tr>
 
         <!-- 4. kunugaris -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="zodis-dalis">ku</span>
-                    <span class="zodis-dalis">ni</span>
-                    <span class="zodis-dalis">ga</span>
-                    <span class="trukstamas" id="trukstamas-4">___</span>
-                    <span class="zodis-dalis">ris</span>
-                </div>
-            </td>
+            <td class="zodis-cell">kunugaris</td>
             <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(4, 'pra', false)">pra</button>
-                <button class="skiemuo-btn" onclick="tikrinti(4, 'bra', true)">bra</button>
+                <button class="skiemuo-btn" onclick="tikrinti(4, 'pra', true)">pra</button>
+                <button class="skiemuo-btn" onclick="tikrinti(4, 'bra', false)">bra</button>
                 <button class="skiemuo-btn" onclick="tikrinti(4, 'pa', false)">pa</button>
                 <span id="rezultatas-4" class="rezultatas"></span>
-                <div id="patarimas-4" class="patarimas">💡 Patarimas: Teisingas žodis: ku-ni-ga-bra-ris</div>
-                <div id="pilnas-4" class="pilnas-zodis">✅ Teisingas žodis: <strong>kunigabraris</strong></div>
+                <div id="patarimas-4" class="patarimas">💡 Patarimas: Teisingas žodis: kup-ra-nu-ga-ris</div>
+                <div id="pilnas-4" class="pilnas-zodis">✅ Teisingas žodis: <strong>kupranugaris</strong></div>
             </td>
         </tr>
 
         <!-- 5. pusserė -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="zodis-dalis">pus</span>
-                    <span class="trukstamas" id="trukstamas-5">___</span>
-                    <span class="zodis-dalis">rė</span>
-                </div>
-            </td>
+            <td class="zodis-cell">pusserė</td>
             <td class="pasirinkimai-cell">
                 <button class="skiemuo-btn" onclick="tikrinti(5, 'se', true)">se</button>
                 <button class="skiemuo-btn" onclick="tikrinti(5, 'e', false)">e</button>
                 <button class="skiemuo-btn" onclick="tikrinti(5, 'sė', false)">sė</button>
                 <span id="rezultatas-5" class="rezultatas"></span>
-                <div id="patarimas-5" class="patarimas">💡 Patarimas: Teisingas žodis: pus-se-rė</div>
-                <div id="pilnas-5" class="pilnas-zodis">✅ Teisingas žodis: <strong>pusserė</strong></div>
+                <div id="patarimas-5" class="patarimas">💡 Patarimas: Teisingas žodis: pus-se-se-rė</div>
+                <div id="pilnas-5" class="pilnas-zodis">✅ Teisingas žodis: <strong>pusseserė</strong></div>
             </td>
         </tr>
 
         <!-- 6. delis -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="trukstamas" id="trukstamas-6">___</span>
-                    <span class="zodis-dalis">de</span>
-                    <span class="zodis-dalis">lis</span>
-                </div>
-            </td>
+            <td class="zodis-cell">delis</td>
             <td class="pasirinkimai-cell">
                 <button class="skiemuo-btn" onclick="tikrinti(6, 'po', false)">po</button>
                 <button class="skiemuo-btn" onclick="tikrinti(6, 'pou', false)">pou</button>
@@ -396,32 +332,20 @@
 
         <!-- 7. lesyklė -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="zodis-dalis">le</span>
-                    <span class="zodis-dalis">syk</span>
-                    <span class="trukstamas" id="trukstamas-7">___</span>
-                </div>
-            </td>
+            <td class="zodis-cell">lesyklė</td>
             <td class="pasirinkimai-cell">
                 <button class="skiemuo-btn" onclick="tikrinti(7, 'le', false)">le</button>
                 <button class="skiemuo-btn" onclick="tikrinti(7, 'lė', true)">lė</button>
                 <button class="skiemuo-btn" onclick="tikrinti(7, 'lie', false)">lie</button>
                 <span id="rezultatas-7" class="rezultatas"></span>
-                <div id="patarimas-7" class="patarimas">💡 Patarimas: Teisingas žodis: le-syk-lė</div>
-                <div id="pilnas-7" class="pilnas-zodis">✅ Teisingas žodis: <strong>lesyklė</strong></div>
+                <div id="patarimas-7" class="patarimas">💡 Patarimas: Teisingas žodis: le-syk-lė-lė</div>
+                <div id="pilnas-7" class="pilnas-zodis">✅ Teisingas žodis: <strong>lesyklėlė</strong></div>
             </td>
         </tr>
 
         <!-- 8. vardis -->
         <tr>
-            <td class="zodis-cell">
-                <div class="zodis-su-tarpais">
-                    <span class="trukstamas" id="trukstamas-8">___</span>
-                    <span class="zodis-dalis">var</span>
-                    <span class="zodis-dalis">dis</span>
-                </div>
-            </td>
+            <td class="zodis-cell">vardis</td>
             <td class="pasirinkimai-cell">
                 <button class="skiemuo-btn" onclick="tikrinti(8, 'būt', false)">būt</button>
                 <button class="skiemuo-btn" onclick="tikrinti(8, 'būd', true)">būd</button>
@@ -450,7 +374,6 @@
         const rezultatasEl = document.getElementById('rezultatas-' + nr);
         const patarimasEl = document.getElementById('patarimas-' + nr);
         const pilnasEl = document.getElementById('pilnas-' + nr);
-        const trukstamasEl = document.getElementById('trukstamas-' + nr);
         const mygtukai = document.querySelectorAll(`tr:nth-child(${nr}) .skiemuo-btn`);
         
         // Išjungti visus mygtukus
@@ -461,12 +384,6 @@
         if (arTeisingai) {
             rezultatasEl.innerHTML = '✅';
             rezultatasEl.style.color = '#2ecc71';
-            
-            // Įrašyti teisingą skiemenį į trūkstamą vietą
-            trukstamasEl.textContent = pasirinkimas;
-            trukstamasEl.style.background = '#d4edda';
-            trukstamasEl.style.borderColor = '#28a745';
-            trukstamasEl.style.color = '#155724';
             
             // Pažymėti teisingą mygtuką
             event.target.classList.add('teisingai');
