@@ -510,15 +510,13 @@
 
 </div>
 
+<script src="https://kalbosupe-dotcom.github.io/Mokyklai/js/results.js"></script>
 <script>
     let atlikta = 0;
     const viso = 8;
     let mokinioVardas = '';
     let uzduociuRezultatai = [];
     let pradejoPildyti = false;
-    
-    // Google Sheets Web App URL - PAKEISK Į SAVO!
-    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxYOUR_DEPLOYMENT_ID/exec';
 
     // Inicializacija - gauti vardą iš localStorage arba paklausti
     window.onload = function() {
@@ -641,26 +639,11 @@
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    // Siųsti rezultatus į Google Sheets
+    // Siųsti rezultatus į Google Sheets naudojant results.js
     function siustiRezultatus() {
         const teisingai = uzduociuRezultatai.filter(r => r === 1).length;
         const neteisingai = viso - teisingai;
         const procentai = Math.round((teisingai / viso) * 100);
-        
-        const dabar = new Date();
-        const data = dabar.toLocaleDateString('lt-LT');
-        const laikas = dabar.toLocaleTimeString('lt-LT');
-        
-        const duomenys = {
-            vardas: mokinioVardas,
-            data: data,
-            laikas: laikas,
-            uzduotis: 'Fonologinis suvokimas - Rask trūkstamą skiemenį',
-            teisingai: teisingai,
-            neteisingai: neteisingai,
-            procentai: procentai,
-            rezultatai: uzduociuRezultatai.join(',')
-        };
         
         // Atnaujinti baigimo pranešimą
         document.getElementById('baigimo-pranesimas').innerHTML = 
@@ -668,21 +651,18 @@
             `<strong>Teisingai:</strong> ${teisingai} / ${viso} (${procentai}%)<br>` +
             `<strong>Neteisingai (pirmu bandymu):</strong> ${neteisingai}`;
         
-        // Siųsti į Google Sheets
-        fetch(GOOGLE_SHEETS_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(duomenys)
-        })
-        .then(() => {
-            console.log('✅ Rezultatai išsiųsti į Google Sheets');
-        })
-        .catch(error => {
-            console.error('❌ Klaida siunčiant rezultatus:', error);
-        });
+        // Naudoti results.js funkciją
+        if (typeof submitResults === 'function') {
+            submitResults(
+                mokinioVardas,
+                'Fonologinis suvokimas - Rask trūkstamą skiemenį',
+                teisingai,
+                viso,
+                uzduociuRezultatai
+            );
+        } else {
+            console.error('results.js nerastas arba submitResults funkcija neegzistuoja');
+        }
     }
 </script>
 
