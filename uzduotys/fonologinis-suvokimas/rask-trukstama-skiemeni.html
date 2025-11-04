@@ -516,22 +516,64 @@
     const viso = 8;
     let mokinioVardas = '';
     let uzduociuRezultatai = [];
-    let pradejoPildyti = false;
 
-    // Inicializacija - gauti vardą iš localStorage arba paklausti
-    window.onload = function() {
-        // Bandyti gauti vardą iš localStorage
-        mokinioVardas = localStorage.getItem('mokinioVardas');
+    // --- Vardų valdymas (kaip jūsų pavyzdyje) ---
+    function showNamePrompt() {
+        const studentName = localStorage.getItem('studentName');
         
-        if (!mokinioVardas || mokinioVardas.trim() === '') {
-            mokinioVardas = prompt('Įveskite savo vardą:');
-            if (!mokinioVardas || mokinioVardas.trim() === '') {
-                mokinioVardas = 'Mokinys';
+        if (!studentName) {
+            const name = prompt('Įveskite savo vardą:');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('studentName', name.trim());
+                return name.trim();
+            } else {
+                alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                return showNamePrompt();
             }
-            // Išsaugoti vardą
-            localStorage.setItem('mokinioVardas', mokinioVardas);
         }
-        
+        return studentName;
+    }
+
+    function changeName() {
+        localStorage.removeItem('studentName');
+        const newName = showNamePrompt();
+        document.getElementById('rodomas-vardas').textContent = newName;
+        mokinioVardas = newName;
+    }
+
+    // Siuntimas į Google Sheets (kaip jūsų pavyzdyje)
+    function sendResultToSheet(taskName, score) {
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+        const timestamp = new Date().toLocaleString('lt-LT');
+    
+        const data = {
+            name: studentName,
+            task: taskName,
+            score: score,
+            timestamp: timestamp
+        };
+    
+        console.log('Siunčiamas rezultatas:', data);
+    
+        fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+        })
+        .catch(error => {
+            console.error('Klaida siunčiant rezultatą:', error);
+        });
+    }
+
+    // Inicializacija
+    window.onload = function() {
+        mokinioVardas = showNamePrompt();
         document.getElementById('rodomas-vardas').textContent = mokinioVardas;
         uzduociuRezultatai = Array(viso).fill(null);
     };
@@ -543,18 +585,10 @@
 
     // Keisti vardą
     function keistiVarda() {
-        const naujasVardas = prompt('Įveskite naują vardą:', mokinioVardas);
-        if (naujasVardas && naujasVardas.trim() !== '') {
-            mokinioVardas = naujasVardas.trim();
-            document.getElementById('rodomas-vardas').textContent = mokinioVardas;
-            // Išsaugoti naują vardą
-            localStorage.setItem('mokinioVardas', mokinioVardas);
-        }
+        changeName();
     }
 
     function tikrinti(nr, pasirinkimas, arTeisingai) {
-        pradejoPildyti = true;
-        
         const rezultatasEl = document.getElementById('rezultatas-' + nr);
         const patarimasEl = document.getElementById('patarimas-' + nr);
         const pilnasEl = document.getElementById('pilnas-' + nr);
@@ -639,7 +673,7 @@
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    // Siųsti rezultatus į Google Sheets naudojant results.js
+    // Siųsti rezultatus (kaip jūsų pavyzdyje)
     function siustiRezultatus() {
         const teisingai = uzduociuRezultatai.filter(r => r === 1).length;
         const neteisingai = viso - teisingai;
@@ -651,18 +685,8 @@
             `<strong>Teisingai:</strong> ${teisingai} / ${viso} (${procentai}%)<br>` +
             `<strong>Neteisingai (pirmu bandymu):</strong> ${neteisingai}`;
         
-        // Naudoti results.js funkciją
-        if (typeof submitResults === 'function') {
-            submitResults(
-                mokinioVardas,
-                'Fonologinis suvokimas - Rask trūkstamą skiemenį',
-                teisingai,
-                viso,
-                uzduociuRezultatai
-            );
-        } else {
-            console.error('results.js nerastas arba submitResults funkcija neegzistuoja');
-        }
+        // Siųsti į Google Sheets (naudojant tą patį metodą kaip jūsų pavyzdyje)
+        sendResultToSheet('Fonologinis suvokimas - Rask trūkstamą skiemenį', procentai);
     }
 </script>
 
