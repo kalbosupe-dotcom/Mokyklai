@@ -658,7 +658,7 @@
             if (activeBtn) activeBtn.classList.add('active');
         }
 
-        // --- ŽODŽIO ŽYMĖJIMAS --- (PATAISYTA)
+        // --- ŽODŽIO ŽYMĖJIMAS --- (PATAISYTA SU ILGŲ FRAZIŲ PALAIKYMU)
         function markWord(wordEl, mythId) {
             if (!currentMode) {
                 alert('Pirmiausia pasirink VEIKSNYS arba TARINYS!');
@@ -668,50 +668,76 @@
             const myth = myths.find(m => m.id === mythId);
             const word = wordEl.dataset.word;
             
-            // Patikriname, ar tai sudėtinis veiksnys (pvz., "Ra ašaros")
+            // Patikriname, ar tai sudėtinis veiksnys
             let isCompound = false;
             let compoundPhrase = '';
             
             // Ieškome sudėtinių veiksnių (tik tuos, kurie turi tarpą)
             myth.veiksniai.forEach(v => {
                 if (v.includes(' ') && v.includes(word)) {
-                    // Papildoma patikra: ar tai tikrai tas pats žodis frazėje
-                    const parts = v.split(' ');
-                    if (parts.includes(word)) {
-                        isCompound = true;
-                        compoundPhrase = v;
-                    }
+                    isCompound = true;
+                    compoundPhrase = v;
                 }
             });
             
             // Jei tai sudėtinis veiksnys ir žymime vieną iš žodžių
             if (isCompound && currentMode === 'veiksnys') {
                 const allWords = document.querySelectorAll(`#text-${mythId} .word`);
-                const compoundParts = compoundPhrase.split(' ');
                 
-                // Randame visus žodžius, kurie sudaro šią frazę (tik artimiausius)
-                let foundFirst = false;
-                let wordsToMark = [];
+                // Išskaidome frazę į žodžius (pašaliname brūkšnelius ir kitus simbolius)
+                const compoundWords = compoundPhrase.split(/[\s–—-]+/).filter(w => w.length > 0);
                 
-                allWords.forEach((w, index) => {
-                    if (w === wordEl) {
-                        foundFirst = true;
-                        wordsToMark.push(w);
-                        
-                        // Ieškome kito žodžio šalia
-                        for (let i = index + 1; i < allWords.length; i++) {
-                            const nextWord = allWords[i].dataset.word;
-                            if (compoundParts.includes(nextWord)) {
-                                wordsToMark.push(allWords[i]);
-                                break;
-                            }
-                            // Jei per toli, sustabdome
-                            if (i - index > 3) break;
-                        }
-                    }
+                // Randame paspausto žodžio indeksą
+                let clickedIndex = -1;
+                allWords.forEach((w, idx) => {
+                    if (w === wordEl) clickedIndex = idx;
                 });
                 
-                // Pažymime tik tuos žodžius, kurie yra šalia
+                if (clickedIndex === -1) return;
+                
+                // Ieškome visų frazės žodžių pradedant nuo paspausto
+                let wordsToMark = [];
+                let searchStartIndex = clickedIndex;
+                
+                // Pirmiausia bandome ieškoti į priekį
+                let foundCount = 0;
+                for (let i = searchStartIndex; i < allWords.length && foundCount < compoundWords.length; i++) {
+                    const currentWord = allWords[i].dataset.word;
+                    if (compoundWords.includes(currentWord)) {
+                        wordsToMark.push(allWords[i]);
+                        foundCount++;
+                    }
+                    // Jei per daug žodžių praleidžiame, sustabdome
+                    if (i - searchStartIndex > compoundWords.length * 3) break;
+                }
+                
+                // Jei neradome visų žodžių, bandome ieškoti atgal
+                if (foundCount < compoundWords.length) {
+                    wordsToMark = [];
+                    foundCount = 0;
+                    
+                    for (let i = clickedIndex; i >= 0 && foundCount < compoundWords.length; i--) {
+                        const currentWord = allWords[i].dataset.word;
+                        if (compoundWords.includes(currentWord)) {
+                            wordsToMark.unshift(allWords[i]);
+                            foundCount++;
+                        }
+                        // Jei per daug žodžių praleidžiame, sustabdome
+                        if (clickedIndex - i > compoundWords.length * 3) break;
+                    }
+                    
+                    // Ieškome likusių žodžių į priekį
+                    for (let i = clickedIndex + 1; i < allWords.length && foundCount < compoundWords.length; i++) {
+                        const currentWord = allWords[i].dataset.word;
+                        if (compoundWords.includes(currentWord) && !wordsToMark.includes(allWords[i])) {
+                            wordsToMark.push(allWords[i]);
+                            foundCount++;
+                        }
+                        if (i - clickedIndex > compoundWords.length * 3) break;
+                    }
+                }
+                
+                // Pažymime visus rastus žodžius
                 wordsToMark.forEach(w => {
                     w.classList.remove('tarinys');
                     w.classList.add('veiksnys');
