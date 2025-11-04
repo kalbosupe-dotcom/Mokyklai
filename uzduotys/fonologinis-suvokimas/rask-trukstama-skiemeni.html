@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fonologinis suvokimas - Skiemenys</title>
+    <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #89b5f5 0%, #a8c8f7 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .instrukcijos {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .instrukcijos h2 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .instrukcijos ol {
+            margin-left: 25px;
+            color: #34495e;
+        }
+
+        .instrukcijos li {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+
+        .audio-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+
+        .audio-btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .uzduotis-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .uzduotis-table td {
+            padding: 20px;
+            border: 2px solid #b8d4f1;
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+        .uzduotis-table tr:first-child td {
+            background: #f0f4f8;
+            font-weight: bold;
+        }
+
+        .zodis-cell {
+            width: 30%;
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .pasirinkimai-cell {
+            width: 70%;
+        }
+
+        .skiemuo-btn {
+            background: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 80px;
+        }
+
+        .skiemuo-btn:hover {
+            background: #d5dbdb;
+            transform: translateY(-2px);
+        }
+
+        .skiemuo-btn.teisingai {
+            background: #2ecc71;
+            color: white;
+            border-color: #27ae60;
+            font-weight: bold;
+        }
+
+        .skiemuo-btn.neteisingai {
+            background: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+
+        .skiemuo-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .rezultatas {
+            display: inline-block;
+            margin-left: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .patarimas {
+            display: none;
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            color: #856404;
+        }
+
+        .progress-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .baigta {
+            display: none;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 24px;
+        }
+
+        .mini-audio {
+            background: #3498db;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .mini-audio:hover {
+            background: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .uzduotis-table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .skiemuo-btn {
+                display: block;
+                width: 100%;
+                margin: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>UŽDUOTIS</h1>
+    </div>
+
+    <div class="instrukcijos">
+        <h2>📋 Kaip atlikti užduotį:</h2>
+        <ol>
+            <li><strong>Perskaityk</strong> žodį ir toje pačioje eilutėje parašytus skiemenis.</li>
+            <li><strong>Pagalvok</strong> kuris skiemuo tinka, jog žodis taptų taisyklingas, turėtų reikšmę.</li>
+            <li><strong>Pažymėk</strong> taisyklingą skiemenį.</li>
+            <li><strong>Perskaityk garsiai</strong> visus gautus žodžius.</li>
+        </ol>
+        <button class="audio-btn" onclick="skaitytiInstrukcija()">
+            🔊 Klausyti instrukcijos
+        </button>
+    </div>
+
+    <!-- Progreso juosta -->
+    <div class="progress-container">
+        <h3>📊 Jūsų pažanga</h3>
+        <div class="progress-bar">
+            <div id="progress" class="progress-fill"></div>
+        </div>
+        <p id="progress-text">Atlikta: 0 / 8 užduočių</p>
+    </div>
+
+    <!-- Užduočių lentelė -->
+    <table class="uzduotis-table">
+        <!-- 1. trečianis -->
+        <tr>
+            <td class="zodis-cell">
+                trečianis
+                <button class="mini-audio" onclick="skaitytiZodi('trečianis')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(1, 'die', false)">die</button>
+                <button class="skiemuo-btn" onclick="tikrinti(1, 'tie', true)">tie</button>
+                <button class="skiemuo-btn" onclick="tikrinti(1, 'dė', false)">dė</button>
+                <span id="rezultatas-1" class="rezultatas"></span>
+                <div id="patarimas-1" class="patarimas">💡 Patarimas: Teisingas žodis: tre-čia-nis. Klausyk atidžiai!</div>
+            </td>
+        </tr>
+
+        <!-- 2. lodija -->
+        <tr>
+            <td class="zodis-cell">
+                lodija
+                <button class="mini-audio" onclick="skaitytiZodi('lodija')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(2, 'mė', false)">mė</button>
+                <button class="skiemuo-btn" onclick="tikrinti(2, 'me', false)">me</button>
+                <button class="skiemuo-btn" onclick="tikrinti(2, 'mie', true)">mie</button>
+                <span id="rezultatas-2" class="rezultatas"></span>
+                <div id="patarimas-2" class="patarimas">💡 Patarimas: Teisingas žodis: lo-mi-ja (laivas).</div>
+            </td>
+        </tr>
+
+        <!-- 3. kenė -->
+        <tr>
+            <td class="zodis-cell">
+                kenė
+                <button class="mini-audio" onclick="skaitytiZodi('kenė')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(3, 'io', false)">io</button>
+                <button class="skiemuo-btn" onclick="tikrinti(3, 'lio', true)">lio</button>
+                <button class="skiemuo-btn" onclick="tikrinti(3, 'lo', false)">lo</button>
+                <span id="rezultatas-3" class="rezultatas"></span>
+                <div id="patarimas-3" class="patarimas">💡 Patarimas: Teisingas žodis: klio-nė (svirnas).</div>
+            </td>
+        </tr>
+
+        <!-- 4. kunugaris -->
+        <tr>
+            <td class="zodis-cell">
+                kunugaris
+                <button class="mini-audio" onclick="skaitytiZodi('kunugaris')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(4, 'pra', false)">pra</button>
+                <button class="skiemuo-btn" onclick="tikrinti(4, 'bra', true)">bra</button>
+                <button class="skiemuo-btn" onclick="tikrinti(4, 'pa', false)">pa</button>
+                <span id="rezultatas-4" class="rezultatas"></span>
+                <div id="patarimas-4" class="patarimas">💡 Patarimas: Teisingas žodis: ku-ni-ga-bra-ris (kunigas).</div>
+            </td>
+        </tr>
+
+        <!-- 5. pusserė -->
+        <tr>
+            <td class="zodis-cell">
+                pusserė
+                <button class="mini-audio" onclick="skaitytiZodi('pusserė')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(5, 'se', true)">se</button>
+                <button class="skiemuo-btn" onclick="tikrinti(5, 'e', false)">e</button>
+                <button class="skiemuo-btn" onclick="tikrinti(5, 'sė', false)">sė</button>
+                <span id="rezultatas-5" class="rezultatas"></span>
+                <div id="patarimas-5" class="patarimas">💡 Patarimas: Teisingas žodis: pus-se-rė.</div>
+            </td>
+        </tr>
+
+        <!-- 6. delis -->
+        <tr>
+            <td class="zodis-cell">
+                delis
+                <button class="mini-audio" onclick="skaitytiZodi('delis')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(6, 'po', false)">po</button>
+                <button class="skiemuo-btn" onclick="tikrinti(6, 'pou', false)">pou</button>
+                <button class="skiemuo-btn" onclick="tikrinti(6, 'puo', true)">puo</button>
+                <span id="rezultatas-6" class="rezultatas"></span>
+                <div id="patarimas-6" class="patarimas">💡 Patarimas: Teisingas žodis: puo-de-lis.</div>
+            </td>
+        </tr>
+
+        <!-- 7. lesyklė -->
+        <tr>
+            <td class="zodis-cell">
+                lesyklė
+                <button class="mini-audio" onclick="skaitytiZodi('lesyklė')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(7, 'le', false)">le</button>
+                <button class="skiemuo-btn" onclick="tikrinti(7, 'lė', false)">lė</button>
+                <button class="skiemuo-btn" onclick="tikrinti(7, 'lie', true)">lie</button>
+                <span id="rezultatas-7" class="rezultatas"></span>
+                <div id="patarimas-7" class="patarimas">💡 Patarimas: Teisingas žodis: lie-syk-lė.</div>
+            </td>
+        </tr>
+
+        <!-- 8. vardis -->
+        <tr>
+            <td class="zodis-cell">
+                vardis
+                <button class="mini-audio" onclick="skaitytiZodi('vardis')">🔊</button>
+            </td>
+            <td class="pasirinkimai-cell">
+                <button class="skiemuo-btn" onclick="tikrinti(8, 'būt', false)">būt</button>
+                <button class="skiemuo-btn" onclick="tikrinti(8, 'būd', true)">būd</button>
+                <button class="skiemuo-btn" onclick="tikrinti(8, 'bud', false)">bud</button>
+                <span id="rezultatas-8" class="rezultatas"></span>
+                <div id="patarimas-8" class="patarimas">💡 Patarimas: Teisingas žodis: būd-var-dis.</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Baigimo pranešimas -->
+    <div id="baigta" class="baigta">
+        <h2>🎉 Puiku! Užduotis baigta!</h2>
+        <p>Jūs sėkmingai atlikote visas 8 užduotis!</p>
+        <button class="audio-btn" onclick="location.reload()">🔄 Pradėti iš naujo</button>
+    </div>
+
+</div>
+
+<script>
+    let atlikta = 0;
+    const viso = 8;
+
+    // Garso sintezė
+    function skaitytiTeksta(tekstas) {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(tekstas);
+            utterance.lang = 'lt-LT';
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        }
+    }
+
+    function skaitytiInstrukcija() {
+        const tekstas = "Kaip atlikti užduotį. Pirma, perskaityk žodį ir toje pačioje eilutėje parašytus skiemenis. Antra, pagalvok kuris skiemuo tinka, jog žodis taptų taisyklingas, turėtų reikšmę. Trečia, pažymėk taisyklingą skiemenį. Ketvirta, perskaityk garsiai visus gautus žodžius.";
+        skaitytiTeksta(tekstas);
+    }
+
+    function skaitytiZodi(zodis) {
+        skaitytiTeksta(zodis);
+    }
+
+    function tikrinti(nr, pasirinkimas, arTeisingai) {
+        const rezultatasEl = document.getElementById('rezultatas-' + nr);
+        const patarimasEl = document.getElementById('patarimas-' + nr);
+        const mygtukai = document.querySelectorAll(`tr:nth-child(${nr}) .skiemuo-btn`);
+        
+        // Išjungti visus mygtukus
+        mygtukai.forEach(btn => {
+            btn.disabled = true;
+        });
+
+        if (arTeisingai) {
+            rezultatasEl.innerHTML = '✅';
+            rezultatasEl.style.color = '#2ecc71';
+            
+            // Pažymėti teisingą mygtuką
+            event.target.classList.add('teisingai');
+            
+            // Garso efektas
+            skaitytiTeksta('Teisingai!');
+            
+            // Atnaujinti pažangą
+            atlikta++;
+            atnaujintiPazanga();
+            
+        } else {
+            rezultatasEl.innerHTML = '❌';
+            rezultatasEl.style.color = '#e74c3c';
+            
+            // Pažymėti neteisingą mygtuką
+            event.target.classList.add('neteisingai');
+            
+            // Rodyti patarimą
+            patarimasEl.style.display = 'block';
+            
+            // Garso efektas
+            skaitytiTeksta('Bandykite dar kartą');
+            
+            // Leisti bandyti dar kartą po 2 sekundžių
+            setTimeout(() => {
+                mygtukai.forEach(btn => {
+                    btn.disabled = false;
+                    btn.classList.remove('neteisingai');
+                });
+                rezultatasEl.innerHTML = '';
+                patarimasEl.style.display = 'none';
+            }, 2000);
+        }
+    }
+
+    function atnaujintiPazanga() {
+        const procentai = (atlikta / viso) * 100;
+        document.getElementById('progress').style.width = procentai + '%';
+        document.getElementById('progress-text').textContent = `Atlikta: ${atlikta} / ${viso} užduočių`;
+        
+        // Jei visos užduotys atliktos
+        if (atlikta === viso) {
+            setTimeout(() => {
+                document.getElementById('baigta').style.display = 'block';
+                skaitytiTeksta('Puiku! Užduotis baigta! Jūs sėkmingai atlikote visas užduotis!');
+            }, 500);
+        }
+    }
+</script>
+
+</body>
+</html>
