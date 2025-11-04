@@ -774,6 +774,9 @@
             const myth = myths.find(m => m.id === mythId);
             const words = document.querySelectorAll(`#text-${mythId} .word`);
             
+            // Jungtukų ir žodelių sąrašas, kurių nereikia tikrinti
+            const jungtukaiIrZodeliai = ['ir', 'o', 'bet', 'tačiau', 'kad', 'su', 'bei', 'ar'];
+            
             let correctVeiksniai = 0;
             let correctTariniai = 0;
             let totalVeiksniai = 0;
@@ -785,6 +788,11 @@
                 const word = wordEl.dataset.word;
                 const hasVeiksnys = wordEl.classList.contains('veiksnys');
                 const hasTarinys = wordEl.classList.contains('tarinys');
+                
+                // Praleisti jungtukus ir žodelius
+                if (jungtukaiIrZodeliai.includes(word.toLowerCase())) {
+                    return; // Praleisti šį žodį
+                }
                 
                 // Tikriname, ar žodis yra veiksnys
                 let isVeiksnys = false;
