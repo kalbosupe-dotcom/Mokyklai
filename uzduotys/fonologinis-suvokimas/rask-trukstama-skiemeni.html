@@ -30,6 +30,122 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
+        /* Vardo įvedimo ekranas */
+        #vardo-ekranas {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        #vardo-ekranas h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        #vardo-ekranas input {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 20px;
+            padding: 15px 25px;
+            border: 3px solid #3498db;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        #vardo-ekranas input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        #vardo-ekranas button {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 20px;
+            padding: 15px 40px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #vardo-ekranas button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Užduoties ekranas */
+        #uzduoties-ekranas {
+            display: none;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .grizti-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #89b5f5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .grizti-btn:hover {
+            background: #6a9de8;
+            transform: translateX(-3px);
+        }
+
+        .mokinys-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mokinys-info span {
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .mokinys-vardas {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 20px;
+        }
+
+        .keisti-btn {
+            background: #89b5f5;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .keisti-btn:hover {
+            background: #6a9de8;
+        }
+
         .header {
             background: linear-gradient(135deg, #89b5f5 0%, #a8c8f7 100%);
             padding: 25px;
@@ -211,6 +327,11 @@
                 font-size: 24px;
             }
             
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
             .uzduotis-table td {
                 display: block;
                 width: 100%;
@@ -227,148 +348,213 @@
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>UŽDUOTIS | Fonologinis suvokimas</h1>
+    <!-- VARDO ĮVEDIMO EKRANAS -->
+    <div id="vardo-ekranas">
+        <h1>👋 Sveiki!</h1>
+        <p style="font-size: 20px; color: #555; margin-bottom: 30px;">Prieš pradedant užduotį, įveskite savo vardą:</p>
+        <input type="text" id="mokinio-vardas" placeholder="Įveskite savo vardą..." maxlength="50">
+        <br>
+        <button onclick="pradetiUzduoti()">Pradėti užduotį</button>
     </div>
 
-    <div class="instrukcijos">
-        <h2>📋 Kaip atlikti užduotį:</h2>
-        <ol>
-            <li><strong>Perskaityk</strong> žodį ir toje pačioje eilutėje parašytus skiemenis.</li>
-            <li><strong>Pagalvok</strong> kuris skiemuo tinka, jog žodis taptų taisyklingas, turėtų reikšmę.</li>
-            <li><strong>Pažymėk</strong> taisyklingą skiemenį.</li>
-            <li><strong>Perskaityk garsiai</strong> visus gautus žodžius.</li>
-        </ol>
-    </div>
-
-    <!-- Progreso juosta -->
-    <div class="progress-container">
-        <h3>📊 Jūsų pažanga</h3>
-        <div class="progress-bar">
-            <div id="progress" class="progress-fill"></div>
+    <!-- UŽDUOTIES EKRANAS -->
+    <div id="uzduoties-ekranas">
+        <!-- Viršutinė juosta -->
+        <div class="top-bar">
+            <button class="grizti-btn" onclick="griztiIPradzia()">
+                ← Grįžti į pradžią
+            </button>
+            <div class="mokinys-info">
+                <span>Mokinys:</span>
+                <span class="mokinys-vardas" id="rodomas-vardas"></span>
+                <button class="keisti-btn" onclick="keistiVarda()">Keisti vardą</button>
+            </div>
         </div>
-        <p id="progress-text">Atlikta: 0 / 8 užduočių</p>
+
+        <div class="header">
+            <h1>UŽDUOTIS | Fonologinis suvokimas</h1>
+        </div>
+
+        <div class="instrukcijos">
+            <h2>📋 Kaip atlikti užduotį:</h2>
+            <ol>
+                <li><strong>Perskaityk</strong> žodį ir toje pačioje eilutėje parašytus skiemenis.</li>
+                <li><strong>Pagalvok</strong> kuris skiemuo tinka, jog žodis taptų taisyklingas, turėtų reikšmę.</li>
+                <li><strong>Pažymėk</strong> taisyklingą skiemenį.</li>
+                <li><strong>Perskaityk garsiai</strong> visus gautus žodžius.</li>
+            </ol>
+        </div>
+
+        <!-- Progreso juosta -->
+        <div class="progress-container">
+            <h3>📊 Jūsų pažanga</h3>
+            <div class="progress-bar">
+                <div id="progress" class="progress-fill"></div>
+            </div>
+            <p id="progress-text">Atlikta: 0 / 8 užduočių</p>
+        </div>
+
+        <!-- Užduočių lentelė -->
+        <table class="uzduotis-table">
+            <!-- 1. trečianis -->
+            <tr>
+                <td class="zodis-cell">trečianis</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(1, 'die', true)">die</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(1, 'tie', false)">tie</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(1, 'dė', false)">dė</button>
+                    <span id="rezultatas-1" class="rezultatas"></span>
+                    <div id="patarimas-1" class="patarimas">💡 Patarimas: Teisingas žodis: tre-čia-die-nis</div>
+                    <div id="pilnas-1" class="pilnas-zodis">✅ Teisingas žodis: <strong>trečiadienis</strong></div>
+                </td>
+            </tr>
+
+            <!-- 2. lodija -->
+            <tr>
+                <td class="zodis-cell">lodija</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(2, 'mė', true)">mė</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(2, 'me', false)">me</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(2, 'mie', false)">mie</button>
+                    <span id="rezultatas-2" class="rezultatas"></span>
+                    <div id="patarimas-2" class="patarimas">💡 Patarimas: Teisingas žodis: melodija</div>
+                    <div id="pilnas-2" class="pilnas-zodis">✅ Teisingas žodis: <strong>melodija</strong></div>
+                </td>
+            </tr>
+
+            <!-- 3. kenė -->
+            <tr>
+                <td class="zodis-cell">kenė</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(3, 'io', false)">io</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(3, 'lio', true)">lio</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(3, 'lo', false)">lo</button>
+                    <span id="rezultatas-3" class="rezultatas"></span>
+                    <div id="patarimas-3" class="patarimas">💡 Patarimas: Teisingas žodis: kelionė</div>
+                    <div id="pilnas-3" class="pilnas-zodis">✅ Teisingas žodis: <strong>kelionė</strong></div>
+                </td>
+            </tr>
+
+            <!-- 4. kunugaris -->
+            <tr>
+                <td class="zodis-cell">kunugaris</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(4, 'pra', true)">pra</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(4, 'bra', false)">bra</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(4, 'pa', false)">pa</button>
+                    <span id="rezultatas-4" class="rezultatas"></span>
+                    <div id="patarimas-4" class="patarimas">💡 Patarimas: Teisingas žodis: kupranugaris</div>
+                    <div id="pilnas-4" class="pilnas-zodis">✅ Teisingas žodis: <strong>kupranugaris</strong></div>
+                </td>
+            </tr>
+
+            <!-- 5. pusserė -->
+            <tr>
+                <td class="zodis-cell">pusserė</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(5, 'se', true)">se</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(5, 'e', false)">e</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(5, 'sė', false)">sė</button>
+                    <span id="rezultatas-5" class="rezultatas"></span>
+                    <div id="patarimas-5" class="patarimas">💡 Patarimas: Teisingas žodis: pusseserė</div>
+                    <div id="pilnas-5" class="pilnas-zodis">✅ Teisingas žodis: <strong>pusseserė</strong></div>
+                </td>
+            </tr>
+
+            <!-- 6. delis -->
+            <tr>
+                <td class="zodis-cell">delis</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(6, 'po', false)">po</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(6, 'pou', false)">pou</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(6, 'puo', true)">puo</button>
+                    <span id="rezultatas-6" class="rezultatas"></span>
+                    <div id="patarimas-6" class="patarimas">💡 Patarimas: Teisingas žodis: puodelis</div>
+                    <div id="pilnas-6" class="pilnas-zodis">✅ Teisingas žodis: <strong>puodelis</strong></div>
+                </td>
+            </tr>
+
+            <!-- 7. lesyklė -->
+            <tr>
+                <td class="zodis-cell">lesyklė</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(7, 'le', false)">le</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(7, 'lė', true)">lė</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(7, 'lie', false)">lie</button>
+                    <span id="rezultatas-7" class="rezultatas"></span>
+                    <div id="patarimas-7" class="patarimas">💡 Patarimas: Teisingas žodis: lesyklėlė</div>
+                    <div id="pilnas-7" class="pilnas-zodis">✅ Teisingas žodis: <strong>lesyklėlė</strong></div>
+                </td>
+            </tr>
+
+            <!-- 8. vardis -->
+            <tr>
+                <td class="zodis-cell">vardis</td>
+                <td class="pasirinkimai-cell">
+                    <button class="skiemuo-btn" onclick="tikrinti(8, 'būt', false)">būt</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(8, 'būd', true)">būd</button>
+                    <button class="skiemuo-btn" onclick="tikrinti(8, 'bud', false)">bud</button>
+                    <span id="rezultatas-8" class="rezultatas"></span>
+                    <div id="patarimas-8" class="patarimas">💡 Patarimas: Teisingas žodis: būdvardis</div>
+                    <div id="pilnas-8" class="pilnas-zodis">✅ Teisingas žodis: <strong>būdvardis</strong></div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Baigimo pranešimas -->
+        <div id="baigta" class="baigta">
+            <h2>🎉 Puiku! Užduotis baigta!</h2>
+            <p id="baigimo-pranesimas">Jūs sėkmingai atlikote visas 8 užduotis!</p>
+            <button class="skiemuo-btn" onclick="location.reload()" style="background: white; color: #11998e; margin-top: 20px;">🔄 Pradėti iš naujo</button>
+        </div>
+
     </div>
-
-    <!-- Užduočių lentelė -->
-    <table class="uzduotis-table">
-        <!-- 1. trečianis -->
-        <tr>
-            <td class="zodis-cell">trečianis</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(1, 'die', true)">die</button>
-                <button class="skiemuo-btn" onclick="tikrinti(1, 'tie', false)">tie</button>
-                <button class="skiemuo-btn" onclick="tikrinti(1, 'dė', false)">dė</button>
-                <span id="rezultatas-1" class="rezultatas"></span>
-                <div id="patarimas-1" class="patarimas">💡 Patarimas: Teisingas žodis: tre-čia-die-nis</div>
-                <div id="pilnas-1" class="pilnas-zodis">✅ Teisingas žodis: <strong>trečiadienis</strong></div>
-            </td>
-        </tr>
-
-        <!-- 2. lodija -->
-        <tr>
-            <td class="zodis-cell">lodija</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(2, 'me', true)">me</button>
-                <button class="skiemuo-btn" onclick="tikrinti(2, 'mė', false)">mė</button>
-                <button class="skiemuo-btn" onclick="tikrinti(2, 'mie', false)">mie</button>
-                <span id="rezultatas-2" class="rezultatas"></span>
-                <div id="patarimas-2" class="patarimas">💡 Patarimas: Teisingas žodis: melodija</div>
-                <div id="pilnas-2" class="pilnas-zodis">✅ Teisingas žodis: <strong>melodija</strong></div>
-            </td>
-        </tr>
-
-        <!-- 3. kenė -->
-        <tr>
-            <td class="zodis-cell">kenė</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(3, 'io', false)">io</button>
-                <button class="skiemuo-btn" onclick="tikrinti(3, 'lio', true)">lio</button>
-                <button class="skiemuo-btn" onclick="tikrinti(3, 'lo', false)">lo</button>
-                <span id="rezultatas-3" class="rezultatas"></span>
-                <div id="patarimas-3" class="patarimas">💡 Patarimas: Teisingas žodis: kelionė</div>
-                <div id="pilnas-3" class="pilnas-zodis">✅ Teisingas žodis: <strong>kelionė</strong></div>
-            </td>
-        </tr>
-
-        <!-- 4. kunugaris -->
-        <tr>
-            <td class="zodis-cell">kunugaris</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(4, 'pra', true)">pra</button>
-                <button class="skiemuo-btn" onclick="tikrinti(4, 'bra', false)">bra</button>
-                <button class="skiemuo-btn" onclick="tikrinti(4, 'pa', false)">pa</button>
-                <span id="rezultatas-4" class="rezultatas"></span>
-                <div id="patarimas-4" class="patarimas">💡 Patarimas: Teisingas žodis: kupranugaris</div>
-                <div id="pilnas-4" class="pilnas-zodis">✅ Teisingas žodis: <strong>kupranugaris</strong></div>
-            </td>
-        </tr>
-
-        <!-- 5. pusserė -->
-        <tr>
-            <td class="zodis-cell">pusserė</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(5, 'se', true)">se</button>
-                <button class="skiemuo-btn" onclick="tikrinti(5, 'e', false)">e</button>
-                <button class="skiemuo-btn" onclick="tikrinti(5, 'sė', false)">sė</button>
-                <span id="rezultatas-5" class="rezultatas"></span>
-                <div id="patarimas-5" class="patarimas">💡 Patarimas: Teisingas žodis: pusseserė</div>
-                <div id="pilnas-5" class="pilnas-zodis">✅ Teisingas žodis: <strong>pusseserė</strong></div>
-            </td>
-        </tr>
-
-        <!-- 6. delis -->
-        <tr>
-            <td class="zodis-cell">delis</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(6, 'po', false)">po</button>
-                <button class="skiemuo-btn" onclick="tikrinti(6, 'pou', false)">pou</button>
-                <button class="skiemuo-btn" onclick="tikrinti(6, 'puo', true)">puo</button>
-                <span id="rezultatas-6" class="rezultatas"></span>
-                <div id="patarimas-6" class="patarimas">💡 Patarimas: Teisingas žodis: puodelis</div>
-                <div id="pilnas-6" class="pilnas-zodis">✅ Teisingas žodis: <strong>puodelis</strong></div>
-            </td>
-        </tr>
-
-        <!-- 7. lesyklė -->
-        <tr>
-            <td class="zodis-cell">lesyklė</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(7, 'le', false)">le</button>
-                <button class="skiemuo-btn" onclick="tikrinti(7, 'lė', true)">lė</button>
-                <button class="skiemuo-btn" onclick="tikrinti(7, 'lie', false)">lie</button>
-                <span id="rezultatas-7" class="rezultatas"></span>
-                <div id="patarimas-7" class="patarimas">💡 Patarimas: Teisingas žodis: lesyklėlė</div>
-                <div id="pilnas-7" class="pilnas-zodis">✅ Teisingas žodis: <strong>lesyklėlė</strong></div>
-            </td>
-        </tr>
-
-        <!-- 8. vardis -->
-        <tr>
-            <td class="zodis-cell">vardis</td>
-            <td class="pasirinkimai-cell">
-                <button class="skiemuo-btn" onclick="tikrinti(8, 'būt', false)">būt</button>
-                <button class="skiemuo-btn" onclick="tikrinti(8, 'būd', true)">būd</button>
-                <button class="skiemuo-btn" onclick="tikrinti(8, 'bud', false)">bud</button>
-                <span id="rezultatas-8" class="rezultatas"></span>
-                <div id="patarimas-8" class="patarimas">💡 Patarimas: Teisingas žodis: būdvardis</div>
-                <div id="pilnas-8" class="pilnas-zodis">✅ Teisingas žodis: <strong>būdvardis</strong></div>
-            </td>
-        </tr>
-    </table>
-
-    <!-- Baigimo pranešimas -->
-    <div id="baigta" class="baigta">
-        <h2>🎉 Puiku! Užduotis baigta!</h2>
-        <p>Jūs sėkmingai atlikote visas 8 užduotis!</p>
-        <button class="skiemuo-btn" onclick="location.reload()" style="background: white; color: #11998e; margin-top: 20px;">🔄 Pradėti iš naujo</button>
-    </div>
-
 </div>
 
 <script>
     let atlikta = 0;
     const viso = 8;
+    let mokinioVardas = '';
+    let uzduociuRezultatai = [];
+    
+    // Google Sheets Web App URL - PAKEISK Į SAVO!
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+
+    // Pradėti užduotį
+    function pradetiUzduoti() {
+        const vardoInput = document.getElementById('mokinio-vardas');
+        mokinioVardas = vardoInput.value.trim();
+        
+        if (mokinioVardas === '') {
+            alert('Prašome įvesti vardą!');
+            vardoInput.focus();
+            return;
+        }
+        
+        // Paslėpti vardo ekraną, rodyti užduotį
+        document.getElementById('vardo-ekranas').style.display = 'none';
+        document.getElementById('uzduoties-ekranas').style.display = 'block';
+        document.getElementById('rodomas-vardas').textContent = mokinioVardas;
+        
+        // Inicializuoti rezultatų masyvą
+        uzduociuRezultatai = Array(viso).fill(null);
+    }
+
+    // Grįžti į pradžią
+    function griztiIPradzia() {
+        if (confirm('Ar tikrai norite grįžti į pradžią? Visi rezultatai bus prarasti.')) {
+            location.reload();
+        }
+    }
+
+    // Keisti vardą
+    function keistiVarda() {
+        const naujasVardas = prompt('Įveskite naują vardą:', mokinioVardas);
+        if (naujasVardas && naujasVardas.trim() !== '') {
+            mokinioVardas = naujasVardas.trim();
+            document.getElementById('rodomas-vardas').textContent = mokinioVardas;
+        }
+    }
 
     function tikrinti(nr, pasirinkimas, arTeisingai) {
         const rezultatasEl = document.getElementById('rezultatas-' + nr);
@@ -391,6 +577,9 @@
             // Rodyti pilną žodį
             pilnasEl.style.display = 'block';
             
+            // Išsaugoti rezultatą
+            uzduociuRezultatai[nr - 1] = 1;
+            
             // Atnaujinti pažangą
             atlikta++;
             atnaujintiPazanga();
@@ -404,6 +593,11 @@
             
             // Rodyti patarimą
             patarimasEl.style.display = 'block';
+            
+            // Išsaugoti rezultatą (0 = neteisingai)
+            if (uzduociuRezultatai[nr - 1] === null) {
+                uzduociuRezultatai[nr - 1] = 0;
+            }
             
             // Leisti bandyti dar kartą po 2 sekundžių
             setTimeout(() => {
@@ -425,10 +619,48 @@
         // Jei visos užduotys atliktos
         if (atlikta === viso) {
             setTimeout(() => {
+                siustiRezultatus();
                 document.getElementById('baigta').style.display = 'block';
                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             }, 500);
         }
+    }
+
+    // Siųsti rezultatus į Google Sheets
+    function siustiRezultatus() {
+        const teisingai = uzduociuRezultatai.filter(r => r === 1).length;
+        const neteisingai = viso - teisingai;
+        const procentai = Math.round((teisingai / viso) * 100);
+        
+        const duomenys = {
+            vardas: mokinioVardas,
+            data: new Date().toLocaleString('lt-LT'),
+            teisingai: teisingai,
+            neteisingai: neteisingai,
+            procentai: procentai,
+            rezultatai: uzduociuRezultatai.join(',')
+        };
+        
+        // Atnaujinti baigimo pranešimą
+        document.getElementById('baigimo-pranesimas').innerHTML = 
+            `Jūs sėkmingai atlikote visas 8 užduotis!<br>` +
+            `<strong>Teisingai:</strong> ${teisingai} / ${viso} (${procentai}%)`;
+        
+        // Siųsti į Google Sheets
+        fetch(GOOGLE_SHEETS_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(duomenys)
+        })
+        .then(() => {
+            console.log('Rezultatai išsiųsti į Google Sheets');
+        })
+        .catch(error => {
+            console.error('Klaida siunčiant rezultatus:', error);
+        });
     }
 </script>
 
