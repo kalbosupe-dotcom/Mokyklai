@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎵 Garso Bangos - Trumpi Klausimai</title>
     <style>
-        @import url('https://fonts.cdnfonts.com/css/opendyslexic');
-        
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +12,7 @@
         }
         
         body {
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-family: Verdana, Geneva, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -133,6 +131,33 @@
             font-size: 1.1em;
         }
         
+        .input-group {
+            margin: 25px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .input-group input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            font-family: Verdana, Geneva, sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
         .options-container {
             margin: 25px 0;
         }
@@ -199,7 +224,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-family: Verdana, Geneva, sans-serif;
             font-weight: bold;
             transition: all 0.3s;
             flex: 1;
@@ -335,6 +360,17 @@
             margin: 20px 0;
         }
         
+        .student-name-display {
+            background: #e8f0ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -389,11 +425,33 @@
             </p>
         </div>
 
+        <!-- Vardo Klausimas (Card 0) -->
+        <div class="card active" id="card0">
+            <div class="card-header">
+                <h2>👋 Sveiki!</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Prieš pradedant testą, prašome įvesti savo vardą ir pavardę</strong>
+            </div>
+
+            <div class="input-group">
+                <label for="studentName">Vardas ir pavardė:</label>
+                <input type="text" id="studentName" placeholder="Pvz.: Jonas Jonaitis" autocomplete="off">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-next" onclick="saveNameAndStart()">Pradėti Testą ➜</button>
+            </div>
+        </div>
+
         <!-- Klausimas 1 -->
-        <div class="card active" id="card1">
+        <div class="card" id="card1">
             <div class="card-header">
                 <h2>📝 Klausimas 1</h2>
             </div>
+
+            <div class="student-name-display" id="nameDisplay1"></div>
 
             <div class="question-box">
                 <strong>Ilgesnis bangos ilgis</strong>
@@ -430,6 +488,8 @@
             <div class="card-header">
                 <h2>📝 Klausimas 2</h2>
             </div>
+
+            <div class="student-name-display" id="nameDisplay2"></div>
 
             <div class="question-box">
                 <strong>Didesnis dažnis reiškia:</strong>
@@ -468,6 +528,8 @@
                 <h2>📝 Klausimas 3</h2>
             </div>
 
+            <div class="student-name-display" id="nameDisplay3"></div>
+
             <div class="question-box">
                 <strong>Didesnė amplitudė sukuria:</strong>
             </div>
@@ -505,6 +567,8 @@
                 <h2>📝 Klausimas 4</h2>
             </div>
 
+            <div class="student-name-display" id="nameDisplay4"></div>
+
             <div class="question-box">
                 <strong>Garso greitis ore yra:</strong>
             </div>
@@ -540,6 +604,8 @@
             <div class="card-header">
                 <h2>📝 Klausimas 5</h2>
             </div>
+
+            <div class="student-name-display" id="nameDisplay5"></div>
 
             <div class="question-box">
                 <strong>Garso greitis vandenyje yra:</strong>
@@ -578,6 +644,8 @@
                 <h2>📝 Klausimas 6</h2>
             </div>
 
+            <div class="student-name-display" id="nameDisplay6"></div>
+
             <div class="question-box">
                 <strong>Infragarso dažnis yra:</strong>
             </div>
@@ -614,6 +682,8 @@
             <div class="card-header">
                 <h2>📝 Klausimas 7</h2>
             </div>
+
+            <div class="student-name-display" id="nameDisplay7"></div>
 
             <div class="question-box">
                 <strong>Ultragarso dažnis yra:</strong>
@@ -652,6 +722,8 @@
                 <h2>📝 Klausimas 8</h2>
             </div>
 
+            <div class="student-name-display" id="nameDisplay8"></div>
+
             <div class="question-box">
                 <strong>Periodas (T) ir dažnis (f) yra susiję:</strong>
             </div>
@@ -687,6 +759,8 @@
             <div class="card-header">
                 <h2>📝 Klausimas 9</h2>
             </div>
+
+            <div class="student-name-display" id="nameDisplay9"></div>
 
             <div class="question-box">
                 <strong>Jei dažnis 100 Hz, tai periodas yra:</strong>
@@ -725,6 +799,8 @@
                 <h2>📝 Klausimas 10</h2>
             </div>
 
+            <div class="student-name-display" id="nameDisplay10"></div>
+
             <div class="question-box">
                 <strong>Bangos ilgis apskaičiuojamas:</strong>
             </div>
@@ -761,6 +837,8 @@
             <div class="card-header">
                 <h2>📝 Klausimas 11</h2>
             </div>
+
+            <div class="student-name-display" id="nameDisplay11"></div>
 
             <div class="question-box">
                 <strong>Garsas nesklinda:</strong>
@@ -799,6 +877,8 @@
                 <h2>📝 Klausimas 12</h2>
             </div>
 
+            <div class="student-name-display" id="nameDisplay12"></div>
+
             <div class="question-box">
                 <strong>Aidas atsiranda dėl:</strong>
             </div>
@@ -835,6 +915,8 @@
                 <h2>🎉 Rezultatai</h2>
             </div>
 
+            <div class="student-name-display" id="nameDisplay13"></div>
+
             <div class="results-summary">
                 <div class="emoji-large" id="resultEmoji">🎯</div>
                 
@@ -869,6 +951,8 @@
                 </ul>
             </div>
 
+            <div id="sheetStatus" style="margin: 20px 0; padding: 15px; border-radius: 10px; display: none;"></div>
+
             <div class="button-group">
                 <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
                 <button class="btn-primary" onclick="restartQuiz()">🔄 Pradėti iš Naujo</button>
@@ -877,9 +961,13 @@
 
     </div>
     <script>
+        // Google Sheets konfigūracija
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwxMa_L_L0vYJoGNL_Y7aXZGUO9r2sDqJ-wSYvGKLNPJCXqOLhSVXMmhLvpDZNpqvhh/exec';
+        
         // Globalūs kintamieji
-        let currentCard = 1;
-        const totalCards = 13; // 12 klausimų + 1 rezultatų kortelė
+        let studentName = '';
+        let currentCard = 0;
+        const totalCards = 13; // 0 (vardas) + 12 klausimų + 1 rezultatų kortelė
         let userAnswers = [];
         let correctAnswers = 0;
 
@@ -925,7 +1013,39 @@
             
             // Pridėti event listener'ius radio mygtukams
             addOptionListeners();
+            
+            // Enter klavišas vardo įvedime
+            document.getElementById('studentName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveNameAndStart();
+                }
+            });
         };
+
+        // Išsaugoti vardą ir pradėti testą
+        function saveNameAndStart() {
+            const nameInput = document.getElementById('studentName');
+            const name = nameInput.value.trim();
+            
+            if (name === '') {
+                alert('Prašome įvesti savo vardą ir pavardę!');
+                nameInput.focus();
+                return;
+            }
+            
+            studentName = name;
+            
+            // Atnaujinti visus vardo laukus
+            for (let i = 1; i <= 13; i++) {
+                const nameDisplay = document.getElementById('nameDisplay' + i);
+                if (nameDisplay) {
+                    nameDisplay.textContent = '👤 ' + studentName;
+                }
+            }
+            
+            // Pereiti į pirmą klausimą
+            nextCard();
+        }
 
         // Pridėti event listener'ius pasirinkimams
         function addOptionListeners() {
@@ -959,9 +1079,14 @@
         // Atnaujinti pažangos juostą
         function updateProgress() {
             const progress = ((currentCard - 1) / 12) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('progressBar').textContent = Math.round(progress) + '%';
-            document.getElementById('currentTask').textContent = currentCard - 1;
+            const progressBar = document.getElementById('progressBar');
+            const currentTask = document.getElementById('currentTask');
+            
+            if (progressBar && currentTask) {
+                progressBar.style.width = Math.max(0, progress) + '%';
+                progressBar.textContent = Math.max(0, Math.round(progress)) + '%';
+                currentTask.textContent = Math.max(0, currentCard - 1);
+            }
         }
 
         // Pereiti į kitą kortelę
@@ -1114,12 +1239,72 @@
             }
             
             detailedElement.innerHTML = detailedHTML;
+            
+            // Siųsti rezultatus į Google Sheets
+            sendToGoogleSheets();
+        }
+
+        // Siųsti duomenis į Google Sheets
+        function sendToGoogleSheets() {
+            const statusDiv = document.getElementById('sheetStatus');
+            statusDiv.style.display = 'block';
+            statusDiv.style.background = '#fff3cd';
+            statusDiv.style.border = '3px solid #ffc107';
+            statusDiv.style.color = '#856404';
+            statusDiv.innerHTML = '⏳ Siunčiami rezultatai į Google Sheets...';
+            
+            // Paruošti duomenis
+            const timestamp = new Date().toLocaleString('lt-LT');
+            const score = correctAnswers;
+            const percentage = ((correctAnswers / 12) * 100).toFixed(1);
+            
+            // Sukurti detalią atsakymų eilutę
+            let answersDetail = '';
+            for (let i = 1; i <= 12; i++) {
+                const task = userAnswers[i];
+                answersDetail += `K${i}: ${task.correct ? '✓' : '✗'} `;
+            }
+            
+            // Paruošti duomenis siuntimui
+            const data = {
+                timestamp: timestamp,
+                studentName: studentName,
+                exercise: 'Garso Bangos - Trumpi Klausimai',
+                score: score,
+                total: 12,
+                percentage: percentage + '%',
+                details: answersDetail.trim()
+            };
+            
+            // Siųsti į Google Sheets
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                statusDiv.style.background = '#d4edda';
+                statusDiv.style.border = '3px solid #28a745';
+                statusDiv.style.color = '#155724';
+                statusDiv.innerHTML = '✅ Rezultatai sėkmingai išsaugoti Google Sheets!';
+            })
+            .catch((error) => {
+                console.error('Klaida siunčiant duomenis:', error);
+                statusDiv.style.background = '#f8d7da';
+                statusDiv.style.border = '3px solid #dc3545';
+                statusDiv.style.color = '#721c24';
+                statusDiv.innerHTML = '⚠️ Nepavyko išsaugoti rezultatų. Prašome pranešti mokytojui.';
+            });
         }
 
         // Pradėti testą iš naujo
         function restartQuiz() {
             // Atstatyti kintamuosius
-            currentCard = 1;
+            studentName = '';
+            currentCard = 0;
             correctAnswers = 0;
             userAnswers = [];
             
@@ -1127,6 +1312,9 @@
             for (let i = 1; i <= 12; i++) {
                 userAnswers[i] = { answered: false, correct: false, userValue: null };
             }
+            
+            // Išvalyti vardo lauką
+            document.getElementById('studentName').value = '';
             
             // Išvalyti visus pasirinkimus ir grįžtamąjį ryšį
             for (let i = 1; i <= 12; i++) {
@@ -1163,14 +1351,25 @@
                 }
             }
             
-            // Grįžti į pirmą kortelę
+            // Paslėpti Google Sheets statusą
+            const statusDiv = document.getElementById('sheetStatus');
+            if (statusDiv) {
+                statusDiv.style.display = 'none';
+            }
+            
+            // Grįžti į vardo kortelę
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
             });
             
-            document.getElementById('card1').classList.add('active');
+            document.getElementById('card0').classList.add('active');
             updateProgress();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Fokusuoti vardo lauką
+            setTimeout(() => {
+                document.getElementById('studentName').focus();
+            }, 100);
         }
 
         // Klaviatūros palaikymas (Enter mygtukas tikrina atsakymą)
