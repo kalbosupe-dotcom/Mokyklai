@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Garso Bangos - Trumpi Klausimai</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/opendyslexic');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            display: none;
+        }
+        
+        .card.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .question-box {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #764ba2;
+            font-size: 1.4em;
+            line-height: 2;
+            color: #1a1a1a;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .question-box strong {
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .options-container {
+            margin: 25px 0;
+        }
+        
+        .option {
+            background: white;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+        
+        .option input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #e8f0ff;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            font-size: 1.2em;
+            animation: fadeIn 0.5s;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 3px solid #28a745;
+            color: #155724;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 3px solid #dc3545;
+            color: #721c24;
+            display: block;
+        }
+        
+        .feedback-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .results-summary {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .score-circle .score {
+            font-size: 3em;
+            font-weight: bold;
+        }
+        
+        .score-circle .label {
+            font-size: 1.2em;
+        }
+        
+        .results-details {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .result-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-item.correct {
+            border-left-color: #28a745;
+        }
+        
+        .result-item.incorrect {
+            border-left-color: #dc3545;
+        }
+        
+        .emoji-large {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .question-box {
+                font-size: 1.2em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .score-circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .score-circle .score {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎵 Garso Bangos - Trumpi Klausimai</h1>
+            <p class="subtitle">7 klasė | Greitas žinių patikrinimas</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar">0%</div>
+            </div>
+            <p style="text-align: center; margin-top: 10px; color: #666;">
+                <strong>Klausimas: <span id="currentTask">0</span> / 12</strong>
+            </p>
+        </div>
+
+        <!-- Klausimas 1 -->
+        <div class="card active" id="card1">
+            <div class="card-header">
+                <h2>📝 Klausimas 1</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Ilgesnis bangos ilgis</strong>
+            </div>
+
+            <div class="options-container" id="options1">
+                <label class="option">
+                    <input type="radio" name="q1" value="1">
+                    <span>Žemesnis garsas</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="2">
+                    <span>Aukštesnis garsas</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="3">
+                    <span>Bangos ilgis neįtakoja garso aukščio</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(1)" id="checkBtn1">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback1"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-next" onclick="nextCard()" id="next1" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 2 -->
+        <div class="card" id="card2">
+            <div class="card-header">
+                <h2>📝 Klausimas 2</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Didesnis dažnis reiškia:</strong>
+            </div>
+
+            <div class="options-container" id="options2">
+                <label class="option">
+                    <input type="radio" name="q2" value="1">
+                    <span>Žemesnį garsą</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="2">
+                    <span>Aukštesnį garsą</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="3">
+                    <span>Garsesnį garsą</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(2)" id="checkBtn2">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback2"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next2" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 3 -->
+        <div class="card" id="card3">
+            <div class="card-header">
+                <h2>📝 Klausimas 3</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Didesnė amplitudė sukuria:</strong>
+            </div>
+
+            <div class="options-container" id="options3">
+                <label class="option">
+                    <input type="radio" name="q3" value="1">
+                    <span>Aukštesnį garsą</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="2">
+                    <span>Garsesnį garsą</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="3">
+                    <span>Žemesnį garsą</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(3)" id="checkBtn3">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback3"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next3" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 4 -->
+        <div class="card" id="card4">
+            <div class="card-header">
+                <h2>📝 Klausimas 4</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Garso greitis ore yra:</strong>
+            </div>
+
+            <div class="options-container" id="options4">
+                <label class="option">
+                    <input type="radio" name="q4" value="1">
+                    <span>1500 m/s</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="2">
+                    <span>340 m/s</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="3">
+                    <span>5000 m/s</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(4)" id="checkBtn4">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback4"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next4" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+        <!-- Klausimas 5 -->
+        <div class="card" id="card5">
+            <div class="card-header">
+                <h2>📝 Klausimas 5</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Garso greitis vandenyje yra:</strong>
+            </div>
+
+            <div class="options-container" id="options5">
+                <label class="option">
+                    <input type="radio" name="q5" value="1">
+                    <span>Didesnis nei ore</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q5" value="2">
+                    <span>Mažesnis nei ore</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q5" value="3">
+                    <span>Toks pat kaip ore</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(5)" id="checkBtn5">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback5"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next5" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 6 -->
+        <div class="card" id="card6">
+            <div class="card-header">
+                <h2>📝 Klausimas 6</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Infragarso dažnis yra:</strong>
+            </div>
+
+            <div class="options-container" id="options6">
+                <label class="option">
+                    <input type="radio" name="q6" value="1">
+                    <span>Mažesnis nei 20 Hz</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q6" value="2">
+                    <span>Didesnis nei 20 000 Hz</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q6" value="3">
+                    <span>Nuo 20 Hz iki 20 000 Hz</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(6)" id="checkBtn6">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback6"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next6" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 7 -->
+        <div class="card" id="card7">
+            <div class="card-header">
+                <h2>📝 Klausimas 7</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Ultragarso dažnis yra:</strong>
+            </div>
+
+            <div class="options-container" id="options7">
+                <label class="option">
+                    <input type="radio" name="q7" value="1">
+                    <span>Mažesnis nei 20 Hz</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q7" value="2">
+                    <span>Didesnis nei 20 000 Hz</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q7" value="3">
+                    <span>Nuo 20 Hz iki 20 000 Hz</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(7)" id="checkBtn7">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback7"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next7" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 8 -->
+        <div class="card" id="card8">
+            <div class="card-header">
+                <h2>📝 Klausimas 8</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Periodas (T) ir dažnis (f) yra susiję:</strong>
+            </div>
+
+            <div class="options-container" id="options8">
+                <label class="option">
+                    <input type="radio" name="q8" value="1">
+                    <span>T = 1 / f</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="2">
+                    <span>T = f</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="3">
+                    <span>T = f²</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(8)" id="checkBtn8">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback8"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next8" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+        <!-- Klausimas 9 -->
+        <div class="card" id="card9">
+            <div class="card-header">
+                <h2>📝 Klausimas 9</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Jei dažnis 100 Hz, tai periodas yra:</strong>
+            </div>
+
+            <div class="options-container" id="options9">
+                <label class="option">
+                    <input type="radio" name="q9" value="1">
+                    <span>100 s</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q9" value="2">
+                    <span>0,01 s</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q9" value="3">
+                    <span>10 s</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(9)" id="checkBtn9">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback9"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next9" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 10 -->
+        <div class="card" id="card10">
+            <div class="card-header">
+                <h2>📝 Klausimas 10</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Bangos ilgis apskaičiuojamas:</strong>
+            </div>
+
+            <div class="options-container" id="options10">
+                <label class="option">
+                    <input type="radio" name="q10" value="1">
+                    <span>λ = v / f</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q10" value="2">
+                    <span>λ = f / v</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q10" value="3">
+                    <span>λ = v × f × T</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(10)" id="checkBtn10">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback10"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next10" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 11 -->
+        <div class="card" id="card11">
+            <div class="card-header">
+                <h2>📝 Klausimas 11</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Garsas nesklinda:</strong>
+            </div>
+
+            <div class="options-container" id="options11">
+                <label class="option">
+                    <input type="radio" name="q11" value="1">
+                    <span>Ore</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q11" value="2">
+                    <span>Vandenyje</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q11" value="3">
+                    <span>Vakuume</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(11)" id="checkBtn11">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback11"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next11" style="display: none;">Kitas Klausimas ➜</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 12 -->
+        <div class="card" id="card12">
+            <div class="card-header">
+                <h2>📝 Klausimas 12</h2>
+            </div>
+
+            <div class="question-box">
+                <strong>Aidas atsiranda dėl:</strong>
+            </div>
+
+            <div class="options-container" id="options12">
+                <label class="option">
+                    <input type="radio" name="q12" value="1">
+                    <span>Garso sugėrimo</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q12" value="2">
+                    <span>Garso atspindžio</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q12" value="3">
+                    <span>Garso lūžio</span>
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="checkAnswer(12)" id="checkBtn12">Tikrinti</button>
+            </div>
+
+            <div class="feedback" id="feedback12"></div>
+
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-next" onclick="nextCard()" id="next12" style="display: none;">Peržiūrėti Rezultatus ➜</button>
+            </div>
+        </div>
+        <!-- Rezultatų Kortelė -->
+        <div class="card" id="card13">
+            <div class="card-header">
+                <h2>🎉 Rezultatai</h2>
+            </div>
+
+            <div class="results-summary">
+                <div class="emoji-large" id="resultEmoji">🎯</div>
+                
+                <div class="score-circle">
+                    <div class="score" id="finalScore">0</div>
+                    <div class="label">iš 12</div>
+                </div>
+
+                <h3 id="resultMessage" style="color: #667eea; margin: 20px 0;">Puiku!</h3>
+                <p id="resultDescription" style="font-size: 1.1em; color: #666;">
+                    Jūs atlikote visus klausimus!
+                </p>
+            </div>
+
+            <div class="results-details">
+                <h3 style="color: #667eea; margin-bottom: 20px;">📊 Detalūs Rezultatai:</h3>
+                <div id="detailedResults"></div>
+            </div>
+
+            <div style="background: #e8f5e9; padding: 25px; border-radius: 10px; margin: 25px 0; border-left: 5px solid #28a745;">
+                <h3 style="color: #28a745; margin-bottom: 15px;">💡 Ką Išmokote?</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0;">✅ Ryšį tarp bangos ilgio ir garso aukščio</li>
+                    <li style="padding: 8px 0;">✅ Kaip dažnis įtakoja garso aukštį</li>
+                    <li style="padding: 8px 0;">✅ Kaip amplitudė įtakoja garsumą</li>
+                    <li style="padding: 8px 0;">✅ Garso greičius skirtingose terpėse</li>
+                    <li style="padding: 8px 0;">✅ Infragarso ir ultragarso dažnių ribas</li>
+                    <li style="padding: 8px 0;">✅ Ryšį tarp periodo ir dažnio (T = 1/f)</li>
+                    <li style="padding: 8px 0;">✅ Bangos ilgio formulę (λ = v/f)</li>
+                    <li style="padding: 8px 0;">✅ Kad garsas nesklinda vakuume</li>
+                    <li style="padding: 8px 0;">✅ Kas yra aidas (garso atspindys)</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+                <button class="btn-primary" onclick="restartQuiz()">🔄 Pradėti iš Naujo</button>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        // Globalūs kintamieji
+        let currentCard = 1;
+        const totalCards = 13; // 12 klausimų + 1 rezultatų kortelė
+        let userAnswers = [];
+        let correctAnswers = 0;
+
+        // Teisingi atsakymai kiekvienam klausimui
+        const correctAnswersData = {
+            1: '1',  // Žemesnis garsas
+            2: '2',  // Aukštesnį garsą
+            3: '2',  // Garsesnį garsą
+            4: '2',  // 340 m/s
+            5: '1',  // Didesnis nei ore
+            6: '1',  // Mažesnis nei 20 Hz
+            7: '2',  // Didesnis nei 20 000 Hz
+            8: '1',  // T = 1 / f
+            9: '2',  // 0,01 s
+            10: '1', // λ = v / f
+            11: '3', // Vakuume
+            12: '2'  // Garso atspindžio
+        };
+
+        // Klausimų pavadinimai rezultatams
+        const questionTitles = {
+            1: "Bangos ilgis ir garso aukštis",
+            2: "Dažnis ir garso aukštis",
+            3: "Amplitudė ir garsumas",
+            4: "Garso greitis ore",
+            5: "Garso greitis vandenyje",
+            6: "Infragarso dažnis",
+            7: "Ultragarso dažnis",
+            8: "Periodas ir dažnis",
+            9: "Periodo skaičiavimas",
+            10: "Bangos ilgio formulė",
+            11: "Garso sklidimas",
+            12: "Aidas"
+        };
+
+        // Inicializacija
+        window.onload = function() {
+            updateProgress();
+            // Inicializuoti atsakymų masyvą
+            for (let i = 1; i <= 12; i++) {
+                userAnswers[i] = { answered: false, correct: false, userValue: null };
+            }
+            
+            // Pridėti event listener'ius radio mygtukams
+            addOptionListeners();
+        };
+
+        // Pridėti event listener'ius pasirinkimams
+        function addOptionListeners() {
+            for (let i = 1; i <= 12; i++) {
+                const options = document.querySelectorAll(`#options${i} .option`);
+                options.forEach(option => {
+                    option.addEventListener('click', function(e) {
+                        if (!option.classList.contains('disabled')) {
+                            const input = option.querySelector('input');
+                            input.checked = true;
+                            updateOptionStyles(i);
+                        }
+                    });
+                });
+            }
+        }
+
+        // Atnaujinti pasirinkimų stilius
+        function updateOptionStyles(questionNum) {
+            const options = document.querySelectorAll(`#options${questionNum} .option`);
+            options.forEach(option => {
+                const input = option.querySelector('input');
+                if (input.checked) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+        }
+
+        // Atnaujinti pažangos juostą
+        function updateProgress() {
+            const progress = ((currentCard - 1) / 12) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressBar').textContent = Math.round(progress) + '%';
+            document.getElementById('currentTask').textContent = currentCard - 1;
+        }
+
+        // Pereiti į kitą kortelę
+        function nextCard() {
+            if (currentCard < totalCards) {
+                document.getElementById('card' + currentCard).classList.remove('active');
+                currentCard++;
+                
+                // Jei pasiekėme rezultatų kortelę, generuojame rezultatus
+                if (currentCard === 13) {
+                    generateResults();
+                }
+                
+                document.getElementById('card' + currentCard).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Grįžti į ankstesnę kortelę
+        function prevCard() {
+            if (currentCard > 1) {
+                document.getElementById('card' + currentCard).classList.remove('active');
+                currentCard--;
+                document.getElementById('card' + currentCard).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Tikrinti atsakymą
+        function checkAnswer(questionNum) {
+            const feedback = document.getElementById('feedback' + questionNum);
+            const nextButton = document.getElementById('next' + questionNum);
+            const checkButton = document.getElementById('checkBtn' + questionNum);
+            const options = document.querySelectorAll(`#options${questionNum} .option`);
+            
+            // Surinkti vartotojo atsakymą
+            const selectedInput = document.querySelector(`input[name="q${questionNum}"]:checked`);
+            
+            // Patikrinti ar pasirinktas atsakymas
+            if (!selectedInput) {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '<span class="feedback-icon">⚠️</span> <strong>Prašome pasirinkti atsakymą!</strong>';
+                return;
+            }
+            
+            const selectedValue = selectedInput.value;
+            const correctValue = correctAnswersData[questionNum];
+            const isCorrect = selectedValue === correctValue;
+            
+            // Išsaugoti atsakymą (tik pirmą kartą)
+            if (!userAnswers[questionNum].answered) {
+                userAnswers[questionNum] = {
+                    answered: true,
+                    correct: isCorrect,
+                    userValue: selectedValue
+                };
+                
+                if (isCorrect) {
+                    correctAnswers++;
+                }
+            }
+            
+            // Pažymėti teisingus/neteisingus atsakymus
+            options.forEach(option => {
+                const input = option.querySelector('input');
+                option.classList.add('disabled');
+                
+                if (input.value === correctValue) {
+                    option.classList.add('correct');
+                } else if (input.checked) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Rodyti grįžtamąjį ryšį
+            if (isCorrect) {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = '<span class="feedback-icon">✅</span> <strong>Teisingai!</strong> Puikus darbas!';
+                nextButton.style.display = 'block';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '<span class="feedback-icon">❌</span> <strong>Neteisingai.</strong> Teisingas atsakymas pažymėtas žalia spalva.';
+                nextButton.style.display = 'block';
+            }
+            
+            // Išjungti tikrinimo mygtuką
+            checkButton.disabled = true;
+        }
+        // Generuoti rezultatus
+        function generateResults() {
+            const scoreElement = document.getElementById('finalScore');
+            const emojiElement = document.getElementById('resultEmoji');
+            const messageElement = document.getElementById('resultMessage');
+            const descriptionElement = document.getElementById('resultDescription');
+            const detailedElement = document.getElementById('detailedResults');
+            
+            // Apskaičiuoti procentinį rezultatą
+            const percentage = (correctAnswers / 12) * 100;
+            
+            // Nustatyti emoji ir pranešimą pagal rezultatą
+            if (percentage === 100) {
+                emojiElement.textContent = '🏆';
+                messageElement.textContent = 'Puiku! Tobulas rezultatas!';
+                descriptionElement.textContent = 'Jūs atsakėte teisingai į visus klausimus! Esate tikras garso bangų ekspertas!';
+            } else if (percentage >= 80) {
+                emojiElement.textContent = '🌟';
+                messageElement.textContent = 'Labai gerai!';
+                descriptionElement.textContent = 'Jūs puikiai išmanote garso bangų savybes ir formules!';
+            } else if (percentage >= 60) {
+                emojiElement.textContent = '👍';
+                messageElement.textContent = 'Gerai!';
+                descriptionElement.textContent = 'Jūs suprantate pagrindines garso bangų sąvokas. Dar šiek tiek praktikos ir būsite ekspertas!';
+            } else if (percentage >= 40) {
+                emojiElement.textContent = '📚';
+                messageElement.textContent = 'Neblogai!';
+                descriptionElement.textContent = 'Jūs esate teisingame kelyje. Peržiūrėkite teoriją ir bandykite dar kartą!';
+            } else {
+                emojiElement.textContent = '💪';
+                messageElement.textContent = 'Reikia daugiau praktikos!';
+                descriptionElement.textContent = 'Nesijaudinkite! Mokymasis reikalauja laiko. Peržiūrėkite garso bangų teoriją ir bandykite iš naujo!';
+            }
+            
+            // Rodyti galutinį rezultatą
+            scoreElement.textContent = correctAnswers;
+            
+            // Generuoti detalius rezultatus
+            let detailedHTML = '';
+            for (let i = 1; i <= 12; i++) {
+                const task = userAnswers[i];
+                const resultClass = task.correct ? 'correct' : 'incorrect';
+                const icon = task.correct ? '✅' : '❌';
+                const statusText = task.correct ? 'Teisingai' : 'Neteisingai';
+                
+                detailedHTML += `
+                    <div class="result-item ${resultClass}">
+                        <div>
+                            <strong>${i}. ${questionTitles[i]}</strong>
+                            <br>
+                            <span style="color: #666; font-size: 0.95em;">
+                                ${statusText}
+                            </span>
+                        </div>
+                        <div style="font-size: 1.5em;">
+                            ${icon}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            detailedElement.innerHTML = detailedHTML;
+        }
+
+        // Pradėti testą iš naujo
+        function restartQuiz() {
+            // Atstatyti kintamuosius
+            currentCard = 1;
+            correctAnswers = 0;
+            userAnswers = [];
+            
+            // Inicializuoti atsakymų masyvą
+            for (let i = 1; i <= 12; i++) {
+                userAnswers[i] = { answered: false, correct: false, userValue: null };
+            }
+            
+            // Išvalyti visus pasirinkimus ir grįžtamąjį ryšį
+            for (let i = 1; i <= 12; i++) {
+                const inputs = document.querySelectorAll(`input[name="q${i}"]`);
+                const feedback = document.getElementById('feedback' + i);
+                const nextButton = document.getElementById('next' + i);
+                const checkButton = document.getElementById('checkBtn' + i);
+                const options = document.querySelectorAll(`#options${i} .option`);
+                
+                // Išvalyti input'us
+                inputs.forEach(input => {
+                    input.checked = false;
+                });
+                
+                // Išvalyti pasirinkimų stilius
+                options.forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect', 'disabled');
+                });
+                
+                // Išvalyti feedback
+                if (feedback) {
+                    feedback.className = 'feedback';
+                    feedback.style.display = 'none';
+                }
+                
+                // Paslėpti next mygtuką
+                if (nextButton) {
+                    nextButton.style.display = 'none';
+                }
+                
+                // Įjungti check mygtuką
+                if (checkButton) {
+                    checkButton.disabled = false;
+                }
+            }
+            
+            // Grįžti į pirmą kortelę
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            document.getElementById('card1').classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Klaviatūros palaikymas (Enter mygtukas tikrina atsakymą)
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                const activeCard = document.querySelector('.card.active');
+                if (activeCard) {
+                    const cardId = activeCard.id;
+                    const cardNum = parseInt(cardId.replace('card', ''));
+                    
+                    // Jei tai klausimas (1-12)
+                    if (cardNum >= 1 && cardNum <= 12) {
+                        const checkButton = document.getElementById('checkBtn' + cardNum);
+                        const nextButton = document.getElementById('next' + cardNum);
+                        
+                        // Jei check mygtukas aktyvus, tikrinti atsakymą
+                        if (checkButton && !checkButton.disabled) {
+                            checkAnswer(cardNum);
+                        }
+                        // Jei next mygtukas matomas, pereiti į kitą
+                        else if (nextButton && nextButton.style.display !== 'none') {
+                            nextCard();
+                        }
+                    }
+                }
+            }
+        });
+
+        // Užkirsti kelią radio paspaudimui per input elementą
+        document.addEventListener('DOMContentLoaded', function() {
+            const allInputs = document.querySelectorAll('input[type="radio"]');
+            allInputs.forEach(input => {
+                input.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
