@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vienarūšės sakinio dalys - sudėk kablelius - Kalbos Upė</title>
+    <title>Kablelis tarp vienarūšių - Kalbos Upė</title>
     <link rel="stylesheet" href="../../css/style.css"> 
     
     <style>
@@ -26,10 +26,21 @@
             width: 100%;
             max-width: 1000px;
         }
-
+        
+        /* NAUJAS: VIRŠUTINĖ JUOSTA VISAI INFORMACIJAI */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            gap: 10px; /* Tarpas tarp elementų */
+            flex-wrap: wrap; /* Lankstumas mobiliesiems */
+        }
+        
         .back-btn {
             display: inline-block;
-            margin-bottom: 20px;
             padding: 12px 24px;
             background-color: #7CB3E9;
             color: white;
@@ -37,6 +48,7 @@
             border-radius: 8px;
             font-size: 18px;
             transition: background-color 0.3s;
+            margin-bottom: 0; /* Panaikintas nereikalingas tarpas */
         }
         
         .back-btn:hover {
@@ -45,22 +57,27 @@
         
         .student-info {
             background-color: #ffffff;
-            padding: 20px;
+            padding: 10px 15px; /* Mažesnis padding */
             border-radius: 10px;
-            margin-bottom: 20px;
             border: 2px solid #4A90E2;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 10px;
+            margin-bottom: 0; /* Panaikintas nereikalingas tarpas */
+        }
+        
+        .student-name-display {
+            font-size: 18px; 
+            color: #1A4D7A;
+            white-space: nowrap;
         }
         
         .change-name-btn {
             background-color: #4A90E2;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 15px; /* Mažesnis mygtukas */
             border-radius: 8px;
             cursor: pointer;
             font-family: 'OpenDyslexic', Arial, sans-serif;
@@ -80,6 +97,7 @@
             padding: 35px;
             border: 3px solid #4A90E2;
             margin-bottom: 30px;
+            width: 100%;
         }
 
         /* Įvado stiliai */
@@ -296,17 +314,31 @@
         .btn-success {
             background: linear-gradient(135deg, #4ECDC4, #27ae60);
         }
+
+        @media (max-width: 600px) {
+            .top-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .student-info {
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="page-wrapper">
-        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
         
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        <div class="top-header">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span class="student-name-display">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
         
         <div id="main-card" class="main-card">
@@ -316,19 +348,19 @@
             <div id="intro-card">
                 <h3 style="color: #0D3B66; margin-top: 20px;">Atminkite, kada rašyti kablelį:</h3>
                 <div class="intro-content">
-                    <p>Vienarūšės sakinio dalys atlieka <strong>tą pačią funkciją</strong> ir atsako į **tą patį klausimą**.</p>
+                    <p>Vienarūšės sakinio dalys atlieka <strong>tą pačią funkciją</strong> ir atsako į <strong>tą patį klausimą</strong>.</p>
                     <ul>
-                        <li><strong>Visada rašykite</strong>, jei vienarūšės dalys jungiamos **be jungtuko** (pvz.: Miške radome baravykų, voveraičių, gūdukų).</li>
-                        <li><strong>Visada rašykite</strong>, jei naudojami jungtukai: **bet**, **o**, **tačiau**, **vis dėlto**.</li>
-                        <li><strong>Visada rašykite</strong>, jei jungtukas **kartojasi** (pvz.: Tiek vėjas, tiek šiluma, tiek drėgmė).</li>
-                        <li><strong>Nerašykite</strong>, jei jungtukas **ir**, **arba**, **nei** vartojamas **tik vieną kartą**.</li>
+                        <li><strong>Visada rašykite</strong>, jei vienarūšės dalys jungiamos <strong>be jungtuko</strong> (pvz.: Miške radome baravykų, voveraičių, gūdukų).</li>
+                        <li><strong>Visada rašykite</strong>, jei naudojami jungtukai: <strong>bet</strong>, <strong>o</strong>, <strong>tačiau</strong>, <strong>vis dėlto</strong>.</li>
+                        <li><strong>Visada rašykite</strong>, jei jungtukas <strong>kartojasi</strong> (pvz.: Tiek vėjas, tiek šiluma, tiek drėgmė).</li>
+                        <li><strong>Nerašykite</strong>, jei jungtukas <strong>ir</strong>, <strong>arba</strong>, <strong>nei</strong> vartojamas <strong>tik vieną kartą</strong>.</li>
                     </ul>
                 </div>
             </div>
             
             <div id="task-card">
                 <div id="instruction" class="instruction">
-                    Paspausk tarp žodžių ten, kur **turi** būti kablelis.
+                    Paspausk tarp žodžių ten, kur <strong>turi</strong> būti kablelis.
                 </div>
                 
                 <div id="sentence-container" class="sentence-container"></div>
@@ -377,6 +409,7 @@
             location.reload();
         }
 
+        // --- GOOGLE SHEETS API ---
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
 
         function sendResultToSheet(taskName, score) {
@@ -391,7 +424,7 @@
             
             fetch(SHEET_URL, {
                 method: 'POST',
-                mode: 'no-cors',
+                mode: 'no-cors', 
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -405,13 +438,13 @@
         document.getElementById('studentNameDisplay').textContent = studentName;
 
         // --- UŽDUOČIŲ DUOMENYS (Vėjai) ---
-        // 'correct' indeksai nurodo poziciją PO ŽODŽIO, kur reikia kablelio. (pvz., [3] reiškia po ketvirtojo žodžio (index 3))
+        // 'correct' indeksai nurodo poziciją PO ŽODŽIO (žodžio indexas, PO kurio dedamas kablelis)
         const sentences = [
-            // Kablelis REIKALINGAS po "šiltas" (index 4)
-            { id: 1, text: "Vėjas gali būti šiltas, sausas ir stiprus.", correct: [4] }, 
+            // Kablelio NEREIKIA. Correct = []
+            { id: 1, text: "Vėjas gali būti šiltas ir sausas.", correct: [] }, 
             
-            // Kablelis REIKALINGAS po "žemę" (index 4)
-            { id: 2, text: "Saulės energija sušildo žemę orą ir vandenynus.", correct: [4] },
+            // Kablelis REIKALINGAS po "žemę" (index 3)
+            { id: 2, text: "Saulės energija sušildo žemę orą ir vandenynus.", correct: [3] },
             
             // Kablelis REIKALINGAS po "šaltas" (index 1)
             { id: 3, text: "Šaltas sunkus oras slenka žemyn.", correct: [1] },
@@ -442,9 +475,10 @@
         let currentSentenceIndex = 0;
         let userSeparators = [];
         let isChecked = false;
-        let correctAnswers = 0;
+        let correctAnswers = 0; 
         let totalPossibleSeparators = sentences.reduce((acc, sentence) => acc + sentence.correct.length, 0);
-        let studentCorrectSeparators = 0;
+        let studentCorrectSeparators = 0; 
+        let isIntroVisible = true; 
 
         // --- DOM elementai ---
         const introCard = document.getElementById('intro-card');
@@ -455,36 +489,27 @@
         const feedbackEl = document.getElementById('feedback');
         const progressEl = document.getElementById('progress');
         const resultsCard = document.getElementById('results-card');
+        const mainCard = document.getElementById('main-card');
         const finalScoreEl = document.getElementById('final-score');
         const accuracyEl = document.getElementById('accuracy');
         
-        // --- Inicijavimas: Rodoma atmintinė ir paslėpta užduotis ---
-        taskCard.style.display = 'none';
-
         // --- Funkcijos ---
 
-        /**
-         * Parodo atmintinę, paslėpus pagrindinę užduotį
-         */
-        function showIntro() {
-            introCard.style.display = 'block';
-            taskCard.style.display = 'none';
-        }
-        
         /**
          * Paruošia ir atvaizduoja dabartinį sakinį.
          */
         function displaySentence() {
-            // Pirmą kartą rodant, paslepiama atmintinė ir rodoma užduotis
-            introCard.style.display = 'none';
-            taskCard.style.display = 'block';
+            if (isIntroVisible) {
+                introCard.style.display = 'none';
+                taskCard.style.display = 'block';
+                isIntroVisible = false;
+            }
 
             sentenceContainer.innerHTML = '';
             userSeparators = [];
             isChecked = false;
             const currentText = sentences[currentSentenceIndex].text;
 
-            // Sakinio skaidymas į atskirus žodžius
             const cleanWords = currentText.replace(/[.,;!?"']/g, '').split(/\s+/g).filter(w => w.length > 0);
 
             cleanWords.forEach((word, index) => {
@@ -497,7 +522,6 @@
                 if (index < cleanWords.length - 1) {
                     const divider = document.createElement('div');
                     divider.classList.add('divider');
-                    // Index nurodo, po kurio žodžio eina divider
                     divider.dataset.index = index + 1; 
                     divider.addEventListener('click', () => {
                         if (isChecked) return;
@@ -512,6 +536,14 @@
             checkBtn.classList.remove('btn-disabled');
             nextBtn.classList.add('hidden');
             nextBtn.textContent = '➡️ Kitas sakinys';
+            
+            // Pataisymas: Nustatome mygtuko veiksmą kiekvienoje kortelėje
+            if (currentSentenceIndex === sentences.length - 1) {
+                nextBtn.textContent = '🏁 Baigti užduotį';
+                nextBtn.onclick = showFinalResults; // Paleidžiame rezultatus tiesiai
+            } else {
+                nextBtn.onclick = goToNextSentence; // Įprastas veiksmas
+            }
         }
 
         /**
@@ -547,7 +579,6 @@
                     divider.classList.remove('selected');
                     divider.classList.add('correct');
                     currentCorrectCount++;
-                    studentCorrectSeparators++;
                 } else if (isSelected && !isCorrect) {
                     divider.classList.remove('selected');
                     divider.classList.add('incorrect');
@@ -558,6 +589,9 @@
                 divider.style.pointerEvents = 'none';
             });
             
+            const studentCorrectsInThisSentence = allDividers.length > 0 ? Array.from(allDividers).filter(d => d.classList.contains('correct') && d.classList.contains('selected')).length : 0;
+            studentCorrectSeparators += studentCorrectsInThisSentence;
+            
             const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === correctSeparators.length;
 
             if (isTaskCorrect) {
@@ -566,7 +600,7 @@
             } else {
                 const currentSentence = formatCorrectAnswer(sentences[currentSentenceIndex].text, correctSeparators);
                 const praleista = correctSeparators.length - currentCorrectCount;
-                const klaidingai = userSeparators.length - currentCorrectCount;
+                const klaidingai = userSeparators.length - studentCorrectsInThisSentence;
 
                 feedbackEl.innerHTML = `
                     <span class="text-red">❌ Beveik... Bandyk dar! (${praleista > 0 ? `Praleista kablelių: ${praleista}.` : ''} ${klaidingai > 0 ? `Klaidingai padėta kablelių: ${klaidingai}.` : ''})</span>
@@ -577,10 +611,6 @@
             checkBtn.classList.add('hidden');
             checkBtn.classList.add('btn-disabled');
             nextBtn.classList.remove('hidden');
-            
-            if (currentSentenceIndex === sentences.length - 1) {
-                nextBtn.textContent = '🏁 Baigti užduotį';
-            }
         }
         
         /**
@@ -592,7 +622,7 @@
             
             words.forEach((word, index) => {
                 result += word;
-                if (correctIndices.includes(index + 1)) { // Patikrinimas pagal indekso poziciją (po žodžio)
+                if (correctIndices.includes(index + 1)) { 
                     result += ', ';
                 } else {
                     result += ' ';
@@ -610,23 +640,26 @@
                 feedbackEl.innerHTML = '';
                 displaySentence();
             } else {
-                showFinalResults();
+                // Šis blokas turėtų būti pasiektas tik, jei neįvyko mygtuko pakeitimas.
+                showFinalResults(); 
             }
         }
 
         /**
-         * Rodo galutinius rezultatus.
+         * Rodo galutinius rezultatus ir siunčia duomenis.
          */
         function showFinalResults() {
-            mainCard.style.display = 'none';
+            taskCard.style.display = 'none';
+            mainCard.style.display = 'none'; 
             resultsCard.classList.remove('hidden');
             
             const totalTasks = sentences.length;
-            const percentage = Math.round((studentCorrectSeparators / totalPossibleSeparators) * 100);
+            const percentage = totalPossibleSeparators > 0 ? Math.round((studentCorrectSeparators / totalPossibleSeparators) * 100) : 0;
 
             finalScoreEl.textContent = `${studentCorrectSeparators} / ${totalPossibleSeparators} teisingai padėtų kablelių`;
             accuracyEl.textContent = `Tikslumas: ${percentage}% (Teisingai atlikta užduočių: ${correctAnswers} / ${totalTasks})`;
             
+            // Pataisymas: Užtikriname, kad rezultatai būtų išsiųsti
             sendResultToSheet('L0202 Kableliai tarp vienarūšių (Vėjai)', percentage);
         }
 
@@ -637,22 +670,18 @@
             progressEl.textContent = `Sakinys ${currentSentenceIndex + 1} iš ${sentences.length}`;
         }
 
-        // --- Pradinis paleidimas: rodome atmintinę ir mygtuką, kad pereiti prie užduoties ---
-        // displaySentence();
-        
-        // Pakeitus į kortelių sistemą, pradiniame paleidime nieko nerodome, tik mygtuku pereiname į užduotį
+        // --- Pradinis paleidimas: valdoma, kaip pereiti iš atmintinės prie užduoties ---
         document.addEventListener('DOMContentLoaded', () => {
-             // Čia nieko nedarome, nes norime, kad mokinys pats pradėtų nuo ATMINTINĖS.
-             // Pradinis turinys yra sugeneruotas HTML'e (intro-card)
+             // Rodome atmintinę. Task kortelė paslėpta JS viršuje.
         });
 
-        // Vientisame faile reikia rankiniu būdu pridėti mygtuką, kad pereiti nuo intro prie užduoties
+        // Kuriame mygtuką, kad pereiti nuo intro prie užduoties
         const introContent = document.getElementById('intro-card');
         const startButton = document.createElement('button');
         startButton.className = 'btn';
         startButton.textContent = '▶️ Pradėti užduotį';
         startButton.style.marginTop = '20px';
-        startButton.onclick = displaySentence;
+        startButton.onclick = displaySentence; // Iškviesti displaySentence()
         introContent.appendChild(startButton);
 
     </script>
