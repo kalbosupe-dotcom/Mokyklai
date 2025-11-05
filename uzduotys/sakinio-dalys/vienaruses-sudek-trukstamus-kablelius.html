@@ -440,37 +440,37 @@
         // --- UŽDUOČIŲ DUOMENYS (Vėjai) ---
         // 'correct' indeksai nurodo poziciją PO ŽODŽIO (žodžio indexas, PO kurio dedamas kablelis)
         const sentences = [
-            // Kablelio NEREIKIA. Correct = []
-            { id: 1, text: "Vėjas gali būti šiltas ir sausas.", correct: [] }, 
+            // 1. Vėjai gali būti rytų, vakarų, šiaurės ir pietų.
+            { id: 1, text: "Vėjai gali būti rytų vakarų šiaurės ir pietų.", correct: [3, 4] }, 
             
-            // Kablelis REIKALINGAS po "žemę" (index 3)
-            { id: 2, text: "Saulės energija sušildo žemę orą ir vandenynus.", correct: [3] },
+            // 2. Taip pat vėjai būna šiaurės vakarų, šiaurės rytų, pietryčių ar pietvakarių.
+            { id: 2, text: "Taip pat vėjai būna šiaurės vakarų šiaurės rytų pietryčių ar pietvakarių.", correct: [4, 6] },
             
-            // Kablelis REIKALINGAS po "šaltas" (index 1)
-            { id: 3, text: "Šaltas sunkus oras slenka žemyn.", correct: [1] },
+            // 3. Lietuvos Pamario žvejai naudojo tokius vardus kaip marinis, vakarynė, ožinis ir peitvis.
+            { id: 3, text: "Lietuvos Pamario žvejai naudojo tokius vardus kaip marinis vakarynė ožinis ir peitvis.", correct: [8, 9] },
             
-            // Kablelis REIKALINGAS po "pučia" (index 2)
-            { id: 4, text: "Musonas pučia keičia kryptį priklausomai nuo metų laiko.", correct: [2] },
+            // 4. Lietuvos Pajūrio žvejai vėjus vadino jūriniu, sominiu, žiemeliu, launagiu ir šakšiniu.
+            { id: 4, text: "Lietuvos Pajūrio žvejai vėjus vadino jūriniu sominiu žiemeliu launagiu ir šakšiniu.", correct: [6, 7, 8] },
             
-            // Kablelis REIKALINGAS po "vėjai" (index 2)
-            { id: 5, text: "Jūros vėjai sausumos vėjai yra vietinės cirkuliacijos pavyzdys.", correct: [2] },
+            // 5. Vėjų klasifikacija pagal stiprumą: audra, uraganas, škvalas ir viesulas.
+            { id: 5, text: "Vėjų klasifikacija pagal stiprumą: audra uraganas škvalas ir viesulas.", correct: [6, 7] },
             
-            // Kablelis REIKALINGAS po "sėklas" (index 3)
-            { id: 6, text: "Vėjas neša sėklas dulkes arba drėgmę.", correct: [3] }, 
+            // 6. Vėjai klasifikuojami į pastoviuosius, sezoninius ir vietinius.
+            { id: 6, text: "Vėjai klasifikuojami į pastoviuosius sezoninius ir vietinius.", correct: [4, 5] }, 
             
-            // Kableliai REIKALINGI po "greitai" (index 3) ir "stipriai" (index 4)
-            { id: 7, text: "Oras juda greitai stipriai tolygiai per atviras erdves.", correct: [3, 4] },
+            // 7. Pastovieji vėjai: pasatai, vakariniai ir poliariniai.
+            { id: 7, text: "Pastovieji vėjai: pasatai vakariniai ir poliariniai.", correct: [3] },
             
-            // Kableliai REIKALINGI po "vėją" (index 5) ir "audrą" (index 6)
-            { id: 8, text: "Tropiniai ciklonai atneša stiprų vėją audrą liūtis ir dideles bangas.", correct: [5, 6] },
+            // 8. Sezoniniai vėjai: musonas, haboob ir harmatanas.
+            { id: 8, text: "Sezoniniai vėjai: musonas haboob ir harmatanas.", correct: [3] },
             
-            // Kableliai REIKALINGI po "sukuria" (index 3) ir "drėgmę" (index 5)
-            { id: 9, text: "Pučiantys vėjai sukuria neša drėgmę šilumą ar šaltį.", correct: [3, 5] },
+            // 9. Vietiniai vėjai turi daug pavadinimų: brizas, fenas, bora, mistralis, sirokas ir t. t.
+            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir t. t.", correct: [6, 7, 8, 9, 10] },
             
-            // Kablelis REIKALINGAS po "vėjai" (index 2)
-            { id: 10, text: "Šiaurės vėjai rytų vėjai paprastai būna šaltesni.", correct: [2] }
+            // 10. Tarptautiniai vėjai gali būti šilti, šalti, sausi arba drėgni.
+            { id: 10, text: "Tarptautiniai vėjai gali būti šilti šalti sausi arba drėgni.", correct: [5, 6] }
         ];
-
+        
         // --- Būsenos kintamieji ---
         let currentSentenceIndex = 0;
         let userSeparators = [];
@@ -570,7 +570,6 @@
             let currentCorrectCount = 0;
             const allDividers = sentenceContainer.querySelectorAll('.divider');
             
-            // Pataisymo pradžia: Skaičiuojame teisingai pažymėtus kablelius
             let studentCorrectsInThisSentence = 0;
 
             allDividers.forEach(divider => {
@@ -596,7 +595,7 @@
             // Pataisymo esmė: Pridedame TEISINGAI padėtus kablelius prie bendro rezultato
             studentCorrectSeparators += studentCorrectsInThisSentence;
             
-            const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === currentCorrectCount; // Tikriname, ar nebuvo klaidų ir ar visi buvo padėti
+            const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === currentCorrectCount;
 
             if (isTaskCorrect) {
                 feedbackEl.innerHTML = '<span class="text-green">✅ Puiku! Visi kableliai teisingi! 🎉</span>';
@@ -661,11 +660,10 @@
             const totalTasks = sentences.length;
             const percentage = totalPossibleSeparators > 0 ? Math.round((studentCorrectSeparators / totalPossibleSeparators) * 100) : 0;
 
-            // Rodo rezultatus rezultatų kortelėje
             finalScoreEl.textContent = `${studentCorrectSeparators} / ${totalPossibleSeparators} teisingai padėtų kablelių`;
             accuracyEl.textContent = `Tikslumas: ${percentage}% (Teisingai atlikta užduočių: ${correctAnswers} / ${totalTasks})`;
             
-            // Siunčiame bendrą tikslumą į Google Sheets (Pataisyta vieta)
+            // Siunčiame bendrą tikslumą į Google Sheets
             sendResultToSheet('L0202 Kableliai tarp vienarūšių (Vėjai)', percentage);
         }
 
