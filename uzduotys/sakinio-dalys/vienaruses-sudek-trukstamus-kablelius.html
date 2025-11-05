@@ -137,7 +137,6 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap; 
-            /* KRITINIS PATAISYMAS: Leidžiame lūžti, bet valdome lūžį žemiau */
             background-color: #ffffff;
             border-radius: 15px;
             padding: 40px 20px;
@@ -363,11 +362,13 @@
                         <li><strong>Visada rašykite</strong>, jei jungtukas <strong>kartojasi</strong> (pvz.: Tiek vėjas, tiek šiluma, tiek drėgmė).</li>
                         <li><strong>Nerašykite</strong>, jei jungtukas <strong>ir</strong>, <strong>arba</strong>, <strong>nei</strong> vartojamas <strong>tik vieną kartą</strong>.</li>
                     </ul>
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button id="startButton" class="btn">▶️ Pradėti užduotį</button>
+                    </div>
                 </div>
             </div>
             
-            <div id="task-card">
-                <div id="instruction" class="instruction">
+            <div id="task-card" style="display: none;"> <div id="instruction" class="instruction">
                     Paspausk tarp žodžių ten, kur <strong>turi</strong> būti kablelis.
                 </div>
                 
@@ -474,10 +475,10 @@
             
             // 9. Vietiniai vėjai turi daug pavadinimų: brizas, fenas, bora, mistralis, sirokas ir t. t.
             // Pataisyta: T.t. įtraukta su taškais, kaip vienas žodis
-            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir t.t.", correct: [6, 7, 8, 9, 10] },
+            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir t.t.", correct: [6, 7, 8, 9] },
             
-            // 10. Tarptautiniai vėjai gali būti šilti, šalti, sausi arba drėgni.
-            { id: 10, text: "Tarptautiniai vėjai gali būti šilti šalti sausi arba drėgni.", correct: [5, 6] }
+            // 10. Vėjai gali būti šilti, šalti, sausi arba drėgni.
+            { id: 10, text: "Tarptautiniai vėjai gali būti šilti šalti sausi arba drėgni.", correct: [4, 5] }
         ];
 
         // --- Būsenos kintamieji ---
@@ -487,7 +488,6 @@
         let correctAnswers = 0; 
         let totalPossibleSeparators = sentences.reduce((acc, sentence) => acc + sentence.correct.length, 0);
         let studentCorrectSeparators = 0; 
-        let isIntroVisible = true; 
 
         // --- DOM elementai ---
         const introCard = document.getElementById('intro-card');
@@ -501,18 +501,17 @@
         const mainCard = document.getElementById('main-card');
         const finalScoreEl = document.getElementById('final-score');
         const accuracyEl = document.getElementById('accuracy');
-        
+        const startButton = document.getElementById('startButton'); // Gauti mygtuką
+
         // --- Funkcijos ---
 
         /**
          * Paruošia ir atvaizduoja dabartinį sakinį.
          */
         function displaySentence() {
-            if (isIntroVisible) {
-                introCard.style.display = 'none';
-                taskCard.style.display = 'block';
-                isIntroVisible = false;
-            }
+            // Paslėpti intro ir parodyti užduotį (tai valdoma per mygtuką 'startButton')
+            introCard.style.display = 'none';
+            taskCard.style.display = 'block';
 
             sentenceContainer.innerHTML = '';
             userSeparators = [];
@@ -550,13 +549,13 @@
             checkBtn.classList.remove('hidden');
             checkBtn.classList.remove('btn-disabled');
             nextBtn.classList.add('hidden');
-            nextBtn.textContent = '➡️ Kitas sakinys';
             
             // Pataisymas: Nustatome mygtuko veiksmą paskutinei kortelei
             if (currentSentenceIndex === sentences.length - 1) {
                 nextBtn.textContent = '🏁 Baigti užduotį';
                 nextBtn.onclick = showFinalResults; 
             } else {
+                nextBtn.textContent = '➡️ Kitas sakinys';
                 nextBtn.onclick = goToNextSentence;
             }
         }
@@ -607,7 +606,6 @@
                 divider.style.pointerEvents = 'none';
             });
             
-            // Pataisymo esmė: Pridedame TEISINGAI padėtus kablelius prie bendro rezultato
             studentCorrectSeparators += studentCorrectsInThisSentence;
             
             const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === currentCorrectCount;
@@ -691,17 +689,9 @@
 
         // --- Pradinis paleidimas: valdoma, kaip pereiti iš atmintinės prie užduoties ---
         document.addEventListener('DOMContentLoaded', () => {
-             // Rodome atmintinę. Task kortelė paslėpta JS viršuje.
+             // Mygtukas jau sugeneruotas HTML'e
+             startButton.onclick = displaySentence;
         });
-
-        // Kuriame mygtuką, kad pereiti nuo intro prie užduoties
-        const introContent = document.getElementById('intro-card');
-        const startButton = document.createElement('button');
-        startButton.className = 'btn';
-        startButton.textContent = '▶️ Pradėti užduotį';
-        startButton.style.marginTop = '20px';
-        startButton.onclick = displaySentence; // Iškviesti displaySentence()
-        introContent.appendChild(startButton);
 
     </script>
 </body>
