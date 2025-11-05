@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kablelis tarp vienarūšių - Kalbos Upė</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* ĮKOPYJAME JŪSŲ PATEIKTUS CSS STILIUS ČIA */
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 35px;
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        /* ĮVADO STILIAI */
+        .intro-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .intro-content {
+            font-size: 1.1rem;
+            color: #1A4D7A;
+            line-height: 1.8;
+        }
+
+        .intro-content ul {
+            margin-top: 15px;
+            padding-left: 25px;
+        }
+
+        .intro-content li {
+            margin-bottom: 10px;
+        }
+        /* UŽDUOTIES STILIAI */
+        .sentence-container {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 2px solid #7CB3E9;
+            min-height: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .word {
+            display: inline-block;
+            margin: 3px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            background-color: #ffffff;
+            font-size: 1.2rem;
+            color: #1A4D7A;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .word:hover {
+            background-color: #D4E9F7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .selected {
+            background-color: #fff9c4 !important;
+            border-color: #fbc02d !important;
+        }
+
+        .correct {
+            background-color: #d4edda !important;
+            border-color: #27ae60 !important;
+            color: #155724 !important;
+        }
+
+        .incorrect {
+            background-color: #f8d7da !important;
+            border-color: #e74c3c !important;
+            color: #721c24 !important;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .action-button {
+            padding: 15px 35px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-container {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1A4D7A;
+            padding: 25px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .word {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+
+            .intro-text {
+                font-size: 1.5rem;
+            }
+
+            .action-button {
+                font-size: 1.1rem;
+                padding: 12px 25px;
+            }
+
+            .card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+        
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+
+        <div id="card-intro" class="card active">
+            <h2 class="intro-text">Kada reikia kablelio tarp vienarūšių sakinio dalių?</h2>
+            <div class="intro-content">
+                <p><strong>Vienarūšės dalys</strong> atlieka tą pačią funkciją, atsako į tą patį klausimą ir siejamos su tuo pačiu žodžiu. Jos jungiamos jungtukais.</p>
+                
+                <h3 style="color: #0D3B66; margin-top: 20px;">Atminkite, kada rašyti kablelį:</h3>
+                <ul>
+                    <li><strong>Visada rašykite</strong>, jei vienarūšės dalys jungiamos **be jungtuko** (pvz.: Miške radome baravykų, voveraičių, gūdukų).</li>
+                    <li>**Visada rašykite**, jei naudojami jungtukai: **bet**, **o**, **tačiau**, **vis dėlto**.</li>
+                    <li>**Visada rašykite**, jei jungtukas **kartojasi** (pvz.: Tiek vėjas, tiek šiluma, tiek drėgmė).</li>
+                    <li>**Nerašykite**, jei jungtukas **ir**, **arba**, **nei** vartojamas **tik vieną kartą** (pvz.: Pučia šaltas ir sausas vėjas).</li>
+                </ul>
+                <p style="margin-top: 20px; font-weight: bold; color: #e74c3c;">Užduotis: spręskite, **prieš kurį žodį** sakinyje reikia dėti kablelį.</p>
+            </div>
+            <div class="button-container">
+                <button onclick="showCard('card-task-1')" class="action-button">▶️ Pradėti spręsti</button>
+            </div>
+        </div>
+        
+        <div id="task-cards-container"></div>
+        
+        <div id="card-results" class="card">
+            <h2 class="intro-text">🎉 Užduoties rezultatai</h2>
+            <div class="result-container" id="final-results"></div>
+            <div class="button-container">
+                <button onclick="location.reload()" class="action-button" style="background: linear-gradient(135deg, #4ECDC4, #27ae60);">🔄 Pradėti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Vardų valdymas (Jūsų pateiktas kodas) ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        // Google Sheets API endpoint (Jūsų pateiktas)
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+            
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+            
+            console.log('Siunčiamas rezultatas:', data);
+            
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- UŽDUOČIŲ DUOMENYS (Geografija / Vėjai) ---
+        const sentences = [
+            // Kablelio NEREIKIA (jungtukas IR vieną kartą)
+            { id: 1, text: "Vėjas gali būti šiltas ir sausas.", correct: [] }, 
+            
+            // Kablelis REIKALINGAS (be jungtuko)
+            { id: 2, text: "Saulės energija sušildo žemę orą ir vandenynus.", correct: ["orą"] },
+            
+            // Kablelis REIKALINGAS (be jungtuko)
+            { id: 3, text: "Šaltas sunkus oras slenka žemyn.", correct: ["sunkus"] },
+            
+            // Kablelis REIKALINGAS (be jungtuko, tarp tarinių)
+            { id: 4, text: "Musonas pučia keičia kryptį priklausomai nuo metų laiko.", correct: ["keičia"] },
+            
+            // Kablelis REIKALINGAS (be jungtuko, tarp veiksnių)
+            { id: 5, text: "Jūros vėjai sausumos vėjai yra vietinės cirkuliacijos pavyzdys.", correct: ["sausumos"] },
+            
+            // Kablelio NEREIKIA (jungtukas ARBA vieną kartą)
+            { id: 6, text: "Vėjas neša sėklas, dulkes arba drėgmę.", correct: ["dulkes"] }, 
+            
+            // Kableliai REIKALINGI (be jungtuko, trys nariai)
+            { id: 7, text: "Oras juda greitai stipriai tolygiai per atviras erdves.", correct: ["stipriai", "tolygiai"] },
+            
+            // Kableliai REIKALINGI (be jungtuko, tarp papildinių)
+            { id: 8, text: "Tropiniai ciklonai atneša stiprų vėją audrą liūtis ir dideles bangas.", correct: ["audrą", "liūtis"] },
+            
+            // Kableliai REIKALINGI (tarp tarinių ir tarp papildinių)
+            { id: 9, text: "Pučiantys vėjai sukuria neša drėgmę šilumą ar šaltį.", correct: ["neša", "šilumą"] },
+            
+            // Kablelis REIKALINGAS (be jungtuko, tarp veiksnių)
+            { id: 10, text: "Šiaurės vėjai rytų vėjai paprastai būna šaltesni.", correct: ["rytų"] }
+        ];
+
+        let totalCorrect = 0;
+        let totalCaretPositions = 0;
+        let taskResults = [];
+        const TOTAL_TASKS = sentences.length;
+
+        // Kortelių rodymo funkcija
+        function showCard(cardId) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(cardId).classList.add('active');
+            
+            if (cardId.startsWith('card-task-')) {
+                const cardIndex = parseInt(cardId.split('-')[2]);
+                renderSentence(sentences[cardIndex - 1]);
+            }
+        }
+
+        // Dinaminis kortelių generavimas
+        function generateTaskCards() {
+            const container = document.getElementById('task-cards-container');
+            for (let i = 1; i <= TOTAL_TASKS; i++) {
+                const card = document.createElement('div');
+                card.id = `card-task-${i}`;
+                card.className = 'card';
+                card.innerHTML = `
+                    <h2 class="intro-text">Užduotis ${i} / ${TOTAL_TASKS} | Spausk, kur trūksta kablelio</h2>
+                    <div class="sentence-container" id="sentence-${i}"></div>
+                    <div class="button-container">
+                        <button onclick="checkAnswers(${i})" class="action-button">✅ Pasitikrinti</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+        generateTaskCards();
+
+        // Sakinio atvaizdavimas (modifikuotas, kad būtų lengviau paspausti kablelio vietą)
+        function renderSentence(sentenceObj) {
+            const container = document.getElementById(`sentence-${sentenceObj.id}`);
+            container.innerHTML = "";
+            // Tekstas padalinamas pagal tarpus, kad būtų patogiau dirbti
+            const words = sentenceObj.text.split(/(\s+)/g).filter(w => w.trim().length > 0 || w.match(/\s/));
+            
+            // Visiems žodžiams, prieš kuriuos teoriškai gali būti kablelis, priskiriame unikalų ID
+            words.forEach((word, index) => {
+                if (word.trim().length > 0) {
+                    const span = document.createElement("span");
+                    span.className = "word";
+                    span.textContent = word;
+
+                    // Priskiriame unikalų ID
+                    const wordID = `word-${sentenceObj.id}-${word.trim()}`;
+                    span.id = wordID;
+                    
+                    span.addEventListener("click", () => {
+                         // Kadangi kablelis dedamas PRIEŠ žodį, pažymime visą žodį.
+                        span.classList.toggle("selected");
+                    });
+                    
+                    container.appendChild(span);
+                }
+            });
+        }
+        
+        // Atsakymų tikrinimas (modifikuotas tikrinti tikslų žodį, prieš kurį reikia kablelio)
+        function checkAnswers(cardId) {
+            const sentenceObj = sentences[cardId - 1];
+            const words = document.getElementById(`sentence-${cardId}`).querySelectorAll('.word');
+            let cardCorrect = 0;
+            const correctWordsInCard = sentenceObj.correct.length;
+            
+            words.forEach(wordSpan => {
+                const isSelected = wordSpan.classList.contains('selected');
+                const cleanWord = wordSpan.textContent.trim();
+                const isCorrectPosition = sentenceObj.correct.includes(cleanWord);
+                
+                if (isSelected && isCorrectPosition) {
+                    // Pažymėta teisinga vieta
+                    wordSpan.classList.remove('selected');
+                    wordSpan.classList.add('correct');
+                    cardCorrect++;
+                } else if (isSelected && !isCorrectPosition) {
+                    // Pažymėta klaidinga vieta
+                    wordSpan.classList.remove('selected');
+                    wordSpan.classList.add('incorrect');
+                }
+                
+                // Parodyti teisingas vietas, kurias praleido (vizualiai)
+                if (!isSelected && isCorrectPosition) {
+                    wordSpan.classList.add('correct');
+                }
+                
+                wordSpan.style.cursor = 'default';
+                wordSpan.style.pointerEvents = 'none';
+            });
+            
+            totalCorrect += cardCorrect;
+            totalCaretPositions += correctWordsInCard; // Bendras kablelių skaičius visose užduotyse
+            
+            const taskSuccess = correctWordsInCard > 0 ? (cardCorrect / correctWordsInCard) * 100 : (cardCorrect === 0 ? 100 : 0);
+            
+            taskResults.push({ correct: cardCorrect, total: correctWordsInCard, success: taskSuccess });
+            
+            const buttonContainer = document.getElementById(`card-task-${cardId}`).querySelector('.button-container');
+            buttonContainer.innerHTML = '';
+            
+            const nextButton = document.createElement('button');
+            nextButton.className = 'action-button';
+            
+            if (cardId < TOTAL_TASKS) {
+                nextButton.textContent = '➡️ Toliau';
+                nextButton.onclick = () => showCard(`card-task-${cardId + 1}`);
+            } else {
+                nextButton.textContent = '🏁 Rezultatai';
+                nextButton.onclick = () => showFinalResults();
+            }
+            
+            buttonContainer.appendChild(nextButton);
+        }
+        
+        // Galutinių rezultatų rodymas
+        function showFinalResults() {
+            showCard('card-results');
+            const resultElement = document.getElementById('final-results');
+            const percentage = totalCaretPositions > 0 ? Math.round((totalCorrect / totalCaretPositions) * 100) : 0;
+            
+            let detailsHTML = '<div style="margin-bottom: 20px;">';
+            taskResults.forEach((result, index) => {
+                const color = result.success >= 70 ? '#27ae60' : '#e74c3c';
+                detailsHTML += `
+                    <div style="padding: 10px; margin: 8px 0; background-color: #ffffff; border-radius: 8px; border-left: 4px solid ${color};">
+                        <strong>Užduotis ${index + 1}:</strong> ${result.correct} / ${result.total} (${Math.round(result.success)}%)
+                    </div>
+                `;
+            });
+            detailsHTML += '</div>';
+            
+            detailsHTML += `
+                <div style="font-size: 1.8rem; margin-top: 20px;">
+                    <strong>Bendras rezultatas:</strong><br>
+                    ${totalCorrect} / ${totalCaretPositions} 
+                    <div style="font-size: 2.5rem; color: ${percentage >= 70 ? '#27ae60' : '#e74c3c'}; margin-top: 10px;">
+                        ${percentage}%
+                    </div>
+                </div>
+            `;
+            
+            resultElement.innerHTML = detailsHTML;
+            
+            // Siųsti rezultatus į Google Sheets (Pataisytas užduoties pavadinimas)
+            sendResultToSheet('L0203 Kableliai tarp vienarūšių (Vėjai)', percentage);
+        }
+    </script>
+</body>
+</html>
