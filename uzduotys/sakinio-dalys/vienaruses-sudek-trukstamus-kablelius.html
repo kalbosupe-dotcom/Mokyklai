@@ -35,8 +35,8 @@
             width: 100%;
             margin-bottom: 20px;
             padding: 10px 0;
-            gap: 10px; /* Tarpas tarp elementų */
-            flex-wrap: wrap; /* Lankstumas mobiliesiems */
+            gap: 10px; 
+            flex-wrap: wrap; 
         }
         
         .back-btn {
@@ -48,7 +48,7 @@
             border-radius: 8px;
             font-size: 18px;
             transition: background-color 0.3s;
-            margin-bottom: 0; /* Panaikintas nereikalingas tarpas */
+            margin-bottom: 0; 
         }
         
         .back-btn:hover {
@@ -57,14 +57,14 @@
         
         .student-info {
             background-color: #ffffff;
-            padding: 10px 15px; /* Mažesnis padding */
+            padding: 10px 15px; 
             border-radius: 10px;
             border: 2px solid #4A90E2;
             display: flex;
             align-items: center;
             flex-wrap: nowrap;
             gap: 10px;
-            margin-bottom: 0; /* Panaikintas nereikalingas tarpas */
+            margin-bottom: 0; 
         }
         
         .student-name-display {
@@ -77,7 +77,7 @@
             background-color: #4A90E2;
             color: white;
             border: none;
-            padding: 8px 15px; /* Mažesnis mygtukas */
+            padding: 8px 15px; 
             border-radius: 8px;
             cursor: pointer;
             font-family: 'OpenDyslexic', Arial, sans-serif;
@@ -137,7 +137,7 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap; 
-            white-space: nowrap;
+            /* KRITINIS PATAISYMAS: Leidžiame lūžti, bet valdome lūžį žemiau */
             background-color: #ffffff;
             border-radius: 15px;
             padding: 40px 20px;
@@ -146,19 +146,28 @@
             border: 3px solid #4A90E2;
             box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
         }
+        
+        /* PATAISYMAS DĖL LŪŽIO: Kiekvieną žodį su "divider" talpiname į vieną nedalomą elementą */
+        .sentence-unit {
+            display: inline-flex; 
+            align-items: center;
+            margin: 0 2px;
+            /* Uždraudžiame lūžti tarp žodžio ir kablelio vietos */
+            white-space: nowrap; 
+        }
 
         .sentence-container span {
             font-size: 24px; 
             font-weight: 500;
             color: #0D3B66;
-            margin: 0 5px; 
             user-select: none;
+            /* Mažesnis tarpas, nes jį dabar valdo .sentence-unit margin */
+            margin: 0; 
         }
 
         /* Paspaudžiama sritis tarp žodžių */
         .sentence-container .divider {
             width: 20px; 
-            align-self: center; 
             height: 40px; 
             cursor: pointer;
             position: relative;
@@ -343,7 +352,6 @@
         
         <div id="main-card" class="main-card">
             <h1 class="intro-text">Kableliai tarp vienarūšių sakinio dalių</h1>
-            <h2 style="font-size: 22px; color: #1A4D7A;">Tema: Vėjai</h2>
 
             <div id="intro-card">
                 <h3 style="color: #0D3B66; margin-top: 20px;">Atminkite, kada rašyti kablelį:</h3>
@@ -358,6 +366,11 @@
                 </div>
             </div>
             
+            <div id="task-card">
+                <div id="instruction" class="instruction">
+                    Paspausk tarp žodžių ten, kur <strong>turi</strong> būti kablelis.
+                </div>
+                
                 <div id="sentence-container" class="sentence-container"></div>
                 
                 <div class="controls">
@@ -460,12 +473,13 @@
             { id: 8, text: "Sezoniniai vėjai: musonas haboob ir harmatanas.", correct: [3] },
             
             // 9. Vietiniai vėjai turi daug pavadinimų: brizas, fenas, bora, mistralis, sirokas ir t. t.
-            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir t. t.", correct: [6, 7, 8, 9] },
+            // Pataisyta: T.t. įtraukta su taškais, kaip vienas žodis
+            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir t.t.", correct: [6, 7, 8, 9, 10] },
             
             // 10. Tarptautiniai vėjai gali būti šilti, šalti, sausi arba drėgni.
             { id: 10, text: "Tarptautiniai vėjai gali būti šilti šalti sausi arba drėgni.", correct: [5, 6] }
         ];
-        
+
         // --- Būsenos kintamieji ---
         let currentSentenceIndex = 0;
         let userSeparators = [];
@@ -508,10 +522,14 @@
             const cleanWords = currentText.replace(/[.,;!?"']/g, '').split(/\s+/g).filter(w => w.length > 0);
 
             cleanWords.forEach((word, index) => {
+                // Konteineris, kad žodis ir kablelio vieta nenutrūktų
+                const unit = document.createElement('div');
+                unit.classList.add('sentence-unit'); 
+
                 const wordSpan = document.createElement('span');
                 wordSpan.textContent = word;
                 wordSpan.style.pointerEvents = 'none';
-                sentenceContainer.appendChild(wordSpan);
+                unit.appendChild(wordSpan);
 
                 // DEDAME DIVIDER (vietą kableliui)
                 if (index < cleanWords.length - 1) {
@@ -522,8 +540,10 @@
                         if (isChecked) return;
                         toggleSeparatorBreak(divider, index + 1);
                     });
-                    sentenceContainer.appendChild(divider);
+                    unit.appendChild(divider);
                 }
+                
+                sentenceContainer.appendChild(unit);
             });
 
             updateProgress();
@@ -576,7 +596,7 @@
                     divider.classList.remove('selected');
                     divider.classList.add('correct');
                     currentCorrectCount++;
-                    studentCorrectsInThisSentence++; // Šitas kablelis tikrai teisingas
+                    studentCorrectsInThisSentence++; 
                 } else if (isSelected && !isCorrect) {
                     divider.classList.remove('selected');
                     divider.classList.add('incorrect');
