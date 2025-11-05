@@ -537,12 +537,12 @@
             nextBtn.classList.add('hidden');
             nextBtn.textContent = '➡️ Kitas sakinys';
             
-            // Pataisymas: Nustatome mygtuko veiksmą kiekvienoje kortelėje
+            // Pataisymas: Nustatome mygtuko veiksmą paskutinei kortelei
             if (currentSentenceIndex === sentences.length - 1) {
                 nextBtn.textContent = '🏁 Baigti užduotį';
-                nextBtn.onclick = showFinalResults; // Paleidžiame rezultatus tiesiai
+                nextBtn.onclick = showFinalResults; 
             } else {
-                nextBtn.onclick = goToNextSentence; // Įprastas veiksmas
+                nextBtn.onclick = goToNextSentence;
             }
         }
 
@@ -570,6 +570,9 @@
             let currentCorrectCount = 0;
             const allDividers = sentenceContainer.querySelectorAll('.divider');
             
+            // Pataisymo pradžia: Skaičiuojame teisingai pažymėtus kablelius
+            let studentCorrectsInThisSentence = 0;
+
             allDividers.forEach(divider => {
                 const dividerIndex = parseInt(divider.dataset.index);
                 const isSelected = divider.classList.contains('selected');
@@ -579,6 +582,7 @@
                     divider.classList.remove('selected');
                     divider.classList.add('correct');
                     currentCorrectCount++;
+                    studentCorrectsInThisSentence++; // Šitas kablelis tikrai teisingas
                 } else if (isSelected && !isCorrect) {
                     divider.classList.remove('selected');
                     divider.classList.add('incorrect');
@@ -589,10 +593,10 @@
                 divider.style.pointerEvents = 'none';
             });
             
-            const studentCorrectsInThisSentence = allDividers.length > 0 ? Array.from(allDividers).filter(d => d.classList.contains('correct') && d.classList.contains('selected')).length : 0;
+            // Pataisymo esmė: Pridedame TEISINGAI padėtus kablelius prie bendro rezultato
             studentCorrectSeparators += studentCorrectsInThisSentence;
             
-            const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === correctSeparators.length;
+            const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === currentCorrectCount; // Tikriname, ar nebuvo klaidų ir ar visi buvo padėti
 
             if (isTaskCorrect) {
                 feedbackEl.innerHTML = '<span class="text-green">✅ Puiku! Visi kableliai teisingi! 🎉</span>';
@@ -640,7 +644,6 @@
                 feedbackEl.innerHTML = '';
                 displaySentence();
             } else {
-                // Šis blokas turėtų būti pasiektas tik, jei neįvyko mygtuko pakeitimas.
                 showFinalResults(); 
             }
         }
@@ -649,17 +652,20 @@
          * Rodo galutinius rezultatus ir siunčia duomenis.
          */
         function showFinalResults() {
+            // Pakeičiame ekrano turinį
             taskCard.style.display = 'none';
-            mainCard.style.display = 'none'; 
+            introCard.style.display = 'none';
+            mainCard.style.display = 'none';
             resultsCard.classList.remove('hidden');
             
             const totalTasks = sentences.length;
             const percentage = totalPossibleSeparators > 0 ? Math.round((studentCorrectSeparators / totalPossibleSeparators) * 100) : 0;
 
+            // Rodo rezultatus rezultatų kortelėje
             finalScoreEl.textContent = `${studentCorrectSeparators} / ${totalPossibleSeparators} teisingai padėtų kablelių`;
             accuracyEl.textContent = `Tikslumas: ${percentage}% (Teisingai atlikta užduočių: ${correctAnswers} / ${totalTasks})`;
             
-            // Pataisymas: Užtikriname, kad rezultatai būtų išsiųsti
+            // Siunčiame bendrą tikslumą į Google Sheets (Pataisyta vieta)
             sendResultToSheet('L0202 Kableliai tarp vienarūšių (Vėjai)', percentage);
         }
 
