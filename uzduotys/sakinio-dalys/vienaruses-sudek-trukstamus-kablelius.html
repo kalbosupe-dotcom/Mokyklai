@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kablelis tarp vienarūšių - Kalbos Upė</title>
+    <title>Vienarūšės sakinio dalys - sudėk kablelius - Kalbos Upė</title>
     <link rel="stylesheet" href="../../css/style.css"> 
     
     <style>
@@ -407,11 +407,11 @@
         // --- UŽDUOČIŲ DUOMENYS (Vėjai) ---
         // 'correct' indeksai nurodo poziciją PO ŽODŽIO, kur reikia kablelio. (pvz., [3] reiškia po ketvirtojo žodžio (index 3))
         const sentences = [
-            // Kablelio NEREIKIA. Correct = []
-            { id: 1, text: "Vėjas gali būti šiltas ir sausas.", correct: [] }, 
+            // Kablelis REIKALINGAS po "šiltas" (index 4)
+            { id: 1, text: "Vėjas gali būti šiltas, sausas ir stiprus.", correct: [4] }, 
             
-            // Kablelis REIKALINGAS po "žemę" (index 3)
-            { id: 2, text: "Saulės energija sušildo žemę orą ir vandenynus.", correct: [3] },
+            // Kablelis REIKALINGAS po "žemę" (index 4)
+            { id: 2, text: "Saulės energija sušildo žemę orą ir vandenynus.", correct: [4] },
             
             // Kablelis REIKALINGAS po "šaltas" (index 1)
             { id: 3, text: "Šaltas sunkus oras slenka žemyn.", correct: [1] },
@@ -423,7 +423,7 @@
             { id: 5, text: "Jūros vėjai sausumos vėjai yra vietinės cirkuliacijos pavyzdys.", correct: [2] },
             
             // Kablelis REIKALINGAS po "sėklas" (index 3)
-            { id: 6, text: "Vėjas neša sėklas, dulkes arba drėgmę.", correct: [3] }, 
+            { id: 6, text: "Vėjas neša sėklas dulkes arba drėgmę.", correct: [3] }, 
             
             // Kableliai REIKALINGI po "greitai" (index 3) ir "stipriai" (index 4)
             { id: 7, text: "Oras juda greitai stipriai tolygiai per atviras erdves.", correct: [3, 4] },
