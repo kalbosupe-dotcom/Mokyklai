@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Garso Bangų Sąsajos - Testas</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 25px;
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        .task-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .task-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 0;
+        }
+
+        .question-box {
+            background-color: #E8F4F8;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #7CB3E9;
+            margin: 15px 0;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: center;
+            color: #1A4D7A;
+            font-weight: 600;
+        }
+
+        .options-container {
+            margin: 15px 0;
+        }
+
+        .option {
+            background: white;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #333;
+        }
+
+        .option:hover {
+            border-color: #4A90E2;
+            background: #E8F4F8;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #4A90E2;
+        }
+
+        .option.selected {
+            border-color: #4A90E2;
+            background: #E8F4F8;
+        }
+
+        .option.correct {
+            border-color: #27ae60;
+            background: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #e74c3c;
+            background: #f8d7da;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4ECDC4, #27ae60);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback-message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        .feedback-correct {
+            color: #27ae60;
+        }
+
+        .feedback-incorrect {
+            color: #e74c3c;
+        }
+
+        .result-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 20px;
+        }
+
+        .total-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        .score-percentage {
+            font-size: 2.5rem;
+            margin-top: 10px;
+        }
+
+        .score-good {
+            color: #27ae60;
+        }
+
+        .score-bad {
+            color: #e74c3c;
+        }
+
+        .result-details {
+            margin: 15px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result-item {
+            padding: 8px 12px;
+            margin: 6px 0;
+            background-color: #ffffff;
+            border-radius: 6px;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .result-item.correct-item {
+            border-left: 4px solid #27ae60;
+        }
+
+        .result-item.incorrect-item {
+            border-left: 4px solid #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .header-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .student-info {
+                min-width: auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .task-title {
+                font-size: 1.3rem;
+            }
+
+            .question-box {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .option {
+                font-size: 1rem;
+                padding: 12px;
+            }
+
+            .action-button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-row">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
+        <!-- UŽDUOČIŲ KORTELĖS (bus sugeneruotos dinamiškai) -->
+        <div id="task-cards-container"></div>
+
+        <!-- KORTELĖ: REZULTATAI -->
+        <div id="card-results" class="card">
+            <div class="result-title">🎉 Užduoties rezultatai</div>
+            <div class="result-container">
+                <div class="total-score" id="total-score"></div>
+                <div class="result-details" id="result-details"></div>
+            </div>
+            <div class="button-container">
+                <button onclick="location.reload()" class="action-button btn-success">🔄 Pradėti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Sheets konfigūracija
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+        
+        // Užduoties duomenys - GARSO BANGŲ SĄSAJOS
+        const tasks = [
+            // A. DAŽNIS ↔ GARSO AUKŠTIS
+            { id: 1, question: "Kuo dažnis didesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 0 },
+            { id: 2, question: "Kuo dažnis mažesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 1 },
+            { id: 3, question: "Didesnis dažnis sukuria", options: ["Aukštesnį garsą", "Žemesnį garsą", "Garsesnį garsą"], correct: 0 },
+            { id: 4, question: "Mažesnis dažnis sukuria", options: ["Aukštesnį garsą", "Žemesnį garsą", "Tylesnį garsą"], correct: 1 },
+            { id: 5, question: "Aukštesnis garsas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Didesnę amplitudę"], correct: 0 },
+            { id: 6, question: "Žemesnis garsas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Mažesnę amplitudę"], correct: 1 },
+            { id: 7, question: "Kad garsas būtų aukštesnis", options: ["Dažnis turi būti didesnis", "Dažnis turi būti mažesnis", "Amplitudė turi būti didesnė"], correct: 0 },
+            { id: 8, question: "Kad garsas būtų žemesnis", options: ["Dažnis turi būti didesnis", "Dažnis turi būti mažesnis", "Amplitudė turi būti mažesnė"], correct: 1 },
+            
+            // B. AMPLITUDĖ ↔ GARSUMAS
+            { id: 9, question: "Kuo amplitudė didesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Tuo garsas aukštesnis"], correct: 0 },
+            { id: 10, question: "Kuo amplitudė mažesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Tuo garsas žemesnis"], correct: 1 },
+            { id: 11, question: "Didesnė amplitudė sukuria", options: ["Garsesnį garsą", "Tylesnį garsą", "Aukštesnį garsą"], correct: 0 },
+            { id: 12, question: "Mažesnė amplitudė sukuria", options: ["Garsesnį garsą", "Tylesnį garsą", "Žemesnį garsą"], correct: 1 },
+            { id: 13, question: "Garsesnis garsas reiškia", options: ["Didesnę amplitudę", "Mažesnę amplitudę", "Didesnį dažnį"], correct: 0 },
+            { id: 14, question: "Tylesnis garsas reiškia", options: ["Didesnę amplitudę", "Mažesnę amplitudę", "Mažesnį dažnį"], correct: 1 },
+            { id: 15, question: "Kad garsas būtų garsesnis", options: ["Amplitudė turi būti didesnė", "Amplitudė turi būti mažesnė", "Dažnis turi būti didesnis"], correct: 0 },
+            { id: 16, question: "Kad garsas būtų tylesnis", options: ["Amplitudė turi būti didesnė", "Amplitudė turi būti mažesnė", "Dažnis turi būti mažesnis"], correct: 1 },
+            
+            // C. BANGOS ILGIS ↔ DAŽNIS
+            { id: 17, question: "Kuo dažnis didesnis", options: ["Tuo bangos ilgis trumpesnis", "Tuo bangos ilgis ilgesnis", "Bangos ilgis nepriklauso nuo dažnio"], correct: 0 },
+            { id: 18, question: "Kuo dažnis mažesnis", options: ["Tuo bangos ilgis trumpesnis", "Tuo bangos ilgis ilgesnis", "Bangos ilgis nepriklauso nuo dažnio"], correct: 1 },
+            { id: 19, question: "Ilgesnis bangos ilgis reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Didesnę amplitudę"], correct: 1 },
+            { id: 20, question: "Trumpesnis bangos ilgis reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Mažesnę amplitudę"], correct: 0 },
+            { id: 21, question: "Jei dažnis padidėja 2 kartus", options: ["Bangos ilgis sumažėja 2 kartus", "Bangos ilgis padidėja 2 kartus", "Bangos ilgis nepakinta"], correct: 0 },
+            { id: 22, question: "Jei bangos ilgis sumažėja 2 kartus", options: ["Dažnis sumažėja 2 kartus", "Dažnis padidėja 2 kartus", "Dažnis nepakinta"], correct: 1 },
+            
+            // D. BANGOS ILGIS ↔ GARSO AUKŠTIS
+            { id: 23, question: "Ilgesnis bangos ilgis", options: ["Žemesnis garsas", "Aukštesnis garsas", "Garsesnis garsas"], correct: 0 },
+            { id: 24, question: "Trumpesnis bangos ilgis", options: ["Žemesnis garsas", "Aukštesnis garsas", "Tylesnis garsas"], correct: 1 },
+            { id: 25, question: "Aukštesnis garsas", options: ["Ilgesnis bangos ilgis", "Trumpesnis bangos ilgis", "Didesnė amplitudė"], correct: 1 },
+            { id: 26, question: "Žemesnis garsas", options: ["Ilgesnis bangos ilgis", "Trumpesnis bangos ilgis", "Mažesnė amplitudė"], correct: 0 },
+            
+            // E. PERIODAS ↔ DAŽNIS
+            { id: 27, question: "Kuo periodas didesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 1 },
+            { id: 28, question: "Kuo periodas mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 0 },
+            { id: 29, question: "Didesnis periodas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Didesnę amplitudę"], correct: 1 },
+            { id: 30, question: "Mažesnis periodas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Mažesnę amplitudę"], correct: 0 },
+            { id: 31, question: "Jei dažnis padidėja 2 kartus", options: ["Periodas padidėja 2 kartus", "Periodas sumažėja 2 kartus", "Periodas nepakinta"], correct: 1 },
+            
+            // F. GARSO GREITIS ↔ TERPĖ
+            { id: 32, question: "Kuo terpė tankesnė", options: ["Tuo garsas sklinda greičiau", "Tuo garsas sklinda lėčiau", "Terpės tankis neįtakoja garso greičio"], correct: 0 },
+            { id: 33, question: "Kietose medžiagose garsas sklinda", options: ["Greičiau nei skysčiuose", "Lėčiau nei skysčiuose", "Taip pat kaip skysčiuose"], correct: 0 },
+            { id: 34, question: "Dujose garsas sklinda", options: ["Greičiau nei kietose medžiagose", "Lėčiau nei kietose medžiagose", "Taip pat kaip kietose medžiagose"], correct: 1 }
+        ];
+
+        let currentTaskIndex = 0;
+        let userAnswers = [];
+
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- KORTELIŲ GENERAVIMAS ---
+        function generateTaskCards() {
+            const container = document.getElementById('task-cards-container');
+            
+            tasks.forEach((task, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.id = `card-task-${task.id}`;
+                cardDiv.className = 'card';
+                if (index === 0) cardDiv.classList.add('active');
+                
+                let optionsHTML = '';
+                task.options.forEach((option, optIndex) => {
+                    optionsHTML += `
+                        <label class="option" data-task="${task.id}" data-option="${optIndex}">
+                            <input type="radio" name="q${task.id}" value="${optIndex}">
+                            <span>${option}</span>
+                        </label>
+                    `;
+                });
+                
+                cardDiv.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-title">📝 Klausimas ${index + 1} / ${tasks.length}</div>
+                    </div>
+                    
+                    <div class="question-box">
+                        <strong>${task.question}</strong>
+                    </div>
+                    
+                    <div class="options-container" id="options-${task.id}">
+                        ${optionsHTML}
+                    </div>
+                    
+                    <div class="feedback-message" id="feedback-${task.id}"></div>
+                    
+                    <div class="button-container">
+                        <button onclick="checkAnswer(${task.id})" class="action-button btn-primary" id="check-btn-${task.id}">✅ Patikrinti</button>
+                    </div>
+                `;
+                
+                container.appendChild(cardDiv);
+            });
+            
+            // Pridėti event listener'ius pasirinkimams
+            addOptionListeners();
+        }
+
+        // --- PASIRINKIMŲ LISTENER'IAI ---
+        function addOptionListeners() {
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    if (!this.classList.contains('disabled')) {
+                        const input = this.querySelector('input');
+                        input.checked = true;
+                        
+                        const taskId = this.getAttribute('data-task');
+                        updateOptionStyles(taskId);
+                    }
+                });
+            });
+        }
+
+        // --- ATNAUJINTI PASIRINKIMŲ STILIUS ---
+        function updateOptionStyles(taskId) {
+            const options = document.querySelectorAll(`[data-task="${taskId}"]`);
+            options.forEach(option => {
+                const input = option.querySelector('input');
+                if (input.checked) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+        }
+
+        // --- KORTELIŲ RODYMAS ---
+        function showCard(cardId) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(cardId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- ATSAKYMO TIKRINIMAS ---
+        function checkAnswer(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            const selectedInput = document.querySelector(`input[name="q${taskId}"]:checked`);
+            const feedback = document.getElementById(`feedback-${taskId}`);
+            const checkBtn = document.getElementById(`check-btn-${taskId}`);
+            const options = document.querySelectorAll(`[data-task="${taskId}"]`);
+            
+            // Patikrinti ar pasirinktas atsakymas
+            if (!selectedInput) {
+                feedback.innerHTML = '⚠️ <span class="feedback-incorrect">Prašome pasirinkti atsakymą!</span>';
+                return;
+            }
+            
+            const selectedValue = parseInt(selectedInput.value);
+            const isCorrect = selectedValue === task.correct;
+            
+            // Išsaugoti atsakymą
+            userAnswers.push({
+                taskId: taskId,
+                question: task.question,
+                userAnswer: selectedValue,
+                correctAnswer: task.correct,
+                isCorrect: isCorrect
+            });
+            
+            // Pažymėti teisingus/neteisingus atsakymus
+            options.forEach((option, index) => {
+                option.classList.add('disabled');
+                const optIndex = parseInt(option.getAttribute('data-option'));
+                
+                if (optIndex === task.correct) {
+                    option.classList.add('correct');
+                } else if (option.querySelector('input').checked) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Rodyti feedback
+            if (isCorrect) {
+                feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
+            } else {
+                feedback.innerHTML = '❌ <span class="feedback-incorrect">Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
+            }
+            
+            // Išjungti tikrinimo mygtuką ir pridėti toliau mygtuką
+            checkBtn.style.display = 'none';
+            
+            const buttonContainer = document.getElementById(`card-task-${taskId}`).querySelector('.button-container');
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'action-button btn-secondary';
+            
+            if (taskId < tasks.length) {
+                nextBtn.textContent = '➡️ Toliau';
+                nextBtn.onclick = () => showCard(`card-task-${taskId + 1}`);
+            } else {
+                nextBtn.textContent = '🏁 Rezultatai';
+                nextBtn.onclick = () => showResults();
+            }
+            
+            buttonContainer.appendChild(nextBtn);
+        }
+
+        // --- REZULTATŲ RODYMAS ---
+        function showResults() {
+            showCard('card-results');
+            
+            const resultDetails = document.getElementById('result-details');
+            const totalScoreEl = document.getElementById('total-score');
+            
+            let correctCount = 0;
+            let detailsHTML = '';
+            
+            userAnswers.forEach((answer, index) => {
+                if (answer.isCorrect) correctCount++;
+                
+                const itemClass = answer.isCorrect ? 'correct-item' : 'incorrect-item';
+                const icon = answer.isCorrect ? '✅' : '❌';
+                const statusText = answer.isCorrect 
+                    ? '<span style="color: #27ae60;">Teisingai</span>' 
+                    : '<span style="color: #e74c3c;">Neteisingai</span>';
+                
+                detailsHTML += `
+                    <div class="result-item ${itemClass}">
+                        ${icon} <strong>${index + 1}. ${answer.question}</strong> - ${statusText}
+                    </div>
+                `;
+            });
+            
+            resultDetails.innerHTML = detailsHTML;
+            
+            const totalTasks = tasks.length;
+            const percentage = Math.round((correctCount / totalTasks) * 100);
+            const scoreClass = percentage >= 70 ? 'score-good' : 'score-bad';
+            
+            totalScoreEl.innerHTML = `
+                <div>Teisingai atsakyta: <strong>${correctCount} / ${totalTasks}</strong></div>
+                <div class="score-percentage ${scoreClass}">${percentage}%</div>
+            `;
+            
+            // Siųsti rezultatus į Google Sheets
+            sendResultToSheet('F0004 Garso bangų sąsajos | 34 klausimai', percentage);
+        }
+
+        // --- ENTER KLAVIŠO PALAIKYMAS ---
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const activeCard = document.querySelector('.card.active');
+                if (activeCard && activeCard.id.startsWith('card-task-')) {
+                    const taskId = parseInt(activeCard.id.split('-')[2]);
+                    const checkBtn = document.getElementById(`check-btn-${taskId}`);
+                    if (checkBtn && checkBtn.style.display !== 'none') {
+                        checkAnswer(taskId);
+                    }
+                }
+            }
+        });
+
+        // --- INICIALIZACIJA ---
+        generateTaskCards();
+    </script>
+</body>
+</html>
+                                                                      
