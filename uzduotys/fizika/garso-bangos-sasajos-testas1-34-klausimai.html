@@ -665,20 +665,16 @@
                 feedback.innerHTML = '❌ <span class="feedback-incorrect">Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
             }
             
-            // Išjungti tikrinimo mygtuką ir pridėti toliau mygtuką
-            checkBtn.disabled = true;
-            checkBtn.style.display = 'none';
-            
-            const buttonContainer = document.getElementById(`card-task-${taskId}`).querySelector('.button-container');
-            const nextBtn = document.createElement('button');
-            nextBtn.className = 'action-button btn-secondary';
-            
+        // Pakeisti "Patikrinti" mygtuką į "Toliau" arba "Rezultatai"
+    checkBtn.disabled = false;
+    checkBtn.className = 'action-button btn-secondary';
+
             if (taskId < tasks.length) {
-                nextBtn.textContent = '➡️ Toliau';
-                nextBtn.onclick = () => showCard(`card-task-${taskId + 1}`);
+                checkBtn.textContent = '➡️ Toliau';
+                checkBtn.onclick = () => showCard(`card-task-${taskId + 1}`);
             } else {
-                nextBtn.textContent = '🏁 Rezultatai';
-                nextBtn.onclick = () => showResults();
+                checkBtn.textContent = '🏁 Rezultatai';
+                checkBtn.onclick = () => showResults();
             }
             
             buttonContainer.appendChild(nextBtn);
