@@ -621,61 +621,71 @@
         }
 
         // --- ATSAKYMO TIKRINIMAS ---
-        function checkAnswer(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            const selectedInput = document.querySelector(`input[name="q${taskId}"]:checked`);
-            const feedback = document.getElementById(`feedback-${taskId}`);
-            const checkBtn = document.getElementById(`check-btn-${taskId}`);
-            const options = document.querySelectorAll(`[data-task="${taskId}"]`);
-            
-            // Patikrinti ar pasirinktas atsakymas
-            if (!selectedInput) {
-                feedback.innerHTML = '⚠️ <span class="feedback-incorrect">Prašome pasirinkti atsakymą!</span>';
-                return;
-            }
-            
-            const selectedValue = parseInt(selectedInput.value);
-            const isCorrect = selectedValue === task.correct;
-            
-            // Išsaugoti atsakymą
-            userAnswers.push({
-                taskId: taskId,
-                question: task.question,
-                userAnswer: selectedValue,
-                correctAnswer: task.correct,
-                isCorrect: isCorrect
-            });
-            
-            // Pažymėti teisingus/neteisingus atsakymus
-            options.forEach((option, index) => {
-                option.classList.add('disabled');
-                const optIndex = parseInt(option.getAttribute('data-option'));
-                
-                if (optIndex === task.correct) {
-                    option.classList.add('correct');
-                } else if (option.querySelector('input').checked) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            // Rodyti feedback
-            if (isCorrect) {
-                feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
-            } else {
-                feedback.innerHTML = '❌ <span class="feedback-incorrect">Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
-            }
-            
-        // Pakeisti "Patikrinti" mygtuką į "Toliau" arba "Rezultatai"
+function checkAnswer(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    const selectedInput = document.querySelector(`input[name="q${taskId}"]:checked`);
+    const feedback = document.getElementById(`feedback-${taskId}`);
+    const checkBtn = document.getElementById(`check-btn-${taskId}`);
+    const options = document.querySelectorAll(`[data-task="${taskId}"]`);
+    
+    // Patikrinti ar pasirinktas atsakymas
+    if (!selectedInput) {
+        feedback.innerHTML = '⚠️ <span class="feedback-incorrect">Prašome pasirinkti atsakymą!</span>';
+        return;
+    }
+    
+    const selectedValue = parseInt(selectedInput.value);
+    const isCorrect = selectedValue === task.correct;
+    
+    // Išsaugoti atsakymą
+    userAnswers.push({
+        taskId: taskId,
+        question: task.question,
+        userAnswer: selectedValue,
+        correctAnswer: task.correct,
+        isCorrect: isCorrect
+    });
+    
+    // Pažymėti teisingus/neteisingus atsakymus
+    options.forEach((option) => {
+        option.classList.add('disabled');
+        const optIndex = parseInt(option.getAttribute('data-option'));
+        
+        if (optIndex === task.correct) {
+            option.classList.add('correct');
+        } else if (option.querySelector('input').checked) {
+            option.classList.add('incorrect');
+        }
+    });
+    
+    // Rodyti feedback
+    if (isCorrect) {
+        feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
+    } else {
+        feedback.innerHTML = '❌ <span class="feedback-incorrect">Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
+    }
+    
+    // PATAISYMAS: Pakeisti mygtuką
     checkBtn.disabled = false;
     checkBtn.className = 'action-button btn-secondary';
-
-            if (taskId < tasks.length) {
-                checkBtn.textContent = '➡️ Toliau';
-                checkBtn.onclick = () => showCard(`card-task-${taskId + 1}`);
-            } else {
-                checkBtn.textContent = '🏁 Rezultatai';
-                checkBtn.onclick = () => showResults();
-            }
+    
+    const nextTaskId = taskId + 1;
+    console.log('Dabartinis taskId:', taskId, 'Kitas taskId:', nextTaskId, 'Viso tasks:', tasks.length); // DEBUG
+    
+    if (taskId < tasks.length) {
+        checkBtn.textContent = '➡️ Toliau';
+        checkBtn.onclick = function() {
+            console.log('Paspaustas Toliau. Rodoma kortelė: card-task-' + nextTaskId); // DEBUG
+            showCard('card-task-' + nextTaskId);
+        };
+    } else {
+        checkBtn.textContent = '🏁 Rezultatai';
+        checkBtn.onclick = function() {
+            console.log('Rodomi rezultatai'); // DEBUG
+            showResults();
+        };
+    }
+}
             
             buttonContainer.appendChild(nextBtn);
         }
