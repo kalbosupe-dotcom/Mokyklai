@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎵 Garso Bangų Parametrų Sąsajos - Testas</title>
     <style>
-        /* --- JŪSŲ CSS STILIAI --- */
+        /* --- JŪSŲ CSS STILIAI (NEKEISTI, TIK KODAVIMAS) --- */
         body {
             font-family: Verdana, Geneva, sans-serif;
             letter-spacing: 0.05em;
@@ -84,7 +84,7 @@
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
-            padding: 15px;
+            padding: 25px;
             border: 3px solid #4A90E2;
             display: none;
         }
@@ -95,11 +95,11 @@
 
         .task-header {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .task-title {
-            font-size: 1.1rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: #0D3B66;
             margin-bottom: 0;
@@ -111,7 +111,7 @@
             border-radius: 10px;
             border: 3px solid #7CB3E9;
             margin: 15px 0;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             line-height: 1.8;
             text-align: center;
             color: #1A4D7A;
@@ -120,9 +120,9 @@
 
         .content-wrapper {
             display: flex;
-            gap: 18px;
+            gap: 20px;
             align-items: flex-start;
-            margin: 15px 0;
+            margin: 20px 0;
         }
 
         .options-container {
@@ -157,7 +157,7 @@
             margin: 10px 0;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -398,42 +398,45 @@
 
     <script>
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
-        
+        const IMG_FREQUENCY = "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png";
+        const IMG_AMPLITUDE = "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png";
+        const IMG_PERIOD = "https://kalbosupe-dotcom.github.io/Mokyklai/images/period.jpg";
+
         const tasks = [
-            { id: 1, question: "Kuo dažnis didesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 2, question: "Kuo dažnis mažesnis", options: ["Tuo garsas žemesnis", "Tuo garsas aukštesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 3, question: "Jei garsas aukštesnis, tai dažnis", options: ["Didesnis", "Mažesnis", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 4, question: "Jei garsas žemesnis, tai dažnis", options: ["Mažesnis", "Didesnis", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 5, question: "Aukštas garsas turi", options: ["Didelį dažnį", "Mažą dažnį", "Dažnis nesvarbus"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 6, question: "Žemas garsas turi", options: ["Mažą dažnį", "Didelį dažnį", "Dažnis nesvarbus"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 7, question: "Didėjant dažniui, garso aukštis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 8, question: "Mažėjant dažniui, garso aukštis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 9, question: "Kuo amplitudė didesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 10, question: "Kuo amplitudė mažesnė", options: ["Tuo garsas tylesnis", "Tuo garsas garsesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 11, question: "Jei garsas garsesnis, tai amplitudė", options: ["Didesnė", "Mažesnė", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 12, question: "Jei garsas tylesnis, tai amplitudė", options: ["Mažesnė", "Didesnė", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 13, question: "Garsus garsas turi", options: ["Didelę amplitudę", "Mažą amplitudę", "Amplitudė nesvarbi"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 14, question: "Tylus garsas turi", options: ["Mažą amplitudę", "Didelę amplitudę", "Amplitudė nesvarbi"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 15, question: "Didėjant amplitudei, garsumas", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 16, question: "Mažėjant amplitudei, garsumas", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            { id: 17, question: "Kuo bangos ilgis didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 18, question: "Kuo bangos ilgis mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 19, question: "Jei dažnis didelis, tai bangos ilgis", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 20, question: "Jei dažnis mažas, tai bangos ilgis", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 21, question: "Aukštas garsas turi", options: ["Trumpą bangos ilgį", "Ilgą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 22, question: "Žemas garsas turi", options: ["Ilgą bangos ilgį", "Trumpą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 23, question: "Didėjant bangos ilgiui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 24, question: "Mažėjant bangos ilgiui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 25, question: "Bangos ilgis ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 26, question: "Jei bangos ilgis padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            { id: 27, question: "Kuo periodas didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Periodas neįtakoja dažnio"], correct: 0 },
-            { id: 28, question: "Kuo periodas mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 0 },
-            { id: 29, question: "Jei dažnis didelis, tai periodas", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0 },
-            { id: 30, question: "Jei dažnis mažas, tai periodas", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0 },
-            { id: 31, question: "Periodas ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0 },
-            { id: 32, question: "Jei periodas padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0 },
-            { id: 33, question: "Didėjant periodui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0 },
-            { id: 34, question: "Mažėjant periodui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0 }
+            { id: 1, question: "Kuo dažnis didesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: IMG_FREQUENCY },
+            { id: 2, question: "Kuo dažnis mažesnis", options: ["Tuo garsas žemesnis", "Tuo garsas aukštesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: IMG_FREQUENCY },
+            { id: 3, question: "Jei garsas aukštesnis, tai dažnis", options: ["Didesnis", "Mažesnis", "Nepriklauso"], correct: 0, image: IMG_FREQUENCY },
+            { id: 4, question: "Jei garsas žemesnis, tai dažnis", options: ["Mažesnis", "Didesnis", "Nepriklauso"], correct: 0, image: IMG_FREQUENCY },
+            { id: 5, question: "Aukštas garsas turi", options: ["Didelį dažnį", "Mažą dažnį", "Dažnis nesvarbus"], correct: 0, image: IMG_FREQUENCY },
+            { id: 6, question: "Žemas garsas turi", options: ["Mažą dažnį", "Didelį dažnį", "Dažnis nesvarbus"], correct: 0, image: IMG_FREQUENCY },
+            { id: 7, question: "Didėjant dažniui, garso aukštis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
+            { id: 8, question: "Mažėjant dažniui, garso aukštis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
+            { id: 9, question: "Kuo amplitudė didesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 10, question: "Kuo amplitudė mažesnė", options: ["Tuo garsas tylesnis", "Tuo garsas garsesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 11, question: "Jei garsas garsesnis, tai amplitudė", options: ["Didesnė", "Mažesnė", "Nepriklauso"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 12, question: "Jei garsas tylesnis, tai amplitudė", options: ["Mažesnė", "Didesnė", "Nepriklauso"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 13, question: "Garsus garsas turi", options: ["Didelę amplitudę", "Mažą amplitudę", "Amplitudė nesvarbi"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 14, question: "Tylus garsas turi", options: ["Mažą amplitudę", "Didelę amplitudę", "Amplitudė nesvarbi"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 15, question: "Didėjant amplitudei, garsumas", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 16, question: "Mažėjant amplitudei, garsumas", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: IMG_AMPLITUDE },
+            { id: 17, question: "Kuo bangos ilgis didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: IMG_FREQUENCY },
+            { id: 18, question: "Kuo bangos ilgis mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: IMG_FREQUENCY },
+            { id: 19, question: "Jei dažnis didelis, tai bangos ilgis", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0, image: IMG_FREQUENCY },
+            { id: 20, question: "Jei dažnis mažas, tai bangos ilgis", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0, image: IMG_FREQUENCY },
+            { id: 21, question: "Aukštas garsas turi", options: ["Trumpą bangos ilgį", "Ilgą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: IMG_FREQUENCY },
+            { id: 22, question: "Žemas garsas turi", options: ["Ilgą bangos ilgį", "Trumpą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: IMG_FREQUENCY },
+            { id: 23, question: "Didėjant bangos ilgiui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
+            { id: 24, question: "Mažėjant bangos ilgiui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
+            { id: 25, question: "Bangos ilgis ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0, image: IMG_FREQUENCY },
+            { id: 26, question: "Jei bangos ilgis padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
+            { id: 27, question: "Kuo periodas didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Periodas neįtakoja dažnio"], correct: 0, image: IMG_PERIOD },
+            { id: 28, question: "Kuo periodas mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 0, image: IMG_PERIOD },
+            { id: 29, question: "Jei dažnis didelis, tai periodas", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0, image: IMG_PERIOD },
+            { id: 30, question: "Jei dažnis mažas, tai periodas", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0, image: IMG_PERIOD },
+            { id: 31, question: "Periodas ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0, image: IMG_PERIOD },
+            { id: 32, question: "Jei periodas padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0, image: IMG_PERIOD },
+            { id: 33, question: "Didėjant periodui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: IMG_PERIOD },
+            { id: 34, question: "Mažėjant periodui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: IMG_PERIOD }
         ];
 
         let userAnswers = [];
@@ -491,22 +494,39 @@
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
+        /**
+         * Maišo masyvą (Fisher-Yates algoritmas).
+         */
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
         function generateTaskCards() {
             const container = document.getElementById('task-cards-container');
             
             tasks.forEach((task, index) => {
+                // 1. MAIŠOME ATSAKYMUS IR KOREGUOJAME TEISINGĄ ATSAKYMĄ
+                const originalOptions = task.options.map((text, originalIndex) => ({ text, originalIndex }));
+                shuffleArray(originalOptions);
+
+                // Randame naują teisingo atsakymo poziciją
+                const newCorrectIndex = originalOptions.findIndex(option => option.originalIndex === task.correct);
+                
+                // 2. GENERUOJAME KORTELĘ
                 const cardDiv = document.createElement('div');
-                // PATAISYMAS: ID naudojame pagal indeksą (nuo 1 iki 34)
                 cardDiv.id = `card-task-${index + 1}`;
                 cardDiv.className = 'card';
                 if (index === 0) cardDiv.classList.add('active');
                 
                 let optionsHTML = '';
-                task.options.forEach((option, optIndex) => {
+                originalOptions.forEach((option, optIndex) => {
                     optionsHTML += `
                         <label class="option" data-index="${index + 1}" data-option="${optIndex}">
                             <input type="radio" name="q${index + 1}" value="${optIndex}">
-                            <span>${option}</span>
+                            <span>${option.text}</span>
                         </label>
                     `;
                 });
@@ -545,7 +565,7 @@
                     <div class="feedback-message" id="feedback-${index + 1}"></div>
                     
                     <div class="button-container">
-                        <button onclick="checkAnswer(${index + 1})" class="action-button btn-primary" id="check-btn-${index + 1}">✅ Patikrinti</button>
+                        <button onclick="checkAnswer(${index + 1}, ${newCorrectIndex})" class="action-button btn-primary" id="check-btn-${index + 1}">✅ Patikrinti</button>
                     </div>
                 `;
                 
@@ -562,7 +582,6 @@
                         const input = this.querySelector('input');
                         input.checked = true;
                         
-                        // PATAISYMAS: Naudojame data-index, kuris atitinka kortelės ID
                         const cardIndex = this.getAttribute('data-index'); 
                         updateOptionStyles(cardIndex);
                     }
@@ -571,7 +590,6 @@
         }
 
         function updateOptionStyles(cardIndex) {
-            // PATAISYMAS: Ieškome pagal data-index
             const options = document.querySelectorAll(`[data-index="${cardIndex}"]`); 
             options.forEach(option => {
                 const input = option.querySelector('input');
@@ -588,19 +606,16 @@
                 card.classList.remove('active');
             });
             
-            // PATAISYMAS: ID atitinka indeksą
             const targetCard = document.getElementById('card-task-' + cardIndex); 
             if (targetCard) {
                 targetCard.classList.add('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else if (cardIndex === tasks.length + 1) {
-                // Jei bandoma rodyti kortelę po paskutinės, rodome rezultatus
                 showResults();
             }
         }
-
-        function checkAnswer(cardIndex) {
-            // PATAISYMAS: task.id nebenaudojamas, naudojame index
+        // PATAISYMAS: Įtrauktas newCorrectIndex į checkAnswer funkciją
+        function checkAnswer(cardIndex, newCorrectIndex) {
             const task = tasks[cardIndex - 1]; 
             const selectedInput = document.querySelector(`input[name="q${cardIndex}"]:checked`);
             const feedback = document.getElementById(`feedback-${cardIndex}`);
@@ -613,13 +628,14 @@
             }
             
             const selectedValue = parseInt(selectedInput.value);
-            const isCorrect = selectedValue === task.correct;
+            // PATAISYMAS: Naudojame naują teisingą indeksą
+            const isCorrect = selectedValue === newCorrectIndex;
             
             userAnswers.push({
                 taskId: task.id,
                 question: task.question,
                 userAnswer: selectedValue,
-                correctAnswer: task.correct,
+                correctAnswer: newCorrectIndex, // Išsaugome naują indeksą
                 isCorrect: isCorrect
             });
             
@@ -627,7 +643,8 @@
                 option.classList.add('disabled');
                 const optIndex = parseInt(option.getAttribute('data-option'));
                 
-                if (optIndex === task.correct) {
+                // PATAISYMAS: Naudojame naują teisingą indeksą
+                if (optIndex === newCorrectIndex) {
                     option.classList.add('correct');
                 } else if (option.querySelector('input').checked) {
                     option.classList.add('incorrect');
@@ -644,7 +661,6 @@
             
             if (cardIndex < tasks.length) {
                 checkBtn.textContent = '➡️ Toliau';
-                // PATAISYMAS: Rodome sekančią kortelę pagal indeksą
                 checkBtn.onclick = function() {
                     showCard(cardIndex + 1); 
                 };
@@ -656,6 +672,7 @@
             }
         }
 
+        // PATAISYMAS: pilnai įgyvendinta showResults funkcija
         function showResults() {
             showCard('card-results');
             
@@ -667,6 +684,12 @@
             
             userAnswers.forEach((answer, index) => {
                 if (answer.isCorrect) correctCount++;
+
+                // Rasti teisingą teksto atsakymą (ne indekso)
+                const originalTask = tasks.find(t => t.id === answer.taskId);
+                
+                // Gauti pasirinkto atsakymo tekstą (atsakymo tekstai nebuvo maišomi)
+                const correctOptionText = originalTask.options[originalTask.correct];
                 
                 const itemClass = answer.isCorrect ? 'correct-item' : 'incorrect-item';
                 const icon = answer.isCorrect ? '✅' : '❌';
@@ -677,6 +700,7 @@
                 detailsHTML += `
                     <div class="result-item ${itemClass}">
                         ${icon} <strong>${index + 1}. ${answer.question}</strong> - ${statusText}
+                        ${!answer.isCorrect ? `<div style="margin-top:5px; font-size:0.9rem; color:#1A4D7A;">Teisingas: ${correctOptionText}</div>` : ''}
                     </div>
                 `;
             });
@@ -699,12 +723,28 @@
             if (e.key === 'Enter') {
                 const activeCard = document.querySelector('.card.active');
                 if (activeCard && activeCard.id.startsWith('card-task-')) {
-                    // PATAISYMAS: Išgauname kortelės indeksą
                     const cardIndex = parseInt(activeCard.id.split('-')[2]); 
                     const checkBtn = document.getElementById(`check-btn-${cardIndex}`);
                     
                     if (checkBtn && checkBtn.textContent.includes('Patikrinti')) {
-                        checkAnswer(cardIndex);
+                        // Nustatome tikslų teisingo atsakymo indeksą prieš patikrinimą
+                        const currentTask = tasks[cardIndex - 1];
+                        const selectedOptions = document.querySelectorAll(`[data-index="${cardIndex}"]`);
+                        
+                        let correctOptionText = currentTask.options[currentTask.correct];
+                        let newCorrectIndex = -1;
+                        selectedOptions.forEach((option, index) => {
+                           if (option.querySelector('span').textContent === correctOptionText) {
+                               newCorrectIndex = index;
+                           }
+                        });
+
+                        if (newCorrectIndex !== -1) {
+                            checkAnswer(cardIndex, newCorrectIndex);
+                        } else {
+                            // Jei kažkas nepavyko, bandome be maišymo logikos (avarijos atveju)
+                             checkAnswer(cardIndex, currentTask.correct);
+                        }
                     } else if (checkBtn) {
                         checkBtn.click();
                     }
@@ -712,7 +752,6 @@
             }
         });
 
-        // PATAISYMAS: Paleidžiama kortelių generavimo funkcija, kad viskas veiktų
         generateTaskCards(); 
     </script>
 </body>
