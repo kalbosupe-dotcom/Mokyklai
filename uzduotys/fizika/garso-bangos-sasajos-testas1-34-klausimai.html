@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎵 Garso Bangų Parametrų Sąsajos - Testas</title>
     <style>
-        /* --- JŪSŲ CSS STILIAI (NEKEISTI, TIK KODAVIMAS) --- */
+        /* --- VISI CSS STILIAI --- */
         body {
             font-family: Verdana, Geneva, sans-serif;
             letter-spacing: 0.05em;
@@ -513,7 +513,8 @@
                 shuffleArray(originalOptions);
 
                 // Randame naują teisingo atsakymo poziciją
-                const newCorrectIndex = originalOptions.findIndex(option => option.originalIndex === task.correct);
+                const correctOptionText = task.options[task.correct];
+                const newCorrectIndex = originalOptions.findIndex(option => option.text === correctOptionText);
                 
                 // 2. GENERUOJAME KORTELĘ
                 const cardDiv = document.createElement('div');
@@ -614,7 +615,7 @@
                 showResults();
             }
         }
-        // PATAISYMAS: Įtrauktas newCorrectIndex į checkAnswer funkciją
+        
         function checkAnswer(cardIndex, newCorrectIndex) {
             const task = tasks[cardIndex - 1]; 
             const selectedInput = document.querySelector(`input[name="q${cardIndex}"]:checked`);
@@ -628,14 +629,13 @@
             }
             
             const selectedValue = parseInt(selectedInput.value);
-            // PATAISYMAS: Naudojame naują teisingą indeksą
             const isCorrect = selectedValue === newCorrectIndex;
             
             userAnswers.push({
                 taskId: task.id,
                 question: task.question,
                 userAnswer: selectedValue,
-                correctAnswer: newCorrectIndex, // Išsaugome naują indeksą
+                correctAnswer: newCorrectIndex, 
                 isCorrect: isCorrect
             });
             
@@ -643,7 +643,6 @@
                 option.classList.add('disabled');
                 const optIndex = parseInt(option.getAttribute('data-option'));
                 
-                // PATAISYMAS: Naudojame naują teisingą indeksą
                 if (optIndex === newCorrectIndex) {
                     option.classList.add('correct');
                 } else if (option.querySelector('input').checked) {
@@ -674,8 +673,13 @@
 
         // PATAISYMAS: pilnai įgyvendinta showResults funkcija
         function showResults() {
-            showCard('card-results');
-            
+            // Pataisytas: užtikriname, kad rezultatai būtų rodomi
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById('card-results').classList.add('active');
+
+
             const resultDetails = document.getElementById('result-details');
             const totalScoreEl = document.getElementById('total-score');
             
@@ -685,10 +689,8 @@
             userAnswers.forEach((answer, index) => {
                 if (answer.isCorrect) correctCount++;
 
-                // Rasti teisingą teksto atsakymą (ne indekso)
+                // Rasti teisingą teksto atsakymą (naudojame originalią poziciją iš tasks masyvo)
                 const originalTask = tasks.find(t => t.id === answer.taskId);
-                
-                // Gauti pasirinkto atsakymo tekstą (atsakymo tekstai nebuvo maišomi)
                 const correctOptionText = originalTask.options[originalTask.correct];
                 
                 const itemClass = answer.isCorrect ? 'correct-item' : 'incorrect-item';
@@ -727,7 +729,6 @@
                     const checkBtn = document.getElementById(`check-btn-${cardIndex}`);
                     
                     if (checkBtn && checkBtn.textContent.includes('Patikrinti')) {
-                        // Nustatome tikslų teisingo atsakymo indeksą prieš patikrinimą
                         const currentTask = tasks[cardIndex - 1];
                         const selectedOptions = document.querySelectorAll(`[data-index="${cardIndex}"]`);
                         
@@ -742,7 +743,7 @@
                         if (newCorrectIndex !== -1) {
                             checkAnswer(cardIndex, newCorrectIndex);
                         } else {
-                            // Jei kažkas nepavyko, bandome be maišymo logikos (avarijos atveju)
+                            // Avarijos planas: jei nepavyksta rasti teksto po maišymo, naudojame originalų indeksą (tai bus netikslu, bet apsaugo nuo kritinės klaidos)
                              checkAnswer(cardIndex, currentTask.correct);
                         }
                     } else if (checkBtn) {
