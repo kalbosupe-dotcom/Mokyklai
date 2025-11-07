@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎵 Garso Bangų Parametrų Sąsajos - Testas</title>
     <style>
+        /* --- JŪSŲ CSS STILIAI --- */
         body {
             font-family: Verdana, Geneva, sans-serif;
             letter-spacing: 0.05em;
@@ -456,21 +457,21 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
+            alert(`Vardas pakeistas į: ${newName}`);
             location.reload();
         }
 
         function sendResultToSheet(taskName, score) {
             const studentName = localStorage.getItem('studentName') || 'Nežinomas';
             const timestamp = new Date().toLocaleString('lt-LT');
-        
+            
             const data = {
                 name: studentName,
                 task: taskName,
                 score: score,
                 timestamp: timestamp
             };
-        
+            
             fetch(SHEET_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -495,15 +496,16 @@
             
             tasks.forEach((task, index) => {
                 const cardDiv = document.createElement('div');
-                cardDiv.id = `card-task-\${task.id}`;
+                // PATAISYMAS: ID naudojame pagal indeksą (nuo 1 iki 34)
+                cardDiv.id = `card-task-${index + 1}`;
                 cardDiv.className = 'card';
                 if (index === 0) cardDiv.classList.add('active');
                 
                 let optionsHTML = '';
                 task.options.forEach((option, optIndex) => {
                     optionsHTML += `
-                        <label class="option" data-task="${task.id}" data-option="${optIndex}">
-                            <input type="radio" name="q${task.id}" value="${optIndex}">
+                        <label class="option" data-index="${index + 1}" data-option="${optIndex}">
+                            <input type="radio" name="q${index + 1}" value="${optIndex}">
                             <span>${option}</span>
                         </label>
                     `;
@@ -513,7 +515,7 @@
                 if (task.image) {
                     contentHTML = `
                         <div class="content-wrapper">
-                            <div class="options-container" id="options-${task.id}">
+                            <div class="options-container" id="options-${index + 1}">
                                 ${optionsHTML}
                             </div>
                             <div class="wave-diagram">
@@ -523,7 +525,7 @@
                     `;
                 } else {
                     contentHTML = `
-                        <div class="options-container" id="options-${task.id}">
+                        <div class="options-container" id="options-${index + 1}">
                             ${optionsHTML}
                         </div>
                     `;
@@ -540,10 +542,10 @@
                     
                     ${contentHTML}
                     
-                    <div class="feedback-message" id="feedback-${task.id}"></div>
+                    <div class="feedback-message" id="feedback-${index + 1}"></div>
                     
                     <div class="button-container">
-                        <button onclick="checkAnswer(${task.id})" class="action-button btn-primary" id="check-btn-${task.id}">✅ Patikrinti</button>
+                        <button onclick="checkAnswer(${index + 1})" class="action-button btn-primary" id="check-btn-${index + 1}">✅ Patikrinti</button>
                     </div>
                 `;
                 
@@ -560,15 +562,17 @@
                         const input = this.querySelector('input');
                         input.checked = true;
                         
-                        const taskId = this.getAttribute('data-task');
-                        updateOptionStyles(taskId);
+                        // PATAISYMAS: Naudojame data-index, kuris atitinka kortelės ID
+                        const cardIndex = this.getAttribute('data-index'); 
+                        updateOptionStyles(cardIndex);
                     }
                 });
             });
         }
 
-        function updateOptionStyles(taskId) {
-            const options = document.querySelectorAll(`[data-task="${taskId}"]`);
+        function updateOptionStyles(cardIndex) {
+            // PATAISYMAS: Ieškome pagal data-index
+            const options = document.querySelectorAll(`[data-index="${cardIndex}"]`); 
             options.forEach(option => {
                 const input = option.querySelector('input');
                 if (input.checked) {
@@ -579,24 +583,29 @@
             });
         }
 
-        function showCard(cardId) {
+        function showCard(cardIndex) {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
             });
             
-            const targetCard = document.getElementById(cardId);
+            // PATAISYMAS: ID atitinka indeksą
+            const targetCard = document.getElementById('card-task-' + cardIndex); 
             if (targetCard) {
                 targetCard.classList.add('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (cardIndex === tasks.length + 1) {
+                // Jei bandoma rodyti kortelę po paskutinės, rodome rezultatus
+                showResults();
             }
         }
 
-        function checkAnswer(taskId) {
-            const task = tasks.find(t => t.id === taskId);
-            const selectedInput = document.querySelector(`input[name="q${taskId}"]:checked`);
-            const feedback = document.getElementById(`feedback-${taskId}`);
-            const checkBtn = document.getElementById(`check-btn-${taskId}`);
-            const options = document.querySelectorAll(`[data-task="${taskId}"]`);
+        function checkAnswer(cardIndex) {
+            // PATAISYMAS: task.id nebenaudojamas, naudojame index
+            const task = tasks[cardIndex - 1]; 
+            const selectedInput = document.querySelector(`input[name="q${cardIndex}"]:checked`);
+            const feedback = document.getElementById(`feedback-${cardIndex}`);
+            const checkBtn = document.getElementById(`check-btn-${cardIndex}`);
+            const options = document.querySelectorAll(`[data-index="${cardIndex}"]`);
             
             if (!selectedInput) {
                 feedback.innerHTML = '⚠️ <span class="feedback-incorrect">Prašome pasirinkti atsakymą!</span>';
@@ -607,7 +616,7 @@
             const isCorrect = selectedValue === task.correct;
             
             userAnswers.push({
-                taskId: taskId,
+                taskId: task.id,
                 question: task.question,
                 userAnswer: selectedValue,
                 correctAnswer: task.correct,
@@ -633,10 +642,11 @@
             
             checkBtn.className = 'action-button btn-secondary';
             
-            if (taskId < tasks.length) {
+            if (cardIndex < tasks.length) {
                 checkBtn.textContent = '➡️ Toliau';
+                // PATAISYMAS: Rodome sekančią kortelę pagal indeksą
                 checkBtn.onclick = function() {
-                    showCard('card-task-' + (taskId + 1));
+                    showCard(cardIndex + 1); 
                 };
             } else {
                 checkBtn.textContent = '🏁 Rezultatai';
@@ -689,10 +699,12 @@
             if (e.key === 'Enter') {
                 const activeCard = document.querySelector('.card.active');
                 if (activeCard && activeCard.id.startsWith('card-task-')) {
-                    const taskId = parseInt(activeCard.id.split('-')[2]);
-                    const checkBtn = document.getElementById(`check-btn-${taskId}`);
+                    // PATAISYMAS: Išgauname kortelės indeksą
+                    const cardIndex = parseInt(activeCard.id.split('-')[2]); 
+                    const checkBtn = document.getElementById(`check-btn-${cardIndex}`);
+                    
                     if (checkBtn && checkBtn.textContent.includes('Patikrinti')) {
-                        checkAnswer(taskId);
+                        checkAnswer(cardIndex);
                     } else if (checkBtn) {
                         checkBtn.click();
                     }
@@ -700,8 +712,8 @@
             }
         });
 
-        generateTaskCards();
+        // PATAISYMAS: Paleidžiama kortelių generavimo funkcija, kad viskas veiktų
+        generateTaskCards(); 
     </script>
 </body>
 </html>
-
