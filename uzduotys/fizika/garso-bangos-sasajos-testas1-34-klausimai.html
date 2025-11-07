@@ -117,7 +117,6 @@
             font-weight: 600;
         }
 
-        /* NAUJAS: HORIZONTALUS IŠDĖSTYMAS */
         .content-wrapper {
             display: flex;
             gap: 20px;
@@ -164,7 +163,7 @@
             color: #333;
         }
 
-        .option:hover {
+        .option:hover:not(.disabled) {
             border-color: #4A90E2;
             background: #E8F4F8;
             transform: translateX(5px);
@@ -320,7 +319,6 @@
             border-left: 4px solid #e74c3c;
         }
 
-        /* RESPONSIVE: Mobiliems įrenginiams - vertikalus išdėstymas */
         @media (max-width: 768px) {
             .header-row {
                 flex-direction: column;
@@ -344,7 +342,6 @@
                 padding: 15px;
             }
 
-            /* VERTIKALUS IŠDĖSTYMAS MOBILIEMS */
             .content-wrapper {
                 flex-direction: column-reverse;
             }
@@ -384,10 +381,8 @@
             </div>
         </div>
 
-        <!-- UŽDUOČIŲ KORTELĖS (bus sugeneruotos dinamiškai) -->
         <div id="task-cards-container"></div>
 
-        <!-- KORTELĖ: REZULTATAI -->
         <div id="card-results" class="card">
             <div class="result-title">🎉 Garso Bangų Parametrų Sąsajos - Rezultatai</div>
             <div class="result-container">
@@ -401,12 +396,9 @@
     </div>
 
     <script>
-        // Google Sheets konfigūracija
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
         
-        // Užduoties duomenys - GARSO BANGŲ PARAMETRŲ SĄSAJOS
         const tasks = [
-            // A. DAŽNIS ↔ AUKŠTIS (8 klausimai)
             { id: 1, question: "Kuo dažnis didesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 2, question: "Kuo dažnis mažesnis", options: ["Tuo garsas žemesnis", "Tuo garsas aukštesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 3, question: "Jei garsas aukštesnis, tai dažnis", options: ["Didesnis", "Mažesnis", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
@@ -415,8 +407,6 @@
             { id: 6, question: "Žemas garsas turi", options: ["Mažą dažnį", "Didelį dažnį", "Dažnis nesvarbus"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 7, question: "Didėjant dažniui, garso aukštis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 8, question: "Mažėjant dažniui, garso aukštis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            
-            // B. AMPLITUDĖ ↔ GARSUMAS (8 klausimai)
             { id: 9, question: "Kuo amplitudė didesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
             { id: 10, question: "Kuo amplitudė mažesnė", options: ["Tuo garsas tylesnis", "Tuo garsas garsesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
             { id: 11, question: "Jei garsas garsesnis, tai amplitudė", options: ["Didesnė", "Mažesnė", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
@@ -425,8 +415,6 @@
             { id: 14, question: "Tylus garsas turi", options: ["Mažą amplitudę", "Didelę amplitudę", "Amplitudė nesvarbi"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
             { id: 15, question: "Didėjant amplitudei, garsumas", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
             { id: 16, question: "Mažėjant amplitudei, garsumas", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/amplitude.png" },
-            
-            // C. BANGOS ILGIS ↔ DAŽNIS (10 klausimų)
             { id: 17, question: "Kuo bangos ilgis didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 18, question: "Kuo bangos ilgis mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 19, question: "Jei dažnis didelis, tai bangos ilgis", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
@@ -437,8 +425,6 @@
             { id: 24, question: "Mažėjant bangos ilgiui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 25, question: "Bangos ilgis ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
             { id: 26, question: "Jei bangos ilgis padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0, image: "https://kalbosupe-dotcom.github.io/Mokyklai/images/frequency-comparison.png" },
-            
-            // D. PERIODAS ↔ DAŽNIS (8 klausimai) - be paveikslėlio
             { id: 27, question: "Kuo periodas didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Periodas neįtakoja dažnio"], correct: 0 },
             { id: 28, question: "Kuo periodas mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 0 },
             { id: 29, question: "Jei dažnis didelis, tai periodas", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0 },
@@ -449,10 +435,8 @@
             { id: 34, question: "Mažėjant periodui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0 }
         ];
 
-        let currentTaskIndex = 0;
         let userAnswers = [];
 
-        // --- Vardų valdymas ---
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
             
@@ -487,8 +471,6 @@
                 timestamp: timestamp
             };
         
-            console.log('Siunčiamas rezultatas:', data);
-        
             fetch(SHEET_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -508,7 +490,6 @@
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
-        // --- KORTELIŲ GENERAVIMAS SU HORIZONTALIU IŠDĖSTYMU ---
         function generateTaskCards() {
             const container = document.getElementById('task-cards-container');
             
@@ -528,17 +509,6 @@
                     `;
                 });
                 
-                // PAVEIKSLĖLIO HTML (jei yra)
-                let imageHTML = '';
-                if (task.image) {
-                    imageHTML = `
-                        <div class="wave-diagram">
-                            <img src="${task.image}" alt="Garso bangų diagrama">
-                        </div>
-                    `;
-                }
-                
-                // CONTENT WRAPPER: atsakymai kairėje, paveikslėlis dešinėje
                 let contentHTML = '';
                 if (task.image) {
                     contentHTML = `
@@ -546,11 +516,12 @@
                             <div class="options-container" id="options-${task.id}">
                                 ${optionsHTML}
                             </div>
-                            ${imageHTML}
+                            <div class="wave-diagram">
+                                <img src="${task.image}" alt="Garso bangų diagrama">
+                            </div>
                         </div>
                     `;
                 } else {
-                    // Jei nėra paveikslėlio, tik atsakymai
                     contentHTML = `
                         <div class="options-container" id="options-${task.id}">
                             ${optionsHTML}
@@ -579,11 +550,9 @@
                 container.appendChild(cardDiv);
             });
             
-            // Pridėti event listener'ius pasirinkimams
             addOptionListeners();
         }
 
-        // --- PASIRINKIMŲ LISTENER'IAI ---
         function addOptionListeners() {
             document.querySelectorAll('.option').forEach(option => {
                 option.addEventListener('click', function(e) {
@@ -598,7 +567,6 @@
             });
         }
 
-        // --- ATNAUJINTI PASIRINKIMŲ STILIUS ---
         function updateOptionStyles(taskId) {
             const options = document.querySelectorAll(`[data-task="${taskId}"]`);
             options.forEach(option => {
@@ -611,86 +579,73 @@
             });
         }
 
-        // --- KORTELIŲ RODYMAS ---
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
             });
-            document.getElementById(cardId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // --- ATSAKYMO TIKRINIMAS ---
-function checkAnswer(taskId) {
-    const task = tasks.find(t => t.id === taskId);
-    const selectedInput = document.querySelector(`input[name="q${taskId}"]:checked`);
-    const feedback = document.getElementById(`feedback-${taskId}`);
-    const checkBtn = document.getElementById(`check-btn-${taskId}`);
-    const options = document.querySelectorAll(`[data-task="${taskId}"]`);
-    
-    // Patikrinti ar pasirinktas atsakymas
-    if (!selectedInput) {
-        feedback.innerHTML = '⚠️ <span class="feedback-incorrect">Prašome pasirinkti atsakymą!</span>';
-        return;
-    }
-    
-    const selectedValue = parseInt(selectedInput.value);
-    const isCorrect = selectedValue === task.correct;
-    
-    // Išsaugoti atsakymą
-    userAnswers.push({
-        taskId: taskId,
-        question: task.question,
-        userAnswer: selectedValue,
-        correctAnswer: task.correct,
-        isCorrect: isCorrect
-    });
-    
-    // Pažymėti teisingus/neteisingus atsakymus
-    options.forEach((option) => {
-        option.classList.add('disabled');
-        const optIndex = parseInt(option.getAttribute('data-option'));
-        
-        if (optIndex === task.correct) {
-            option.classList.add('correct');
-        } else if (option.querySelector('input').checked) {
-            option.classList.add('incorrect');
-        }
-    });
-    
-    // Rodyti feedback
-    if (isCorrect) {
-        feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
-    } else {
-        feedback.innerHTML = '❌ <span class="feedback-incorrect">Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
-    }
-    
-    // PATAISYMAS: Pakeisti mygtuką
-    checkBtn.disabled = false;
-    checkBtn.className = 'action-button btn-secondary';
-    
-    const nextTaskId = taskId + 1;
-    console.log('Dabartinis taskId:', taskId, 'Kitas taskId:', nextTaskId, 'Viso tasks:', tasks.length); // DEBUG
-    
-    if (taskId < tasks.length) {
-        checkBtn.textContent = '➡️ Toliau';
-        checkBtn.onclick = function() {
-            console.log('Paspaustas Toliau. Rodoma kortelė: card-task-' + nextTaskId); // DEBUG
-            showCard('card-task-' + nextTaskId);
-        };
-    } else {
-        checkBtn.textContent = '🏁 Rezultatai';
-        checkBtn.onclick = function() {
-            console.log('Rodomi rezultatai'); // DEBUG
-            showResults();
-        };
-    }
-}
             
-            buttonContainer.appendChild(nextBtn);
+            const targetCard = document.getElementById(cardId);
+            if (targetCard) {
+                targetCard.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
-        // --- REZULTATŲ RODYMAS ---
+        function checkAnswer(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            const selectedInput = document.querySelector(`input[name="q${taskId}"]:checked`);
+            const feedback = document.getElementById(`feedback-${taskId}`);
+            const checkBtn = document.getElementById(`check-btn-${taskId}`);
+            const options = document.querySelectorAll(`[data-task="${taskId}"]`);
+            
+            if (!selectedInput) {
+                feedback.innerHTML = '⚠️ <span class="feedback-incorrect">Prašome pasirinkti atsakymą!</span>';
+                return;
+            }
+            
+            const selectedValue = parseInt(selectedInput.value);
+            const isCorrect = selectedValue === task.correct;
+            
+            userAnswers.push({
+                taskId: taskId,
+                question: task.question,
+                userAnswer: selectedValue,
+                correctAnswer: task.correct,
+                isCorrect: isCorrect
+            });
+            
+            options.forEach((option) => {
+                option.classList.add('disabled');
+                const optIndex = parseInt(option.getAttribute('data-option'));
+                
+                if (optIndex === task.correct) {
+                    option.classList.add('correct');
+                } else if (option.querySelector('input').checked) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            if (isCorrect) {
+                feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
+            } else {
+                feedback.innerHTML = '❌ <span class="feedback-incorrect">Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
+            }
+            
+            checkBtn.className = 'action-button btn-secondary';
+            
+            if (taskId < tasks.length) {
+                checkBtn.textContent = '➡️ Toliau';
+                checkBtn.onclick = function() {
+                    showCard('card-task-' + (taskId + 1));
+                };
+            } else {
+                checkBtn.textContent = '🏁 Rezultatai';
+                checkBtn.onclick = function() {
+                    showResults();
+                };
+            }
+        }
+
         function showResults() {
             showCard('card-results');
             
@@ -727,35 +682,26 @@ function checkAnswer(taskId) {
                 <div class="score-percentage ${scoreClass}">${percentage}%</div>
             `;
             
-            // Siųsti rezultatus į Google Sheets
             sendResultToSheet('F0004 Garso bangų parametrų sąsajos | 34 klausimai', percentage);
         }
 
-        // --- ENTER KLAVIŠO PALAIKYMAS ---
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 const activeCard = document.querySelector('.card.active');
                 if (activeCard && activeCard.id.startsWith('card-task-')) {
                     const taskId = parseInt(activeCard.id.split('-')[2]);
                     const checkBtn = document.getElementById(`check-btn-${taskId}`);
-                    if (checkBtn && checkBtn.style.display !== 'none' && !checkBtn.disabled) {
+                    if (checkBtn && checkBtn.textContent.includes('Patikrinti')) {
                         checkAnswer(taskId);
-                    } else {
-                        // Jei "Patikrinti" mygtukas paslėptas, ieškoti "Toliau" mygtuko
-                        const buttonContainer = activeCard.querySelector('.button-container');
-                        const nextBtn = buttonContainer.querySelector('.btn-secondary');
-                        if (nextBtn) {
-                            nextBtn.click();
-                        }
+                    } else if (checkBtn) {
+                        checkBtn.click();
                     }
                 }
             }
         });
 
-        // --- INICIALIZACIJA ---
         generateTaskCards();
     </script>
 </body>
 </html>
-
 
