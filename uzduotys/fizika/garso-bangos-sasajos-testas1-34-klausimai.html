@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵 TESTAS #1: Garso Bangų Parametrų Sąsajos</title>
+    <title>🎵 Garso Bangų Parametrų Sąsajos - Testas</title>
     <style>
         body {
             font-family: Verdana, Geneva, sans-serif;
@@ -115,6 +115,21 @@
             text-align: center;
             color: #1A4D7A;
             font-weight: 600;
+        }
+
+        .wave-diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            border: 2px solid #E8F4F8;
+        }
+
+        .wave-diagram img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
 
         .options-container {
@@ -310,6 +325,10 @@
                 padding: 15px;
             }
 
+            .wave-diagram {
+                padding: 10px;
+            }
+
             .option {
                 font-size: 1rem;
                 padding: 12px;
@@ -340,7 +359,7 @@
 
         <!-- KORTELĖ: REZULTATAI -->
         <div id="card-results" class="card">
-            <div class="result-title">🎉 Užduoties rezultatai</div>
+            <div class="result-title">🎉 Garso Bangų Parametrų Sąsajos - Rezultatai</div>
             <div class="result-container">
                 <div class="total-score" id="total-score"></div>
                 <div class="result-details" id="result-details"></div>
@@ -355,53 +374,49 @@
         // Google Sheets konfigūracija
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
         
-        // Užduoties duomenys - GARSO BANGŲ SĄSAJOS
+        // Užduoties duomenys - GARSO BANGŲ PARAMETRŲ SĄSAJOS
         const tasks = [
-            // A. DAŽNIS ↔ GARSO AUKŠTIS
-            { id: 1, question: "Kuo dažnis didesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 0 },
-            { id: 2, question: "Kuo dažnis mažesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 1 },
-            { id: 3, question: "Didesnis dažnis sukuria", options: ["Aukštesnį garsą", "Žemesnį garsą", "Garsesnį garsą"], correct: 0 },
-            { id: 4, question: "Mažesnis dažnis sukuria", options: ["Aukštesnį garsą", "Žemesnį garsą", "Tylesnį garsą"], correct: 1 },
-            { id: 5, question: "Aukštesnis garsas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Didesnę amplitudę"], correct: 0 },
-            { id: 6, question: "Žemesnis garsas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Mažesnę amplitudę"], correct: 1 },
-            { id: 7, question: "Kad garsas būtų aukštesnis", options: ["Dažnis turi būti didesnis", "Dažnis turi būti mažesnis", "Amplitudė turi būti didesnė"], correct: 0 },
-            { id: 8, question: "Kad garsas būtų žemesnis", options: ["Dažnis turi būti didesnis", "Dažnis turi būti mažesnis", "Amplitudė turi būti mažesnė"], correct: 1 },
+            // A. DAŽNIS ↔ AUKŠTIS (8 klausimai) - su frequency-comparison.png
+            { id: 1, question: "Kuo dažnis didesnis", options: ["Tuo garsas aukštesnis", "Tuo garsas žemesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 2, question: "Kuo dažnis mažesnis", options: ["Tuo garsas žemesnis", "Tuo garsas aukštesnis", "Dažnis neįtakoja garso aukščio"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 3, question: "Jei garsas aukštesnis, tai dažnis", options: ["Didesnis", "Mažesnis", "Nepriklauso"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 4, question: "Jei garsas žemesnis, tai dažnis", options: ["Mažesnis", "Didesnis", "Nepriklauso"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 5, question: "Aukštas garsas turi", options: ["Didelį dažnį", "Mažą dažnį", "Dažnis nesvarbus"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 6, question: "Žemas garsas turi", options: ["Mažą dažnį", "Didelį dažnį", "Dažnis nesvarbus"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 7, question: "Didėjant dažniui, garso aukštis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 8, question: "Mažėjant dažniui, garso aukštis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "images/frequency-comparison.png" },
             
-            // B. AMPLITUDĖ ↔ GARSUMAS
-            { id: 9, question: "Kuo amplitudė didesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Tuo garsas aukštesnis"], correct: 0 },
-            { id: 10, question: "Kuo amplitudė mažesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Tuo garsas žemesnis"], correct: 1 },
-            { id: 11, question: "Didesnė amplitudė sukuria", options: ["Garsesnį garsą", "Tylesnį garsą", "Aukštesnį garsą"], correct: 0 },
-            { id: 12, question: "Mažesnė amplitudė sukuria", options: ["Garsesnį garsą", "Tylesnį garsą", "Žemesnį garsą"], correct: 1 },
-            { id: 13, question: "Garsesnis garsas reiškia", options: ["Didesnę amplitudę", "Mažesnę amplitudę", "Didesnį dažnį"], correct: 0 },
-            { id: 14, question: "Tylesnis garsas reiškia", options: ["Didesnę amplitudę", "Mažesnę amplitudę", "Mažesnį dažnį"], correct: 1 },
-            { id: 15, question: "Kad garsas būtų garsesnis", options: ["Amplitudė turi būti didesnė", "Amplitudė turi būti mažesnė", "Dažnis turi būti didesnis"], correct: 0 },
-            { id: 16, question: "Kad garsas būtų tylesnis", options: ["Amplitudė turi būti didesnė", "Amplitudė turi būti mažesnė", "Dažnis turi būti mažesnis"], correct: 1 },
+            // B. AMPLITUDĖ ↔ GARSUMAS (8 klausimai) - su amplitude.png
+            { id: 9, question: "Kuo amplitudė didesnė", options: ["Tuo garsas garsesnis", "Tuo garsas tylesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: "images/amplitude.png" },
+            { id: 10, question: "Kuo amplitudė mažesnė", options: ["Tuo garsas tylesnis", "Tuo garsas garsesnis", "Amplitudė neįtakoja garsumo"], correct: 0, image: "images/amplitude.png" },
+            { id: 11, question: "Jei garsas garsesnis, tai amplitudė", options: ["Didesnė", "Mažesnė", "Nepriklauso"], correct: 0, image: "images/amplitude.png" },
+            { id: 12, question: "Jei garsas tylesnis, tai amplitudė", options: ["Mažesnė", "Didesnė", "Nepriklauso"], correct: 0, image: "images/amplitude.png" },
+            { id: 13, question: "Garsus garsas turi", options: ["Didelę amplitudę", "Mažą amplitudę", "Amplitudė nesvarbi"], correct: 0, image: "images/amplitude.png" },
+            { id: 14, question: "Tylus garsas turi", options: ["Mažą amplitudę", "Didelę amplitudę", "Amplitudė nesvarbi"], correct: 0, image: "images/amplitude.png" },
+            { id: 15, question: "Didėjant amplitudei, garsumas", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "images/amplitude.png" },
+            { id: 16, question: "Mažėjant amplitudei, garsumas", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "images/amplitude.png" },
             
-            // C. BANGOS ILGIS ↔ DAŽNIS
-            { id: 17, question: "Kuo dažnis didesnis", options: ["Tuo bangos ilgis trumpesnis", "Tuo bangos ilgis ilgesnis", "Bangos ilgis nepriklauso nuo dažnio"], correct: 0 },
-            { id: 18, question: "Kuo dažnis mažesnis", options: ["Tuo bangos ilgis trumpesnis", "Tuo bangos ilgis ilgesnis", "Bangos ilgis nepriklauso nuo dažnio"], correct: 1 },
-            { id: 19, question: "Ilgesnis bangos ilgis reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Didesnę amplitudę"], correct: 1 },
-            { id: 20, question: "Trumpesnis bangos ilgis reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Mažesnę amplitudę"], correct: 0 },
-            { id: 21, question: "Jei dažnis padidėja 2 kartus", options: ["Bangos ilgis sumažėja 2 kartus", "Bangos ilgis padidėja 2 kartus", "Bangos ilgis nepakinta"], correct: 0 },
-            { id: 22, question: "Jei bangos ilgis sumažėja 2 kartus", options: ["Dažnis sumažėja 2 kartus", "Dažnis padidėja 2 kartus", "Dažnis nepakinta"], correct: 1 },
+            // C. BANGOS ILGIS ↔ DAŽNIS (10 klausimų) - su frequency-comparison.png
+            { id: 17, question: "Kuo bangos ilgis didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 18, question: "Kuo bangos ilgis mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 19, question: "Jei dažnis didelis, tai bangos ilgis", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 20, question: "Jei dažnis mažas, tai bangos ilgis", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 21, question: "Aukštas garsas turi", options: ["Trumpą bangos ilgį", "Ilgą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 22, question: "Žemas garsas turi", options: ["Ilgą bangos ilgį", "Trumpą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 23, question: "Didėjant bangos ilgiui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 24, question: "Mažėjant bangos ilgiui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 25, question: "Bangos ilgis ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0, image: "images/frequency-comparison.png" },
+            { id: 26, question: "Jei bangos ilgis padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0, image: "images/frequency-comparison.png" },
             
-            // D. BANGOS ILGIS ↔ GARSO AUKŠTIS
-            { id: 23, question: "Ilgesnis bangos ilgis", options: ["Žemesnis garsas", "Aukštesnis garsas", "Garsesnis garsas"], correct: 0 },
-            { id: 24, question: "Trumpesnis bangos ilgis", options: ["Žemesnis garsas", "Aukštesnis garsas", "Tylesnis garsas"], correct: 1 },
-            { id: 25, question: "Aukštesnis garsas", options: ["Ilgesnis bangos ilgis", "Trumpesnis bangos ilgis", "Didesnė amplitudė"], correct: 1 },
-            { id: 26, question: "Žemesnis garsas", options: ["Ilgesnis bangos ilgis", "Trumpesnis bangos ilgis", "Mažesnė amplitudė"], correct: 0 },
-            
-            // E. PERIODAS ↔ DAŽNIS
-            { id: 27, question: "Kuo periodas didesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 1 },
+            // D. PERIODAS ↔ DAŽNIS (8 klausimai) - be paveikslėlio
+            { id: 27, question: "Kuo periodas didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Periodas neįtakoja dažnio"], correct: 0 },
             { id: 28, question: "Kuo periodas mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 0 },
-            { id: 29, question: "Didesnis periodas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Didesnę amplitudę"], correct: 1 },
-            { id: 30, question: "Mažesnis periodas reiškia", options: ["Didesnį dažnį", "Mažesnį dažnį", "Mažesnę amplitudę"], correct: 0 },
-            { id: 31, question: "Jei dažnis padidėja 2 kartus", options: ["Periodas padidėja 2 kartus", "Periodas sumažėja 2 kartus", "Periodas nepakinta"], correct: 1 },
-            
-            // F. GARSO GREITIS ↔ TERPĖ
-            { id: 32, question: "Kuo terpė tankesnė", options: ["Tuo garsas sklinda greičiau", "Tuo garsas sklinda lėčiau", "Terpės tankis neįtakoja garso greičio"], correct: 0 },
-            { id: 33, question: "Kietose medžiagose garsas sklinda", options: ["Greičiau nei skysčiuose", "Lėčiau nei skysčiuose", "Taip pat kaip skysčiuose"], correct: 0 },
-            { id: 34, question: "Dujose garsas sklinda", options: ["Greičiau nei kietose medžiagose", "Lėčiau nei kietose medžiagose", "Taip pat kaip kietose medžiagose"], correct: 1 }
+            { id: 29, question: "Jei dažnis didelis, tai periodas", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0 },
+            { id: 30, question: "Jei dažnis mažas, tai periodas", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0 },
+            { id: 31, question: "Periodas ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0 },
+            { id: 32, question: "Jei periodas padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0 },
+            { id: 33, question: "Didėjant periodui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0 },
+            { id: 34, question: "Mažėjant periodui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0 }
         ];
 
         let currentTaskIndex = 0;
@@ -427,7 +442,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: ${newName}`);
+            alert(`Vardas pakeistas į: \${newName}`);
             location.reload();
         }
 
@@ -469,7 +484,7 @@
             
             tasks.forEach((task, index) => {
                 const cardDiv = document.createElement('div');
-                cardDiv.id = `card-task-${task.id}`;
+                cardDiv.id = `card-task-\${task.id}`;
                 cardDiv.className = 'card';
                 if (index === 0) cardDiv.classList.add('active');
                 
@@ -483,6 +498,16 @@
                     `;
                 });
                 
+                // PRIDĖTI PAVEIKSLĖLĮ (jei yra)
+                let imageHTML = '';
+                if (task.image) {
+                    imageHTML = `
+                        <div class="wave-diagram">
+                            <img src="${task.image}" alt="Garso bangų diagrama">
+                        </div>
+                    `;
+                }
+                
                 cardDiv.innerHTML = `
                     <div class="task-header">
                         <div class="task-title">📝 Klausimas ${index + 1} / ${tasks.length}</div>
@@ -491,6 +516,8 @@
                     <div class="question-box">
                         <strong>${task.question}</strong>
                     </div>
+                    
+                    ${imageHTML}
                     
                     <div class="options-container" id="options-${task.id}">
                         ${optionsHTML}
@@ -648,7 +675,7 @@
             `;
             
             // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('F0003 Garso bangų parametrų sąsajos | Testas#1 | 34 klausimai', percentage);
+            sendResultToSheet('F0004 Garso bangų parametrų sąsajos | 34 klausimai', percentage);
         }
 
         // --- ENTER KLAVIŠO PALAIKYMAS ---
@@ -670,4 +697,3 @@
     </script>
 </body>
 </html>
-                                                                      
