@@ -88,7 +88,7 @@
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
-            padding: 30px;
+            padding: 15px;
             border: 3px solid #4A90E2;
             display: none;
         }
@@ -99,21 +99,21 @@
         
         .task-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .task-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #0D3B66;
-            margin-bottom: 10px;
+            margin-bottom: 0;
         }
         
         .progress-container {
             background: #f0f0f0;
             border-radius: 10px;
             height: 30px;
-            margin: 20px 0;
+            margin: 15px 0;
             overflow: hidden;
         }
         
@@ -129,34 +129,12 @@
             font-weight: bold;
         }
         
-        .image-container {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-        }
-        
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .image-caption {
-            margin-top: 15px;
-            color: #555;
-            font-size: 1.1em;
-            font-style: italic;
-        }
-        
         .question-box {
             background-color: #E8F4F8;
-            padding: 20px;
+            padding: 10px;
             border-radius: 10px;
             border: 3px solid #7CB3E9;
-            margin: 20px 0;
+            margin: 15px 0;
             font-size: 1.4rem;
             line-height: 1.8;
             text-align: center;
@@ -164,22 +142,49 @@
             font-weight: 600;
         }
         
+        .content-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin: 10px 0;
+        }
+
         .options-container {
-            margin: 20px 0;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .image-diagram {
+            flex: 0 0 40%;
+            text-align: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            border: 2px solid #E8F4F8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-diagram img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
         }
         
         .option {
             background: white;
             border: 3px solid #ddd;
             border-radius: 10px;
-            padding: 15px;
-            margin: 12px 0;
+            padding: 12px;
+            margin: 10px 0;
             cursor: pointer;
             transition: all 0.3s;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: #333;
         }
 
@@ -223,33 +228,23 @@
         
         .feedback-message {
             text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
+            margin-top: 15px;
             font-size: 1.2rem;
             font-weight: bold;
-            display: none;
-        }
-
-        .feedback-message.show {
-            display: block;
+            min-height: 25px;
         }
 
         .feedback-correct {
-            background: #d4edda;
-            color: #155724;
-            border: 2px solid #28a745;
+            color: #27ae60;
         }
 
         .feedback-incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 2px solid #dc3545;
+            color: #e74c3c;
         }
         
         .button-container {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
             display: flex;
             justify-content: center;
             gap: 12px;
@@ -328,16 +323,16 @@
 
         .result-details {
             margin: 15px 0;
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
         .result-item {
-            padding: 12px;
-            margin: 8px 0;
+            padding: 8px 12px;
+            margin: 6px 0;
             background-color: #ffffff;
-            border-radius: 8px;
-            font-size: 1.1rem;
+            border-radius: 6px;
+            font-size: 1rem;
             text-align: left;
         }
 
@@ -370,6 +365,20 @@
             .question-box {
                 font-size: 1.1rem;
                 padding: 15px;
+            }
+
+            .content-wrapper {
+                flex-direction: column-reverse;
+            }
+
+            .image-diagram {
+                flex: 1 1 auto;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .options-container {
+                width: 100%;
             }
 
             .option {
@@ -407,32 +416,32 @@
                 <div class="progress-bar" id="progressBar1">0%</div>
             </div>
             
-            <div class="image-container">
-                <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
-                <p class="image-caption">DNR (deoksiribonukleino rūgšties) molekulė</p>
-            </div>
-            
             <div class="question-box">
                 <strong>Kokią formą turi DNR molekulė?</strong>
             </div>
             
-            <div class="options-container">
-                <label class="option" data-question="1" data-answer="wrong">
-                    <input type="radio" name="q1" value="0">
-                    <span>Viengubo spiralė</span>
-                </label>
-                <label class="option" data-question="1" data-answer="correct">
-                    <input type="radio" name="q1" value="1">
-                    <span>Dviguba spiralė</span>
-                </label>
-                <label class="option" data-question="1" data-answer="wrong">
-                    <input type="radio" name="q1" value="2">
-                    <span>Tiesė</span>
-                </label>
-                <label class="option" data-question="1" data-answer="wrong">
-                    <input type="radio" name="q1" value="3">
-                    <span>Žiedas</span>
-                </label>
+            <div class="content-wrapper">
+                <div class="options-container">
+                    <label class="option" data-question="1" data-answer="wrong">
+                        <input type="radio" name="q1" value="0">
+                        <span>Viengubo spiralė</span>
+                    </label>
+                    <label class="option" data-question="1" data-answer="correct">
+                        <input type="radio" name="q1" value="1">
+                        <span>Dviguba spiralė</span>
+                    </label>
+                    <label class="option" data-question="1" data-answer="wrong">
+                        <input type="radio" name="q1" value="2">
+                        <span>Tiesė</span>
+                    </label>
+                    <label class="option" data-question="1" data-answer="wrong">
+                        <input type="radio" name="q1" value="3">
+                        <span>Žiedas</span>
+                    </label>
+                </div>
+                <div class="image-diagram">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
+                </div>
             </div>
             
             <div class="feedback-message" id="feedback-1"></div>
@@ -452,35 +461,35 @@
                 <div class="progress-bar" id="progressBar2">14%</div>
             </div>
             
-            <div class="image-container">
-                <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
-                <p class="image-caption">DNR (deoksiribonukleino rūgšties) molekulė</p>
-            </div>
-            
             <div class="question-box">
                 <strong>Iš ko sudaryta DNR molekulė?</strong>
             </div>
             
-            <div class="options-container">
-                <label class="option" data-question="2" data-answer="wrong">
-                    <input type="radio" name="q2" value="0">
-                    <span>Baltymų</span>
-                </label>
-                <label class="option" data-question="2" data-answer="correct">
-                    <input type="radio" name="q2" value="1">
-                    <span>Nukleotidų</span>
-                </label>
-                <label class="option" data-question="2" data-answer="wrong">
-                    <input type="radio" name="q2" value="2">
-                    <span>Riebalų</span>
-                </label>
-                <label class="option" data-question="2" data-answer="wrong">
-                    <input type="radio" name="q2" value="3">
-                    <span>Angliavandenių</span>
-                </label>
+            <div class="content-wrapper">
+                <div class="options-container">
+                    <label class="option" data-question="2" data-answer="wrong">
+                        <input type="radio" name="q2" value="0">
+                        <span>Baltymų</span>
+                    </label>
+                    <label class="option" data-question="2" data-answer="correct">
+                        <input type="radio" name="q2" value="1">
+                        <span>Nukleotidų</span>
+                    </label>
+                    <label class="option" data-question="2" data-answer="wrong">
+                        <input type="radio" name="q2" value="2">
+                        <span>Riebalų</span>
+                    </label>
+                    <label class="option" data-question="2" data-answer="wrong">
+                        <input type="radio" name="q2" value="3">
+                        <span>Angliavandenių</span>
+                    </label>
+                </div>
+                <div class="image-diagram">
+                                        <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
+                </div>
             </div>
             
-                        <div class="feedback-message" id="feedback-2"></div>
+            <div class="feedback-message" id="feedback-2"></div>
             
             <div class="button-container">
                 <button onclick="checkAnswer(2)" class="action-button btn-primary" id="checkBtn2">✅ Patikrinti</button>
@@ -497,32 +506,32 @@
                 <div class="progress-bar" id="progressBar3">29%</div>
             </div>
             
-            <div class="image-container">
-                <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
-                <p class="image-caption">DNR (deoksiribonukleino rūgšties) molekulė</p>
-            </div>
-            
             <div class="question-box">
                 <strong>Kur ląstelėje saugoma DNR molekulė?</strong>
             </div>
             
-            <div class="options-container">
-                <label class="option" data-question="3" data-answer="wrong">
-                    <input type="radio" name="q3" value="0">
-                    <span>Citoplazmoje</span>
-                </label>
-                <label class="option" data-question="3" data-answer="correct">
-                    <input type="radio" name="q3" value="1">
-                    <span>Branduolyje</span>
-                </label>
-                <label class="option" data-question="3" data-answer="wrong">
-                    <input type="radio" name="q3" value="2">
-                    <span>Mitochondrijose</span>
-                </label>
-                <label class="option" data-question="3" data-answer="wrong">
-                    <input type="radio" name="q3" value="3">
-                    <span>Ribosomose</span>
-                </label>
+            <div class="content-wrapper">
+                <div class="options-container">
+                    <label class="option" data-question="3" data-answer="wrong">
+                        <input type="radio" name="q3" value="0">
+                        <span>Citoplazmoje</span>
+                    </label>
+                    <label class="option" data-question="3" data-answer="correct">
+                        <input type="radio" name="q3" value="1">
+                        <span>Branduolyje</span>
+                    </label>
+                    <label class="option" data-question="3" data-answer="wrong">
+                        <input type="radio" name="q3" value="2">
+                        <span>Mitochondrijose</span>
+                    </label>
+                    <label class="option" data-question="3" data-answer="wrong">
+                        <input type="radio" name="q3" value="3">
+                        <span>Ribosomose</span>
+                    </label>
+                </div>
+                <div class="image-diagram">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
+                </div>
             </div>
             
             <div class="feedback-message" id="feedback-3"></div>
@@ -542,32 +551,32 @@
                 <div class="progress-bar" id="progressBar4">43%</div>
             </div>
             
-            <div class="image-container">
-                <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
-                <p class="image-caption">DNR (deoksiribonukleino rūgšties) molekulė</p>
-            </div>
-            
             <div class="question-box">
                 <strong>Kokia DNR molekulės funkcija?</strong>
             </div>
             
-            <div class="options-container">
-                <label class="option" data-question="4" data-answer="wrong">
-                    <input type="radio" name="q4" value="0">
-                    <span>Suteikia energijos ląstelei</span>
-                </label>
-                <label class="option" data-question="4" data-answer="correct">
-                    <input type="radio" name="q4" value="1">
-                    <span>Saugo genetinę informaciją</span>
-                </label>
-                <label class="option" data-question="4" data-answer="wrong">
-                    <input type="radio" name="q4" value="2">
-                    <span>Gamina baltymus</span>
-                </label>
-                <label class="option" data-question="4" data-answer="wrong">
-                    <input type="radio" name="q4" value="3">
-                    <span>Saugo ląstelę nuo ligų</span>
-                </label>
+            <div class="content-wrapper">
+                <div class="options-container">
+                    <label class="option" data-question="4" data-answer="wrong">
+                        <input type="radio" name="q4" value="0">
+                        <span>Suteikia energijos ląstelei</span>
+                    </label>
+                    <label class="option" data-question="4" data-answer="correct">
+                        <input type="radio" name="q4" value="1">
+                        <span>Saugo genetinę informaciją</span>
+                    </label>
+                    <label class="option" data-question="4" data-answer="wrong">
+                        <input type="radio" name="q4" value="2">
+                        <span>Gamina baltymus</span>
+                    </label>
+                    <label class="option" data-question="4" data-answer="wrong">
+                        <input type="radio" name="q4" value="3">
+                        <span>Saugo ląstelę nuo ligų</span>
+                    </label>
+                </div>
+                <div class="image-diagram">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
+                </div>
             </div>
             
             <div class="feedback-message" id="feedback-4"></div>
@@ -587,32 +596,32 @@
                 <div class="progress-bar" id="progressBar5">57%</div>
             </div>
             
-            <div class="image-container">
-                <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/paveldimoji-informacija-lasteleje.PNG" alt="Organizmo paveldimos informacijos saugojimas">
-                <p class="image-caption">Kur saugoma organizmo paveldimoji informacija</p>
-            </div>
-            
             <div class="question-box">
                 <strong>Kas yra chromosoma?</strong>
             </div>
             
-            <div class="options-container">
-                <label class="option" data-question="5" data-answer="wrong">
-                    <input type="radio" name="q5" value="0">
-                    <span>Ląstelės branduolys</span>
-                </label>
-                <label class="option" data-question="5" data-answer="correct">
-                    <input type="radio" name="q5" value="1">
-                    <span>Sutankėjusios DNR sudarytas darinys</span>
-                </label>
-                <label class="option" data-question="5" data-answer="wrong">
-                    <input type="radio" name="q5" value="2">
-                    <span>Baltymas ląstelėje</span>
-                </label>
-                <label class="option" data-question="5" data-answer="wrong">
-                    <input type="radio" name="q5" value="3">
-                    <span>Ląstelės membrana</span>
-                </label>
+            <div class="content-wrapper">
+                <div class="options-container">
+                    <label class="option" data-question="5" data-answer="wrong">
+                        <input type="radio" name="q5" value="0">
+                        <span>Ląstelės branduolys</span>
+                    </label>
+                    <label class="option" data-question="5" data-answer="correct">
+                        <input type="radio" name="q5" value="1">
+                        <span>Sutankėjusios DNR sudarytas darinys</span>
+                    </label>
+                    <label class="option" data-question="5" data-answer="wrong">
+                        <input type="radio" name="q5" value="2">
+                        <span>Baltymas ląstelėje</span>
+                    </label>
+                    <label class="option" data-question="5" data-answer="wrong">
+                        <input type="radio" name="q5" value="3">
+                        <span>Ląstelės membrana</span>
+                    </label>
+                </div>
+                <div class="image-diagram">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/paveldimoji-informacija-lasteleje.PNG" alt="Paveldimoji informacija ląstelėje">
+                </div>
             </div>
             
             <div class="feedback-message" id="feedback-5"></div>
@@ -632,32 +641,32 @@
                 <div class="progress-bar" id="progressBar6">71%</div>
             </div>
             
-            <div class="image-container">
-                <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/paveldimoji-informacija-lasteleje.PNG.PNG" alt="Organizmo paveldimos informacijos saugojimas">
-                <p class="image-caption">Kur saugoma organizmo paveldimoji informacija</p>
-            </div>
-            
             <div class="question-box">
                 <strong>Kas yra genas?</strong>
             </div>
             
-            <div class="options-container">
-                <label class="option" data-question="6" data-answer="wrong">
-                    <input type="radio" name="q6" value="0">
-                    <span>Visa DNR molekulė</span>
-                </label>
-                <label class="option" data-question="6" data-answer="correct">
-                    <input type="radio" name="q6" value="1">
-                    <span>DNR molekulės dalis, koduojanti tam tikrą organizmo požymį</span>
-                </label>
-                <label class="option" data-question="6" data-answer="wrong">
-                    <input type="radio" name="q6" value="2">
-                    <span>Chromosoma</span>
-                </label>
-                <label class="option" data-question="6" data-answer="wrong">
-                    <input type="radio" name="q6" value="3">
-                    <span>Ląstelės branduolys</span>
-                </label>
+            <div class="content-wrapper">
+                <div class="options-container">
+                    <label class="option" data-question="6" data-answer="wrong">
+                        <input type="radio" name="q6" value="0">
+                        <span>Visa DNR molekulė</span>
+                    </label>
+                    <label class="option" data-question="6" data-answer="correct">
+                        <input type="radio" name="q6" value="1">
+                        <span>DNR molekulės dalis, koduojanti tam tikrą organizmo požymį</span>
+                    </label>
+                    <label class="option" data-question="6" data-answer="wrong">
+                        <input type="radio" name="q6" value="2">
+                        <span>Chromosoma</span>
+                    </label>
+                    <label class="option" data-question="6" data-answer="wrong">
+                        <input type="radio" name="q6" value="3">
+                        <span>Ląstelės branduolys</span>
+                    </label>
+                </div>
+                <div class="image-diagram">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/paveldimoji-informacija-lasteleje.PNG" alt="Paveldimoji informacija ląstelėje">
+                </div>
             </div>
             
             <div class="feedback-message" id="feedback-6"></div>
@@ -677,32 +686,32 @@
                 <div class="progress-bar" id="progressBar7">86%</div>
             </div>
             
-            <div class="image-container">
-                <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/paveldimoji-informacija-lasteleje.PNG.PNG" alt="Organizmo paveldimos informacijos saugojimas">
-                <p class="image-caption">Kur saugoma organizmo paveldimoji informacija</p>
-            </div>
-            
             <div class="question-box">
                 <strong>Kokia teisingą hierarchiją: nuo mažiausio iki didžiausio?</strong>
             </div>
             
-            <div class="options-container">
-                <label class="option" data-question="7" data-answer="wrong">
-                    <input type="radio" name="q7" value="0">
-                    <span>Chromosoma → DNR → Genas → Ląstelė</span>
-                </label>
-                <label class="option" data-question="7" data-answer="correct">
-                    <input type="radio" name="q7" value="1">
-                    <span>Genas → DNR → Chromosoma → Ląstelė</span>
-                </label>
-                <label class="option" data-question="7" data-answer="wrong">
-                    <input type="radio" name="q7" value="2">
-                    <span>DNR → Genas → Ląstelė → Chromosoma</span>
-                </label>
-                <label class="option" data-question="7" data-answer="wrong">
-                    <input type="radio" name="q7" value="3">
-                    <span>Ląstelė → Genas → DNR → Chromosoma</span>
-                </label>
+            <div class="content-wrapper">
+                <div class="options-container">
+                    <label class="option" data-question="7" data-answer="wrong">
+                        <input type="radio" name="q7" value="0">
+                        <span>Chromosoma → DNR → Genas → Ląstelė</span>
+                    </label>
+                    <label class="option" data-question="7" data-answer="correct">
+                        <input type="radio" name="q7" value="1">
+                        <span>Genas → DNR → Chromosoma → Ląstelė</span>
+                    </label>
+                    <label class="option" data-question="7" data-answer="wrong">
+                        <input type="radio" name="q7" value="2">
+                        <span>DNR → Genas → Ląstelė → Chromosoma</span>
+                    </label>
+                    <label class="option" data-question="7" data-answer="wrong">
+                        <input type="radio" name="q7" value="3">
+                        <span>Ląstelė → Genas → DNR → Chromosoma</span>
+                    </label>
+                </div>
+                <div class="image-diagram">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/paveldimoji-informacija-lasteleje.PNG" alt="Paveldimoji informacija ląstelėje">
+                </div>
             </div>
             
             <div class="feedback-message" id="feedback-7"></div>
@@ -842,7 +851,6 @@
             });
 
             // Rodyti grįžtamąjį ryšį
-            feedback.classList.add('show');
             if (isCorrect) {
                 feedback.classList.add('feedback-correct');
                 feedback.innerHTML = '✅ Teisingai! Puikus darbas!';
@@ -961,4 +969,5 @@
     </script>
 </body>
 </html>
+
 
