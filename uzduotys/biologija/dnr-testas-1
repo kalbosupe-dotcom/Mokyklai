@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNR struktūra - Biologija 7 klasė</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/opendyslexic');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .progress-container {
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 30px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .image-caption {
+            margin-top: 15px;
+            color: #555;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        
+        .question-block {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #e8eeff;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        
+        .hint {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            color: #856404;
+            display: none;
+        }
+        
+        .hint.show {
+            display: block;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .completion-message {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .completion-message.show {
+            display: block;
+        }
+        
+        .completion-message h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 DNR struktūra</h1>
+            <p class="subtitle">Biologija | 7 klasė | Genai ir paveldimumas</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        
+        <div class="image-container">
+            <img src="https://eu.chat-img.sintra.ai/ac176903-616e-42a2-9bfa-4b4c7a0390f9/e5715df2-2ae4-4ed5-8af6-7f2d57c0304b/DNR-molekule.PNG" alt="DNR molekulė">
+            <p class="image-caption">DNR (deoksiribonukleino rūgšties) molekulė</p>
+        </div>
+        
+        <!-- Klausimas 1 -->
+        <div class="question-block" id="question1">
+            <div class="question-number">1 klausimas</div>
+            <div class="question-text">Kokią formą turi DNR molekulė?</div>
+            <div class="options">
+                <div class="option" data-question="1" data-answer="wrong">Viengubo spiralė</div>
+                <div class="option" data-question="1" data-answer="correct">Dviguba spiralė</div>
+                <div class="option" data-question="1" data-answer="wrong">Tiesė</div>
+                <div class="option" data-question="1" data-answer="wrong">Žiedas</div>
+            </div>
+            <div class="feedback" id="feedback1"></div>
+            <div class="hint" id="hint1">💡 <strong>Patarimas:</strong> Pažiūrėk į paveikslėlį - DNR molekulė panaši į suktas laiptus.</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="checkAnswer(1)" id="checkBtn1">Tikrinti</button>
+                <button class="btn btn-secondary" onclick="showHint(1)" id="hintBtn1">Patarimas</button>
+                <button class="btn btn-primary" onclick="nextQuestion(2)" id="nextBtn1" style="display:none;">Kitas klausimas →</button>
+            </div>
+        </div>
+        
+        <!-- Klausimas 2 -->
+        <div class="question-block" id="question2" style="display:none;">
+            <div class="question-number">2 klausimas</div>
+            <div class="question-text">Iš ko sudaryta DNR molekulė?</div>
+            <div class="options">
+                <div class="option" data-question="2" data-answer="wrong">Baltymų</div>
+                <div class="option" data-question="2" data-answer="correct">Nukleotidų</div>
+                <div class="option" data-question="2" data-answer="wrong">Riebalų</div>
+                <div class="option" data-question="2" data-answer="wrong">Angliavandenių</div>
+            </div>
+            <div class="feedback" id="feedback2"></div>
+            <div class="hint" id="hint2">💡 <strong>Patarimas:</strong> DNR molekulė sudaryta iš mažų statybinių blokų, vadinamų nukleotidais.</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="checkAnswer(2)" id="checkBtn2">Tikrinti</button>
+                <button class="btn btn-secondary" onclick="showHint(2)" id="hintBtn2">Patarimas</button>
+                <button class="btn btn-primary" onclick="nextQuestion(3)" id="nextBtn2" style="display:none;">Kitas klausimas →</button>
+            </div>
+        </div>
+        
+        <!-- Klausimas 3 -->
+        <div class="question-block" id="question3" style="display:none;">
+            <div class="question-number">3 klausimas</div>
+            <div class="question-text">Kur ląstelėje saugoma DNR molekulė?</div>
+            <div class="options">
+                <div class="option" data-question="3" data-answer="wrong">Citoplazmoje</div>
+                <div class="option" data-question="3" data-answer="correct">Branduolyje</div>
+                <div class="option" data-question="3" data-answer="wrong">Mitochondrijose</div>
+                <div class="option" data-question="3" data-answer="wrong">Ribosomose</div>
+            </div>
+            <div class="feedback" id="feedback3"></div>
+            <div class="hint" id="hint3">💡 <strong>Patarimas:</strong> DNR saugoma ląstelės valdymo centre - branduolyje.</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="checkAnswer(3)" id="checkBtn3">Tikrinti</button>
+                <button class="btn btn-secondary" onclick="showHint(3)" id="hintBtn3">Patarimas</button>
+                <button class="btn btn-primary" onclick="nextQuestion(4)" id="nextBtn3" style="display:none;">Kitas klausimas →</button>
+            </div>
+        </div>
+        
+        <!-- Klausimas 4 -->
+        <div class="question-block" id="question4" style="display:none;">
+            <div class="question-number">4 klausimas</div>
+            <div class="question-text">Kokia DNR molekulės funkcija?</div>
+            <div class="options">
+                <div class="option" data-question="4" data-answer="wrong">Suteikia energijos ląstelei</div>
+                <div class="option" data-question="4" data-answer="correct">Saugo genetinę informaciją</div>
+                <div class="option" data-question="4" data-answer="wrong">Gamina baltymus</div>
+                <div class="option" data-question="4" data-answer="wrong">Saugo ląstelę nuo ligų</div>
+            </div>
+            <div class="feedback" id="feedback4"></div>
+            <div class="hint" id="hint4">💡 <strong>Patarimas:</strong> DNR yra kaip instrukcijų knyga, kurioje saugoma visa informacija apie organizmą.</div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="checkAnswer(4)" id="checkBtn4">Tikrinti</button>
+                <button class="btn btn-secondary" onclick="showHint(4)" id="hintBtn4">Patarimas</button>
+                <button class="btn btn-primary" onclick="showResults()" id="nextBtn4" style="display:none;">Baigti užduotį ✓</button>
+            </div>
+        </div>
+        
+        <!-- Užbaigimo pranešimas -->
+        <div class="completion-message" id="completionMessage">
+            <h2>🎉 Puiku! Užduotis baigta!</h2>
+            <div class="score" id="finalScore">0/4</div>
+            <p id="scoreMessage"></p>
+            <button class="btn btn-primary" onclick="restartQuiz()" style="margin-top: 20px;">🔄 Pradėti iš naujo</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentQuestion = 1;
+        let correctAnswers = 0;
+        let totalQuestions = 4;
+        let selectedAnswers = {};
+        
+       // Klausimų pasirinkimas
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionNum = this.getAttribute('data-question');
+                
+                // Pašalinti ankstesnį pasirinkimą
+                document.querySelectorAll(`.option[data-question="${questionNum}"]`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Pažymėti naują pasirinkimą
+                this.classList.add('selected');
+                selectedAnswers[questionNum] = this.getAttribute('data-answer');
+            });
+        });
+        
+        // Atsakymo tikrinimas
+        function checkAnswer(questionNum) {
+            const selected = selectedAnswers[questionNum];
+            const feedback = document.getElementById(`feedback${questionNum}`);
+            const checkBtn = document.getElementById(`checkBtn${questionNum}`);
+            const hintBtn = document.getElementById(`hintBtn${questionNum}`);
+            const nextBtn = document.getElementById(`nextBtn${questionNum}`);
+            
+            if (!selected) {
+                alert('⚠️ Prašome pasirinkti atsakymą!');
+                return;
+            }
+            
+            // Pažymėti teisingą/neteisingą atsakymą
+            document.querySelectorAll(`.option[data-question="${questionNum}"]`).forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.getAttribute('data-answer') === 'correct') {
+                    option.classList.add('correct');
+                }
+                if (option.classList.contains('selected') && selected === 'wrong') {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Rodyti grįžtamąjį ryšį
+            feedback.classList.add('show');
+            if (selected === 'correct') {
+                feedback.classList.add('correct');
+                feedback.innerHTML = '✅ <strong>Teisingai!</strong> Puikus darbas!';
+                correctAnswers++;
+                playSound('correct');
+            } else {
+                feedback.classList.add('incorrect');
+                feedback.innerHTML = '❌ <strong>Neteisingai.</strong> Pabandyk dar kartą arba pažiūrėk į patarimą.';
+                playSound('incorrect');
+            }
+            
+            // Atnaujinti progresą
+            updateProgress();
+            
+            // Rodyti "Kitas klausimas" mygtuką
+            checkBtn.style.display = 'none';
+            hintBtn.style.display = 'none';
+            nextBtn.style.display = 'inline-block';
+        }
+        
+        // Patarimo rodymas
+        function showHint(questionNum) {
+            const hint = document.getElementById(`hint${questionNum}`);
+            hint.classList.add('show');
+        }
+        
+        // Kitas klausimas
+        function nextQuestion(nextNum) {
+            document.getElementById(`question${currentQuestion}`).style.display = 'none';
+            if (nextNum <= totalQuestions) {
+                document.getElementById(`question${nextNum}`).style.display = 'block';
+                currentQuestion = nextNum;
+            }
+        }
+        
+        // Progreso atnaujinimas
+        function updateProgress() {
+            const answeredQuestions = Object.keys(selectedAnswers).length;
+            const percentage = (answeredQuestions / totalQuestions) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = Math.round(percentage) + '%';
+        }
+        
+        // Rezultatų rodymas
+        function showResults() {
+            document.getElementById(`question${currentQuestion}`).style.display = 'none';
+            const completionMessage = document.getElementById('completionMessage');
+            const finalScore = document.getElementById('finalScore');
+            const scoreMessage = document.getElementById('scoreMessage');
+            
+            finalScore.textContent = `${correctAnswers}/${totalQuestions}`;
+            
+            let message = '';
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            
+            if (percentage === 100) {
+                message = '🌟 Puiku! Tu puikiai išmanai DNR struktūrą!';
+            } else if (percentage >= 75) {
+                message = '👏 Labai gerai! Tu gerai supranti DNR struktūrą!';
+            } else if (percentage >= 50) {
+                message = '👍 Neblogai! Dar kartą peržiūrėk medžiagą.';
+            } else {
+                message = '💪 Nepasidavęk! Pabandyk dar kartą!';
+            }
+            
+            scoreMessage.textContent = message;
+            completionMessage.classList.add('show');
+            
+            // Atnaujinti progreso juostą iki 100%
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '100%';
+            progressBar.textContent = '100%';
+        }
+        
+        // Pradėti iš naujo
+        function restartQuiz() {
+            currentQuestion = 1;
+            correctAnswers = 0;
+            selectedAnswers = {};
+            
+            // Paslėpti užbaigimo pranešimą
+            document.getElementById('completionMessage').classList.remove('show');
+            
+            // Atstatyti visus klausimus
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionBlock = document.getElementById(`question${i}`);
+                questionBlock.style.display = i === 1 ? 'block' : 'none';
+                
+                // Atstatyti pasirinkimus
+                document.querySelectorAll(`.option[data-question="${i}"]`).forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                    option.style.pointerEvents = 'auto';
+                });
+                
+                // Paslėpti grįžtamąjį ryšį ir patarimus
+                document.getElementById(`feedback${i}`).classList.remove('show', 'correct', 'incorrect');
+                document.getElementById(`hint${i}`).classList.remove('show');
+                
+                // Atstatyti mygtukus
+                document.getElementById(`checkBtn${i}`).style.display = 'inline-block';
+                document.getElementById(`hintBtn${i}`).style.display = 'inline-block';
+                document.getElementById(`nextBtn${i}`).style.display = 'none';
+            }
+            
+            // Atstatyti progreso juostą
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '0%';
+            progressBar.textContent = '0%';
+        }
+        
+        // Garso efektai
+        function playSound(type) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            if (type === 'correct') {
+                oscillator.frequency.value = 800;
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } else {
+                oscillator.frequency.value = 200;
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+            }
+        }
+    </script>
+</body>
+</html>
