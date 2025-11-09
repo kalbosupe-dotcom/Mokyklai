@@ -1016,7 +1016,7 @@
         // Funkcija atsakymams rodyti
         function renderOptions(questionNum) {
             const question = questionsData[questionNum - 1];
-            const container = document.getElementById(`options-\${questionNum}`);
+            const container = document.getElementById('options-' + questionNum);
             const shuffledOptions = shuffleArray(question.options);
             
             container.innerHTML = '';
@@ -1026,17 +1026,16 @@
                 label.setAttribute('data-question', questionNum);
                 label.setAttribute('data-answer', option.correct ? 'correct' : 'wrong');
                 
-                label.innerHTML = `
-                    <input type="radio" name="q${questionNum}" value="${index}">
-                    <span>${option.text}</span>
-                `;
+                label.innerHTML = 
+                    '<input type="radio" name="q' + questionNum + '" value="' + index + '">' +
+                    '<span>' + option.text + '</span>';
                 
                 label.addEventListener('click', function() {
                     if (!this.classList.contains('disabled')) {
                         const input = this.querySelector('input');
                         input.checked = true;
                         
-                        document.querySelectorAll(`.option[data-question="${questionNum}"]`).forEach(opt => {
+                        document.querySelectorAll('.option[data-question="' + questionNum + '"]').forEach(opt => {
                             opt.classList.remove('selected');
                         });
                         
