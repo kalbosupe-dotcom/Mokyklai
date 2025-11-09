@@ -405,7 +405,6 @@
                 <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
             </div>
         </div>
-
         <!-- Klausimas 1 -->
         <div class="card active" id="card-1">
             <div class="task-header">
@@ -484,15 +483,6 @@
                 <div class="progress-bar" id="progressBar4">18%</div>
             </div>
             <div class="question-box">
-                <strong>Kokia DNR molekulės funkcija?</strong
-        <div class="card" id="card-4">
-            <div class="task-header">
-                <div class="task-title">📝 Klausimas 4 / 17</div>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar4">18%</div>
-            </div>
-            <div class="question-box">
                 <strong>Kokia DNR molekulės funkcija?</strong>
             </div>
             <div class="content-wrapper-left">
@@ -529,7 +519,6 @@
                 <button onclick="checkAnswer(5)" class="action-button btn-primary" id="checkBtn5">✅ Patikrinti</button>
             </div>
         </div>
-
         <!-- Klausimas 6 -->
         <div class="card" id="card-6">
             <div class="task-header">
@@ -644,7 +633,6 @@
                 <button onclick="checkAnswer(10)" class="action-button btn-primary" id="checkBtn10">✅ Patikrinti</button>
             </div>
         </div>
-
         <!-- Klausimas 11 -->
         <div class="card" id="card-11">
             <div class="task-header">
@@ -774,7 +762,6 @@
             <div class="content-wrapper-left">
                 <div class="options-container-left" id="options-16"></div>
                 <div class="image-diagram-right">
-                    <img src="
                     <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/lastele-chromosoma-DNR-molekule.PNG" alt="Paveldimumas">
                 </div>
             </div>
@@ -819,7 +806,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Google Sheets URL - PAKEISK Į SAVO!
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
@@ -1067,7 +1053,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: ${newName}`);
+            alert('Vardas pakeistas į: ' + newName);
             location.reload();
         }
 
@@ -1104,16 +1090,16 @@
         document.getElementById('studentNameDisplay').textContent = studentName;
 
         // Inicijuoti visus klausimus su sumaišytais atsakymais
-                for (let i = 1; i <= totalQuestions; i++) {
+        for (let i = 1; i <= totalQuestions; i++) {
             renderOptions(i);
         }
 
         // Atsakymo tikrinimas
         function checkAnswer(questionNum) {
-            const selectedInput = document.querySelector(`input[name="q${questionNum}"]:checked`);
-            const feedback = document.getElementById(`feedback-${questionNum}`);
-            const checkBtn = document.getElementById(`checkBtn${questionNum}`);
-            const options = document.querySelectorAll(`.option[data-question="${questionNum}"]`);
+            const selectedInput = document.querySelector('input[name="q' + questionNum + '"]:checked');
+            const feedback = document.getElementById('feedback-' + questionNum);
+            const checkBtn = document.getElementById('checkBtn' + questionNum);
+            const options = document.querySelectorAll('.option[data-question="' + questionNum + '"]');
             
             if (!selectedInput) {
                 alert('⚠️ Prašome pasirinkti atsakymą!');
@@ -1169,15 +1155,6 @@
         function showCard(cardNum) {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
-            });
-            
-            const targetCard = document.getElementById(`card-${cardNum}`);
-            if (targetCard) {
-                targetCard.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
         // Rezultatų rodymas
         function showResults() {
             document.querySelectorAll('.card').forEach(card => {
@@ -1237,12 +1214,14 @@
                     ? '<span style="color: #27ae60;">Teisingai</span>' 
                     : '<span style="color: #e74c3c;">Neteisingai</span>';
                 
-                detailsHTML += `
-                    <div class="result-item ${itemClass}">
-                        ${icon} <strong>${index + 1}. ${questions[index]}</strong> - ${statusText}
-                        ${!answer.isCorrect ? `<div style="margin-top:5px; font-size:0.9rem; color:#1A4D7A;">Teisingas: ${correctTexts[index]}</div>` : ''}
-                    </div>
-                `;
+                detailsHTML += '<div class="result-item ' + itemClass + '">' +
+                    icon + ' <strong>' + (index + 1) + '. ' + questions[index] + '</strong> - ' + statusText;
+                
+                if (!answer.isCorrect) {
+                    detailsHTML += '<div style="margin-top:5px; font-size:0.9rem; color:#1A4D7A;">Teisingas: ' + correctTexts[index] + '</div>';
+                }
+                
+                detailsHTML += '</div>';
             });
             
             resultDetails.innerHTML = detailsHTML;
@@ -1250,10 +1229,9 @@
             const percentage = Math.round((correctAnswers / totalQuestions) * 100);
             const scoreClass = percentage >= 70 ? 'score-good' : 'score-bad';
             
-            totalScoreEl.innerHTML = `
-                <div>Teisingai atsakyta: <strong>${correctAnswers} / ${totalQuestions}</strong></div>
-                <div class="score-percentage ${scoreClass}">${percentage}%</div>
-            `;
+            totalScoreEl.innerHTML = 
+                '<div>Teisingai atsakyta: <strong>' + correctAnswers + ' / ' + totalQuestions + '</strong></div>' +
+                '<div class="score-percentage ' + scoreClass + '">' + percentage + '%</div>';
             
             // Siųsti rezultatus į Google Sheets
             sendResultToSheet('B0003 Genai ir paveldimumas | 17 klausimų', percentage);
@@ -1268,7 +1246,7 @@
                 if (activeCard && activeCard.id.startsWith('card-')) {
                     const cardNum = parseInt(activeCard.id.split('-')[1]);
                     if (!isNaN(cardNum) && cardNum <= totalQuestions) {
-                        const checkBtn = document.getElementById(`checkBtn${cardNum}`);
+                        const checkBtn = document.getElementById('checkBtn' + cardNum);
                         if (checkBtn) {
                             checkBtn.click();
                         }
@@ -1279,4 +1257,3 @@
     </script>
 </body>
 </html>
-
