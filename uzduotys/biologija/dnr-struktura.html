@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧬 DNR struktūra ir genai - Biologija 7 klasė</title>
+    <title>🧬 DNR struktūra, genai ir ląstelės dalijimasis - Biologija 7 klasė</title>
     <style>
         * {
             margin: 0;
@@ -142,7 +142,7 @@
             font-weight: 600;
         }
         
-        /* Layout 1: Klausimai kairėje, paveikslėlis dešinėje (klausimai 1-4) */
+        /* Layout: Klausimai kairėje, paveikslėlis dešinėje */
         .content-wrapper-left {
             display: flex;
             gap: 10px;
@@ -172,32 +172,6 @@
             height: auto;
             border-radius: 8px;
             display: block;
-        }
-
-        /* Layout 2: Paveikslėlis pilna plotis (klausimai 5-7) */
-        .content-wrapper-full {
-            display: block;
-            margin: 10px 0;
-        }
-
-        .image-diagram-full {
-            text-align: center;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            border: 2px solid #E8F4F8;
-            margin-bottom: 20px;
-        }
-
-        .image-diagram-full img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-        }
-
-        .options-container-full {
-            width: 100%;
         }
         
         .option {
@@ -350,7 +324,7 @@
 
         .result-details {
             margin: 15px 0;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
@@ -359,7 +333,7 @@
             margin: 6px 0;
             background-color: #ffffff;
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-align: left;
         }
 
@@ -433,20 +407,17 @@
             </div>
         </div>
 
-        <!-- Klausimas 1 -->
+        <!-- Klausimai 1-4: DNR struktūra -->
         <div class="card active" id="card-1">
             <div class="task-header">
-                <div class="task-title">📝 Klausimas 1 / 7</div>
+                <div class="task-title">📝 Klausimas 1 / 10</div>
             </div>
-            
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar1">0%</div>
             </div>
-            
             <div class="question-box">
                 <strong>Kokią formą turi DNR molekulė?</strong>
             </div>
-            
             <div class="content-wrapper-left">
                 <div class="options-container-left">
                     <label class="option" data-question="1" data-answer="wrong">
@@ -470,9 +441,7 @@
                     <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
                 </div>
             </div>
-            
             <div class="feedback-message" id="feedback-1"></div>
-            
             <div class="button-container">
                 <button onclick="checkAnswer(1)" class="action-button btn-primary" id="checkBtn1">✅ Patikrinti</button>
             </div>
@@ -481,17 +450,14 @@
         <!-- Klausimas 2 -->
         <div class="card" id="card-2">
             <div class="task-header">
-                <div class="task-title">📝 Klausimas 2 / 7</div>
+                <div class="task-title">📝 Klausimas 2 / 10</div>
             </div>
-            
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar2">14%</div>
+                <div class="progress-bar" id="progressBar2">10%</div>
             </div>
-            
             <div class="question-box">
                 <strong>Iš ko sudaryta DNR molekulė?</strong>
             </div>
-            
             <div class="content-wrapper-left">
                 <div class="options-container-left">
                     <label class="option" data-question="2" data-answer="wrong">
@@ -515,9 +481,7 @@
                     <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
                 </div>
             </div>
-            
             <div class="feedback-message" id="feedback-2"></div>
-            
             <div class="button-container">
                 <button onclick="checkAnswer(2)" class="action-button btn-primary" id="checkBtn2">✅ Patikrinti</button>
             </div>
@@ -526,17 +490,14 @@
         <!-- Klausimas 3 -->
         <div class="card" id="card-3">
             <div class="task-header">
-                <div class="task-title">📝 Klausimas 3 / 7</div>
+                <div class="task-title">📝 Klausimas 3 / 10</div>
             </div>
-            
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar3">29%</div>
+                <div class="progress-bar" id="progressBar3">20%</div>
             </div>
-            
             <div class="question-box">
                 <strong>Kur ląstelėje saugoma DNR molekulė?</strong>
             </div>
-            
             <div class="content-wrapper-left">
                 <div class="options-container-left">
                     <label class="option" data-question="3" data-answer="wrong">
@@ -560,9 +521,7 @@
                     <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
                 </div>
             </div>
-            
             <div class="feedback-message" id="feedback-3"></div>
-            
             <div class="button-container">
                 <button onclick="checkAnswer(3)" class="action-button btn-primary" id="checkBtn3">✅ Patikrinti</button>
             </div>
@@ -571,17 +530,14 @@
         <!-- Klausimas 4 -->
         <div class="card" id="card-4">
             <div class="task-header">
-                <div class="task-title">📝 Klausimas 4 / 7</div>
+                <div class="task-title">📝 Klausimas 4 / 10</div>
             </div>
-            
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar4">43%</div>
+                <div class="progress-bar" id="progressBar4">30%</div>
             </div>
-            
             <div class="question-box">
                 <strong>Kokia DNR molekulės funkcija?</strong>
             </div>
-            
             <div class="content-wrapper-left">
                 <div class="options-container-left">
                     <label class="option" data-question="4" data-answer="wrong">
@@ -605,33 +561,25 @@
                     <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/DNR-molekule.PNG" alt="DNR molekulė">
                 </div>
             </div>
-            
             <div class="feedback-message" id="feedback-4"></div>
-            
             <div class="button-container">
                 <button onclick="checkAnswer(4)" class="action-button btn-primary" id="checkBtn4">✅ Patikrinti</button>
             </div>
         </div>
 
-        <!-- Klausimas 5 -->
+        <!-- Klausimas 5: Genai ir chromosomos -->
         <div class="card" id="card-5">
             <div class="task-header">
-                <div class="task-title">📝 Klausimas 5 / 7</div>
+                <div class="task-title">📝 Klausimas 5 / 10</div>
             </div>
-            
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar5">57%</div>
+                <div class="progress-bar" id="progressBar5">40%</div>
             </div>
-            
             <div class="question-box">
                 <strong>Kas yra chromosoma?</strong>
             </div>
-            
-            <div class="content-wrapper-full">
-                <div class="image-diagram-full">
-                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/lastele-chromosoma-DNR-molekule.PNG" alt="Paveldimoji informacija ląstelėje">
-                </div>
-                <div class="options-container-full">
+            <div class="content-wrapper-left">
+                <div class="options-container-left">
                     <label class="option" data-question="5" data-answer="wrong">
                         <input type="radio" name="q5" value="0">
                         <span>Ląstelės branduolys</span>
@@ -649,10 +597,11 @@
                         <span>Ląstelės membrana</span>
                     </label>
                 </div>
+                <div class="image-diagram-right">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/lastele-chromosoma-DNR-molekule.PNG" alt="Chromosoma">
+                </div>
             </div>
-            
             <div class="feedback-message" id="feedback-5"></div>
-            
             <div class="button-container">
                 <button onclick="checkAnswer(5)" class="action-button btn-primary" id="checkBtn5">✅ Patikrinti</button>
             </div>
@@ -661,22 +610,16 @@
         <!-- Klausimas 6 -->
         <div class="card" id="card-6">
             <div class="task-header">
-                <div class="task-title">📝 Klausimas 6 / 7</div>
+                <div class="task-title">📝 Klausimas 6 / 10</div>
             </div>
-            
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar6">71%</div>
+                <div class="progress-bar" id="progressBar6">50%</div>
             </div>
-            
             <div class="question-box">
                 <strong>Kas yra genas?</strong>
             </div>
-            
-            <div class="content-wrapper-full">
-                <div class="image-diagram-full">
-                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/lastele-chromosoma-DNR-molekule.PNG" alt="Paveldimoji informacija ląstelėje">
-                </div>
-                <div class="options-container-full">
+            <div class="content-wrapper-left">
+                <div class="options-container-left">
                     <label class="option" data-question="6" data-answer="wrong">
                         <input type="radio" name="q6" value="0">
                         <span>Visa DNR molekulė</span>
@@ -694,10 +637,11 @@
                         <span>Ląstelės branduolys</span>
                     </label>
                 </div>
+                <div class="image-diagram-right">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/lastele-chromosoma-DNR-molekule.PNG" alt="Genas">
+                </div>
             </div>
-            
             <div class="feedback-message" id="feedback-6"></div>
-            
             <div class="button-container">
                 <button onclick="checkAnswer(6)" class="action-button btn-primary" id="checkBtn6">✅ Patikrinti</button>
             </div>
@@ -706,22 +650,16 @@
         <!-- Klausimas 7 -->
         <div class="card" id="card-7">
             <div class="task-header">
-                <div class="task-title">📝 Klausimas 7 / 7</div>
+                <div class="task-title">📝 Klausimas 7 / 10</div>
             </div>
-            
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar7">86%</div>
+                <div class="progress-bar" id="progressBar7">60%</div>
             </div>
-            
             <div class="question-box">
                 <strong>Kokia teisinga hierarchija: nuo mažiausio iki didžiausio?</strong>
             </div>
-            
-            <div class="content-wrapper-full">
-                <div class="image-diagram-full">
-                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/lastele-chromosoma-DNR-molekule.PNG" alt="Paveldimoji informacija ląstelėje">
-                </div>
-                <div class="options-container-full">
+            <div class="content-wrapper-left">
+                <div class="options-container-left">
                     <label class="option" data-question="7" data-answer="wrong">
                         <input type="radio" name="q7" value="0">
                         <span>Chromosoma → DNR → Genas → Ląstelė</span>
@@ -739,18 +677,139 @@
                         <span>Ląstelė → Genas → DNR → Chromosoma</span>
                     </label>
                 </div>
+                <div class="image-diagram-right">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/lastele-chromosoma-DNR-molekule.PNG" alt="Hierarchija">
+                </div>
             </div>
-            
             <div class="feedback-message" id="feedback-7"></div>
-            
             <div class="button-container">
                 <button onclick="checkAnswer(7)" class="action-button btn-primary" id="checkBtn7">✅ Patikrinti</button>
             </div>
         </div>
 
+        <!-- Klausimai 8-10: Ląstelės dalijimasis (Mitozė) -->
+        <div class="card" id="card-8">
+            <div class="task-header">
+                <div class="task-title">📝 Klausimas 8 / 10</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar8">70%</div>
+            </div>
+            <div class="question-box">
+                <strong>Koks yra mitozės tikslas?</strong>
+            </div>
+            <div class="content-wrapper-left">
+                <div class="options-container-left">
+                    <label class="option" data-question="8" data-answer="wrong">
+                        <input type="radio" name="q8" value="0">
+                        <span>Gaminti lytines ląsteles</span>
+                    </label>
+                    <label class="option" data-question="8" data-answer="correct">
+                        <input type="radio" name="q8" value="1">
+                        <span>Auginti ir atstatyti kūno ląsteles</span>
+                    </label>
+                    <label class="option" data-question="8" data-answer="wrong">
+                        <input type="radio" name="q8" value="2">
+                        <span>Sumažinti chromosomų skaičių</span>
+                    </label>
+                    <label class="option" data-question="8" data-answer="wrong">
+                        <input type="radio" name="q8" value="3">
+                        <span>Keisti DNR struktūrą</span>
+                    </label>
+                </div>
+                <div class="image-diagram-right">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/mitoze.PNG" alt="Mitozė">
+                </div>
+            </div>
+            <div class="feedback-message" id="feedback-8"></div>
+            <div class="button-container">
+                <button onclick="checkAnswer(8)" class="action-button btn-primary" id="checkBtn8">✅ Patikrinti</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 9 -->
+        <div class="card" id="card-9">
+            <div class="task-header">
+                <div class="task-title">📝 Klausimas 9 / 10</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar9">80%</div>
+            </div>
+            <div class="question-box">
+                <strong>Kiek ląstelių susidaro po vienos mitozės?</strong>
+            </div>
+            <div class="content-wrapper-left">
+                <div class="options-container-left">
+                    <label class="option" data-question="9" data-answer="wrong">
+                        <input type="radio" name="q9" value="0">
+                        <span>Viena ląstelė</span>
+                    </label>
+                    <label class="option" data-question="9" data-answer="correct">
+                        <input type="radio" name="q9" value="1">
+                        <span>Dvi identiškas ląsteles</span>
+                    </label>
+                    <label class="option" data-question="9" data-answer="wrong">
+                        <input type="radio" name="q9" value="2">
+                        <span>Keturios ląsteles</span>
+                    </label>
+                    <label class="option" data-question="9" data-answer="wrong">
+                        <input type="radio" name="q9" value="3">
+                        <span>Aštuonios ląsteles</span>
+                    </label>
+                </div>
+                <div class="image-diagram-right">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/mitoze.PNG" alt="Mitozės rezultatas">
+                </div>
+            </div>
+            <div class="feedback-message" id="feedback-9"></div>
+            <div class="button-container">
+                <button onclick="checkAnswer(9)" class="action-button btn-primary" id="checkBtn9">✅ Patikrinti</button>
+            </div>
+        </div>
+
+        <!-- Klausimas 10 -->
+        <div class="card" id="card-10">
+            <div class="task-header">
+                <div class="task-title">📝 Klausimas 10 / 10</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar10">90%</div>
+            </div>
+            <div class="question-box">
+                <strong>Kokios yra susidariusios ląsteles po mitozės?</strong>
+            </div>
+            <div class="content-wrapper-left">
+                <div class="options-container-left">
+                    <label class="option" data-question="10" data-answer="wrong">
+                        <input type="radio" name="q10" value="0">
+                        <span>Skirtingos chromosomų skaičiaus</span>
+                    </label>
+                    <label class="option" data-question="10" data-answer="correct">
+                        <input type="radio" name="q10" value="1">
+                        <span>Identiškas motininei ląstelei</span>
+                    </label>
+                    <label class="option" data-question="10" data-answer="wrong">
+                        <input type="radio" name="q10" value="2">
+                        <span>Su perpus mažesniu chromosomų skaičiumi</span>
+                    </label>
+                    <label class="option" data-question="10" data-answer="wrong">
+                        <input type="radio" name="q10" value="3">
+                        <span>Lytinės ląsteles</span>
+                    </label>
+                </div>
+                <div class="image-diagram-right">
+                    <img src="https://raw.githubusercontent.com/kalbosupe-dotcom/Mokyklai/main/images/mitoze.PNG" alt="Mitozės dukterinės ląsteles">
+                </div>
+            </div>
+            <div class="feedback-message" id="feedback-10"></div>
+            <div class="button-container">
+                <button onclick="checkAnswer(10)" class="action-button btn-primary" id="checkBtn10">✅ Patikrinti</button>
+            </div>
+        </div>
+
         <!-- Rezultatų kortelė -->
         <div class="card" id="card-results">
-            <div class="result-title">🎉 DNR struktūra ir genai - Rezultatai</div>
+            <div class="result-title">🎉 DNR struktūra, genai ir ląstelės dalijimasis - Rezultatai</div>
             <div class="result-container">
                 <div class="total-score" id="total-score"></div>
                 <div class="result-details" id="result-details"></div>
@@ -767,7 +826,7 @@
         
         let currentQuestion = 1;
         let correctAnswers = 0;
-        let totalQuestions = 7;
+        let totalQuestions = 10;
         let userAnswers = [];
 
         // Vardo įvedimas ir saugojimas
@@ -790,7 +849,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
+            alert(`Vardas pakeistas į: ${newName}`);
             location.reload();
         }
 
@@ -826,7 +885,7 @@
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
-                // Klausimų pasirinkimas
+        // Klausimų pasirinkimas
         document.querySelectorAll('.option').forEach(option => {
             option.addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
@@ -932,7 +991,10 @@
                 'Kokia DNR molekulės funkcija?',
                 'Kas yra chromosoma?',
                 'Kas yra genas?',
-                'Kokia teisingą hierarchiją: nuo mažiausio iki didžiausio?'
+                'Kokia teisinga hierarchija: nuo mažiausio iki didžiausio?',
+                'Koks yra mitozės tikslas?',
+                'Kiek ląstelių susidaro po vienos mitozės?',
+                'Kokios yra susidariusios ląsteles po mitozės?'
             ];
 
             const correctTexts = [
@@ -942,7 +1004,10 @@
                 'Saugo genetinę informaciją',
                 'Sutankėjusios DNR sudarytas darinys',
                 'DNR molekulės dalis, koduojanti tam tikrą organizmo požymį',
-                'Genas → DNR → Chromosoma → Ląstelė'
+                'Genas → DNR → Chromosoma → Ląstelė',
+                'Auginti ir atstatyti kūno ląsteles',
+                'Dvi identiškas ląsteles',
+                'Identiškas motininei ląstelei'
             ];
 
             let detailsHTML = '';
@@ -973,7 +1038,7 @@
             `;
             
             // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('B0002 DNR struktūra ir genai | 7 klausimai', percentage);
+            sendResultToSheet('B0002 DNR struktūra, genai ir ląstelės dalijimasis | 10 klausimų', percentage);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -996,5 +1061,4 @@
     </script>
 </body>
 </html>
-
-                    
+                
