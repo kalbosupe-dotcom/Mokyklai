@@ -3,515 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mejozė ir Mitozė: Atpažinimas - Kalbos Upė</title>
-    <link rel="stylesheet" href="../../../css/style.css">
+    <title>Mejozė ir Mitozė: Atpažinimas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'OpenDyslexic', Arial, sans-serif;
-            letter-spacing: 0.05em;
-            background-color: #E8F4F8;
-            line-height: 1.8;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.02em;
         }
-        
-        .task-wrapper {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 12px 24px;
-            background-color: #7CB3E9;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-        
-        .back-btn:hover {
-            background-color: #4A90E2;
-        }
-        
-        .student-info {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid #4A90E2;
-            display: flex;
-            justify-content: space-between;
+        /* IŠORINIO MYGTUKO STILIUS, KAD ATITIKTŲ PIRMĄ EKRANO NUOTRAUKĄ */
+        .back-button {
+            display: inline-flex;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .change-name-btn {
-            background-color: #4A90E2;
+            background-color: #60a5fa; /* blue-400 */
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+            text-decoration: none; /* Kad atrodytų kaip mygtukas, bet veiktų kaip nuoroda */
+        }
+        .back-button:hover {
+            background-color: #3b82f6; /* blue-500 */
         }
         
-        .change-name-btn:hover {
-            background-color: #0D3B66;
+        .flip-card {
+            perspective: 1000px;
+            margin-bottom: 0.5rem;
         }
-        
-        h1 {
-            font-size: 32px;
-            color: #0D3B66;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        h2 {
-            font-size: 24px;
-            color: #4A90E2;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        /* Informacinė lentelė */
-        .info-table {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 3px solid #4A90E2;
-            box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
-        }
-        
-        .info-table h3 {
-            font-size: 22px;
-            color: #0D3B66;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .comparison-table {
+        .flip-card-inner {
+            position: relative;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        .comparison-table th {
-            background-color: #4A90E2;
-            color: white;
-            padding: 15px;
-            font-size: 20px;
-            border: 2px solid #0D3B66;
-        }
-        
-        .comparison-table td {
-            padding: 15px;
-            border: 2px solid #7CB3E9;
-            font-size: 16px;
-            color: #1A4D7A;
-        }
-        
-        .comparison-table tr:nth-child(even) {
-            background-color: #E8F4F8;
-        }
-        
-        /* Quiz sekcija */
-        .quiz-section {
-            display: none;
-        }
-        
-        .quiz-section.active {
-            display: block;
-        }
-        
-        .question-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 3px solid #4A90E2;
-            box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
-        }
-        
-        .question-text {
-            font-size: 22px;
-            color: #0D3B66;
-            margin-bottom: 25px;
+            height: 100%;
             text-align: center;
-            font-weight: bold;
-        }
-        
-        .answer-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        
-        .answer-btn {
-            padding: 25px 20px;
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            border: none;
-            border-radius: 12px;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
-            text-align: center;
         }
         
-        .answer-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        /* Kortelės būsena: flipped = rodo BACK pusę */
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
         }
-        
-        .answer-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .mejoze-btn {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-        }
-        
-        .mitoze-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-        }
-        .feedback {
-            display: none;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .feedback.correct {
-            background-color: #d4edda;
-            color: #155724;
-            border: 2px solid #28a745;
-        }
-        
-        .feedback.incorrect {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 2px solid #dc3545;
-        }
-        
-        .progress {
-            text-align: center;
-            font-size: 18px;
-            color: #1A4D7A;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        
-        .btn-start {
-            display: block;
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
             width: 100%;
-            max-width: 400px;
-            margin: 30px auto;
-            padding: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #4A90E2, #0D3B66);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            height: 100%;
+            min-height: 4.5rem;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            
+            /* Bendra spalva */
+            background-color: #bfdbfe; /* blue-200 (šv. mėlyna) */
+            color: #1e3a8a; /* blue-800 (tams. mėlyna) */
         }
         
-        .btn-start:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Rezultatų rėmeliai */
+        .correct-border {
+            box-shadow: 0 0 0 4px #10b981; /* Žalia */
+        }
+        .incorrect-border {
+            box-shadow: 0 0 0 4px #ef4444; /* Raudona */
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.9;
         }
         
-        .results-card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
-            border: 3px solid #4ECDC4;
-            text-align: center;
-            margin-top: 30px;
-            display: none;
+        /* Fiksuotas aukštis geriausiam išdėstymui */
+        .grid-container > div {
+             min-height: 4.5rem;
         }
-        
-        .results-card.active {
-            display: block;
-        }
-        
-        .results-card h2 {
-            font-size: 36px;
-            color: #0D3B66;
-            margin-bottom: 20px;
-        }
-        
-        .final-score {
-            font-size: 48px;
-            color: #4A90E2;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        
-        @media (max-width: 768px) {
-            .answer-buttons {
-                grid-template-columns: 1fr;
-            }
-            h1 {
-                font-size: 26px;
-            }
-            .comparison-table {
-                font-size: 14px;
-            }
+
+        /* ANTRAŠČIŲ IŠLYGIAVIMAS */
+        .header-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
         }
     </style>
 </head>
-<body>
-    <div class="task-wrapper">
-        <a href="../../../index.html" class="back-btn">← Grįžti į pradžią</a>
-        
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+<body class="bg-gray-100 p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto">
+
+        <div class="mb-6">
+            <a href="./index.html" class="back-button">
+                &leftarrow; Grįžti į pradžią
+            </a>
         </div>
         
-        <h1>Mejozė ir Mitozė: Atpažinimas</h1>
-        <h2>Biologija | 7 klasė | Ląstelė</h2>
-        <!-- INFORMACINĖ LENTELĖ -->
-        <div class="info-table">
-            <h3>📚 Mejozės ir Mitozės palyginimas</h3>
-            <p style="text-align: center; color: #1A4D7A; margin-bottom: 20px;">
+        <div class="bg-white p-4 rounded-lg shadow-md mb-8">
+            <div class="flex justify-between items-center">
+                <p class="text-lg font-semibold">Mokinys: **Sonata**</p>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-lg text-sm transition-colors">
+                    Keisti vardą
+                </button>
+            </div>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-2">
+            Mejozė ir Mitozė: Atpažinimas
+        </h2>
+        <p class="text-center text-md text-blue-600 font-semibold mb-8">
+            Biologija | 7 klasė | Ląstelė
+        </p>
+
+        <div class="bg-white p-6 rounded-xl shadow-2xl mb-10">
+            <h3 class="text-xl font-bold text-center text-gray-700 mb-4 flex items-center justify-center">
+                <span class="mr-2 text-2xl">📚</span> Mejozės ir Mitozės palyginimas
+            </h3>
+            <p class="text-gray-600 text-center mb-6">
                 Perskaityk ir įsimink skirtumus. Tada pradėk testą!
             </p>
             
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Savybė</th>
-                        <th>Mejozė</th>
-                        <th>Mitozė</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Susidaro ląstelės</strong></td>
-                        <td>Lytinės ląstelės</td>
-                        <td>Kūno ląstelės</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Dukterinių ląstelių skaičius</strong></td>
-                        <td>4 ląstelės</td>
-                        <td>2 ląstelės</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Dukterinės ląstelės</strong></td>
-                        <td>Skirtingos</td>
-                        <td>Genetiškai identiškos</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Branduolio dalijimasis</strong></td>
-                        <td>Du kartus iš eilės</td>
-                        <td>Vieną kartą</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Kada vyksta</strong></td>
-                        <td>Subrendusiame organizme</td>
-                        <td>Įvairaus amžiaus organizmuose</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Paveldimoji informacija</strong></td>
-                        <td>Skirtinga</td>
-                        <td>Vienoda</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <button class="btn-start" onclick="startQuiz()">🎯 Pradėti testą (12 klausimų)!</button>
-        <!-- QUIZ SEKCIJA -->
-        <div class="quiz-section" id="quizSection">
-            <div class="question-card">
-                <div class="question-text" id="questionText"></div>
-                
-                <div class="answer-buttons">
-                    <button class="answer-btn mejoze-btn" onclick="checkAnswer('mejoze')">
-                        🔬 Mejozė
-                    </button>
-                    <button class="answer-btn mitoze-btn" onclick="checkAnswer('mitoze')">
-                        🧬 Mitozė
-                    </button>
-                </div>
-                
-                <div class="feedback" id="feedback"></div>
-                <div class="progress" id="progress"></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-blue-500 text-white">
+                            <th class="py-2 px-4 border border-blue-600">Savybė</th>
+                            <th class="py-2 px-4 border border-blue-600">Mejozė</th>
+                            <th class="py-2 px-4 border border-blue-600">Mitozė</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <tr class="bg-blue-100">
+                            <td class="py-2 px-4 border border-blue-200 font-semibold">Susidaro ląstelės</td>
+                            <td class="py-2 px-4 border border-blue-200">Lytinės ląstelės</td>
+                            <td class="py-2 px-4 border border-blue-200">Kūno ląstelės</td>
+                        </tr>
+                        </tbody>
+                </table>
             </div>
         </div>
-        
-        <!-- REZULTATŲ KORTELĖ -->
-        <div class="results-card" id="resultsCard">
-            <h2>🎉 Užduotis baigta!</h2>
-            <div class="final-score" id="finalScore"></div>
-            <p id="finalMessage" style="font-size: 20px; color: #1A4D7A; margin: 20px 0;"></p>
-            <button class="btn-start" onclick="location.reload()">🔄 Pradėti iš naujo</button>
+
+
+        <p id="instruction" class="text-lg text-gray-700 text-center mb-8 font-semibold">
+            Perverskite korteles (spauskite ant jų) taip, kad **Mejozės** stulpelyje būtų rodomi Mejozės teiginiai, o **Mitozės** stulpelyje – Mitozės teiginiai.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 sm:gap-6 grid-container" id="cards-container">
+            <div class="text-center text-2xl font-bold text-blue-700 p-3 bg-white rounded-lg shadow-md header-cell">Mejozė</div>
+            <div class="text-center text-2xl font-bold text-blue-700 p-3 bg-white rounded-lg shadow-md header-cell">Mitozė</div>
         </div>
+        
+        <div class="flex flex-col items-center mt-10">
+            <button id="check-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-12 rounded-lg text-xl transition-colors">
+                Pasitikrinti
+            </button>
+            <div id="feedback" class="mt-5 text-xl font-semibold min-h-[30px]"></div>
+            <div id="score" class="mt-4 text-2xl font-bold text-gray-700"></div>
+            <button id="reset-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-8 rounded-lg text-lg mt-4 hidden" onclick="location.reload()">
+                Pradėti iš naujo
+            </button>
+        </div>
+
     </div>
 
     <script>
-        // --- Vardų valdymas ---
-        function showNamePrompt() {
-            const studentName = localStorage.getItem('studentName');
-            
-            if (!studentName) {
-                const name = prompt('Įvesk savo vardą:');
-                if (name && name.trim() !== '') {
-                    localStorage.setItem('studentName', name.trim());
-                    return name.trim();
-                } else {
-                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
-                    return showNamePrompt();
-                }
-            }
-            return studentName;
-        }
-
-        function changeName() {
-            localStorage.removeItem('studentName');
-            const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: ${newName}`);
-            location.reload();
-        }
-
-        function sendResultToSheet(taskName, score) {
-            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
-            const timestamp = new Date().toLocaleString('lt-LT');
-        
-            const data = {
-                name: studentName,
-                task: taskName,
-                score: score,
-                timestamp: timestamp
-            };
-        
-            console.log('Siunčiamas rezultatas:', data);
-        
-            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(() => {
-                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
-            })
-            .catch(error => {
-                console.error('Klaida siunčiant rezultatą:', error);
-            });
-        }
-        
-        const studentName = showNamePrompt();
-        document.getElementById('studentNameDisplay').textContent = studentName;
-        // --- Klausimų duomenys ---
-        const questions = [
-            { text: "Susidaro lytinės ląstelės.", correct: 'mejoze' },
-            { text: "Susidaro kūno ląstelės.", correct: 'mitoze' },
-            { text: "Iš vienos motininės ląstelės susidaro keturios dukterinės ląstelės.", correct: 'mejoze' },
-            { text: "Iš vienos motininės ląstelės susidaro dvi dukterinės ląstelės.", correct: 'mitoze' },
-            { text: "Susidariusios ląstelės yra skirtingos.", correct: 'mejoze' },
-            { text: "Susidariusios ląstelės yra genetiškai identiškos.", correct: 'mitoze' },
-            { text: "Branduolys dalijasi du kartus iš eilės.", correct: 'mejoze' },
-            { text: "Branduolys dalijasi vieną kartą.", correct: 'mitoze' },
-            { text: "Vyksta subrendusiame organizme.", correct: 'mejoze' },
-            { text: "Vyksta įvairaus amžiaus organizmuose.", correct: 'mitoze' },
-            { text: "Susidariusių ląstelių branduoliai turi skirtingą paveldimąją informaciją.", correct: 'mejoze' },
-            { text: "Susidariusių ląstelių branduolių paveldimoji informacija yra vienoda.", correct: 'mitoze' }
+        const DATA = [
+            { mejoze: "Susidaro lytinės ląstelės.", mitoze: "Susidaro kūno ląstelės.", id: 1 },
+            { mejoze: "Iš vienos motininės ląstelės susidaro keturios dukterinės ląstelės.", mitoze: "Iš vienos motininės ląstelės susidaro dvi dukterinės ląstelės.", id: 2 },
+            { mejoze: "Susidariusios ląstelės yra skirtingos.", mitoze: "Susidariusios ląstelės yra genetiškai identiškos.", id: 3 },
+            { mejoze: "Branduolys dalijasi du kartus iš eilės.", mitoze: "Branduolys dalijasi vieną kartą.", id: 4 },
+            { mejoze: "Vyksta subrendusiame organizme.", mitoze: "Vyksta įvairaus amžiaus organizmuose.", id: 5 },
+            { mejoze: "Susidariusių ląstelių branduoliai turi skirtingą paveldimąją informaciją.", mitoze: "Susidariusių ląstelių branduoliai turi vienodą paveldimąją informaciją.", id: 6 }
         ];
 
-        let currentQuestionIndex = 0;
-        let correctAnswers = 0;
-        const totalQuestions = questions.length;
+        const cardsContainer = document.getElementById('cards-container');
+        const checkBtn = document.getElementById('check-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const scoreEl = document.getElementById('score');
+        const resetBtn = document.getElementById('reset-btn');
 
-        function startQuiz() {
-            document.querySelector('.btn-start').style.display = 'none';
-            document.getElementById('quizSection').classList.add('active');
-            showNextQuestion();
+        let isChecked = false;
+
+        // Būsenos sekimas: Nustatome, kurios kortelės turi būti klaidingos PRADEDANT užduotį.
+        // true = Klaidinga pusė (flipped) rodoma pradžioje.
+        const initialFlips = {
+            // Galima parinkti atsitiktinai, bet palieku jūsų nustatymus:
+            mejoze: [false, true, false, true, false, true],  
+            mitoze: [true, false, true, false, true, false]    
+        };
+
+        // --- Paleidimo funkcija ---
+        function initializeTest() {
+            DATA.forEach((pair, index) => {
+                // Kairysis stulpelis (Mejozė): FRONT = Mejozė, BACK = Mitozė
+                createCard(pair.mejoze, pair.mitoze, 'mejoze', initialFlips.mejoze[index], cardsContainer);
+
+                // Dešinysis stulpelis (Mitozė): FRONT = Mitozė, BACK = Mejozė
+                createCard(pair.mitoze, pair.mejoze, 'mitoze', initialFlips.mitoze[index], cardsContainer);
+            });
+
+            checkBtn.addEventListener('click', checkAllAnswers);
         }
 
-        function showNextQuestion() {
-            if (currentQuestionIndex >= totalQuestions) {
-                showResults();
-                return;
-            }
+        // --- Kortelės kūrimo funkcija ---
+        function createCard(frontText, backText, columnType, isInitiallyFlipped, container) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flip-card h-full';
+            wrapper.dataset.column = columnType;    
+            
+            const inner = document.createElement('div');
+            inner.className = 'flip-card-inner h-full';
+            
+            const front = document.createElement('div');
+            front.className = 'flip-card-front';
+            front.textContent = frontText;
+            
+            const back = document.createElement('div');
+            back.className = 'flip-card-back';
+            back.textContent = backText;
 
-            const currentQuestion = questions[currentQuestionIndex];
-            document.getElementById('questionText').textContent = currentQuestion.text;
-            document.getElementById('progress').textContent = `Klausimas ${currentQuestionIndex + 1} iš ${totalQuestions}`;
-            
-            document.getElementById('feedback').style.display = 'none';
-            
-            const buttons = document.querySelectorAll('.answer-btn');
-            buttons.forEach(btn => btn.disabled = false);
-        }
-        function checkAnswer(selectedAnswer) {
-            const currentQuestion = questions[currentQuestionIndex];
-            const feedback = document.getElementById('feedback');
-            const buttons = document.querySelectorAll('.answer-btn');
-            
-            buttons.forEach(btn => btn.disabled = true);
-            
-            if (selectedAnswer === currentQuestion.correct) {
-                correctAnswers++;
-                feedback.textContent = '✅ Teisingai!';
-                feedback.className = 'feedback correct';
-            } else {
-                const correctName = currentQuestion.correct === 'mejoze' ? 'MEJOZĖ' : 'MITOZĖ';
-                feedback.textContent = `❌ Neteisingai. Teisingas atsakymas: ${correctName}`;
-                feedback.className = 'feedback incorrect';
-            }
-            
-            feedback.style.display = 'block';
-            
-            setTimeout(() => {
-                currentQuestionIndex++;
-                showNextQuestion();
-            }, 2500);
-        }
+            inner.appendChild(front);
+            inner.appendChild(back);
+            wrapper.appendChild(inner);
 
-        function showResults() {
-            document.getElementById('quizSection').style.display = 'none';
-            const resultsCard = document.getElementById('resultsCard');
-            resultsCard.classList.add('active');
-            
-            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
-            
-            document.getElementById('finalScore').textContent = `${correctAnswers} / ${totalQuestions} teisingų atsakymų (${percentage}%)`;
-            
-            let message = '';
-            if (percentage >= 90) {
-                message = '🌟 Puiku! Tu puikiai išmokai Mejozės ir Mitozės skirtumus!';
-            } else if (percentage >= 70) {
-                message = '👍 Gerai! Dar truputį patreniruok ir bus tobula!';
-            } else if (percentage >= 50) {
-                message = '💪 Neblogai! Perskaityk lentelę dar kartą ir bandyk iš naujo!';
-            } else {
-                message = '📚 Perskaityk informacinę lentelę ir bandyk dar kartą!';
+            if (isInitiallyFlipped) {
+                wrapper.classList.add('flipped');
             }
             
-            document.getElementById('finalMessage').textContent = message;
-            
-            sendResultToSheet('B0001 Mejozė ir Mitozė: Atpažinimas', percentage);
+            wrapper.addEventListener('click', toggleCard);
+            container.appendChild(wrapper);
         }
+
+        // --- Kortelės vartymo funkcija ---
+        function toggleCard(event) {
+            if (isChecked) return;
+            event.currentTarget.classList.toggle('flipped');
+        }
+
+        // --- Tikrinimo funkcija ---
+        function checkAllAnswers() {
+            if (isChecked) return;
+            isChecked = true;
+            checkBtn.classList.add('disabled');
+            resetBtn.classList.remove('hidden');
+
+            let correctCount = 0;
+            const allCards = document.querySelectorAll('.flip-card');
+            const totalCards = allCards.length;
+
+            allCards.forEach(card => {
+                const isFlipped = card.classList.contains('flipped');    
+
+                // Kortelė yra teisinga, jei ji NĖRA apversta, nes
+                // 'front' pusėje visada yra teisingas teiginys tai kolonai.
+                const isCorrect = !isFlipped;    
+
+                card.classList.remove('correct-border', 'incorrect-border');
+                
+                if (isCorrect) {
+                    card.classList.add('correct-border');
+                    correctCount++;
+                } else {
+                    card.classList.add('incorrect-border');
+                    
+                    // KLAIDOS KOREKCIJA: Rodyti teisingą pusę - NĖRA apversta
+                    card.classList.remove('flipped');    
+                }
+                card.classList.add('disabled');
+            });
+
+            const accuracy = ((correctCount / totalCards) * 100).toFixed(0);
+            feedbackEl.innerHTML = `<span class="${correctCount === totalCards ? 'text-green-600' : 'text-red-600'}">Patikrinimas baigtas!</span>`;
+            scoreEl.textContent = `Teisingai: ${correctCount} iš ${totalCards} (${accuracy}%)`;
+        }
+
+        // --- Pradinis Paleidimas ---
+        initializeTest();
     </script>
 </body>
 </html>
