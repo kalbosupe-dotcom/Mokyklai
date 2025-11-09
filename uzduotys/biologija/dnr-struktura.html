@@ -989,7 +989,6 @@
             }
         ];
 
-        // Funkcija atsakymams sumaišyti
         function shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -999,7 +998,6 @@
             return shuffled;
         }
 
-        // Funkcija atsakymams rodyti
         function renderOptions(questionNum) {
             const question = questionsData[questionNum - 1];
             const container = document.getElementById('options-' + questionNum);
@@ -1033,7 +1031,6 @@
             });
         }
 
-        // Vardo įvedimas ir saugojimas
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
             
@@ -1057,7 +1054,6 @@
             location.reload();
         }
 
-        // Rezultatų siuntimas į Google Sheets
         function sendResultToSheet(taskName, score) {
             const studentName = localStorage.getItem('studentName') || 'Nežinomas';
             const timestamp = new Date().toLocaleString('lt-LT');
@@ -1085,16 +1081,13 @@
             });
         }
 
-        // Inicializuoti vardą
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
-        // Inicijuoti visus klausimus su sumaišytais atsakymais
         for (let i = 1; i <= totalQuestions; i++) {
             renderOptions(i);
         }
 
-        // Atsakymo tikrinimas
         function checkAnswer(questionNum) {
             const selectedInput = document.querySelector('input[name="q' + questionNum + '"]:checked');
             const feedback = document.getElementById('feedback-' + questionNum);
@@ -1109,13 +1102,11 @@
             const selectedOption = selectedInput.parentElement;
             const isCorrect = selectedOption.getAttribute('data-answer') === 'correct';
             
-            // Išsaugoti atsakymą
             userAnswers.push({
                 question: questionNum,
                 isCorrect: isCorrect
             });
 
-            // Užblokuoti pasirinkimus
             options.forEach(option => {
                 option.classList.add('disabled');
                 if (option.getAttribute('data-answer') === 'correct') {
@@ -1126,7 +1117,6 @@
                 }
             });
 
-            // Rodyti grįžtamąjį ryšį
             if (isCorrect) {
                 feedback.classList.add('feedback-correct');
                 feedback.innerHTML = '✅ Teisingai! Puikus darbas!';
@@ -1136,7 +1126,6 @@
                 feedback.innerHTML = '❌ Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.';
             }
 
-            // Pakeisti mygtuką
             checkBtn.className = 'action-button btn-secondary';
             if (questionNum < totalQuestions) {
                 checkBtn.textContent = '➡️ Toliau';
@@ -1151,11 +1140,23 @@
             }
         }
 
-        // Rodyti kortelę
         function showCard(cardNum) {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
-        // Rezultatų rodymas
+            });
+            
+            const targetCard = document.getElementById('card-' + cardNum);
+            if (targetCard) {
+                targetCard.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function showResults() {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById('card-results').classList.ad
         function showResults() {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
@@ -1233,13 +1234,11 @@
                 '<div>Teisingai atsakyta: <strong>' + correctAnswers + ' / ' + totalQuestions + '</strong></div>' +
                 '<div class="score-percentage ' + scoreClass + '">' + percentage + '%</div>';
             
-            // Siųsti rezultatus į Google Sheets
             sendResultToSheet('B0003 Genai ir paveldimumas | 17 klausimų', percentage);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Enter klavišo palaikymas
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 const activeCard = document.querySelector('.card.active');
