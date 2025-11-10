@@ -1040,8 +1040,23 @@
             10: "Girdimų dažnių diapazonas"
         };
 
+        // SUMAIŠYTI ATSAKYMUS
+        function shuffleOptions() {
+            for (let i = 1; i <= 10; i++) {
+                const container = document.getElementById('options' + i);
+                const options = Array.from(container.querySelectorAll('.option'));
+                
+                // Fisher-Yates shuffle algoritmas
+                for (let j = options.length - 1; j > 0; j--) {
+                    const randomIndex = Math.floor(Math.random() * (j + 1));
+                    container.appendChild(options[randomIndex]);
+                }
+            }
+        }
+        
         // Inicializacija
         window.onload = function() {
+            shuffleOptions(); // SUMAIŠYTI ATSAKYMUS PIRMA!
             updateProgress();
             for (let i = 1; i <= 10; i++) {
                 userAnswers[i] = { answered: false, correct: false, userValues: [] };
