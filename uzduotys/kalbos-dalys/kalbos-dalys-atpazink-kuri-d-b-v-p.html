@@ -19,32 +19,43 @@
             padding: 20px;
         }
         
-        .back-btn {
-            display: inline-block;
+        /* PATAISYMAS: Antraštės konteineris */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
             padding: 12px 24px;
-            background-color: #7CB3E9;
-            color: white;
+            background-color: #93c5fd;
+            color: #1e3a8a;
             text-decoration: none;
             border-radius: 8px;
             font-size: 18px;
+            font-weight: 600;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
         
         .back-btn:hover {
-            background-color: #4A90E2;
+            background-color: #7CB3E9;
         }
         
         .student-info {
             background-color: #ffffff;
-            padding: 20px;
+            padding: 10px 20px;
             border-radius: 10px;
-            margin-bottom: 20px;
             border: 2px solid #4A90E2;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-grow: 1;
             gap: 10px;
         }
         
@@ -121,10 +132,10 @@
             font-size: 18px;
             color: white;
             margin-bottom: 10px;
-            text-align: center; /* Jau yra */
-            word-wrap: break-word; /* Leidžia laužyti ilgus žodžius */
-            overflow-wrap: break-word; /* Alternatyva */
-            hyphens: auto; /* Automatinis žodžių skaidymas */
+            text-align: center;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
         
         .card p {
@@ -138,6 +149,7 @@
             opacity: 0.9;
             margin-top: 10px;
         }
+        
         /* Pradėti testą mygtukas */
         .btn-start {
             display: block;
@@ -276,6 +288,16 @@
         
         /* Responsive dizainas */
         @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
             .cards {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -301,13 +323,16 @@
 </head>
 <body>
     <div class="task-wrapper">
-        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
-        
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        <!-- PATAISYTA ANTRAŠTĖ -->
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
         
         <h1>Išmok atpažinti kalbos dalis</h1>
@@ -390,7 +415,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: ${newName}`);
+            alert(`Vardas pakeistas į: \${newName}`);
             location.reload();
         }
 
@@ -425,6 +450,7 @@
         
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
+
         // --- Žodžių sąrašas (20 žodžių) ---
         const words = [
             {word: 'NAMAS', type: 'daiktavardis'},
@@ -488,6 +514,7 @@
             const buttons = document.querySelectorAll('.answer-btn');
             buttons.forEach(btn => btn.disabled = false);
         }
+
         function checkAnswer(selectedType) {
             const currentWord = shuffledWords[currentQuestionIndex];
             const feedback = document.getElementById('feedback');
@@ -543,3 +570,4 @@
     </script>
 </body>
 </html>
+
