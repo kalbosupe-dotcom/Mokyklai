@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veiksnys ir tarinys - Pasaulio sukūrimo mitai</title>
-    <link rel="stylesheet" href="../../css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
@@ -24,33 +24,44 @@
             width: 100%;
             max-width: 1100px;
         }
+        
+        /* PATAISYMAS 1: Bendras konteineris antraštei */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px; /* Tarpas tarp mygtuko ir info bloko */
+            margin-bottom: 20px;
+            flex-wrap: wrap; 
+        }
 
         .back-btn {
-            display: inline-block;
-            margin-bottom: 15px;
+            display: inline-flex;
+            align-items: center;
             padding: 12px 24px;
-            background-color: #7CB3E9;
-            color: white;
+            background-color: #93c5fd; /* blue-300, šviesiai mėlyna */
+            color: #1e3a8a; /* blue-800 */
             text-decoration: none;
             border-radius: 8px;
             font-size: 18px;
+            font-weight: 600;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
         
         .back-btn:hover {
-            background-color: #4A90E2;
+            background-color: #7CB3E9;
         }
         
         .student-info {
             background-color: #ffffff;
-            padding: 18px;
+            padding: 10px 20px;
             border-radius: 10px;
-            margin-bottom: 15px;
             border: 2px solid #4A90E2;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-grow: 1; /* Užima likusią erdvę */
             gap: 10px;
         }
         
@@ -400,21 +411,30 @@
                 font-size: 1.1rem;
                 padding: 12px 25px;
             }
+            /* Užtikrinti, kad antraštės gerai atrodytų mažame ekrane */
+            .cheatsheet h1, .result-title {
+                font-size: 1.8rem;
+            }
+            .rule-title {
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="page-wrapper">
-        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
         
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        <div class="header-container">
+            <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
 
-        <!-- KORTELĖ 1: ATMINTINĖ -->
         <div id="card-cheatsheet" class="card active cheatsheet">
             <h1>📖 Veiksnys ir tarinys</h1>
             
@@ -463,10 +483,8 @@
             </div>
         </div>
 
-        <!-- UŽDUOČIŲ KORTELĖS (bus sugeneruotos dinamiškai) -->
         <div id="task-cards-container"></div>
 
-        <!-- KORTELĖ: REZULTATAI -->
         <div id="card-results" class="card">
             <div class="result-title">🎉 Užduoties rezultatai</div>
             <div class="result-container">
@@ -536,47 +554,17 @@
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
-        // --- UŽDUOČIŲ DUOMENYS ---
+        // --- UŽDUOČIŲ DUOMENYS (tik 1 mitas) ---
         const myths = [
             {
                 id: 1,
                 title: "Lietuvių mitas apie Pasaulio sukūrimą",
                 text: "Pradžioje visur buvo tamsa ir tik Dievas ramiai gyveno vienas aukštai danguje. Jis nusprendė sukurti regimąjį pasaulį ir pradėjo nuo žemės. Pasakojama, kad Dievas sukūrė žemę iš vos kelių smėlio grūdelių, kuriuos jam nešė paukščiai tiesiai iš neišmatuojamos jūros dugno. Kai žemė buvo parnešta ir pakankamai išplėsta, Dievas išdžiovino jos paviršių spindinčia saule, kad ji taptų tvirta ir tinkama gyventi. Žmonės atsirado vėliau, suformuoti iš paprasto molio. Dievas įkvėpė į šias molio figūras gyvybę, suteikdamas joms sielą ir sąmonę.",
-                veiksniai: ["tamsa", "Dievas", "Jis", "paukščiai", "žemė", "ji", "Žmonės"],
+                veiksniai: ["tamsa", "Dievas", "Jis", "paukščiai", "žemė", "Dievas", "žemė", "Dievas", "ji", "Žmonės", "Dievas"],
                 tariniai: ["buvo", "gyveno", "nusprendė", "pradėjo", "sukūrė", "nešė", "buvo", "išdžiovino", "taptų", "atsirado", "įkvėpė"]
-            },
-            {
-                id: 2,
-                title: "Graikų mitas apie Pasaulio sukūrimą",
-                text: "Pasaulio pradžioje viešpatavo tik begalinis, tamsus Chaosas. Iš šio pirminio Chaoso iškilo Gaja – Žemė, visų vėlesnių dalykų motina. Netrukus ji pagimdė Uraną – žvaigždėtą dangų. Didelė meilė jungė Uraną ir Gają, ir jie pradėjo kurti pasaulį. Jie sukūrė pirmuosius, milžiniškus dievus – galinguosius titanus. Titanas Kronos buvo vienas jų, ir jis valdė pasaulį aukso amžiuje. Tačiau Kronos sūnus – griaustinio dievas Zeusas – sugebėjo nuversti tėvą, tapo vyriausiuoju dievu ir įtvirtino naują Olimpo dievų valdžią.",
-                veiksniai: ["Chaosas", "Gaja - Žemė", "ji", "meilė", "jie", "Jie", "Titanas Kronos", "jis", "Kronos sūnus – griaustinio dievas Zeusas"],
-                tariniai: ["viešpatavo", "iškilo", "pagimdė", "jungė", "pradėjo", "sukūrė", "buvo", "valdė", "sugebėjo", "tapo", "įtvirtino"]
-            },
-            {
-                id: 3,
-                title: "Egiptiečių mitas apie Pasaulio sukūrimą",
-                text: "Iš visą apimančių pirminių chaoso vandenų (Nun) išniro galingasis Saulės dievas Ra. Jis buvo visa ko pradžia ir kūrėjas. Savo valia Ra sukūrė Šu (orą) ir Tefnut (drėgmę), du pirmuosius dievus. Pasakojama, kad Ra ašaros, nukritusios ant žemės, virto žmonėmis, taip užpildydamos pasaulį gyvybe. Kitas dievas, Atumas, sukūrė pirmąją žemės kalvą (Benben), iškilusią virš vandens. Ant šios kalvos išaugo pirmoji gyvybė. Faraonai buvo laikomi tiesioginiais dievų palikuonimis, jie valdė žmones jų vardu.",
-                veiksniai: ["Saulės dievas Ra", "Jis", "Ra", "Ra ašaros", "dievas Atumas", "gyvybė", "Faraonai", "jie"],
-                tariniai: ["išniro", "buvo", "sukūrė", "virto", "sukūrė", "išaugo", "buvo", "valdė"]
-            },
-            {
-                id: 4,
-                title: "Senovės skandinavų mitas apie Pasaulio sukūrimą",
-                text: "Pradžioje visatoje egzistavo tik milžiniška, šalta tuštuma, pavadinta Ginnungagap. Iš šiaurės atėjo ledinis šaltis ir šerkšnas, o iš pietų – kaitri ugnis (Muspelheimas). Kai susitiko šaltis ir karštis, atsirado pirmoji gyva būtybė – milžinas Ymiras. Iš Ymiro kūno galiausiai dievai sukūrė pasaulį. Odinas su savo broliais – Viliu ir Ve – paėmė milžino kūną. Jie padarė žemę iš kūno, kalnus iš kaulų, o dangų sukūrė iš Ymiro kaukolės.",
-                veiksniai: ["tuštuma", "šaltis", "šerkšnas", "ugnis", "šaltis", "karštis", "būtybė – milžinas Ymiras", "dievai", "Odinas", "Jie"],
-                tariniai: ["egzistavo", "atėjo", "susitiko", "atsirado", "sukūrė", "paėmė", "padarė", "sukūrė"]
-            },
-            {
-                id: 5,
-                title: "Kinų mitas apie Pasaulio sukūrimą",
-                text: "Visatos glūdumoje milžinas Pangu ilgus tūkstančius metų miegojo didžiuliame kiaušinyje. Galiausiai jis pabudo ir sudaužė kiaušinį. Lengvos, grynosios dalys pakilo aukštyn ir tapo šviesiuoju dangumi. Sunkios, nešvariosios dalys nusileido žemyn ir tapo žeme. Pangu bijojo, kad dangus ir žemė vėl susijungs, todėl jis laikė dangų ir žemę atskirai savo jėga. Po daugelio metų, kai Pangu mirė, jo kūnas virto gamta: jo kvėpavimas – vėju, balsas – griaustiniu, o plaukai – žvaigždėmis.",
-                veiksniai: ["milžinas Pangu", "jis", "dalys", "dalys", "Pangu", "dangus", "žemė", "jis", "Pangu", "kūnas", "kvėpavimas", "balsas", "plaukai"],
-                tariniai: ["miegojo", "pabudo", "sudaužė", "pakilo", "tapo", "nusileido", "tapo", "bijojo", "susijungs", "laikė", "mirė", "virto"]
             }
         ];
-
-        let currentMode = null; // 'veiksnys' arba 'tarinys'
-        let userAnswers = [];
+        
         // --- KORTELIŲ GENERAVIMAS ---
         function generateTaskCards() {
             const container = document.getElementById('task-cards-container');
@@ -593,7 +581,8 @@
                 
                 words.forEach(word => {
                     if (word.trim().length > 0 && !word.match(/^[,.:;!?()–—\s]+$/)) {
-                        textHTML += `<span class="word" data-word-index="${wordIndex}" data-word="${word}">${word}</span>`;
+                        // Čia naudojame paprastą indeksą, nes sudėtinių veiksnių palaikymą išėmėme
+                        textHTML += `<span class="word" data-word-original="${word.replace(/[.,]/g, '')}">${word}</span>`;
                         wordIndex++;
                     } else {
                         textHTML += word;
@@ -603,7 +592,7 @@
                 cardDiv.innerHTML = `
                     <div class="task-header">
                         <div class="task-title">Pažymėk veiksnius ir tarinius</div>
-                        <div class="task-progress">${index + 1} / ${myths.length}</div>
+                        <div class="task-progress">Užduotis ${index + 1} iš ${myths.length}</div>
                     </div>
                     
                     <div class="myth-title">${myth.title}</div>
@@ -639,12 +628,15 @@
                 setTimeout(() => {
                     const wordElements = document.querySelectorAll(`#text-${myth.id} .word`);
                     wordElements.forEach(wordEl => {
-                        wordEl.addEventListener('click', () => markWord(wordEl, myth.id));
+                        wordEl.addEventListener('click', () => markWord(wordEl));
                     });
                 }, 100);
             });
         }
-
+        
+        let currentMode = null; // 'veiksnys' arba 'tarinys'
+        let userAnswers = [];
+        
         // --- REŽIMO PASIRINKIMAS ---
         function selectMode(mode, mythId) {
             currentMode = mode;
@@ -658,100 +650,21 @@
             if (activeBtn) activeBtn.classList.add('active');
         }
 
-        // --- ŽODŽIO ŽYMĖJIMAS --- (PATAISYTA SU ILGŲ FRAZIŲ PALAIKYMU)
-        function markWord(wordEl, mythId) {
+        // --- ŽODŽIO ŽYMĖJIMAS --- (Supaprastinta - tik vienas žodis)
+        function markWord(wordEl) {
             if (!currentMode) {
                 alert('Pirmiausia pasirink VEIKSNYS arba TARINYS!');
                 return;
             }
             
-            const myth = myths.find(m => m.id === mythId);
-            const word = wordEl.dataset.word;
+            // Pašalinti ankstesnę klasę
+            wordEl.classList.remove('veiksnys', 'tarinys', 'incorrect');
             
-            // Patikriname, ar tai sudėtinis veiksnys
-            let isCompound = false;
-            let compoundPhrase = '';
-            
-            // Ieškome sudėtinių veiksnių (tik tuos, kurie turi tarpą)
-            myth.veiksniai.forEach(v => {
-                if (v.includes(' ') && v.includes(word)) {
-                    isCompound = true;
-                    compoundPhrase = v;
-                }
-            });
-            
-            // Jei tai sudėtinis veiksnys ir žymime vieną iš žodžių
-            if (isCompound && currentMode === 'veiksnys') {
-                const allWords = document.querySelectorAll(`#text-${mythId} .word`);
-                
-                // Išskaidome frazę į žodžius (pašaliname brūkšnelius ir kitus simbolius)
-                const compoundWords = compoundPhrase.split(/[\s–—-]+/).filter(w => w.length > 0);
-                
-                // Randame paspausto žodžio indeksą
-                let clickedIndex = -1;
-                allWords.forEach((w, idx) => {
-                    if (w === wordEl) clickedIndex = idx;
-                });
-                
-                if (clickedIndex === -1) return;
-                
-                // Ieškome visų frazės žodžių pradedant nuo paspausto
-                let wordsToMark = [];
-                let searchStartIndex = clickedIndex;
-                
-                // Pirmiausia bandome ieškoti į priekį
-                let foundCount = 0;
-                for (let i = searchStartIndex; i < allWords.length && foundCount < compoundWords.length; i++) {
-                    const currentWord = allWords[i].dataset.word;
-                    if (compoundWords.includes(currentWord)) {
-                        wordsToMark.push(allWords[i]);
-                        foundCount++;
-                    }
-                    // Jei per daug žodžių praleidžiame, sustabdome
-                    if (i - searchStartIndex > compoundWords.length * 3) break;
-                }
-                
-                // Jei neradome visų žodžių, bandome ieškoti atgal
-                if (foundCount < compoundWords.length) {
-                    wordsToMark = [];
-                    foundCount = 0;
-                    
-                    for (let i = clickedIndex; i >= 0 && foundCount < compoundWords.length; i--) {
-                        const currentWord = allWords[i].dataset.word;
-                        if (compoundWords.includes(currentWord)) {
-                            wordsToMark.unshift(allWords[i]);
-                            foundCount++;
-                        }
-                        // Jei per daug žodžių praleidžiame, sustabdome
-                        if (clickedIndex - i > compoundWords.length * 3) break;
-                    }
-                    
-                    // Ieškome likusių žodžių į priekį
-                    for (let i = clickedIndex + 1; i < allWords.length && foundCount < compoundWords.length; i++) {
-                        const currentWord = allWords[i].dataset.word;
-                        if (compoundWords.includes(currentWord) && !wordsToMark.includes(allWords[i])) {
-                            wordsToMark.push(allWords[i]);
-                            foundCount++;
-                        }
-                        if (i - clickedIndex > compoundWords.length * 3) break;
-                    }
-                }
-                
-                // Pažymime visus rastus žodžius
-                wordsToMark.forEach(w => {
-                    w.classList.remove('tarinys');
-                    w.classList.add('veiksnys');
-                });
-            } else {
-                // Pašalinti ankstesnę klasę
-                wordEl.classList.remove('veiksnys', 'tarinys');
-                
-                // Pridėti naują klasę
-                wordEl.classList.add(currentMode);
-            }
+            // Pridėti naują klasę
+            wordEl.classList.add(currentMode);
         }
 
-        // --- IŠVALYTI PAŽYMĖJIMUS --- (PATAISYTA)
+        // --- IŠVALYTI PAŽYMĖJIMUS ---
         function clearSelection(mythId) {
             const words = document.querySelectorAll(`#text-${mythId} .word`);
             words.forEach(word => {
@@ -774,81 +687,75 @@
             const myth = myths.find(m => m.id === mythId);
             const words = document.querySelectorAll(`#text-${mythId} .word`);
             
-            // Jungtukų ir žodelių sąrašas, kurių nereikia tikrinti
-            const jungtukaiIrZodeliai = ['ir', 'o', 'bet', 'tačiau', 'kad', 'su', 'bei', 'ar'];
+            const jungtukaiIrZodeliai = ['ir', 'o', 'bet', 'tačiau', 'kad', 'su', 'bei', 'ar', 'kad', 'tiesiai']; // Pridėta 'tiesiai' dėl teksto
             
             let correctVeiksniai = 0;
             let correctTariniai = 0;
-            let totalVeiksniai = 0;
-            let totalTariniai = 0;
-            let errors = [];
+            let totalVeiksniai = myth.veiksniai.length;
+            let totalTariniai = myth.tariniai.length;
             
-            // Suskaičiuojame teisingus atsakymus
+            // Pirmiausia atstatyti visus neteisingus pažymėjimus (jei bandyta pakartotinai)
+            words.forEach(wordEl => wordEl.classList.remove('incorrect'));
+            
+            // Rasti pažymėtus žodžius
+            const markedVeiksniai = [];
+            const markedTariniai = [];
+            
             words.forEach(wordEl => {
-                const word = wordEl.dataset.word;
-                const hasVeiksnys = wordEl.classList.contains('veiksnys');
-                const hasTarinys = wordEl.classList.contains('tarinys');
+                const word = wordEl.dataset.wordOriginal.toLowerCase();
+                const isMarkedVeiksnys = wordEl.classList.contains('veiksnys');
+                const isMarkedTarinys = wordEl.classList.contains('tarinys');
                 
-                // Praleisti jungtukus ir žodelius
-                if (jungtukaiIrZodeliai.includes(word.toLowerCase())) {
-                    return; // Praleisti šį žodį
+                if (jungtukaiIrZodeliai.includes(word)) return;
+                
+                // Patikrinti, ar tai TURI būti veiksnys/tarinys
+                const isRequiredVeiksnys = myth.veiksniai.map(v => v.toLowerCase()).includes(word);
+                const isRequiredTarinys = myth.tariniai.map(t => t.toLowerCase()).includes(word);
+
+                // Klaida: Pažymėta, bet neteisingai
+                if (isMarkedVeiksnys && !isRequiredVeiksnys) {
+                    wordEl.classList.add('incorrect');
                 }
-                
-                // Tikriname, ar žodis yra veiksnys (PATAISYTA LOGIKA)
-                let isVeiksnys = false;
-                myth.veiksniai.forEach(v => {
-                    // Tikslus atitikmuo
-                    if (v === word) {
-                        isVeiksnys = true;
-                    }
-                    // Arba žodis yra sudėtinio veiksnio dalis (tik jei veiksnys turi tarpą)
-                    else if (v.includes(' ')) {
-                        const parts = v.split(/[\s–—-]+/).filter(p => p.length > 0);
-                        if (parts.includes(word)) {
-                            isVeiksnys = true;
-                        }
-                    }
-                });
-                
-                // Tikriname, ar žodis yra tarinys
-                const isTarinys = myth.tariniai.includes(word);
-                
-                // Skaičiuojame teisingus atsakymus
-                if (isVeiksnys) {
-                    totalVeiksniai++;
-                    if (hasVeiksnys) {
-                        correctVeiksniai++;
-                    } else {
-                        errors.push(`Praleistas veiksnys: "${word}"`);
-                        wordEl.classList.add('incorrect');
-                    }
-                }
-                
-                if (isTarinys) {
-                    totalTariniai++;
-                    if (hasTarinys) {
-                        correctTariniai++;
-                    } else {
-                        errors.push(`Praleistas tarinys: "${word}"`);
-                        wordEl.classList.add('incorrect');
-                    }
-                }
-                
-                // Pažymime neteisingai pažymėtus žodžius
-                if (hasVeiksnys && !isVeiksnys) {
-                    errors.push(`"${word}" nėra veiksnys`);
+                if (isMarkedTarinys && !isRequiredTarinys) {
                     wordEl.classList.add('incorrect');
                 }
                 
-                if (hasTarinys && !isTarinys) {
-                    errors.push(`"${word}" nėra tarinys`);
-                    wordEl.classList.add('incorrect');
+                // Teisingai: Pažymėta ir teisingai
+                if (isMarkedVeiksnys && isRequiredVeiksnys) {
+                    markedVeiksniai.push(word);
+                    correctVeiksniai++;
+                }
+                if (isMarkedTarinys && isRequiredTarinys) {
+                    markedTariniai.push(word);
+                    correctTariniai++;
                 }
             });
             
-            const totalCorrect = correctVeiksniai + correctTariniai;
-            const totalWords = totalVeiksniai + totalTariniai;
-            const percentage = totalWords > 0 ? Math.round((totalCorrect / totalWords) * 100) : 0;
+            // Klaida: Praleista, bet reikėjo pažymėti (vizualiai neįmanoma parodyti, bet reikia įskaičiuoti)
+            let praleistiVeiksniai = 0;
+            myth.veiksniai.forEach(v => {
+                if (!markedVeiksniai.includes(v.toLowerCase())) {
+                    praleistiVeiksniai++;
+                }
+            });
+
+            let praleistiTariniai = 0;
+            myth.tariniai.forEach(t => {
+                if (!markedTariniai.includes(t.toLowerCase())) {
+                    praleistiTariniai++;
+                }
+            });
+
+            // Perskaičiuojame teisingus, atėmus klaidingus pažymėjimus ir praleistus.
+            const totalCorrect = totalVeiksniai + totalTariniai;
+            const klaidingiPazymejimai = document.querySelectorAll(`#text-${mythId} .incorrect`).length;
+
+            // Galutinis rezultatas (tiksliau skaičiuojama pagal teisingai pažymėtų žodžių skaičių)
+            const teisingaiPazymeta = correctVeiksniai + correctTariniai;
+            const klaidos = klaidingiPazymejimai + praleistiVeiksniai + praleistiTariniai;
+            
+            const galutinisTeisingumas = totalCorrect - klaidos;
+            const galutinisProcentas = totalCorrect > 0 ? Math.round(((totalCorrect - klaidos) / totalCorrect) * 100) : 0;
             
             // Išsaugome rezultatą
             userAnswers.push({
@@ -858,28 +765,25 @@
                 totalVeiksniai: totalVeiksniai,
                 correctTariniai: correctTariniai,
                 totalTariniai: totalTariniai,
-                totalCorrect: totalCorrect,
-                totalWords: totalWords,
-                percentage: percentage,
-                errors: errors
+                totalCorrect: totalCorrect, // Bendras žymėtinų žodžių skaičius
+                galutinisProcentas: galutinisProcentas
             });
             
             // Rodyti feedback
             const feedback = document.getElementById(`feedback-${mythId}`);
-            if (percentage === 100) {
-                feedback.innerHTML = `<span style="color: #27ae60; font-size: 1.5rem;">✅ Puiku! Viskas teisingai! (${totalCorrect}/${totalWords})</span>`;
+            if (galutinisProcentas === 100) {
+                feedback.innerHTML = `<span style="color: #27ae60; font-size: 1.5rem;">✅ Puiku! Viskas teisingai!</span>`;
             } else {
-                feedback.innerHTML = `<span style="color: #e74c3c;">❌ Rasta klaidų. Teisingai: ${totalCorrect}/${totalWords} (${percentage}%)</span>`;
+                feedback.innerHTML = `<span style="color: #e74c3c;">❌ Rasta klaidų. Teisingai: ${galutinisProcentas}%</span>`;
             }
             
-            // Išjungti mygtukus
+            // Išjungti mygtukus ir žodžių pažymėjimą
             const checkBtn = document.getElementById(`check-btn-${mythId}`);
             checkBtn.style.display = 'none';
             
             const selectionBtns = document.querySelectorAll(`#card-task-${mythId} .selection-btn`);
             selectionBtns.forEach(btn => btn.disabled = true);
             
-            // Išjungti žodžių pažymėjimą
             words.forEach(word => {
                 word.style.cursor = 'default';
                 word.style.pointerEvents = 'none';
@@ -890,16 +794,13 @@
             const nextBtn = document.createElement('button');
             nextBtn.className = 'action-button btn-secondary';
             
-            if (mythId < myths.length) {
-                nextBtn.textContent = '➡️ Toliau';
-                nextBtn.onclick = () => showCard(`card-task-${mythId + 1}`);
-            } else {
-                nextBtn.textContent = '🏁 Rezultatai';
-                nextBtn.onclick = () => showResults();
-            }
+            // Kadangi yra tik 1 užduotis
+            nextBtn.textContent = '🏁 Rezultatai';
+            nextBtn.onclick = () => showResults();
             
             buttonContainer.appendChild(nextBtn);
         }
+        
         // --- REZULTATŲ RODYMAS ---
         function showResults() {
             showCard('card-results');
@@ -907,42 +808,29 @@
             const resultDetails = document.getElementById('result-details');
             const totalScoreEl = document.getElementById('total-score');
             
-            let detailsHTML = '';
-            let grandTotalCorrect = 0;
-            let grandTotalWords = 0;
+            // Kadangi tik 1 užduotis, imame tiesiog pirmo mito rezultatą
+            const answer = userAnswers[0] || { galutinisProcentas: 0, totalCorrect: 0, totalVeiksniai: 0, totalTariniai: 0 };
             
-            userAnswers.forEach((answer, index) => {
-                grandTotalCorrect += answer.totalCorrect;
-                grandTotalWords += answer.totalWords;
-                
-                const itemClass = answer.percentage >= 70 ? 'correct-item' : 'incorrect-item';
-                const icon = answer.percentage >= 70 ? '✅' : '❌';
-                
-                detailsHTML += `
-                    <div class="result-item ${itemClass}">
-                        ${icon} <strong>${answer.mythTitle}</strong><br>
-                        <div style="margin-top: 10px; font-size: 1.1rem;">
-                            Veiksniai: ${answer.correctVeiksniai}/${answer.totalVeiksniai} | 
-                            Tariniai: ${answer.correctTariniai}/${answer.totalTariniai} | 
-                            Iš viso: ${answer.totalCorrect}/${answer.totalWords} 
-                            <strong style="color: ${answer.percentage >= 70 ? '#27ae60' : '#e74c3c'};">(${answer.percentage}%)</strong>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            resultDetails.innerHTML = detailsHTML;
-            
-            const finalPercentage = grandTotalWords > 0 ? Math.round((grandTotalCorrect / grandTotalWords) * 100) : 0;
+            const finalPercentage = answer.galutinisProcentas;
             const scoreClass = finalPercentage >= 70 ? 'score-good' : 'score-bad';
             
+            // Vizualiai atskiriam Veiksnius ir Tarinius rezultatuose
+            resultDetails.innerHTML = `
+                <div class="result-item" style="border-left: 5px solid #0d6efd;">
+                    <strong>🔵 Veiksniai:</strong> ${answer.correctVeiksniai}/${answer.totalVeiksniai}
+                </div>
+                <div class="result-item" style="border-left: 5px solid #198754;">
+                    <strong>🟢 Tariniai:</strong> ${answer.correctTariniai}/${answer.totalTariniai}
+                </div>
+            `;
+            
             totalScoreEl.innerHTML = `
-                <div>Bendras rezultatas: <strong>${grandTotalCorrect} / ${grandTotalWords}</strong></div>
+                <div>Bendras teisingumas: <strong>${answer.galutinisProcentas}%</strong></div>
                 <div class="score-percentage ${scoreClass}">${finalPercentage}%</div>
             `;
             
-            // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('L0211 Veiksnys ir tarinys | Pasaulio sukūrimo mitai', finalPercentage);
+            // Siųsti rezultatus į Google Sheets (TASK ID: L0211)
+            sendResultToSheet('L0211 Veiksnys ir tarinys | Pasaulio sukūrimo mitai (LT)', finalPercentage);
         }
 
         // --- KORTELIŲ NAVIGACIJA ---
@@ -960,7 +848,18 @@
         }
 
         // --- INICIALIZACIJA ---
-        generateTaskCards();
+        window.onload = function() {
+            // Šie du mygtukai yra globalūs, todėl jų reikia, kad veiktų iš HTML
+            window.changeName = changeName;
+            window.showCard = showCard;
+            window.selectMode = selectMode;
+            window.checkAnswers = checkAnswers;
+            window.clearSelection = clearSelection;
+            
+            generateTaskCards(); // Sugeneruoja užduoties kortelę
+            showNamePrompt();    // Klausia vardo
+            showCard('card-cheatsheet'); // Pradedame nuo atmintinės
+        };
     </script>
 </body>
 </html>
