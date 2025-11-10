@@ -25,7 +25,7 @@
             max-width: 1100px;
         }
         
-        /* PATAISYMAS 1: Bendras konteineris antraštei */
+        /* Bendras konteineris antraštei */
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -172,14 +172,14 @@
         
         /* PATAISYMAS 2: Stiliaus pritaikymas */
         .task-title {
-            font-size: 1.2rem; /* Sumažinta iki 1.2rem */
-            font-weight: normal; /* Pašalintas bold */
+            font-size: 1.2rem;
+            font-weight: normal;
             color: #0D3B66;
             margin-bottom: 10px;
         }
         .task-title strong {
             color: #4A90E2; /* Mėlyna spalva */
-            font-weight: bold; /* Paliktas tik žodžiui "Užduotis" */
+            font-weight: bold;
         }
 
         .myth-title {
@@ -227,14 +227,21 @@
             font-weight: bold;
             color: #198754;
         }
+        
+        /* NAUJAS SPALVŲ BLOKAS: Praleistas (Geltona) */
+        .word.missing {
+            background-color: #fff3c4; /* Labai šviesi geltona */
+            border: 2px solid #fbc02d; /* Ryškesnė geltona */
+            font-weight: bold;
+            color: #8b4513; /* Tamsiai ruda spalva tekstui */
+        }
 
         .word.incorrect {
             background-color: #f8d7da;
             border: 2px solid #e74c3c;
-            font-weight: bold;
             color: #721c24;
         }
-
+        
         /* Mygtukų skydelis ir kiti stiliai lieka nepakitę */
         .selection-panel {
             display: flex;
@@ -243,6 +250,7 @@
             margin: 25px 0;
             flex-wrap: wrap;
         }
+
         .selection-btn {
             padding: 15px 40px;
             font-size: 1.3rem;
@@ -273,6 +281,7 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
             transform: scale(1.05);
         }
+
         .button-container {
             text-align: center;
             margin-top: 30px;
@@ -539,7 +548,7 @@
                 // Supaprastintas tekstas su vieno žodžio veiksmais
                 text: "Pasaulio pradžioje viešpatavo tik tamsus Chaosas. Iš pirminio Chaoso iškilo Gaja. Netrukus Gaja pagimdė Uraną – žvaigždėtą dangų. Didelė meilė juos jungė, ir jie pradėjo kurti pasaulį. Gaja ir Uranas sukūrė pirmuosius dievus – galinguosius titanus. Titanas Kronos buvo vienas galingiausių, ir jis valdė pasaulį. Tačiau Zeusas sugebėjo nuversti tėvą. Zeusas tapo vyriausiuoju dievu ir įtvirtino naują valdžią.",
                 // Atnaujinti veiksniai pagal supaprastintą tekstą (vienas žodis)
-                veiksniai: ["Chaosas", "Gaja", "Gaja", "meilė", "jie", "Gaja", "Uranas", "Titanas", "Kronos", "jis", "Zeusas", "Zeusas"],
+                veiksniai: ["Chaosas", "Gaja", "Gaja", "meilė", "jie", "Gaja", "Uranas", "Titanas", "jis", "Zeusas", "Zeusas"],
                 tariniai: ["viešpatavo", "iškilo", "pagimdė", "jungė", "pradėjo", "sukūrė", "buvo", "valdė", "sugebėjo", "tapo", "įtvirtino"]
             }
         ];
@@ -634,7 +643,7 @@
                 return;
             }
             
-            wordEl.classList.remove('veiksnys', 'tarinys', 'incorrect');
+            wordEl.classList.remove('veiksnys', 'tarinys', 'incorrect', 'missing');
             wordEl.classList.add(currentMode);
         }
 
@@ -642,7 +651,8 @@
         function clearSelection(mythId) {
             const words = document.querySelectorAll(`#text-${mythId} .word`);
             words.forEach(word => {
-                word.classList.remove('veiksnys', 'tarinys', 'incorrect');
+                word.classList.remove('veiksnys', 'tarinys', 'incorrect', 'missing');
+                word.style.textDecoration = 'none'; // Pašalina pabraukimą
             });
             
             const feedback = document.getElementById(`feedback-${mythId}`);
@@ -659,7 +669,6 @@
             const myth = myths.find(m => m.id === mythId);
             const words = document.querySelectorAll(`#text-${mythId} .word`);
             
-            // Žodžiai, kurių nereikia tikrinti (jungtukai ir kt.)
             const jungtukaiIrZodeliai = ['ir', 'o', 'bet', 'tačiau', 'kad', 'su', 'bei', 'ar', 'kad', 'tiesiai'];
             
             let correctVeiksniai = 0;
@@ -667,7 +676,9 @@
             let totalVeiksniai = myth.veiksniai.length;
             let totalTariniai = myth.tariniai.length;
             
-            words.forEach(wordEl => wordEl.classList.remove('incorrect'));
+            words.forEach(wordEl => wordEl.classList.remove('incorrect', 'missing')); // Išvalome prieš tikrinimą
+            words.forEach(wordEl => wordEl.style.textDecoration = 'none'); // Pašaliname pabraukimą
+
             
             const requiredVeiksniai = myth.veiksniai.map(v => v.toLowerCase());
             const requiredTariniai = myth.tariniai.map(t => t.toLowerCase());
@@ -685,7 +696,7 @@
                 const isRequiredVeiksnys = requiredVeiksniai.includes(word);
                 const isRequiredTarinys = requiredTariniai.includes(word);
 
-                // KLAIDA: Pažymėta, bet nereikėjo (Over-marking)
+                // KLAIDA 1: Pažymėta, bet nereikėjo (Over-marking)
                 if (isMarkedVeiksnys && !isRequiredVeiksnys) {
                     wordEl.classList.add('incorrect');
                 }
@@ -704,17 +715,19 @@
                 }
             });
             
-            // PATAISYMAS 1: Žymi praleistus žodžius teisinga spalva ir skaičiuoja klaidas
-
+            // PATAISYMAS 1: Žymime praleistus žodžius geltona spalva (.missing) ir skaičiuojame klaidas.
             let praleistaVeiksnių = 0;
             requiredVeiksniai.forEach(v => {
                 if (!markedVeiksniai.includes(v)) {
                     praleistaVeiksnių++;
-                    // Rasti praleistą žodį ir jį pažymėti
+                    // Rasti praleistą žodį ir jį pažymėti trūkstamu
                     words.forEach(wordEl => {
                         if (wordEl.dataset.wordOriginal === v) {
-                            wordEl.classList.add('veiksnys');
-                            wordEl.style.textDecoration = 'underline'; // Papildomas žymėjimas
+                            // Pažymime tik jei jau nebuvo pažymėtas klaidingai raudona spalva
+                            if (!wordEl.classList.contains('incorrect')) {
+                                wordEl.classList.add('missing');
+                                wordEl.classList.remove('veiksnys', 'tarinys'); // Pašaliname galimus likučius
+                            }
                         }
                     });
                 }
@@ -724,11 +737,13 @@
             requiredTariniai.forEach(t => {
                 if (!markedTariniai.includes(t)) {
                     praleistaTariniai++;
-                    // Rasti praleistą žodį ir jį pažymėti
+                    // Rasti praleistą žodį ir jį pažymėti trūkstamu
                      words.forEach(wordEl => {
                         if (wordEl.dataset.wordOriginal === t) {
-                            wordEl.classList.add('tarinys');
-                            wordEl.style.textDecoration = 'underline'; // Papildomas žymėjimas
+                            if (!wordEl.classList.contains('incorrect')) {
+                                wordEl.classList.add('missing');
+                                wordEl.classList.remove('veiksnys', 'tarinys'); // Pašaliname galimus likučius
+                            }
                         }
                     });
                 }
@@ -739,7 +754,6 @@
             const klaidos = unneededMarks + praleistaVeiksnių + praleistaTariniai;
             const totalCorrect = totalVeiksniai + totalTariniai;
 
-            // Galutinis procentas apskaičiuojamas atimant klaidas nuo visų teisingų žymėtinų žodžių
             const galutinisProcentas = totalCorrect > 0 ? Math.round(((totalCorrect - klaidos) / totalCorrect) * 100) : 0;
             
             // Išsaugome rezultatą
@@ -759,7 +773,8 @@
                 feedback.innerHTML = `<span style="color: #27ae60; font-size: 1.5rem;">✅ Puiku! Viskas teisingai!</span>`;
             } else {
                 feedback.innerHTML = `<span style="color: #e74c3c;">❌ Rasta klaidų. Teisingai: ${galutinisProcentas}%</span>`;
-                alert('Rasta klaidų. Teisingai pažymėti žodžiai pabraukiami teisinga spalva, o neteisingi liko raudoni.');
+                // Alertas dabar aiškiai nurodo, ką reiškia spalvos
+                alert('Rasta klaidų. Teisingi atsakymai liko mėlyni/žali, klaidingi raudoni, o praleisti atsakymai pažymėti GELTONAI.');
             }
             
             // Išjungti mygtukus ir žodžių pažymėjimą
