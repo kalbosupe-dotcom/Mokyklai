@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veiksnys ir tarinys - Pasaulio sukūrimo mitai</title>
+    <title>Veiksnys ir tarinys - Graikų mitas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -169,11 +169,17 @@
             text-align: center;
             margin-bottom: 15px;
         }
-
+        
+        /* PATAISYMAS 2: Stiliaus pritaikymas */
         .task-title {
-            font-size: 1.2rem;
+            font-size: 1.2rem; /* Sumažinta iki 1.2rem */
+            font-weight: normal; /* Pašalintas bold */
             color: #0D3B66;
             margin-bottom: 10px;
+        }
+        .task-title strong {
+            color: #4A90E2; /* Mėlyna spalva */
+            font-weight: bold; /* Paliktas tik žodžiui "Užduotis" */
         }
 
         .myth-title {
@@ -225,10 +231,11 @@
         .word.incorrect {
             background-color: #f8d7da;
             border: 2px solid #e74c3c;
+            font-weight: bold;
             color: #721c24;
         }
 
-        /* Mygtukų skydelis */
+        /* Mygtukų skydelis ir kiti stiliai lieka nepakitę */
         .selection-panel {
             display: flex;
             justify-content: center;
@@ -236,7 +243,6 @@
             margin: 25px 0;
             flex-wrap: wrap;
         }
-
         .selection-btn {
             padding: 15px 40px;
             font-size: 1.3rem;
@@ -247,32 +253,26 @@
             transition: all 0.3s;
             font-family: 'OpenDyslexic', Arial, sans-serif;
         }
-
         .btn-veiksnys {
             background: linear-gradient(135deg, #0d6efd, #0a58ca);
             color: white;
         }
-
         .btn-tarinys {
             background: linear-gradient(135deg, #198754, #146c43);
             color: white;
         }
-
         .btn-clear {
             background: linear-gradient(135deg, #ffc107, #ff9800);
             color: white;
         }
-
         .selection-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
-
         .selection-btn.active {
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
             transform: scale(1.05);
         }
-
         .button-container {
             text-align: center;
             margin-top: 30px;
@@ -281,7 +281,6 @@
             gap: 15px;
             flex-wrap: wrap;
         }
-
         .action-button {
             padding: 15px 35px;
             font-size: 1.3rem;
@@ -293,30 +292,24 @@
             transition: all 0.3s;
             font-family: 'OpenDyslexic', Arial, sans-serif;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #4ECDC4, #27ae60);
         }
-
         .btn-secondary {
             background: linear-gradient(135deg, #4A90E2, #0D3B66);
         }
-
         .btn-success {
             background: linear-gradient(135deg, #27ae60, #229954);
         }
-
         .action-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
-
         .action-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
-
         .feedback-message {
             text-align: center;
             margin-top: 20px;
@@ -324,26 +317,21 @@
             font-weight: bold;
             min-height: 30px;
         }
-
-        /* REZULTATŲ STILIAI */
         .result-container {
             text-align: center;
             margin-top: 30px;
             font-size: 1.5rem;
             color: #1A4D7A;
         }
-
         .result-title {
             font-size: 2.2rem;
             font-weight: bold;
             color: #0D3B66;
             margin-bottom: 30px;
         }
-
         .result-details {
             margin-bottom: 20px;
         }
-
         .result-item {
             padding: 15px;
             margin: 10px 0;
@@ -352,15 +340,12 @@
             font-size: 1.2rem;
             text-align: left;
         }
-
         .result-item.correct-item {
             border-left: 5px solid #27ae60;
         }
-
         .result-item.incorrect-item {
             border-left: 5px solid #e74c3c;
         }
-
         .total-score {
             font-size: 1.8rem;
             font-weight: bold;
@@ -370,48 +355,38 @@
             border-radius: 10px;
             border: 3px solid #4ECDC4;
         }
-
         .score-percentage {
             font-size: 3rem;
             margin-top: 15px;
         }
-
         .score-good {
             color: #27ae60;
         }
-
         .score-bad {
             color: #e74c3c;
         }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .card {
                 padding: 25px;
             }
-
             .text-container {
                 font-size: 1.1rem;
                 padding: 20px;
             }
-
             .selection-btn {
                 font-size: 1.1rem;
                 padding: 12px 30px;
             }
-
             .action-button {
                 font-size: 1.1rem;
                 padding: 12px 25px;
             }
-            /* Užtikrinti, kad antraštės gerai atrodytų mažame ekrane */
             .cheatsheet h1, .result-title {
                 font-size: 1.8rem;
             }
             .rule-title {
                 font-size: 1.4rem;
             }
-            /* Pataisymas: Header konteineris mobiliesiems */
              .header-container {
                 flex-direction: column;
                 align-items: stretch;
@@ -564,7 +539,7 @@
                 // Supaprastintas tekstas su vieno žodžio veiksmais
                 text: "Pasaulio pradžioje viešpatavo tik tamsus Chaosas. Iš pirminio Chaoso iškilo Gaja. Netrukus Gaja pagimdė Uraną – žvaigždėtą dangų. Didelė meilė juos jungė, ir jie pradėjo kurti pasaulį. Gaja ir Uranas sukūrė pirmuosius dievus – galinguosius titanus. Titanas Kronos buvo vienas galingiausių, ir jis valdė pasaulį. Tačiau Zeusas sugebėjo nuversti tėvą. Zeusas tapo vyriausiuoju dievu ir įtvirtino naują valdžią.",
                 // Atnaujinti veiksniai pagal supaprastintą tekstą (vienas žodis)
-                veiksniai: ["Chaosas", "Gaja", "Gaja", "meilė", "jie", "Gaja", "Uranas", "Titanas", "Kronos", "jis", "Zeusas", "Zeusas"],
+                veiksniai: ["Chaosas", "Gaja", "Gaja", "meilė", "jie", "Gaja", "Uranas", "Titanas", "jis", "Zeusas", "Zeusas"],
                 tariniai: ["viešpatavo", "iškilo", "pagimdė", "jungė", "pradėjo", "sukūrė", "buvo", "valdė", "sugebėjo", "tapo", "įtvirtino"]
             }
         ];
@@ -701,7 +676,6 @@
             const markedTariniai = [];
             
             words.forEach(wordEl => {
-                // Naudojame jau išvalytą žodį iš data-atributų
                 const word = wordEl.dataset.wordOriginal;
                 const isMarkedVeiksnys = wordEl.classList.contains('veiksnys');
                 const isMarkedTarinys = wordEl.classList.contains('tarinys');
@@ -730,17 +704,42 @@
                 }
             });
             
-            // KLAIDA: Praleista (Missing marks)
-            // Šiuo atveju skaičiuojame tikslų atitikimą pagal sąrašus:
-            const unneededMarks = document.querySelectorAll(`#text-${mythId} .incorrect`).length;
-            
-            // Kiek žymėtinų žodžių liko nepažymėti:
-            const praleistaVeiksnių = totalVeiksniai - markedVeiksniai.length;
-            const praleistaTarinių = totalTariniai - markedTariniai.length;
+            // PATAISYMAS 1: Žymi praleistus žodžius teisinga spalva ir skaičiuoja klaidas
 
-            const klaidos = unneededMarks + praleistaVeiksnių + praleistaTarinių;
+            let praleistaVeiksnių = 0;
+            requiredVeiksniai.forEach(v => {
+                if (!markedVeiksniai.includes(v)) {
+                    praleistaVeiksnių++;
+                    // Rasti praleistą žodį ir jį pažymėti
+                    words.forEach(wordEl => {
+                        if (wordEl.dataset.wordOriginal === v) {
+                            wordEl.classList.add('veiksnys');
+                            wordEl.style.textDecoration = 'underline'; // Papildomas žymėjimas
+                        }
+                    });
+                }
+            });
+
+            let praleistaTariniai = 0;
+            requiredTariniai.forEach(t => {
+                if (!markedTariniai.includes(t)) {
+                    praleistaTariniai++;
+                    // Rasti praleistą žodį ir jį pažymėti
+                     words.forEach(wordEl => {
+                        if (wordEl.dataset.wordOriginal === t) {
+                            wordEl.classList.add('tarinys');
+                            wordEl.style.textDecoration = 'underline'; // Papildomas žymėjimas
+                        }
+                    });
+                }
+            });
+
+            const unneededMarks = document.querySelectorAll(`#text-${mythId} .incorrect`).length;
+
+            const klaidos = unneededMarks + praleistaVeiksnių + praleistaTariniai;
             const totalCorrect = totalVeiksniai + totalTariniai;
 
+            // Galutinis procentas apskaičiuojamas atimant klaidas nuo visų teisingų žymėtinų žodžių
             const galutinisProcentas = totalCorrect > 0 ? Math.round(((totalCorrect - klaidos) / totalCorrect) * 100) : 0;
             
             // Išsaugome rezultatą
@@ -756,10 +755,11 @@
             
             // Rodyti feedback
             const feedback = document.getElementById(`feedback-${mythId}`);
-            if (galutinisProcentas >= 80) { // Pakeista į 80, kad būtų griežčiau
+            if (galutinisProcentas >= 80) {
                 feedback.innerHTML = `<span style="color: #27ae60; font-size: 1.5rem;">✅ Puiku! Viskas teisingai!</span>`;
             } else {
                 feedback.innerHTML = `<span style="color: #e74c3c;">❌ Rasta klaidų. Teisingai: ${galutinisProcentas}%</span>`;
+                alert('Rasta klaidų. Teisingai pažymėti žodžiai pabraukiami teisinga spalva, o neteisingi liko raudoni.');
             }
             
             // Išjungti mygtukus ir žodžių pažymėjimą
