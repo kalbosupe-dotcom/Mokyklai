@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalbos dalys: Atpažinimas (D, B, V) - Kalbos Upė</title>
     
-    <link rel="stylesheet" href="../../css/style.css"> 
+    <script src="https://cdn.tailwindcss.com"></script>
     
 <style>
     /* Disleksikams pritaikyti stiliai */
@@ -22,32 +22,43 @@
         padding: 20px;
     }
     
-    .back-btn {
-        display: inline-block;
+    /* PATAISYMAS 1: Bendras konteineris antraštei */
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px; /* Tarpas tarp mygtuko ir info bloko */
         margin-bottom: 20px;
+        flex-wrap: wrap; 
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
         padding: 12px 24px;
-        background-color: #7CB3E9;
-        color: white;
+        background-color: #93c5fd; /* blue-300 */
+        color: #1e3a8a; /* blue-800 */
         text-decoration: none;
         border-radius: 8px;
         font-size: 18px;
+        font-weight: 600;
         transition: background-color 0.3s;
+        white-space: nowrap; /* Kad mygtukas neišsiskirstytų */
     }
     
     .back-btn:hover {
-        background-color: #4A90E2;
+        background-color: #7CB3E9;
     }
     
     .student-info {
         background-color: #ffffff;
-        padding: 20px;
+        padding: 10px 20px;
         border-radius: 10px;
-        margin-bottom: 20px;
         border: 2px solid #4A90E2;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-wrap: wrap;
+        flex-grow: 1; /* Leidžia užimti likusią erdvę */
         gap: 10px;
     }
     
@@ -264,6 +275,16 @@
     
     /* Responsive dizainas */
     @media (max-width: 768px) {
+        .header-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .back-btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
         .cards {
             grid-template-columns: 1fr;
         }
@@ -289,13 +310,15 @@
 </head>
 <body>
     <div class="task-wrapper">
-        <a href="../../index.html" class="back-btn">← Grįžti į užduočių banką</a> 
-        
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        <div class="header-container">
+            <a href="/Mokyklai/" class="back-btn">← Grįžti į užduočių banką</a> 
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
         
         <h1>Atpažink kalbos dalis</h1>
@@ -326,7 +349,7 @@
         <div class="quiz-section" id="quizSection">
             <h3 style="text-align: center; color: #0D3B66; font-size: 24px;">Kokia kalbos dalis yra šis žodis?</h3>
             
-            <div class="word-display" id="currentWord">NAMAS</div>
+            <div class="word-display" id="currentWord"></div>
             
             <div class="answer-buttons">
                 <button class="answer-btn noun-btn" onclick="checkAnswer('daiktavardis')">
@@ -351,7 +374,7 @@
 
     <script>
         // Žodžių sąrašas (20 žodžių)
-        const words = [
+        const WORDS_ORIGINAL = [
             {word: 'NAMAS', type: 'daiktavardis'},
             {word: 'GRAŽUS', type: 'budvardis'},
             {word: 'BĖGA', type: 'veiksmažodis'},
@@ -376,11 +399,22 @@
             {word: 'VANDUO', type: 'daiktavardis'}
         ];
 
+        let wordsShuffled = []; // Čia bus saugomi sumaišyti žodžiai
         let currentQuestionIndex = 0;
         let correctAnswers = 0;
-        const totalWords = words.length; 
+        const totalWords = WORDS_ORIGINAL.length;
 
-        // --- Vardų ir rezultatų siuntimo funkcijos (pradžia) ---
+        // PATAISYMAS 2: Žodžių maišymo funkcija
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // --- Vardų ir rezultatų siuntimo funkcijos ---
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
             
@@ -415,9 +449,6 @@
                 timestamp: timestamp
             };
         
-            console.log('Siunčiamas rezultatas:', data);
-        
-            // PASTABA: GOOGLE SHEET URL naudojamas iš jūsų pavyzdžio.
             const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec'; 
 
             fetch(GOOGLE_SHEET_URL, {
@@ -438,7 +469,7 @@
         
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
-        // --- Vardų ir rezultatų siuntimo funkcijos (pabaiga) ---
+        // --- Vardų ir rezultatų siuntimo funkcijos pabaiga ---
 
 
         function playSound(wordType) {
@@ -446,6 +477,9 @@
         }
 
         function startQuiz() {
+            // PATAISYMAS 2: Sumaišome žodžius prieš pradedant testą
+            wordsShuffled = shuffleArray(WORDS_ORIGINAL); 
+            
             document.querySelector('.btn-start').style.display = 'none';
             document.getElementById('quizSection').classList.add('active');
             currentQuestionIndex = 0;
@@ -459,7 +493,8 @@
                 return;
             }
 
-            const currentWord = words[currentQuestionIndex];
+            // Naudojame sumaišytą sąrašą
+            const currentWord = wordsShuffled[currentQuestionIndex];
             document.getElementById('currentWord').textContent = currentWord.word;
             document.getElementById('questionNumber').textContent = currentQuestionIndex + 1;
             document.getElementById('correctCount').textContent = correctAnswers;
@@ -471,7 +506,7 @@
         }
 
         function checkAnswer(selectedType) {
-            const currentWord = words[currentQuestionIndex];
+            const currentWord = wordsShuffled[currentQuestionIndex];
             const feedback = document.getElementById('feedback');
             const buttons = document.querySelectorAll('.answer-btn');
             
@@ -498,7 +533,7 @@
             const percentage = Math.round((correctAnswers / totalWords) * 100);
             const quizSection = document.getElementById('quizSection');
             
-            sendResultToSheet('Kalbos dalys: Atpažinimas (D, B, V)', percentage); 
+            sendResultToSheet('Kalbos dalys: Atpažinimas (D, B, V)', percentage);
             
             quizSection.innerHTML = `
                 <h2 style="text-align: center; color: #0D3B66;">🎉 Puiku! Užduotis baigta!</h2>
@@ -506,13 +541,20 @@
                     🎯 Tavo rezultatas: ${correctAnswers}/${totalWords} (${percentage}%)
                 </div>
                 <div style="text-align: center; font-size: 18px; color: #27ae60;">
-                    ${percentage >= 80 ? '🌟 Puiku! Tu puikiai išmokai spalvų sistemą!' : 
-                     percentage >= 60 ? '👍 Gerai! Dar truputį patreniruok!' : 
+                    ${percentage >= 80 ? '🌟 Puiku! Tu puikiai išmokai spalvų sistemą!' :
+                     percentage >= 60 ? '👍 Gerai! Dar truputį patreniruok!' :
                      '💪 Neblogai! Pabandyk dar kartą!'}
                 </div>
                 <button class="btn-start" onclick="location.reload()">🔄 Pradėti iš naujo</button>
             `;
         }
+        
+        // Funkcijų priskyrimas globaliam scope (jei naudojama iš HTML)
+        window.changeName = changeName;
+        window.startQuiz = startQuiz;
+        window.checkAnswer = checkAnswer;
+        window.playSound = playSound;
+
     </script>
 </body>
 </html>
