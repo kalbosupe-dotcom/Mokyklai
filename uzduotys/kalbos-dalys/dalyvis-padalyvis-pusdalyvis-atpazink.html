@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neasmenuojamos veiksmažodžio formos: Dalyvis, Pusdalyvis, Padalyvis</title>
+    <title>Veiksmažodžio Formos: Dalyvis, Pusdalyvis, Padalyvis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -86,12 +86,11 @@
             display: flex;
         }
         
-        /* ATMINTINĖS LENTELĖ */
+        /* --- ATMINTINĖS LENTELĖS STILIAI --- */
         .memo-table, .example-table {
             width: 100%;
             border-collapse: collapse;
             margin: 15px 0;
-            font-size: 0.95rem;
         }
         .memo-table th, .memo-table td, .example-table th, .example-table td {
             border: 1px solid #e5e7eb;
@@ -104,21 +103,21 @@
             font-weight: bold;
         }
         
-        /* Spalvų priskyrimas */
-        .memo-dalyvis, .btn-dalyvis {
+        /* Spalvų priskyrimas (ŠVELNIOS ATMINTINĖS SPALVOS) */
+        .memo-dalyvis, .example-table .dalyvis-color {
             color: #15803d; /* Tamsiai žalia */
             background-color: #dcfce7; /* Labai šviesi žalia */
         }
-        .memo-pusdalyvis, .btn-pusdalyvis {
+        .memo-pusdalyvis, .example-table .pusdalyvis-color {
             color: #b45309; /* Tamsiai oranžinė */
             background-color: #fff7ed; /* Labai šviesi oranžinė */
         }
-        .memo-padalyvis, .btn-padalyvis {
+        .memo-padalyvis, .example-table .padalyvis-color {
             color: #1e40af; /* Tamsiai mėlyna */
             background-color: #eff6ff; /* Labai šviesi mėlyna */
         }
         
-        /* Testo mygtukų stiliai */
+        /* Testo mygtukų stiliai (RYŠKIOS SPALVOS) */
         .option-btn {
             color: white;
             font-weight: 700;
@@ -147,7 +146,7 @@
             font-weight: bold;
             text-align: center;
             padding: 20px;
-            background-color: #e3f2fd; /* Šviesiai žydra */
+            background-color: #e3f2fd;
             border-radius: 10px;
             border: 3px solid #7cb3e9;
             color: #1a4d7a;
@@ -159,32 +158,27 @@
             opacity: 0.8;
         }
         
+        /* PATAISYMAS 2: Išplėstas atmintinės stilius */
+        .memo-definition {
+             font-size: 1.15rem; /* Padidintas šriftas */
+             line-height: 2.0; /* Padidintas tarpas tarp eilučių */
+             margin-bottom: 20px;
+        }
+        .memo-definition strong {
+             color: #1f2937; /* Tamsesnis tekstas */
+        }
+        
         /* ATMINTINĖS APRAŠYMAS */
         .definition-section {
             padding: 15px;
             border-radius: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
-        .definition-section h3 {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed;
-        }
-        .def-dalyvis { border: 2px solid #22c55e; }
-        .def-pusdalyvis { border: 2px solid #f97316; }
-        .def-padalyvis { border: 2px solid #3b82f6; }
-        .def-dalyvis h3 { color: #15803d; }
-        .def-pusdalyvis h3 { color: #b45309; }
-        .def-padalyvis h3 { color: #1e40af; }
 
         
         /* Mobilusis dizainas */
         @media (max-width: 768px) {
-            .word-to-classify {
-                font-size: 2.2rem;
-            }
+             /* ... (kitas stilius) ... */
         }
     </style>
 </head>
@@ -201,10 +195,12 @@
         </div>
 
         <div id="card-memo" class="card active">
-            <h1 class="question-title">📚 Atmintinė: neasmenuojamosios veiksmažodžio formos</h1>
+            <h1 class="question-title">📚 Atmintinė: Neasmenuojamosios Veiksmažodžio Formos</h1>
 
-            <div class="flex flex-col space-y-3 text-sm">
+            <div class="memo-definition flex flex-col space-y-3">
                 
+                <p>Neasmenuojamosios veiksmažodžio formos yra nekaitomos asmenimis, bet turi veiksmažodžio ir kitos kalbos dalies (dažniausiai **būdvardžio** ar **prieveiksmio**) ypatybių.</p>
+
                 <div class="definition-section def-dalyvis">
                     <h3>Dalyvis</h3>
                     <p>Apibrėžimas: Dalyvis yra veiksmažodžio forma, kuri reiškia daikto požymį pagal veiksmą. Jis turi būdvardžio ir veiksmažodžio ypatybių: kaitomas giminėmis, skaičiais ir linksniais (kaip būdvardis), turi laikus, veikslus, gali būti veikiamasis ir neveikiamasis (kaip veiksmažodis).</p>
@@ -218,7 +214,7 @@
                     <p>Apibrėžimas: Pusdalyvis yra neasmenuojamoji veiksmažodžio forma, kuri reiškia šalutinį veiksmą, vykstantį <strong>tuo pačiu metu</strong> kaip ir pagrindinis veiksmas, ir tik tada, kai abu veiksmus atlieka <strong>tas pats veikėjas</strong>.</p>
                     <p>Funkcija: Sakinyje eina <strong>aplinkybe</strong> (dažniausiai laiko ar būdo).</p>
                     <p>Klausimai: <strong>Ką veikdamas?</strong></p>
-                    <p>Pavyzdys: <strong>Eidamas</strong> (aš) namo, galvojau apie darbą (aš galvojau ir aš ėjau tuo pačiu metu). Sportuodami (mes) pavargome (mes sportavome ir mes pavargome).</p>
+                    <p>Pavyzdys: <strong>Eidamas</strong> (aš) namo, galvojau apie darbą (aš galvojau ir aš ėjau tuo pačiu metu).</p>
                 </div>
 
                 <div class="definition-section def-padalyvis">
@@ -246,9 +242,9 @@
                         <td>-ant, -int, -iant, -us, -ius, -<strong>us</strong>, -<strong>iūs</strong></td>
                     </tr>
                     <tr>
-                         <td>*Bėgant***is***, *pamatyt***as***, *dary***siančias***</td>
-                         <td>*Skait***ydamas***, *rašy***dama***, *neš***dami***</td>
-                         <td>*Vaikšči***ojant***, *atmin***us***, *dirb***iant***, *važiuoj***ant***</td>
+                         <td><em>Bėgant</em><strong>is</strong>, <em>pamatyt</em><strong>as</strong>, <em>dary</em><strong>siančias</strong></td>
+                         <td><em>Skait</em><strong>ydamas</strong>, <em>rašy</em><strong>dama</strong>, <em>neš</em><strong>dami</strong></td>
+                         <td><em>Vaikšči</em><strong>ojant</strong>, <em>atmin</em><strong>us</strong>, <em>dirb</em><strong>iant</strong>, <em>važiuoj</em><strong>ant</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -275,7 +271,7 @@
     <script>
         // --- KONFIGURACIJA ---
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
-        const TASK_ID = 'L0050 Dalyvis, Pusdalyvis, Padalyvis | 9 žodžiai';
+        const TASK_ID = 'L0311 Veiksmazodžio formos | 9 klausimai';
         
         // --- KLAUSIMŲ DUOMENYS (9 žodžiai) ---
         const QUESTIONS_DATA = [
@@ -290,10 +286,11 @@
             { word: "VAŽIUOSIĄS", correct: "Dalyvis" }
         ];
         
+        // PATAISYMAS 3: Įtraukti klausimus į OPTIONS, kad būtų galima juos rodyti lentelėje
         const OPTIONS = [
-            { name: "Dalyvis", css: "btn-dalyvis", k: "Koks? Kokia?" },
-            { name: "Pusdalyvis", css: "btn-pusdalyvis", k: "Ką veikdamas?" },
-            { name: "Padalyvis", css: "btn-padalyvis", k: "Kaip? Kada? Ką veikiant?" }
+            { name: "Dalyvis", css: "btn-dalyvis", k: "Koks? Kokia?", css_memo: "dalyvis-color" },
+            { name: "Pusdalyvis", css: "btn-pusdalyvis", k: "Ką veikdamas?", css_memo: "pusdalyvis-color" },
+            { name: "Padalyvis", css: "btn-padalyvis", k: "Kaip? Kada? Ką veikiant?", css_memo: "padalyvis-color" }
         ];
         const totalQuestions = QUESTIONS_DATA.length; 
 
@@ -373,15 +370,10 @@
                     `<button class="option-btn ${opt.css}" data-answer="${opt.name}" onclick="checkAnswer(this, '${opt.name}', ${index + 1})">${opt.name}</button>`
                 ).join('');
                 
-                // Nustatome CSS spalvas atminties lentelei
+                // PATAISYMAS 1: Lentelės antraštės ir klausimų eilutės generavimas
                 const dalyvis = OPTIONS.find(o => o.name === 'Dalyvis');
                 const pusdalyvis = OPTIONS.find(o => o.name === 'Pusdalyvis');
                 const padalyvis = OPTIONS.find(o => o.name === 'Padalyvis');
-                
-                const dalyvisCss = dalyvis.css.replace('btn-', 'memo-');
-                const pusdalyvisCss = pusdalyvis.css.replace('btn-', 'memo-');
-                const padalyvisCss = padalyvis.css.replace('btn-', 'memo-');
-
 
                 cardDiv.innerHTML = `
                     <h2 class="question-title">Klausimas ${index + 1} iš ${totalQuestions}</h2>
@@ -399,9 +391,9 @@
                         <table class="example-table">
                             <thead>
                                 <tr>
-                                    <th class="${dalyvisCss}">Dalyvis</th>
-                                    <th class="${pusdalyvisCss}">Pusdalyvis</th>
-                                    <th class="${padalyvisCss}">Padalyvis</th>
+                                    <th class="${dalyvis.css_memo}">Dalyvis</th>
+                                    <th class="${pusdalyvis.css_memo}">Pusdalyvis</th>
+                                    <th class="${padalyvis.css_memo}">Padalyvis</th>
                                 </tr>
                             </thead>
                             <tbody>
