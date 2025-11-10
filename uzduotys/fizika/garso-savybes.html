@@ -1120,16 +1120,24 @@
 
         // Tikrinti atsakymą
         function checkAnswer(questionNum) {
+            console.log('checkAnswer iškviesta klausimui:', questionNum); // DEBUG
+            
             const feedback = document.getElementById('feedback' + questionNum);
             const nextButton = document.getElementById('next' + questionNum);
             const checkButton = document.getElementById('checkBtn' + questionNum);
-            const options = document.querySelectorAll(`#options\${questionNum} .option`);
+            const options = document.querySelectorAll(`#options${questionNum} .option`);
+            
+            console.log('Feedback element:', feedback); // DEBUG
+            console.log('Next button:', nextButton); // DEBUG
+            console.log('Check button:', checkButton); // DEBUG
             
             let selectedValues = [];
-            const inputs = document.querySelectorAll(`input[name="q\${questionNum}"]:checked`);
+            const inputs = document.querySelectorAll(`input[name="q${questionNum}"]:checked`);
             inputs.forEach(input => {
                 selectedValues.push(input.value);
             });
+            
+            console.log('Pasirinkti atsakymai:', selectedValues); // DEBUG
             
             if (selectedValues.length === 0) {
                 feedback.className = 'feedback incorrect';
@@ -1139,6 +1147,9 @@
             
             const correctValues = correctAnswersData[questionNum];
             const isCorrect = arraysEqual(selectedValues.sort(), correctValues.sort());
+            
+            console.log('Teisingi atsakymai:', correctValues); // DEBUG
+            console.log('Ar teisingai?', isCorrect); // DEBUG
             
             if (!userAnswers[questionNum].answered) {
                 userAnswers[questionNum] = {
