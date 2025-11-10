@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veiksnys ir tarinys - Pasaulio sukūrimo mitai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1100px;
+        }
+        
+        /* PATAISYMAS 1: Bendras konteineris antraštei */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px; /* Tarpas tarp mygtuko ir info bloko */
+            margin-bottom: 20px;
+            flex-wrap: wrap; 
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #93c5fd; /* blue-300, šviesiai mėlyna */
+            color: #1e3a8a; /* blue-800 */
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .back-btn:hover {
+            background-color: #7CB3E9;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1; /* Užima likusią erdvę */
+            gap: 10px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 35px;
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        /* ATMINTINĖS STILIAI */
+        .cheatsheet h1 {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .rule-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #4ECDC4;
+        }
+
+        .veiksnys-section {
+            background-color: #e3f2fd;
+        }
+
+        .tarinys-section {
+            background-color: #e8f5e9;
+        }
+
+        .rule-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .veiksnys-title {
+            color: #0d6efd;
+        }
+
+        .tarinys-title {
+            color: #198754;
+        }
+
+        .rule-content {
+            font-size: 1.2rem;
+            color: #1A4D7A;
+            line-height: 1.8;
+        }
+
+        .example-box {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid #7CB3E9;
+        }
+
+        .highlight-veiksnys {
+            background-color: #bbdefb;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .highlight-tarinys {
+            background-color: #c3e6cb;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #198754;
+        }
+        /* UŽDUOTIES STILIAI */
+        .task-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .task-title {
+            font-size: 1.1rem;
+            color: #0D3B66;
+            margin-bottom: 10px;
+        }
+
+        .myth-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .text-container {
+            background-color: #E8F4F8;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #7CB3E9;
+            margin: 20px 0;
+            font-size: 1.25rem;
+            line-height: 2;
+            color: #1A4D7A;
+            text-align: justify;
+        }
+
+        .word {
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: inline;
+        }
+
+        .word:hover {
+            background-color: #D4E9F7;
+        }
+
+        .word.veiksnys {
+            background-color: #bbdefb;
+            border: 2px solid #0d6efd;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .word.tarinys {
+            background-color: #c3e6cb;
+            border: 2px solid #198754;
+            font-weight: bold;
+            color: #198754;
+        }
+
+        .word.incorrect {
+            background-color: #f8d7da;
+            border: 2px solid #e74c3c;
+            color: #721c24;
+        }
+
+        /* Mygtukų skydelis */
+        .selection-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .selection-btn {
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+
+        .btn-veiksnys {
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+            color: white;
+        }
+
+        .btn-tarinys {
+            background: linear-gradient(135deg, #198754, #146c43);
+            color: white;
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #ffc107, #ff9800);
+            color: white;
+        }
+
+        .selection-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .selection-btn.active {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            padding: 15px 35px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4ECDC4, #27ae60);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback-message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        /* REZULTATŲ STILIAI */
+        .result-container {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #1A4D7A;
+        }
+
+        .result-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 30px;
+        }
+
+        .result-details {
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #ffffff;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        .result-item.correct-item {
+            border-left: 5px solid #27ae60;
+        }
+
+        .result-item.incorrect-item {
+            border-left: 5px solid #e74c3c;
+        }
+
+        .total-score {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        .score-percentage {
+            font-size: 3rem;
+            margin-top: 15px;
+        }
+
+        .score-good {
+            color: #27ae60;
+        }
+
+        .score-bad {
+            color: #e74c3c;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card {
+                padding: 25px;
+            }
+
+            .text-container {
+                font-size: 1.1rem;
+                padding: 20px;
+            }
+
+            .selection-btn {
+                font-size: 1.1rem;
+                padding: 12px 30px;
+            }
+
+            .action-button {
+                font-size: 1.1rem;
+                padding: 12px 25px;
+            }
+            /* Užtikrinti, kad antraštės gerai atrodytų mažame ekrane */
+            .cheatsheet h1, .result-title {
+                font-size: 1.8rem;
+            }
+            .rule-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        
+        <div class="header-container">
+            <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
+        <div id="card-cheatsheet" class="card active cheatsheet">
+            <h1>📖 Veiksnys ir tarinys</h1>
+            
+            <div class="rule-section veiksnys-section">
+                <div class="rule-title veiksnys-title">
+                    🔵 Veiksnys
+                </div>
+                <div class="rule-content">
+                    <p><strong>Veiksnys</strong> – tai sakinio dalis, kuri parodo, <strong>kas</strong> atlieka veiksmą arba <strong>apie ką</strong> kalbama sakinyje.</p>
+                    <p><strong>Klausimai:</strong> Kas? Kas tai?</p>
+                    
+                    <div class="example-box">
+                        <p><strong>Pavyzdžiai:</strong></p>
+                        <p><span class="highlight-veiksnys">Saulė</span> šviečia danguje.</p>
+                        <p><span class="highlight-veiksnys">Vėjas</span> nešė smėlį.</p>
+                        <p><span class="highlight-veiksnys">Menininkas</span> lipdo iš molio.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-section tarinys-section">
+                <div class="rule-title tarinys-title">
+                    🟢 Tarinys
+                </div>
+                <div class="rule-content">
+                    <p><strong>Tarinys</strong> – tai sakinio dalis, kuri parodo, <strong>ką veiksnys veikia</strong>, kokioje būsenoje yra arba koks jis yra.</p>
+                    <p><strong>Klausimai:</strong> Ką veikia? Ką daro? Koks yra?</p>
+                    
+                    <div class="example-box">
+                        <p><strong>Pavyzdžiai:</strong></p>
+                        <p>Saulė <span class="highlight-tarinys">šviečia</span> danguje.</p>
+                        <p>Vėjas <span class="highlight-tarinys">nešė</span> smėlį.</p>
+                        <p>Menininkas <span class="highlight-tarinys">lipdo</span> iš molio.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background-color: #fff9c4; padding: 20px; border-radius: 10px; border: 2px solid #fbc02d; margin-top: 20px;">
+                <p style="font-size: 1.2rem; color: #1A4D7A; margin: 0; text-align: center;">
+                    <strong>💡 Kaip žymėti:</strong> Pirmiausia paspausk mygtuką <strong style="color: #0d6efd;">VEIKSNYS</strong> arba <strong style="color: #198754;">TARINYS</strong>, tada spustelėk ant žodžių tekste!
+                </p>
+            </div>
+
+            <div class="button-container">
+                <button onclick="showCard('card-task-1')" class="action-button btn-primary">▶️ Pradėti užduotis</button>
+            </div>
+        </div>
+
+        <div id="task-cards-container"></div>
+
+        <div id="card-results" class="card">
+            <div class="result-title">🎉 Užduoties rezultatai</div>
+            <div class="result-container">
+                <div class="result-details" id="result-details"></div>
+                <div class="total-score" id="total-score"></div>
+            </div>
+            <div class="button-container">
+                <button onclick="location.reload()" class="action-button btn-success">🔄 Pradėti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- UŽDUOČIŲ DUOMENYS (tik 1 mitas) ---
+        const myths = [
+            {
+              id: 2,
+              title: "Graikų mitas apie Pasaulio sukūrimą",
+              text: "Pasaulio pradžioje viešpatavo tik tamsus Chaosas. Iš pirminio Chaoso iškilo Gaja. Netrukus Gaja pagimdė Uraną – žvaigždėtą dangų. Didelė meilė juos jungė, ir jie pradėjo kurti pasaulį. Gaja ir Uranas sukūrė pirmuosius dievus – galinguosius titanus. Titanas Kronos buvo vienas galingiausių, ir jis valdė pasaulį. Tačiau Zeusas sugebėjo nuversti tėvą. Zeusas tapo vyriausiuoju dievu ir įtvirtino naują valdžią.",
+              veiksniai: ["Chaosas", "Gaja", "Gaja", "meilė", "jie", "Gaja", "Uranas", "Titanas", "jis", "Zeusas", "Zeusas"],
+              tariniai: ["viešpatavo", "iškilo", "pagimdė", "jungė", "pradėjo", "sukūrė", "buvo", "valdė", "sugebėjo", "tapo", "įtvirtino"]
+            }
+        ];
+        
+        // --- KORTELIŲ GENERAVIMAS ---
+        function generateTaskCards() {
+            const container = document.getElementById('task-cards-container');
+            
+            myths.forEach((myth, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.id = `card-task-${myth.id}`;
+                cardDiv.className = 'card';
+                
+                // Paverčiame tekstą į žodžius su span elementais
+                const words = myth.text.split(/(\s+|[,.:;!?()–—])/g);
+                let textHTML = '';
+                let wordIndex = 0;
+                
+                words.forEach(word => {
+                    if (word.trim().length > 0 && !word.match(/^[,.:;!?()–—\s]+$/)) {
+                        // Čia naudojame paprastą indeksą, nes sudėtinių veiksnių palaikymą išėmėme
+                        textHTML += `<span class="word" data-word-original="${word.replace(/[.,]/g, '')}">${word}</span>`;
+                        wordIndex++;
+                    } else {
+                        textHTML += word;
+                    }
+                });
+                
+                cardDiv.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-title"><strong>Užduotis:</strong> pažymėk veiksnius ir tarinius</div>
+                    </div>
+                    
+                    <div class="myth-title">${myth.title}</div>
+                    
+                    <div class="selection-panel">
+                        <button class="selection-btn btn-veiksnys" onclick="selectMode('veiksnys', ${myth.id})">
+                            🔵 VEIKSNYS
+                        </button>
+                        <button class="selection-btn btn-tarinys" onclick="selectMode('tarinys', ${myth.id})">
+                            🟢 TARINYS
+                        </button>
+                        <button class="selection-btn btn-clear" onclick="clearSelection(${myth.id})">
+                            🗑️ Išvalyti
+                        </button>
+                    </div>
+                    
+                    <div class="text-container" id="text-${myth.id}">
+                        ${textHTML}
+                    </div>
+                    
+                    <div class="feedback-message" id="feedback-${myth.id}"></div>
+                    
+                    <div class="button-container">
+                        <button onclick="checkAnswers(${myth.id})" class="action-button btn-primary" id="check-btn-${myth.id}">
+                            ✅ Patikrinti
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(cardDiv);
+                
+                // Pridėti click event'us žodžiams
+                setTimeout(() => {
+                    const wordElements = document.querySelectorAll(`#text-${myth.id} .word`);
+                    wordElements.forEach(wordEl => {
+                        wordEl.addEventListener('click', () => markWord(wordEl));
+                    });
+                }, 100);
+            });
+        }
+        
+        let currentMode = null; // 'veiksnys' arba 'tarinys'
+        let userAnswers = [];
+        
+        // --- REŽIMO PASIRINKIMAS ---
+        function selectMode(mode, mythId) {
+            currentMode = mode;
+            
+            // Pašalinti active klasę nuo visų mygtukų
+            const buttons = document.querySelectorAll(`#card-task-${mythId} .selection-btn`);
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Pridėti active klasę pasirinktam mygtukui
+            const activeBtn = document.querySelector(`#card-task-${mythId} .btn-${mode}`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        // --- ŽODŽIO ŽYMĖJIMAS --- (Supaprastinta - tik vienas žodis)
+        function markWord(wordEl) {
+            if (!currentMode) {
+                alert('Pirmiausia pasirink VEIKSNYS arba TARINYS!');
+                return;
+            }
+            
+            // Pašalinti ankstesnę klasę
+            wordEl.classList.remove('veiksnys', 'tarinys', 'incorrect');
+            
+            // Pridėti naują klasę
+            wordEl.classList.add(currentMode);
+        }
+
+        // --- IŠVALYTI PAŽYMĖJIMUS ---
+        function clearSelection(mythId) {
+            const words = document.querySelectorAll(`#text-${mythId} .word`);
+            words.forEach(word => {
+                word.classList.remove('veiksnys', 'tarinys', 'incorrect');
+            });
+            
+            const feedback = document.getElementById(`feedback-${mythId}`);
+            if (feedback) feedback.innerHTML = '';
+            
+            // Atstatyti režimą
+            currentMode = null;
+            
+            // Pašalinti active klasę nuo mygtukų
+            const buttons = document.querySelectorAll(`#card-task-${mythId} .selection-btn`);
+            buttons.forEach(btn => btn.classList.remove('active'));
+        }
+
+        // --- ATSAKYMŲ TIKRINIMAS ---
+        function checkAnswers(mythId) {
+            const myth = myths.find(m => m.id === mythId);
+            const words = document.querySelectorAll(`#text-${mythId} .word`);
+            
+            const jungtukaiIrZodeliai = ['ir', 'o', 'bet', 'tačiau', 'kad', 'su', 'bei', 'ar', 'kad', 'tiesiai']; // Pridėta 'tiesiai' dėl teksto
+            
+            let correctVeiksniai = 0;
+            let correctTariniai = 0;
+            let totalVeiksniai = myth.veiksniai.length;
+            let totalTariniai = myth.tariniai.length;
+            
+            // Pirmiausia atstatyti visus neteisingus pažymėjimus (jei bandyta pakartotinai)
+            words.forEach(wordEl => wordEl.classList.remove('incorrect'));
+            
+            // Rasti pažymėtus žodžius
+            const markedVeiksniai = [];
+            const markedTariniai = [];
+            
+            words.forEach(wordEl => {
+                const word = wordEl.dataset.wordOriginal.toLowerCase();
+                const isMarkedVeiksnys = wordEl.classList.contains('veiksnys');
+                const isMarkedTarinys = wordEl.classList.contains('tarinys');
+                
+                if (jungtukaiIrZodeliai.includes(word)) return;
+                
+                // Patikrinti, ar tai TURI būti veiksnys/tarinys
+                const isRequiredVeiksnys = myth.veiksniai.map(v => v.toLowerCase()).includes(word);
+                const isRequiredTarinys = myth.tariniai.map(t => t.toLowerCase()).includes(word);
+
+                // Klaida: Pažymėta, bet neteisingai
+                if (isMarkedVeiksnys && !isRequiredVeiksnys) {
+                    wordEl.classList.add('incorrect');
+                }
+                if (isMarkedTarinys && !isRequiredTarinys) {
+                    wordEl.classList.add('incorrect');
+                }
+                
+                // Teisingai: Pažymėta ir teisingai
+                if (isMarkedVeiksnys && isRequiredVeiksnys) {
+                    markedVeiksniai.push(word);
+                    correctVeiksniai++;
+                }
+                if (isMarkedTarinys && isRequiredTarinys) {
+                    markedTariniai.push(word);
+                    correctTariniai++;
+                }
+            });
+            
+            // Klaida: Praleista, bet reikėjo pažymėti (vizualiai neįmanoma parodyti, bet reikia įskaičiuoti)
+            let praleistiVeiksniai = 0;
+            myth.veiksniai.forEach(v => {
+                if (!markedVeiksniai.includes(v.toLowerCase())) {
+                    praleistiVeiksniai++;
+                }
+            });
+
+            let praleistiTariniai = 0;
+            myth.tariniai.forEach(t => {
+                if (!markedTariniai.includes(t.toLowerCase())) {
+                    praleistiTariniai++;
+                }
+            });
+
+            // Perskaičiuojame teisingus, atėmus klaidingus pažymėjimus ir praleistus.
+            const totalCorrect = totalVeiksniai + totalTariniai;
+            const klaidingiPazymejimai = document.querySelectorAll(`#text-${mythId} .incorrect`).length;
+
+            // Galutinis rezultatas (tiksliau skaičiuojama pagal teisingai pažymėtų žodžių skaičių)
+            const teisingaiPazymeta = correctVeiksniai + correctTariniai;
+            const klaidos = klaidingiPazymejimai + praleistiVeiksniai + praleistiTariniai;
+            
+            const galutinisTeisingumas = totalCorrect - klaidos;
+            const galutinisProcentas = totalCorrect > 0 ? Math.round(((totalCorrect - klaidos) / totalCorrect) * 100) : 0;
+            
+            // Išsaugome rezultatą
+            userAnswers.push({
+                mythId: mythId,
+                mythTitle: myth.title,
+                correctVeiksniai: correctVeiksniai,
+                totalVeiksniai: totalVeiksniai,
+                correctTariniai: correctTariniai,
+                totalTariniai: totalTariniai,
+                totalCorrect: totalCorrect, // Bendras žymėtinų žodžių skaičius
+                galutinisProcentas: galutinisProcentas
+            });
+            
+            // Rodyti feedback
+            const feedback = document.getElementById(`feedback-${mythId}`);
+            if (galutinisProcentas === 100) {
+                feedback.innerHTML = `<span style="color: #27ae60; font-size: 1.5rem;">✅ Puiku! Viskas teisingai!</span>`;
+            } else {
+                feedback.innerHTML = `<span style="color: #e74c3c;">❌ Rasta klaidų. Teisingai: ${galutinisProcentas}%</span>`;
+            }
+            
+            // Išjungti mygtukus ir žodžių pažymėjimą
+            const checkBtn = document.getElementById(`check-btn-${mythId}`);
+            checkBtn.style.display = 'none';
+            
+            const selectionBtns = document.querySelectorAll(`#card-task-${mythId} .selection-btn`);
+            selectionBtns.forEach(btn => btn.disabled = true);
+            
+            words.forEach(word => {
+                word.style.cursor = 'default';
+                word.style.pointerEvents = 'none';
+            });
+            
+            // Pridėti "Toliau" mygtuką
+            const buttonContainer = document.getElementById(`card-task-${mythId}`).querySelector('.button-container');
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'action-button btn-secondary';
+            
+            // Kadangi yra tik 1 užduotis
+            nextBtn.textContent = '🏁 Rezultatai';
+            nextBtn.onclick = () => showResults();
+            
+            buttonContainer.appendChild(nextBtn);
+        }
+        
+        // --- REZULTATŲ RODYMAS ---
+        function showResults() {
+            showCard('card-results');
+            
+            const resultDetails = document.getElementById('result-details');
+            const totalScoreEl = document.getElementById('total-score');
+            
+            // Kadangi tik 1 užduotis, imame tiesiog pirmo mito rezultatą
+            const answer = userAnswers[0] || { galutinisProcentas: 0, totalCorrect: 0, totalVeiksniai: 0, totalTariniai: 0 };
+            
+            const finalPercentage = answer.galutinisProcentas;
+            const scoreClass = finalPercentage >= 70 ? 'score-good' : 'score-bad';
+            
+            // Vizualiai atskiriam Veiksnius ir Tarinius rezultatuose
+            resultDetails.innerHTML = `
+                <div class="result-item" style="border-left: 5px solid #0d6efd;">
+                    <strong>🔵 Veiksniai:</strong> ${answer.correctVeiksniai}/${answer.totalVeiksniai}
+                </div>
+                <div class="result-item" style="border-left: 5px solid #198754;">
+                    <strong>🟢 Tariniai:</strong> ${answer.correctTariniai}/${answer.totalTariniai}
+                </div>
+            `;
+            
+            totalScoreEl.innerHTML = `
+                <div>Bendras teisingumas: <strong>${answer.galutinisProcentas}%</strong></div>
+                <div class="score-percentage ${scoreClass}">${finalPercentage}%</div>
+            `;
+            
+            // Siųsti rezultatus į Google Sheets (TASK ID: L0211)
+            sendResultToSheet('L0211 Veiksnys ir tarinys | Pasaulio sukūrimo mitai (LT)', finalPercentage);
+        }
+
+        // --- KORTELIŲ NAVIGACIJA ---
+        function showCard(cardId) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(cardId).classList.add('active');
+            
+            // Atstatyti režimą
+            currentMode = null;
+            
+            // Scroll į viršų
+            window.scrollTo(0, 0);
+        }
+
+        // --- INICIALIZACIJA ---
+        window.onload = function() {
+            // Šie du mygtukai yra globalūs, todėl jų reikia, kad veiktų iš HTML
+            window.changeName = changeName;
+            window.showCard = showCard;
+            window.selectMode = selectMode;
+            window.checkAnswers = checkAnswers;
+            window.clearSelection = clearSelection;
+            
+            generateTaskCards(); // Sugeneruoja užduoties kortelę
+            showNamePrompt();    // Klausia vardo
+            showCard('card-cheatsheet'); // Pradedame nuo atmintinės
+        };
+    </script>
+</body>
+</html>
