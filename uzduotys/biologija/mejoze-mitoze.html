@@ -12,7 +12,7 @@
             background-color: #f3f4f6; /* gray-100 */
         }
         .container-wrapper {
-            max-width: 600px;
+            max-width: 650px; /* Šiek tiek platesnis */
             margin: 20px auto;
             padding: 20px;
         }
@@ -35,60 +35,113 @@
             font-weight: 600;
             text-align: center;
             color: #1e40af; /* blue-700 */
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 30px;
         }
+        
+        /* 1. SKIRTINGOS SPALVOS PASIRINKIMO MYGTUKAMS */
         .option-btn {
-            background-color: #4f46e5; /* indigo-600 */
             color: white;
             font-weight: 700;
             padding: 15px;
             border-radius: 8px;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.2s, transform 0.1s, border 0.2s;
             cursor: pointer;
             margin: 10px 0;
             font-size: 1.2rem;
             text-align: center;
         }
-        .option-btn:hover:not(.disabled) {
-            background-color: #4338ca; /* indigo-700 */
+        /* Mejozės mygtuko stilius */
+        .btn-mejoze {
+            background-color: #6366f1; /* Indigo-500 */
+        }
+        .btn-mejoze:hover:not(.disabled) {
+            background-color: #4f46e5; /* Indigo-600 */
             transform: translateY(-2px);
         }
-        .option-btn.selected {
-            border: 3px solid #10b981; /* emerald-500 */
+        /* Mitozės mygtuko stilius */
+        .btn-mitoze {
+            background-color: #3b82f6; /* Blue-500 */
         }
+        .btn-mitoze:hover:not(.disabled) {
+            background-color: #2563eb; /* Blue-600 */
+            transform: translateY(-2px);
+        }
+        /* Bendra teisingo/neteisingo atsakymo logika */
         .option-btn.correct {
-            background-color: #10b981; /* emerald-500 */
+            background-color: #10b981; /* Žalia */
         }
         .option-btn.incorrect {
-            background-color: #ef4444; /* red-500 */
+            background-color: #ef4444; /* Raudona */
         }
+        .option-btn.selected-border {
+             border: 3px solid #f59e0b; /* Geltona / Oranžinė */
+        }
+
         .disabled {
             pointer-events: none;
             opacity: 0.8;
         }
+        
+        /* Viršutinis informacijos blokas */
+        .header-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
         .back-btn {
             display: inline-flex;
             align-items: center;
-            background-color: #60a5fa; /* blue-400 */
-            color: white;
+            background-color: #93c5fd; /* blue-300 */
+            color: #1e3a8a; /* blue-800 */
             font-weight: 600;
-            padding: 8px 16px;
+            padding: 12px 24px;
             border-radius: 8px;
             transition: background-color 0.2s;
             text-decoration: none;
-            margin-bottom: 20px;
         }
         .back-btn:hover {
+            background-color: #60a5fa; /* blue-400 */
+        }
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #d1d5db; /* gray-300 */
+        }
+        .change-name-btn {
+            background-color: #60a5fa; /* blue-400 */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        .change-name-btn:hover {
             background-color: #3b82f6; /* blue-500 */
         }
+        
     </style>
 </head>
 <body>
 
 <div class="container-wrapper">
 
-    <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
-
+    <div class="header-row">
+        <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+        <div class="student-info">
+            Mokinys: <strong id="studentNameDisplay"></strong>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+    </div>
+    
     <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
         Mejozė ar Mitozė?
     </h1>
@@ -97,16 +150,16 @@
         
         <div class="mb-6">
             <p class="text-lg font-semibold text-gray-500 mb-2 text-center" id="question-count">
-                Klausimas 1 iš 6
+                Klausimas 1 iš 12
             </p>
             <div class="question-box" id="question-text">
-                Klausiamosios savybės tekstas bus čia.
+                Savybės tekstas bus čia.
             </div>
         </div>
 
         <div class="flex flex-col space-y-4" id="options-container">
-            <button class="option-btn" data-type="Mejoze">Mejozė</button>
-            <button class="option-btn" data-type="Mitoze">Mitozė</button>
+            <button class="option-btn btn-mejoze" data-type="Mejoze">Mejozė</button>
+            <button class="option-btn btn-mitoze" data-type="Mitoze">Mitozė</button>
         </div>
 
         <div class="mt-8 text-center">
@@ -134,7 +187,10 @@
 </div>
 
 <script>
-    // 1. DUOMENYS
+    // 3. GOOGLE SHEETS URL IR DUOMENYS
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+    const TASK_ID = 'B0001 Mejozė vs Mitozė | Klasifikacija';
+
     const DATA = [
         { savybe: "Susidaro lytinės ląstelės.", tipas: "Mejoze" },
         { savybe: "Susidaro kūno ląstelės.", tipas: "Mitoze" },
@@ -148,10 +204,10 @@
         { savybe: "Branduolys dalijasi vieną kartą.", tipas: "Mitoze" },
         { savybe: "Vyksta subrendusiame organizme.", tipas: "Mejoze" },
         { savybe: "Vyksta įvairaus amžiaus organizmuose.", tipas: "Mitoze" }
-        // Pasirinkti 6 iš 12 savybių, kad testas būtų kompaktiškesnis
     ];
-
-    // 2. ELEMENTAI
+    const totalQuestions = DATA.length; // Dabar 12
+    
+    // 4. BŪSENA
     const questionTextEl = document.getElementById('question-text');
     const questionCountEl = document.getElementById('question-count');
     const optionsContainer = document.getElementById('options-container');
@@ -161,18 +217,18 @@
     const resultsCard = document.getElementById('results-card');
     const finalScoreEl = document.getElementById('final-score');
     const resultDetailsEl = document.getElementById('result-details');
+    const studentNameDisplay = document.getElementById('studentNameDisplay');
     
-    // 3. BŪSENA
-    let currentQuestions = []; // Klausimai, parinkti šiam bandymui
+    let currentQuestions = []; 
     let currentQuestionIndex = 0;
     let score = 0;
     let isAnswerChecked = false;
     let selectedAnswer = null;
+    let userAnswersLog = []; // Detaliai saugome atsakymus
 
     // PAGALBINĖS FUNKCIJOS
     
     function shuffleArray(array) {
-        // Funkcija sumaišyti masyvo elementus atsitiktine tvarka
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -180,19 +236,65 @@
         return array;
     }
 
-    function selectRandomQuestions(data, count) {
-        // Atrinkti nurodytą kiekį atsitiktinių klausimų
-        const shuffledData = shuffleArray([...data]);
-        return shuffledData.slice(0, count);
+    function sendResultToSheet(taskName, score) {
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+        const timestamp = new Date().toLocaleString('lt-LT');
+        
+        const data = {
+            name: studentName,
+            task: taskName,
+            score: score,
+            timestamp: timestamp
+        };
+        
+        fetch(SHEET_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+        })
+        .catch(error => {
+            console.error('Klaida siunčiant rezultatą:', error);
+        });
+    }
+    
+    function showNamePrompt() {
+        let studentName = localStorage.getItem('studentName');
+        
+        if (!studentName) {
+            let name = prompt('Įveskite savo vardą:');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('studentName', name.trim());
+                studentName = name.trim();
+            } else {
+                alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                return showNamePrompt();
+            }
+        }
+        studentNameDisplay.textContent = studentName;
+        return studentName;
+    }
+
+    function changeName() {
+        localStorage.removeItem('studentName');
+        showNamePrompt();
+        location.reload();
     }
 
     // PAGRINDINĖ LOGIKA
 
     function initializeTest() {
-        // Pasirenkame 6 atsitiktinius klausimus iš viso sąrašo
-        currentQuestions = selectRandomQuestions(DATA, 6); 
+        showNamePrompt();
+        // KLAUSIMAI SUMAIŠOMI KIEKVIENĄ KARTĄ
+        currentQuestions = shuffleArray([...DATA]); 
         currentQuestionIndex = 0;
         score = 0;
+        userAnswersLog = [];
         showQuestion();
     }
 
@@ -205,7 +307,7 @@
         const question = currentQuestions[currentQuestionIndex];
         
         // Atnaujiname UI
-        questionCountEl.textContent = `Klausimas ${currentQuestionIndex + 1} iš ${currentQuestions.length}`;
+        questionCountEl.textContent = `Klausimas ${currentQuestionIndex + 1} iš ${totalQuestions}`;
         questionTextEl.textContent = question.savybe;
         feedbackMessageEl.textContent = '';
         actionBtn.textContent = 'Patikrinti';
@@ -216,8 +318,7 @@
 
         // Atstatome mygtukus
         document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.classList.remove('correct', 'incorrect', 'disabled');
-            btn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            btn.classList.remove('correct', 'incorrect', 'disabled', 'selected-border');
             btn.onclick = handleOptionClick;
         });
     }
@@ -227,11 +328,11 @@
         
         // Pašaliname pasirinkimą nuo visų mygtukų
         document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.style.border = 'none';
+            btn.classList.remove('selected-border');
         });
 
         // Pažymime pasirinktą mygtuką
-        event.target.style.border = '3px solid #60a5fa';
+        event.target.classList.add('selected-border');
         selectedAnswer = event.target.dataset.type;
     }
 
@@ -242,20 +343,27 @@
         }
 
         isAnswerChecked = true;
-        const correctType = currentQuestions[currentQuestionIndex].tipas;
+        const currentQuestion = currentQuestions[currentQuestionIndex];
+        const correctType = currentQuestion.tipas;
         const isCorrect = selectedAnswer === correctType;
+
+        // Išsaugome atsakymą log'e
+        userAnswersLog.push({
+            savybe: currentQuestion.savybe,
+            pasirinkimas: selectedAnswer,
+            teisingas: correctType,
+            isCorrect: isCorrect
+        });
 
         // Pažymime teisingą/neteisingą mygtuką
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.classList.add('disabled');
-            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            btn.classList.remove('selected-border');
 
             if (btn.dataset.type === correctType) {
                 btn.classList.add('correct');
-                btn.style.border = '3px solid #10b981';
             } else if (btn.dataset.type === selectedAnswer) {
                 btn.classList.add('incorrect');
-                btn.style.border = '3px solid #ef4444';
             }
         });
 
@@ -263,11 +371,11 @@
             score++;
             feedbackMessageEl.innerHTML = '<span class="text-green-600">✅ Teisingai!</span>';
         } else {
-            feedbackMessageEl.innerHTML = '<span class="text-red-500">❌ Neteisingai.</span>';
+            feedbackMessageEl.innerHTML = '<span class="text-red-500">❌ Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
         }
 
         // Paruošiame mygtuką kitam klausimui
-        actionBtn.textContent = (currentQuestionIndex < currentQuestions.length - 1) ? 'Toliau' : 'Rezultatai';
+        actionBtn.textContent = (currentQuestionIndex < totalQuestions - 1) ? 'Toliau' : 'Rezultatai';
         actionBtn.onclick = nextQuestion;
     }
 
@@ -281,20 +389,21 @@
         testCard.classList.add('hidden');
         resultsCard.classList.remove('hidden');
 
-        finalScoreEl.textContent = `${score} iš ${currentQuestions.length}`;
-        const percentage = Math.round((score / currentQuestions.length) * 100);
+        const percentage = Math.round((score / totalQuestions) * 100);
+        finalScoreEl.textContent = `${score} iš ${totalQuestions} (${percentage}%)`;
+        finalScoreEl.classList.add(percentage >= 70 ? 'text-green-600' : 'text-red-600');
 
         // Generuojame išsamią atsakymų suvestinę
         let detailsHTML = '';
-        currentQuestions.forEach((q, index) => {
-            const status = userAnswers[index].isCorrect ? '✅ Teisingai' : '❌ Neteisingai';
-            const statusClass = userAnswers[index].isCorrect ? 'text-green-700' : 'text-red-700';
+        userAnswersLog.forEach((answer, index) => {
+            const status = answer.isCorrect ? 'Teisingai' : 'Neteisingai';
+            const statusClass = answer.isCorrect ? 'text-green-700' : 'text-red-700';
 
             detailsHTML += `
-                <div class="p-3 rounded-md border ${userAnswers[index].isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}">
-                    <p class="font-bold text-gray-800">${index + 1}. ${q.savybe}</p>
+                <div class="p-3 rounded-md border ${answer.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}">
+                    <p class="font-bold text-gray-800">${index + 1}. ${answer.savybe}</p>
                     <p class="${statusClass} font-semibold mt-1">
-                        Atsakymas: ${q.tipas} (${status})
+                        Atsakymas: ${answer.teisingas} (${status})
                     </p>
                 </div>
             `;
@@ -302,15 +411,17 @@
 
         resultDetailsEl.innerHTML = detailsHTML;
         
-        // TODO: Jei naudojate Google Sheets, čia išsiųstumėte galutinį rezultatą.
-        // sendResultToSheet('B0004 Mejozė vs Mitozė | Klasifikacija', percentage);
+        // 3. IŠSIUNČIAME REZULTATUS Į GOOGLE SHEETS
+        sendResultToSheet(TASK_ID, percentage);
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    
+    // Kad funkcija būtų pasiekiama iš HTML mygtuko
+    window.changeName = changeName;
 
     // Pradinis paleidimas
     initializeTest();
-
 </script>
 </body>
 </html>
