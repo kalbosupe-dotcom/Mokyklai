@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎧 Garso Bangos - 10 uždavinių</title>
     <style>
-        @import url('https://fonts.cdnfonts.com/css/opendyslexic');
-        
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +12,7 @@
         }
         
         body {
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-family: Verdana, Geneva, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -24,6 +22,61 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
         }
         
         .header {
@@ -39,11 +92,13 @@
             color: #667eea;
             font-size: 2em;
             margin-bottom: 10px;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .header .subtitle {
             color: #666;
             font-size: 1.1em;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .progress-container {
@@ -73,6 +128,7 @@
             justify-content: center;
             color: white;
             font-weight: bold;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .card {
@@ -112,6 +168,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .theory-section {
@@ -126,6 +183,7 @@
             color: #764ba2;
             margin-bottom: 15px;
             font-size: 1.4em;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .formula-box {
@@ -137,6 +195,27 @@
             text-align: center;
             font-size: 1.5em;
             color: #333;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        /* TRUPMENŲ STILIUS */
+        .fraction {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .fraction .numerator {
+            display: block;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .fraction .denominator {
+            display: block;
+            padding-top: 5px;
         }
         
         .variable-list {
@@ -150,6 +229,7 @@
             background: white;
             border-radius: 8px;
             border-left: 4px solid #764ba2;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .variable-list strong {
@@ -167,6 +247,7 @@
             line-height: 2;
             color: #1a1a1a;
             font-weight: 500;
+            font-family: Verdana, Geneva, sans-serif;
         }
 
         .question-box strong {
@@ -185,6 +266,7 @@
             color: #333;
             font-size: 1.1em;
             font-weight: bold;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .input-group input {
@@ -193,7 +275,7 @@
             font-size: 1.2em;
             border: 3px solid #ddd;
             border-radius: 10px;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-family: Verdana, Geneva, sans-serif;
             transition: border-color 0.3s;
         }
         
@@ -215,7 +297,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-family: Verdana, Geneva, sans-serif;
             font-weight: bold;
             transition: all 0.3s;
             flex: 1;
@@ -258,6 +340,7 @@
             display: none;
             font-size: 1.1em;
             animation: fadeIn 0.5s;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         @keyframes fadeIn {
@@ -291,6 +374,7 @@
             padding: 15px;
             margin-top: 15px;
             display: none;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .hint-box.show {
@@ -324,10 +408,12 @@
         .score-circle .score {
             font-size: 3em;
             font-weight: bold;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .score-circle .label {
             font-size: 1.2em;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .results-details {
@@ -347,6 +433,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .result-item.correct {
@@ -361,10 +448,31 @@
             font-size: 3em;
             margin: 20px 0;
         }
+
+        p {
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        ul {
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        h3 {
+            font-family: Verdana, Geneva, sans-serif;
+        }
         
         @media (max-width: 768px) {
             body {
                 padding: 10px;
+            }
+
+            .header-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .student-info {
+                min-width: auto;
             }
             
             .header h1 {
@@ -396,6 +504,18 @@
 </head>
 <body>
     <div class="container">
+        <!-- HEADER SU MYGTUKU IR VARDU -->
+        <div class="header-row">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
         <!-- Header -->
         <div class="header">
             <h1>🎧 Garso Bangos - išspręsk 10 uždavinių</h1>
@@ -420,7 +540,7 @@
             <div class="theory-section">
                 <h3>🎵 Pagrindinė Formulė</h3>
                 <div class="formula-box">
-                    λ = v · T = v / f
+                    λ = v · T = <span class="fraction"><span class="numerator">v</span><span class="denominator">f</span></span>
                 </div>
                 <p style="text-align: center; color: #666; margin-top: 10px;">
                     Garso bangos ilgis priklauso nuo garso greičio ir periodo (arba dažnio)
@@ -453,7 +573,9 @@
                         Kai žinome bangos ilgį ir dažnį:
                     </p>
                     <div class="formula-box">
-                        λ = v / f  arba  v = λ · f
+                        λ = <span class="fraction"><span class="numerator">v</span><span class="denominator">f</span></span>  
+                        &nbsp;&nbsp;arba&nbsp;&nbsp;  
+                        v = λ · f
                     </div>
                 </div>
 
@@ -462,7 +584,9 @@
                         Kai žinome bangos ilgį ir periodą:
                     </p>
                     <div class="formula-box">
-                        λ = v · T  arba  v = λ / T
+                        λ = v · T  
+                        &nbsp;&nbsp;arba&nbsp;&nbsp;  
+                        v = <span class="fraction"><span class="numerator">λ</span><span class="denominator">T</span></span>
                     </div>
                 </div>
 
@@ -471,7 +595,7 @@
                         Kai žinome garso greitį ir bangos ilgį:
                     </p>
                     <div class="formula-box">
-                        f = v / λ
+                        f = <span class="fraction"><span class="numerator">v</span><span class="denominator">λ</span></span>
                     </div>
                 </div>
 
@@ -480,7 +604,7 @@
                         Kai žinome bangos ilgį ir garso greitį:
                     </p>
                     <div class="formula-box">
-                        T = λ / v
+                        T = <span class="fraction"><span class="numerator">λ</span><span class="denominator">v</span></span>
                     </div>
                 </div>
 
@@ -489,7 +613,7 @@
                         Ryšys tarp periodo ir dažnio:
                     </p>
                     <div class="formula-box">
-                        T = 1 / f
+                        T = <span class="fraction"><span class="numerator">1</span><span class="denominator">f</span></span>
                     </div>
                 </div>
             </div>
@@ -509,6 +633,7 @@
                 <button class="btn-next" onclick="nextCard()">Pradėti Užduotis ➜</button>
             </div>
         </div>
+
         <!-- Užduotis 1 -->
         <div class="card" id="card1">
             <div class="card-header">
@@ -613,6 +738,7 @@
                 <button class="btn-next" onclick="nextCard()" id="next3" style="display: none;">Kita Užduotis ➜</button>
             </div>
         </div>
+
         <!-- Užduotis 4 -->
         <div class="card" id="card4">
             <div class="card-header">
@@ -717,6 +843,7 @@
                 <button class="btn-next" onclick="nextCard()" id="next6" style="display: none;">Kita Užduotis ➜</button>
             </div>
         </div>
+
         <!-- Užduotis 7 -->
         <div class="card" id="card7">
             <div class="card-header">
@@ -821,6 +948,7 @@
                 <button class="btn-next" onclick="nextCard()" id="next9" style="display: none;">Kita Užduotis ➜</button>
             </div>
         </div>
+
         <!-- Užduotis 10 -->
         <div class="card" id="card10">
             <div class="card-header">
@@ -884,7 +1012,7 @@
                 <div id="detailedResults"></div>
             </div>
 
-            <div class="theory-section" style="background: #fff3cd; border-left-color: #ffc107;">
+            <div class="theory-section" style="background: #e8f5e9; border-left-color: #28a745;">
                 <h3>💡 Ką Išmokote?</h3>
                 <ul style="list-style: none; padding: 0;">
                     <li style="padding: 8px 0;">✅ Kaip skaičiuoti bangos ilgį pagal greitį ir periodą</li>
@@ -902,7 +1030,68 @@
         </div>
 
     </div>
+
     <script>
+        // Google Sheets konfigūracija
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+
+        // VARDŲ VALDYMAS
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: \${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+
+            console.log('Siunčiamas rezultatas:', data);
+
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+
+        // INICIALIZUOTI VARDĄ
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
         // Globalūs kintamieji
         let currentCard = 0;
         const totalCards = 11; // 0 = teorija, 1-10 = užduotys, 11 = rezultatai
@@ -1039,6 +1228,7 @@
                 feedback.innerHTML = '<span class="feedback-icon">❌</span> <strong>Neteisingai.</strong> Teisingas atsakymas: ' + correctAnswer + '. Bandykite dar kartą arba paspauskite "Patarimas".';
             }
         }
+
         // Generuoti rezultatus
         function generateResults() {
             const scoreElement = document.getElementById('finalScore');
@@ -1102,6 +1292,9 @@
             }
             
             detailedElement.innerHTML = detailedHTML;
+
+            // SIŲSTI Į GOOGLE SHEETS
+            sendResultToSheet('F0006 Garso bangos | 10 uždavinių', Math.round(percentage));
         }
 
         // Pradėti testą iš naujo
