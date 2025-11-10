@@ -104,7 +104,7 @@
             font-weight: bold;
         }
         
-        /* NAUJAS: Spalvų priskyrimas lentelėje */
+        /* Spalvų priskyrimas */
         .memo-dalyvis, .btn-dalyvis {
             color: #15803d; /* Tamsiai žalia */
             background-color: #dcfce7; /* Labai šviesi žalia */
@@ -118,7 +118,7 @@
             background-color: #eff6ff; /* Labai šviesi mėlyna */
         }
         
-        /* NAUJAS: Mygtukų spalvos (pasirinkimo) */
+        /* Testo mygtukų stiliai */
         .option-btn {
             color: white;
             font-weight: 700;
@@ -139,10 +139,9 @@
             transform: translateY(-2px);
         }
         
-        .option-btn.correct { background-color: #10b981 !important; } /* Žalia (visada teisingai) */
-        .option-btn.incorrect { background-color: #ef4444 !important; } /* Raudona (visada neteisingai) */
+        .option-btn.correct { background-color: #10b981 !important; } 
+        .option-btn.incorrect { background-color: #ef4444 !important; } 
         
-        /* Pakeista žodžio fono spalva */
         .word-to-classify {
             font-size: 3rem;
             font-weight: bold;
@@ -160,9 +159,32 @@
             opacity: 0.8;
         }
         
+        /* ATMINTINĖS APRAŠYMAS */
+        .definition-section {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .definition-section h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed;
+        }
+        .def-dalyvis { border: 2px solid #22c55e; }
+        .def-pusdalyvis { border: 2px solid #f97316; }
+        .def-padalyvis { border: 2px solid #3b82f6; }
+        .def-dalyvis h3 { color: #15803d; }
+        .def-pusdalyvis h3 { color: #b45309; }
+        .def-padalyvis h3 { color: #1e40af; }
+
+        
         /* Mobilusis dizainas */
         @media (max-width: 768px) {
-             /* ... (palikta kaip buvo) ... */
+            .word-to-classify {
+                font-size: 2.2rem;
+            }
         }
     </style>
 </head>
@@ -181,43 +203,56 @@
         <div id="card-memo" class="card active">
             <h1 class="question-title">📚 Atmintinė: Neasmenuojamosios Veiksmažodžio Formos</h1>
 
-            <div style="margin-bottom: 20px;">
-                <p style="font-size: 1.1rem; color: #1f2937;">
-                    Neasmenuojamosios veiksmažodžio formos yra nekaitomos asmenimis, bet turi veiksmažodžio ir kitos kalbos dalies (dažniausiai būdvardžio ar prieveiksmio) ypatybių.
-                </p>
-            </div>
+            <div class="flex flex-col space-y-3 text-sm">
+                
+                <div class="definition-section def-dalyvis">
+                    <h3>Dalyvis</h3>
+                    <p>Apibrėžimas: Dalyvis yra veiksmažodžio forma, kuri reiškia daikto požymį pagal veiksmą. Jis turi būdvardžio ir veiksmažodžio ypatybių: kaitomas giminėmis, skaičiais ir linksniais (kaip būdvardis), turi laikus, veikslus, gali būti veikiamasis ir neveikiamasis (kaip veiksmažodis).</p>
+                    <p>Funkcija: Dažniausiai sakinyje eina <strong>pažyminiu</strong>.</p>
+                    <p>Klausimai: <strong>Koks? Kokia?</strong></p>
+                    <p>Pavyzdys: <strong>Bėgantis</strong> (vyras), <strong>skaityta</strong> (knyga), <strong>parašytas</strong> (laiškas).</p>
+                </div>
 
+                <div class="definition-section def-pusdalyvis">
+                    <h3>Pusdalyvis</h3>
+                    <p>Apibrėžimas: Pusdalyvis yra neasmenuojamoji veiksmažodžio forma, kuri reiškia šalutinį veiksmą, vykstantį <strong>tuo pačiu metu</strong> kaip ir pagrindinis veiksmas, ir tik tada, kai abu veiksmus atlieka <strong>tas pats veikėjas</strong>.</p>
+                    <p>Funkcija: Sakinyje eina <strong>aplinkybe</strong> (dažniausiai laiko ar būdo).</p>
+                    <p>Klausimai: <strong>Ką veikdamas?</strong></p>
+                    <p>Pavyzdys: <strong>Eidamas</strong> (aš) namo, galvojau apie darbą (aš galvojau ir aš ėjau tuo pačiu metu). Sportuodami (mes) pavargome (mes sportavome ir mes pavargome).</p>
+                </div>
+
+                <div class="definition-section def-padalyvis">
+                    <h3>Padalyvis</h3>
+                    <p>Apibrėžimas: Padalyvis yra neasmenuojamoji veiksmažodžio forma, kuri reiškia šalutinį veiksmą, susijusį su pagrindiniu veiksmu, bet šiuos veiksmus atlieka <strong>skirtingi veikėjai</strong> arba veiksmas yra apibendrintas (nenurodytas konkretus veikėjas).</p>
+                    <p>Funkcija: Sakinyje eina <strong>aplinkybe</strong>.</p>
+                    <p>Klausimai: <strong>Kaip? Kada? Ką veikiant?</strong></p>
+                    <p>Pavyzdys: Jam <strong>atėjus</strong>, visi nutilo (jis atėjo, o nutilo visi kiti). Saulei <strong>šviečiant</strong>, mes išėjome pasivaikščioti (švietė saulė, o išėjome mes).</p>
+                </div>
+            </div>
+            
+            <h3 class="font-bold text-lg text-blue-700 mb-2 border-b pb-1">Priesagų pavyzdžiai</h3>
             <table class="memo-table">
                 <thead>
                     <tr>
-                        <th>Forma</th>
-                        <th>Klausimai</th>
-                        <th>Priesagos</th>
-                        <th>Pavyzdys</th>
+                        <th class="memo-dalyvis">Dalyvis</th>
+                        <th class="memo-pusdalyvis">Pusdalyvis</th>
+                        <th class="memo-padalyvis">Padalyvis</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><div class="memo-dalyvis"><strong>Dalyvis</strong> (Būdvardžio ypatybės)</div></td>
-                        <td>Koks? Kokia?</td>
                         <td>-ant<strong>is</strong>, -us<strong>is</strong>, -im<strong>as</strong>, -t<strong>as</strong>, -s<strong>iąs</strong></td>
-                        <td><em>Bėgant</em><strong>is</strong>, <em>pamatyt</em><strong>as</strong>, <em>dary</em><strong>siančias</strong></td>
-                    </tr>
-                    <tr>
-                        <td><div class="memo-pusdalyvis"><strong>Pusdalyvis</strong> (Prieveiksmio ypatybės)</div></td>
-                        <td>Ką veikdamas?</td>
                         <td>-d<strong>amas</strong>, -d<strong>ama</strong>, -dam<strong>i</strong>, -dam<strong>os</strong></td>
-                        <td><em>Skait</em><strong>ydamas</strong>, <em>rašy</em><strong>dama</strong>, <em>neš</em><strong>dami</strong></td>
+                        <td>-ant, -int, -iant, -us, -ius, -<strong>us</strong>, -<strong>iūs</strong></td>
                     </tr>
                     <tr>
-                        <td><div class="memo-padalyvis"><strong>Padalyvis</strong> (Prieveiksmio ypatybės)</div></td>
-                        <td>Kaip? Kada? Ką veikiant?</td>
-                        <td>-ant, -int, -iant, -us, -ius, -<strong>us</strong>, -<strong>iūs</strong></td>
-                        <td><em>Vaikšči</em><strong>ojant</strong>, <em>atmin</em><strong>us</strong>, <em>dirb</em><strong>iant</strong>, <em>važiuoj</em><strong>ant</strong></td>
+                         <td>*Bėgant***is***, *pamatyt***as***, *dary***siančias***</td>
+                         <td>*Skait***ydamas***, *rašy***dama***, *neš***dami***</td>
+                         <td>*Vaikšči***ojant***, *atmin***us***, *dirb***iant***, *važiuoj***ant***</td>
                     </tr>
                 </tbody>
             </table>
-
+            
             <div class="button-container mt-auto">
                 <button onclick="showCard('card-task-1')" class="action-button bg-blue-600 hover:bg-blue-700 text-white">▶️ Pradėti testą</button>
             </div>
@@ -232,7 +267,7 @@
                 <div class="total-score" id="total-score"></div>
             </div>
             <div class="button-container">
-                <button onclick="location.reload()" class="action-button btn-success">🔄 Pradėti iš naujo</button>
+                <button onclick="location.reload()" class="action-button bg-green-600 hover:bg-green-700 text-white">🔄 Pradėti iš naujo</button>
             </div>
         </div>
     </div>
@@ -243,7 +278,6 @@
         const TASK_ID = 'L0311 Veiksmazodžio formos | 9 klausimai';
         
         // --- KLAUSIMŲ DUOMENYS (9 žodžiai) ---
-        // Visi žodžiai, kurie baigiasi įsi/ęs/ę, yra dalyviai, išskyrus BĖGANT (padalyvis)
         const QUESTIONS_DATA = [
             { word: "PAVARGĘS", correct: "Dalyvis" },
             { word: "ATMINĘS", correct: "Dalyvis" },
@@ -257,9 +291,9 @@
         ];
         
         const OPTIONS = [
-            { name: "Dalyvis", css: "btn-dalyvis" },
-            { name: "Pusdalyvis", css: "btn-pusdalyvis" },
-            { name: "Padalyvis", css: "btn-padalyvis" }
+            { name: "Dalyvis", css: "btn-dalyvis", k: "Koks? Kokia?" },
+            { name: "Pusdalyvis", css: "btn-pusdalyvis", k: "Ką veikdamas?" },
+            { name: "Padalyvis", css: "btn-padalyvis", k: "Kaip? Kada? Ką veikiant?" }
         ];
         const totalQuestions = QUESTIONS_DATA.length; 
 
@@ -270,7 +304,6 @@
         let userAnswersLog = [];
 
         // --- VARDŲ VALDYMAS IR REZULTATAI ---
-
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
             if (!studentName) {
@@ -341,9 +374,14 @@
                 ).join('');
                 
                 // Nustatome CSS spalvas atminties lentelei
-                const dalyvisCss = OPTIONS.find(o => o.name === 'Dalyvis').css.replace('btn-', 'memo-');
-                const pusdalyvisCss = OPTIONS.find(o => o.name === 'Pusdalyvis').css.replace('btn-', 'memo-');
-                const padalyvisCss = OPTIONS.find(o => o.name === 'Padalyvis').css.replace('btn-', 'memo-');
+                const dalyvis = OPTIONS.find(o => o.name === 'Dalyvis');
+                const pusdalyvis = OPTIONS.find(o => o.name === 'Pusdalyvis');
+                const padalyvis = OPTIONS.find(o => o.name === 'Padalyvis');
+                
+                const dalyvisCss = dalyvis.css.replace('btn-', 'memo-');
+                const pusdalyvisCss = pusdalyvis.css.replace('btn-', 'memo-');
+                const padalyvisCss = padalyvis.css.replace('btn-', 'memo-');
+
 
                 cardDiv.innerHTML = `
                     <h2 class="question-title">Klausimas ${index + 1} iš ${totalQuestions}</h2>
@@ -357,7 +395,7 @@
                     <div id="feedback-${index + 1}" class="feedback"></div>
 
                     <div class="mt-auto pt-6 border-t">
-                        <h3 class="font-bold text-lg text-blue-700 mb-2 border-b pb-1">👀 Atminties nuoroda: Pavyzdžiai</h3>
+                        <h3 class="font-bold text-lg text-blue-700 mb-2 border-b pb-1">👀 Atminties nuoroda</h3>
                         <table class="example-table">
                             <thead>
                                 <tr>
@@ -367,6 +405,11 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>${dalyvis.k}</td>
+                                    <td>${pusdalyvis.k}</td>
+                                    <td>${padalyvis.k}</td>
+                                </tr>
                                 <tr>
                                     <td>Dirbęs, Dirbamas, Skaitąs</td>
                                     <td>Dirbdamas, Skaitydama</td>
