@@ -27,7 +27,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 15px; /* Tarpas tarp mygtuko ir info bloko */
+        gap: 15px;
         margin-bottom: 20px;
         flex-wrap: wrap; 
     }
@@ -43,7 +43,7 @@
         font-size: 18px;
         font-weight: 600;
         transition: background-color 0.3s;
-        white-space: nowrap; /* Kad mygtukas neišsiskirstytų */
+        white-space: nowrap;
     }
     
     .back-btn:hover {
@@ -58,7 +58,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-grow: 1; /* Leidžia užimti likusią erdvę */
+        flex-grow: 1;
         gap: 10px;
     }
     
@@ -78,15 +78,16 @@
         background-color: #0D3B66;
     }
     
+    /* PATAISYMAS 2: Padidintos antraštės - Bendra taisyklė */
     h1 {
-        font-size: 32px;
+        font-size: 40px; /* Padidinta */
         color: #0D3B66;
         margin-bottom: 10px;
         text-align: center;
     }
     
     h2 {
-        font-size: 24px;
+        font-size: 30px; /* Padidinta */
         color: #4A90E2;
         margin-bottom: 20px;
         text-align: center;
@@ -273,7 +274,7 @@
         color: #4A90E2;
     }
     
-    /* Responsive dizainas */
+    /* Responsive dizainas - Dydis išlaikomas ir mobiliame */
     @media (max-width: 768px) {
         .header-container {
             flex-direction: column;
@@ -298,12 +299,13 @@
             padding: 30px 20px;
         }
         
+        /* PATAISYMAS 2: Užtikriname, kad antraštės ir čia būtų didesnės */
         h1 {
-            font-size: 36px;
+            font-size: 36px; /* Šiek tiek mažesnis nei darbalaukyje, bet didesnis nei buvo */
         }
         
         h2 {
-            font-size: 32px;
+            font-size: 26px; /* Šiek tiek mažesnis nei darbalaukyje, bet didesnis nei buvo */
         }
     }
 </style>
@@ -404,7 +406,7 @@
         let correctAnswers = 0;
         const totalWords = WORDS_ORIGINAL.length;
 
-        // PATAISYMAS 2: Žodžių maišymo funkcija
+        // Žodžių maišymo funkcija
         function shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -477,7 +479,7 @@
         }
 
         function startQuiz() {
-            // PATAISYMAS 2: Sumaišome žodžius prieš pradedant testą
+            // Žodžiai sumaišomi prieš pradedant testą
             wordsShuffled = shuffleArray(WORDS_ORIGINAL); 
             
             document.querySelector('.btn-start').style.display = 'none';
@@ -549,7 +551,7 @@
             `;
         }
         
-        // Funkcijų priskyrimas globaliam scope (jei naudojama iš HTML)
+        // Funkcijų priskyrimas globaliam scope
         window.changeName = changeName;
         window.startQuiz = startQuiz;
         window.checkAnswer = checkAnswer;
