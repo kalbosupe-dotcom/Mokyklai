@@ -9,18 +9,16 @@
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
             letter-spacing: 0.05em;
-            background-color: #f3f4f6; /* gray-100 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             padding: 20px;
         }
 
         .page-wrapper {
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         
         /* Viršutinis info blokas */
@@ -29,156 +27,376 @@
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
         .back-btn {
             display: inline-flex;
             align-items: center;
             padding: 12px 24px;
-            background-color: #93c5fd;
-            color: #1e3a8a;
+            background-color: #ffffff;
+            color: #667eea;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 18px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            white-space: nowrap;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .back-btn:hover {
-            background-color: #7CB3E9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
         .student-info {
             background-color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: 2px solid #4A90E2;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
             flex-grow: 1;
+            font-size: 18px;
         }
         .change-name-btn {
-            background-color: #4A90E2;
+            background-color: #667eea;
             color: white;
             border: none;
             padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: background-color 0.3s;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         .change-name-btn:hover {
-            background-color: #0D3B66;
+            background-color: #764ba2;
+            transform: scale(1.05);
         }
 
         /* Kortelės stiliai */
         .card {
             background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            border: 3px solid #60a5fa; /* blue-400 */
-            min-height: 550px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            padding: 40px;
             display: none;
-            flex-direction: column;
-            justify-content: space-between;
         }
         .card.active {
-            display: flex;
+            display: block;
+            animation: fadeIn 0.4s ease-in;
         }
         
-        /* --- ATMINTINĖS LENTELĖS STILIAI --- */
-        .memo-table, .example-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .memo-table th, .memo-table td, .example-table th, .example-table td {
-            border: 1px solid #e5e7eb;
-            padding: 10px;
-            text-align: left;
-        }
-        .memo-table th, .example-table th {
-            background-color: #d1e5f8;
+
+        .question-title {
+            font-size: 2rem;
+            font-weight: 800;
             color: #1f2937;
-            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
         }
         
-        /* Spalvų priskyrimas (ŠVELNIOS ATMINTINĖS SPALVOS) */
-        .memo-dalyvis, .example-table .dalyvis-color {
-            color: #15803d; /* Tamsiai žalia */
-            background-color: #dcfce7; /* Labai šviesi žalia */
+        /* --- ATMINTINĖS KORTELĖS STILIAI --- */
+        .memo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
         }
-        .memo-pusdalyvis, .example-table .pusdalyvis-color {
-            color: #b45309; /* Tamsiai oranžinė */
-            background-color: #fff7ed; /* Labai šviesi oranžinė */
+
+        .memo-card {
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 3px solid;
         }
-        .memo-padalyvis, .example-table .padalyvis-color {
-            color: #1e40af; /* Tamsiai mėlyna */
-            background-color: #eff6ff; /* Labai šviesi mėlyna */
+
+        .memo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .memo-card-dalyvis {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-color: #10b981;
+        }
+
+        .memo-card-pusdalyvis {
+            background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+            border-color: #f97316;
+        }
+
+        .memo-card-padalyvis {
+            background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
+            border-color: #3b82f6;
+        }
+
+        .memo-card-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .memo-card-icon {
+            font-size: 2.5rem;
+        }
+
+        .memo-card-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .memo-card-content strong {
+            color: #1f2937;
+            font-weight: 700;
+        }
+
+        .memo-card-examples {
+            background-color: rgba(255,255,255,0.7);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .memo-card-question {
+            background-color: rgba(255,255,255,0.9);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-weight: 700;
+            color: #1f2937;
         }
         
-        /* Testo mygtukų stiliai (RYŠKIOS SPALVOS) */
+        /* Testo žodžio rodymas */
+        .word-to-classify {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            letter-spacing: 0.05em;
+        }
+        
+        /* Testo mygtukų stiliai */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
         .option-btn {
             color: white;
             font-weight: 700;
-            padding: 15px;
-            border-radius: 8px;
-            transition: all 0.2s;
+            padding: 25px;
+            border-radius: 16px;
+            transition: all 0.3s;
             cursor: pointer;
-            margin: 10px 0;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             text-align: center;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .btn-dalyvis { background-color: #22c55e; } /* Ryškiai žalia */
-        .btn-pusdalyvis { background-color: #f97316; } /* Ryškiai oranžinė */
-        .btn-padalyvis { background-color: #3b82f6; } /* Ryškiai mėlyna */
+
+        .btn-dalyvis { 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        .btn-pusdalyvis { 
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+        .btn-padalyvis { 
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
         
         .option-btn:hover:not(.disabled) {
-            opacity: 0.9;
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
         
-        .option-btn.correct { background-color: #10b981 !important; } 
-        .option-btn.incorrect { background-color: #ef4444 !important; } 
-        
-        .word-to-classify {
-            font-size: 3rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 20px;
-            background-color: #e3f2fd;
-            border-radius: 10px;
-            border: 3px solid #7cb3e9;
-            color: #1a4d7a;
-            margin-bottom: 30px;
+        .option-btn.correct { 
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+            animation: pulse 0.5s ease-in-out;
+        } 
+        .option-btn.incorrect { 
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
         
         .disabled {
             pointer-events: none;
-            opacity: 0.8;
-        }
-        
-        /* PATAISYMAS 2: Išplėstas atmintinės stilius */
-        .memo-definition {
-             font-size: 1.15rem; /* Padidintas šriftas */
-             line-height: 2.0; /* Padidintas tarpas tarp eilučių */
-             margin-bottom: 20px;
-        }
-        .memo-definition strong {
-             color: #1f2937; /* Tamsesnis tekstas */
-        }
-        
-        /* ATMINTINĖS APRAŠYMAS */
-        .definition-section {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            opacity: 0.7;
         }
 
-        
+        /* Atsakymo feedback */
+        .feedback {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        /* Atmintinės lentelė apačioje */
+        .hint-table {
+            background-color: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .hint-table h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .hint-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .hint-table th, .hint-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e5e7eb;
+        }
+
+        .hint-table th {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .hint-dalyvis { background-color: #d1fae5; color: #065f46; }
+        .hint-pusdalyvis { background-color: #fed7aa; color: #9a3412; }
+        .hint-padalyvis { background-color: #dbeafe; color: #1e3a8a; }
+
+        /* Mygtukai */
+        .action-button {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .bg-blue-600 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .bg-green-600 {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        /* Rezultatų stiliai */
+        .result-container {
+            background-color: #f9fafb;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .total-score {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .score-percentage {
+            font-size: 4rem;
+            margin-top: 15px;
+        }
+
+        .result-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .correct-item {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+
+        .incorrect-item {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+
         /* Mobilusis dizainas */
         @media (max-width: 768px) {
-             /* ... (kitas stilius) ... */
+            .word-to-classify {
+                font-size: 2.5rem;
+                padding: 30px 20px;
+            }
+            
+            .option-btn {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+
+            .question-title {
+                font-size: 1.5rem;
+            }
+
+            .memo-card-title {
+                font-size: 1.5rem;
+            }
+
+            .header-container {
+                flex-direction: column;
+            }
+
+            .student-info {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -189,81 +407,84 @@
             <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
             
             <div class="student-info">
-                Mokinys: <strong id="studentNameDisplay"></strong>
+                <span>Mokinys: <strong id="studentNameDisplay"></strong></span>
                 <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
             </div>
         </div>
 
+        <!-- ATMINTINĖS KORTELĖ -->
         <div id="card-memo" class="card active">
-            <h1 class="question-title">📚 Atmintinė: Neasmenuojamosios Veiksmažodžio Formos</h1>
+            <h1 class="question-title">📚 Kokia kalbos dalis yra šis žodis?</h1>
 
-            <div class="memo-definition flex flex-col space-y-3">
-                
-                <p>Neasmenuojamosios veiksmažodžio formos yra nekaitomos asmenimis, bet turi veiksmažodžio ir kitos kalbos dalies (dažniausiai **būdvardžio** ar **prieveiksmio**) ypatybių.</p>
-
-                <div class="definition-section def-dalyvis">
-                    <h3>Dalyvis</h3>
-                    <p>Apibrėžimas: Dalyvis yra veiksmažodžio forma, kuri reiškia daikto požymį pagal veiksmą. Jis turi būdvardžio ir veiksmažodžio ypatybių: kaitomas giminėmis, skaičiais ir linksniais (kaip būdvardis), turi laikus, veikslus, gali būti veikiamasis ir neveikiamasis (kaip veiksmažodis).</p>
-                    <p>Funkcija: Dažniausiai sakinyje eina <strong>pažyminiu</strong>.</p>
-                    <p>Klausimai: <strong>Koks? Kokia?</strong></p>
-                    <p>Pavyzdys: <strong>Bėgantis</strong> (vyras), <strong>skaityta</strong> (knyga), <strong>parašytas</strong> (laiškas).</p>
+            <div class="memo-grid">
+                <!-- DALYVIS -->
+                <div class="memo-card memo-card-dalyvis">
+                    <div class="memo-card-title">
+                        <span class="memo-card-icon">📗</span>
+                        <span>Dalyvis</span>
+                    </div>
+                    <div class="memo-card-content">
+                        <div class="memo-card-question">Koks? Kokia?</div>
+                        <p style="margin-top: 15px;">Reiškia <strong>daikto požymį pagal veiksmą</strong>. Sakinyje eina <strong>pažyminiu</strong>.</p>
+                        <div class="memo-card-examples">
+                            <strong>Pavyzdžiai:</strong><br>
+                            <em>Bėgantis</em> vyras, <em>skaityta</em> knyga, <em>parašytas</em> laiškas
+                        </div>
+                    </div>
                 </div>
 
-                <div class="definition-section def-pusdalyvis">
-                    <h3>Pusdalyvis</h3>
-                    <p>Apibrėžimas: Pusdalyvis yra neasmenuojamoji veiksmažodžio forma, kuri reiškia šalutinį veiksmą, vykstantį <strong>tuo pačiu metu</strong> kaip ir pagrindinis veiksmas, ir tik tada, kai abu veiksmus atlieka <strong>tas pats veikėjas</strong>.</p>
-                    <p>Funkcija: Sakinyje eina <strong>aplinkybe</strong> (dažniausiai laiko ar būdo).</p>
-                    <p>Klausimai: <strong>Ką veikdamas?</strong></p>
-                    <p>Pavyzdys: <strong>Eidamas</strong> (aš) namo, galvojau apie darbą (aš galvojau ir aš ėjau tuo pačiu metu).</p>
+                <!-- PUSDALYVIS -->
+                <div class="memo-card memo-card-pusdalyvis">
+                    <div class="memo-card-title">
+                        <span class="memo-card-icon">📙</span>
+                        <span>Pusdalyvis</span>
+                    </div>
+                    <div class="memo-card-content">
+                        <div class="memo-card-question">Ką veikdamas?</div>
+                        <p style="margin-top: 15px;">Reiškia <strong>šalutinį veiksmą</strong>, kurį atlieka <strong>tas pats veikėjas</strong>. Sakinyje eina <strong>aplinkybe</strong>.</p>
+                        <div class="memo-card-examples">
+                            <strong>Pavyzdžiai:</strong><br>
+                            <em>Eidamas</em> namo, galvojau apie darbą.<br>
+                            <em>Sportuodami</em> pavargome.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="definition-section def-padalyvis">
-                    <h3>Padalyvis</h3>
-                    <p>Apibrėžimas: Padalyvis yra neasmenuojamoji veiksmažodžio forma, kuri reiškia šalutinį veiksmą, susijusį su pagrindiniu veiksmu, bet šiuos veiksmus atlieka <strong>skirtingi veikėjai</strong> arba veiksmas yra apibendrintas (nenurodytas konkretus veikėjas).</p>
-                    <p>Funkcija: Sakinyje eina <strong>aplinkybe</strong>.</p>
-                    <p>Klausimai: <strong>Kaip? Kada? Ką veikiant?</strong></p>
-                    <p>Pavyzdys: Jam <strong>atėjus</strong>, visi nutilo (jis atėjo, o nutilo visi kiti). Saulei <strong>šviečiant</strong>, mes išėjome pasivaikščioti (švietė saulė, o išėjome mes).</p>
+                <!-- PADALYVIS -->
+                <div class="memo-card memo-card-padalyvis">
+                    <div class="memo-card-title">
+                        <span class="memo-card-icon">📘</span>
+                        <span>Padalyvis</span>
+                    </div>
+                    <div class="memo-card-content">
+                        <div class="memo-card-question">Kaip? Kada? Ką veikiant?</div>
+                        <p style="margin-top: 15px;">Reiškia <strong>šalutinį veiksmą</strong>, kurį atlieka <strong>skirtingi veikėjai</strong>. Sakinyje eina <strong>aplinkybe</strong>.</p>
+                        <div class="memo-card-examples">
+                            <strong>Pavyzdžiai:</strong><br>
+                            Jam <em>atėjus</em>, visi nutilo.<br>
+                            Saulei <em>šviečiant</em>, išėjome pasivaikščioti.
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <h3 class="font-bold text-lg text-blue-700 mb-2 border-b pb-1">Priesagų pavyzdžiai</h3>
-            <table class="memo-table">
-                <thead>
-                    <tr>
-                        <th class="memo-dalyvis">Dalyvis</th>
-                        <th class="memo-pusdalyvis">Pusdalyvis</th>
-                        <th class="memo-padalyvis">Padalyvis</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>-ant<strong>is</strong>, -us<strong>is</strong>, -im<strong>as</strong>, -t<strong>as</strong>, -s<strong>iąs</strong></td>
-                        <td>-d<strong>amas</strong>, -d<strong>ama</strong>, -dam<strong>i</strong>, -dam<strong>os</strong></td>
-                        <td>-ant, -int, -iant, -us, -ius, -<strong>us</strong>, -<strong>iūs</strong></td>
-                    </tr>
-                    <tr>
-                         <td><em>Bėgant</em><strong>is</strong>, <em>pamatyt</em><strong>as</strong>, <em>dary</em><strong>siančias</strong></td>
-                         <td><em>Skait</em><strong>ydamas</strong>, <em>rašy</em><strong>dama</strong>, <em>neš</em><strong>dami</strong></td>
-                         <td><em>Vaikšči</em><strong>ojant</strong>, <em>atmin</em><strong>us</strong>, <em>dirb</em><strong>iant</strong>, <em>važiuoj</em><strong>ant</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="button-container mt-auto">
-                <button onclick="showCard('card-task-1')" class="action-button bg-blue-600 hover:bg-blue-700 text-white">▶️ Pradėti testą</button>
+            <div class="button-container">
+                <button onclick="showCard('card-task-1')" class="action-button bg-blue-600">▶️ Pradėti testą</button>
             </div>
         </div>
 
+        <!-- TESTO KORTELĖS (generuojamos automatiškai) -->
         <div id="task-cards-container"></div>
 
+        <!-- REZULTATŲ KORTELĖ -->
         <div id="card-results" class="card">
             <h2 class="question-title">🎉 Testo rezultatai</h2>
             <div class="result-container">
-                <div class="result-details" id="result-details"></div>
                 <div class="total-score" id="total-score"></div>
+                <div class="result-details" id="result-details"></div>
             </div>
             <div class="button-container">
-                <button onclick="location.reload()" class="action-button bg-green-600 hover:bg-green-700 text-white">🔄 Pradėti iš naujo</button>
+                <button onclick="location.reload()" class="action-button bg-green-600">🔄 Pradėti iš naujo</button>
             </div>
         </div>
     </div>
@@ -286,12 +507,12 @@
             { word: "VAŽIUOSIĄS", correct: "Dalyvis" }
         ];
         
-        // PATAISYMAS 3: Įtraukti klausimus į OPTIONS, kad būtų galima juos rodyti lentelėje
         const OPTIONS = [
-            { name: "Dalyvis", css: "btn-dalyvis", k: "Koks? Kokia?", css_memo: "dalyvis-color" },
-            { name: "Pusdalyvis", css: "btn-pusdalyvis", k: "Ką veikdamas?", css_memo: "pusdalyvis-color" },
-            { name: "Padalyvis", css: "btn-padalyvis", k: "Kaip? Kada? Ką veikiant?", css_memo: "padalyvis-color" }
+            { name: "Dalyvis", css: "btn-dalyvis", question: "Koks? Kokia?", example: "Dirbęs, Dirbamas, Skaitąs" },
+            { name: "Pusdalyvis", css: "btn-pusdalyvis", question: "Ką veikdamas?", example: "Dirbdamas, Skaitydama" },
+            { name: "Padalyvis", css: "btn-padalyvis", question: "Kaip? Kada? Ką veikiant?", example: "Dirbant, Skaitant" }
         ];
+        
         const totalQuestions = QUESTIONS_DATA.length; 
 
         // --- BŪSENA ---
@@ -341,7 +562,6 @@
         }
 
         // --- PAGALBINĖS FUNKCIJOS ---
-
         function shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -352,7 +572,6 @@
         }
         
         // --- KORTELIŲ GENERAVIMAS ---
-
         function generateTaskCards() {
             const container = document.getElementById('task-cards-container');
             questionsShuffled = shuffleArray(QUESTIONS_DATA); 
@@ -369,43 +588,38 @@
                 const optionsHtml = optionsShuffled.map(opt => 
                     `<button class="option-btn ${opt.css}" data-answer="${opt.name}" onclick="checkAnswer(this, '${opt.name}', ${index + 1})">${opt.name}</button>`
                 ).join('');
-                
-                // PATAISYMAS 1: Lentelės antraštės ir klausimų eilutės generavimas
-                const dalyvis = OPTIONS.find(o => o.name === 'Dalyvis');
-                const pusdalyvis = OPTIONS.find(o => o.name === 'Pusdalyvis');
-                const padalyvis = OPTIONS.find(o => o.name === 'Padalyvis');
 
                 cardDiv.innerHTML = `
                     <h2 class="question-title">Klausimas ${index + 1} iš ${totalQuestions}</h2>
 
                     <div class="word-to-classify">${question.word}</div>
                     
-                    <div id="options-${index + 1}" class="flex flex-col space-y-4 mb-8">
+                    <div id="options-${index + 1}" class="options-grid">
                         ${optionsHtml}
                     </div>
 
                     <div id="feedback-${index + 1}" class="feedback"></div>
 
-                    <div class="mt-auto pt-6 border-t">
-                        <h3 class="font-bold text-lg text-blue-700 mb-2 border-b pb-1">👀 Atminties nuoroda</h3>
-                        <table class="example-table">
+                    <div class="hint-table">
+                        <h3>👀 Atmintinė</h3>
+                        <table>
                             <thead>
                                 <tr>
-                                    <th class="${dalyvis.css_memo}">Dalyvis</th>
-                                    <th class="${pusdalyvis.css_memo}">Pusdalyvis</th>
-                                    <th class="${padalyvis.css_memo}">Padalyvis</th>
+                                    <th class="hint-dalyvis">Dalyvis</th>
+                                    <th class="hint-pusdalyvis">Pusdalyvis</th>
+                                    <th class="hint-padalyvis">Padalyvis</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>${dalyvis.k}</td>
-                                    <td>${pusdalyvis.k}</td>
-                                    <td>${padalyvis.k}</td>
+                                    <td class="hint-dalyvis">${OPTIONS[0].question}</td>
+                                    <td class="hint-pusdalyvis">${OPTIONS[1].question}</td>
+                                    <td class="hint-padalyvis">${OPTIONS[2].question}</td>
                                 </tr>
                                 <tr>
-                                    <td>Dirbęs, Dirbamas, Skaitąs</td>
-                                    <td>Dirbdamas, Skaitydama</td>
-                                    <td>Dirbant, Skaitant</td>
+                                    <td class="hint-dalyvis">${OPTIONS[0].example}</td>
+                                    <td class="hint-pusdalyvis">${OPTIONS[1].example}</td>
+                                    <td class="hint-padalyvis">${OPTIONS[2].example}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -416,7 +630,6 @@
         }
         
         // --- TIKRINIMO LOGIKA ---
-
         function checkAnswer(button, selectedAnswer, questionNum) {
             const questionData = questionsShuffled[questionNum - 1];
             const correct = questionData.correct;
@@ -437,9 +650,9 @@
 
             if (isCorrect) {
                 score++;
-                feedbackEl.innerHTML = `<span class="text-green-600">✅ Teisingai! Tai yra ${correct}.</span>`;
+                feedbackEl.innerHTML = `<span style="color: #10b981;">✅ Teisingai! Tai yra ${correct}.</span>`;
             } else {
-                feedbackEl.innerHTML = `<span class="text-red-600">❌ Neteisingai. Teisingas atsakymas: ${correct}.</span>`;
+                feedbackEl.innerHTML = `<span style="color: #ef4444;">❌ Neteisingai. Teisingas atsakymas: ${correct}.</span>`;
             }
 
             // Įrašome atsakymą
@@ -452,7 +665,7 @@
 
             // Pridėti Toliau mygtuką
             const nextBtn = document.createElement('button');
-            nextBtn.className = 'action-button bg-blue-600 hover:bg-blue-700 text-white mt-4';
+            nextBtn.className = 'action-button bg-blue-600';
             
             if (questionNum < totalQuestions) {
                 nextBtn.textContent = '➡️ Toliau';
@@ -462,11 +675,10 @@
                 nextBtn.onclick = showResults;
             }
             
-            optionsContainer.appendChild(nextBtn);
+            feedbackEl.appendChild(nextBtn);
         }
 
         // --- KORTELIŲ NAVIGACIJA ---
-
         function showCard(cardId) {
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
@@ -482,11 +694,11 @@
             const resultDetailsEl = document.getElementById('result-details');
             
             const percentage = Math.round((score / totalQuestions) * 100);
-            const scoreClass = percentage >= 70 ? 'score-good' : 'score-bad';
             
             totalScoreEl.innerHTML = `
-                <div>Teisingai atsakyta: <strong>${score} iš ${totalQuestions}</strong></div>
-                <div class="score-percentage ${scoreClass}">${percentage}%</div>
+                <div>Teisingai atsakyta:</div>
+                <div style="font-size: 3rem; margin: 20px 0;"><strong>${score}</strong> iš <strong>${totalQuestions}</strong></div>
+                <div class="score-percentage">${percentage}%</div>
             `;
             
             // Detali suvestinė
@@ -496,8 +708,8 @@
                 const icon = answer.isCorrect ? '✅' : '❌';
                 
                 detailsHTML += `
-                    <div class="p-3 rounded-md border ${itemClass}">
-                        ${icon} <strong>${answer.word}</strong>: Pasirinkta: ${answer.selected}. Teisinga: ${answer.correct}.
+                    <div style="padding: 15px; border-radius: 12px; border: 2px solid;" class="${itemClass}">
+                        ${icon} <strong>${answer.word}</strong>: Pasirinkta: <strong>${answer.selected}</strong>. Teisinga: <strong>${answer.correct}</strong>.
                     </div>
                 `;
             });
@@ -507,9 +719,7 @@
             sendResultToSheet(TASK_ID, percentage);
         }
 
-
         // --- INICIALIZACIJA ---
-
         window.onload = function() {
             const studentName = showNamePrompt();
             document.getElementById('studentNameDisplay').textContent = studentName;
@@ -520,8 +730,9 @@
             window.showResults = showResults;
             
             generateTaskCards();
-            showCard('card-memo'); // Pradedame nuo atmintinės
+            showCard('card-memo');
         };
     </script>
 </body>
 </html>
+
