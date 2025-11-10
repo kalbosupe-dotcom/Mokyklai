@@ -12,7 +12,7 @@
             background-color: #f3f4f6; /* gray-100 */
         }
         .container-wrapper {
-            max-width: 650px; /* Šiek tiek platesnis */
+            max-width: 650px;
             margin: 20px auto;
             padding: 20px;
         }
@@ -23,9 +23,12 @@
             padding: 30px;
             border: 3px solid #60a5fa; /* blue-400 */
             min-height: 400px;
-            display: flex;
+            display: none; /* Viskas paslėpta, rodoma per JS */
             flex-direction: column;
             justify-content: space-between;
+        }
+        .card.active {
+            display: flex;
         }
         .question-box {
             background-color: #dbeafe; /* blue-100 */
@@ -54,7 +57,6 @@
             font-size: 1.2rem;
             text-align: center;
         }
-        /* Mejozės mygtuko stilius */
         .btn-mejoze {
             background-color: #6366f1; /* Indigo-500 */
         }
@@ -62,7 +64,6 @@
             background-color: #4f46e5; /* Indigo-600 */
             transform: translateY(-2px);
         }
-        /* Mitozės mygtuko stilius */
         .btn-mitoze {
             background-color: #3b82f6; /* Blue-500 */
         }
@@ -70,7 +71,6 @@
             background-color: #2563eb; /* Blue-600 */
             transform: translateY(-2px);
         }
-        /* Bendra teisingo/neteisingo atsakymo logika */
         .option-btn.correct {
             background-color: #10b981; /* Žalia */
         }
@@ -128,6 +128,41 @@
             background-color: #3b82f6; /* blue-500 */
         }
         
+        /* Lentelės stiliai (Atmintiė) */
+        .memo-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .memo-table th, .memo-table td {
+            border: 1px solid #e5e7eb; /* gray-200 */
+            padding: 10px;
+            text-align: left;
+            font-size: 1rem;
+        }
+        .memo-table th {
+            background-color: #f3f4f6; /* gray-100 */
+            font-weight: 700;
+            color: #1f2937; /* gray-800 */
+        }
+        .memo-table tr:nth-child(even) {
+            background-color: #f9fafb; /* gray-50 */
+        }
+        .task-description {
+            background-color: #e0f2f1; /* teal-100 */
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #14b8a6; /* teal-500 */
+        }
+        .task-description ol {
+            list-style: decimal;
+            list-style-position: inside;
+            padding-left: 0;
+            line-height: 1.6;
+        }
+        .task-description strong {
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -146,11 +181,59 @@
         Mejozė ar Mitozė?
     </h1>
 
+    <div class="card active" id="memo-card">
+        <div class="flex flex-col h-full">
+             <h2 class="text-2xl font-bold text-center text-blue-700 mb-4">
+                📚 Atmintinė: Mejozė ir Mitozė
+            </h2>
+            <div class="task-description">
+                <h3 class="font-extrabold text-lg text-teal-700 mb-2">UŽDUOTIS: Susipažink su informacija</h3>
+                <ol>
+                    <li><strong>Peržiūrėk</strong> palyginimo lentelę.</li>
+                    <li><strong>Įsimink</strong> Mitozės ir Mejozės savybių skirtumus.</li>
+                    <li>Paspausk "Pradėti testą".</li>
+                </ol>
+            </div>
+            
+            <div class="overflow-x-auto mb-6 flex-grow">
+                <table class="memo-table">
+                    <thead>
+                        <tr>
+                            <th>Mejozė</th>
+                            <th>Mitozė</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Susidaro lytinės ląstelės.</td><td>Susidaro kūno ląstelės.</td></tr>
+                        <tr><td>Iš vienos motininės ląstelės susidaro keturios dukterinės ląstelės.</td><td>Iš vienos motininės ląstelės susidaro dvi dukterinės ląstelės.</td></tr>
+                        <tr><td>Susidariusios ląstelės yra skirtingos.</td><td>Susidariusios ląstelės yra genetiškai identiškos.</td></tr>
+                        <tr><td>Susidariusių ląstelių branduoliai turi skirtingą paveldimąją informaciją.</td><td>Susidariusių ląstelių branduoliai turi vienodą paveldimąją informaciją.</td></tr>
+                        <tr><td>Branduolys dalijasi du kartus iš eilės.</td><td>Branduolys dalijasi vieną kartą.</td></tr>
+                        <tr><td>Vyksta subrendusiame organizme.</td><td>Vyksta įvairaus amžiaus organizmuose.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <button id="start-test-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors mt-auto">
+                Pradėti testą
+            </button>
+        </div>
+    </div>
+
     <div class="card" id="test-card">
+        
+        <div class="task-description">
+            <h3 class="font-extrabold text-lg text-teal-700 mb-2">UŽDUOTIS: Priskirk savybę</h3>
+            <ol>
+                <li><strong>Perskaityk</strong> pateiktą savybę.</li>
+                <li><strong>Priskirk</strong> ją Mitozei arba Mejozei.</li>
+                <li>Paspausk "Patikrinti".</li>
+            </ol>
+        </div>
         
         <div class="mb-6">
             <p class="text-lg font-semibold text-gray-500 mb-2 text-center" id="question-count">
-                Klausimas 1 iš 12
+                Klausimas 0 iš 12
             </p>
             <div class="question-box" id="question-text">
                 Savybės tekstas bus čia.
@@ -187,7 +270,7 @@
 </div>
 
 <script>
-    // 3. GOOGLE SHEETS URL IR DUOMENYS
+    // GOOGLE SHEETS URL IR DUOMENYS
     const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
     const TASK_ID = 'B0001 Mejozė vs Mitozė | Klasifikacija';
 
@@ -205,26 +288,28 @@
         { savybe: "Vyksta subrendusiame organizme.", tipas: "Mejoze" },
         { savybe: "Vyksta įvairaus amžiaus organizmuose.", tipas: "Mitoze" }
     ];
-    const totalQuestions = DATA.length; // Dabar 12
+    const totalQuestions = DATA.length;
     
-    // 4. BŪSENA
-    const questionTextEl = document.getElementById('question-text');
-    const questionCountEl = document.getElementById('question-count');
-    const optionsContainer = document.getElementById('options-container');
-    const actionBtn = document.getElementById('action-btn');
-    const feedbackMessageEl = document.getElementById('feedback-message');
+    // ELEMENTAI
+    const memoCard = document.getElementById('memo-card');
     const testCard = document.getElementById('test-card');
     const resultsCard = document.getElementById('results-card');
+    const startTestBtn = document.getElementById('start-test-btn');
+    const questionTextEl = document.getElementById('question-text');
+    const questionCountEl = document.getElementById('question-count');
+    const actionBtn = document.getElementById('action-btn');
+    const feedbackMessageEl = document.getElementById('feedback-message');
     const finalScoreEl = document.getElementById('final-score');
     const resultDetailsEl = document.getElementById('result-details');
     const studentNameDisplay = document.getElementById('studentNameDisplay');
     
+    // BŪSENA
     let currentQuestions = []; 
     let currentQuestionIndex = 0;
     let score = 0;
     let isAnswerChecked = false;
     let selectedAnswer = null;
-    let userAnswersLog = []; // Detaliai saugome atsakymus
+    let userAnswersLog = [];
 
     // PAGALBINĖS FUNKCIJOS
     
@@ -286,16 +371,23 @@
         location.reload();
     }
 
-    // PAGRINDINĖ LOGIKA
-
+    // TESTO LOGIKA
+    
     function initializeTest() {
         showNamePrompt();
-        // KLAUSIMAI SUMAIŠOMI KIEKVIENĄ KARTĄ
-        currentQuestions = shuffleArray([...DATA]); 
-        currentQuestionIndex = 0;
-        score = 0;
-        userAnswersLog = [];
-        showQuestion();
+        startTestBtn.addEventListener('click', () => {
+            memoCard.classList.remove('active');
+            testCard.classList.add('active');
+            currentQuestions = shuffleArray([...DATA]); 
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswersLog = [];
+            showQuestion();
+        });
+        
+        // Nustatome pradines korteles būsenas
+        testCard.classList.remove('active');
+        memoCard.classList.add('active'); 
     }
 
     function showQuestion() {
@@ -306,7 +398,6 @@
 
         const question = currentQuestions[currentQuestionIndex];
         
-        // Atnaujiname UI
         questionCountEl.textContent = `Klausimas ${currentQuestionIndex + 1} iš ${totalQuestions}`;
         questionTextEl.textContent = question.savybe;
         feedbackMessageEl.textContent = '';
@@ -316,7 +407,6 @@
         isAnswerChecked = false;
         selectedAnswer = null;
 
-        // Atstatome mygtukus
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.classList.remove('correct', 'incorrect', 'disabled', 'selected-border');
             btn.onclick = handleOptionClick;
@@ -326,12 +416,10 @@
     function handleOptionClick(event) {
         if (isAnswerChecked) return;
         
-        // Pašaliname pasirinkimą nuo visų mygtukų
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.classList.remove('selected-border');
         });
 
-        // Pažymime pasirinktą mygtuką
         event.target.classList.add('selected-border');
         selectedAnswer = event.target.dataset.type;
     }
@@ -347,7 +435,6 @@
         const correctType = currentQuestion.tipas;
         const isCorrect = selectedAnswer === correctType;
 
-        // Išsaugome atsakymą log'e
         userAnswersLog.push({
             savybe: currentQuestion.savybe,
             pasirinkimas: selectedAnswer,
@@ -355,7 +442,6 @@
             isCorrect: isCorrect
         });
 
-        // Pažymime teisingą/neteisingą mygtuką
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.classList.add('disabled');
             btn.classList.remove('selected-border');
@@ -374,7 +460,6 @@
             feedbackMessageEl.innerHTML = '<span class="text-red-500">❌ Neteisingai. Teisingas atsakymas pažymėtas žalia spalva.</span>';
         }
 
-        // Paruošiame mygtuką kitam klausimui
         actionBtn.textContent = (currentQuestionIndex < totalQuestions - 1) ? 'Toliau' : 'Rezultatai';
         actionBtn.onclick = nextQuestion;
     }
@@ -386,14 +471,13 @@
     }
 
     function showResults() {
-        testCard.classList.add('hidden');
-        resultsCard.classList.remove('hidden');
+        testCard.classList.remove('active');
+        resultsCard.classList.add('active');
 
         const percentage = Math.round((score / totalQuestions) * 100);
         finalScoreEl.textContent = `${score} iš ${totalQuestions} (${percentage}%)`;
         finalScoreEl.classList.add(percentage >= 70 ? 'text-green-600' : 'text-red-600');
 
-        // Generuojame išsamią atsakymų suvestinę
         let detailsHTML = '';
         userAnswersLog.forEach((answer, index) => {
             const status = answer.isCorrect ? 'Teisingai' : 'Neteisingai';
@@ -411,7 +495,6 @@
 
         resultDetailsEl.innerHTML = detailsHTML;
         
-        // 3. IŠSIUNČIAME REZULTATUS Į GOOGLE SHEETS
         sendResultToSheet(TASK_ID, percentage);
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
