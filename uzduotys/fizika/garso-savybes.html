@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵 Garso Savybės</title>
+    <title>🎵 Garso Savybės - Interaktyvi Užduotis</title>
     <style>
-        @import url('https://fonts.cdnfonts.com/css/opendyslexic');
-        
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +12,7 @@
         }
         
         body {
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-family: Verdana, Geneva, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -24,6 +22,61 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
         }
         
         .header {
@@ -39,11 +92,13 @@
             color: #667eea;
             font-size: 2em;
             margin-bottom: 10px;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .header .subtitle {
             color: #666;
             font-size: 1.1em;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .progress-container {
@@ -73,6 +128,7 @@
             justify-content: center;
             color: white;
             font-weight: bold;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .card {
@@ -112,6 +168,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .question-box {
@@ -124,6 +181,7 @@
             line-height: 2;
             color: #1a1a1a;
             font-weight: 500;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .question-box strong {
@@ -137,6 +195,7 @@
             font-size: 0.9em;
             font-style: italic;
             margin-top: 10px;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .options-container {
@@ -157,6 +216,7 @@
             gap: 15px;
             color: #333;
             font-weight: 500;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .option:hover {
@@ -206,7 +266,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-family: Verdana, Geneva, sans-serif;
             font-weight: bold;
             transition: all 0.3s;
             flex: 1;
@@ -256,6 +316,7 @@
             font-size: 1.2em;
             animation: fadeIn 0.5s;
             font-weight: 500;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         @keyframes fadeIn {
@@ -282,25 +343,6 @@
             margin-right: 10px;
         }
         
-        .hint-box {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            display: none;
-            font-size: 1.1em;
-        }
-        
-        .hint-box.show {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        
-        .hint-box strong {
-            color: #856404;
-        }
-        
         .results-summary {
             text-align: center;
             padding: 30px;
@@ -323,10 +365,12 @@
         .score-circle .score {
             font-size: 3em;
             font-weight: bold;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .score-circle .label {
             font-size: 1.2em;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .results-details {
@@ -346,6 +390,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-family: Verdana, Geneva, sans-serif;
         }
         
         .result-item.correct {
@@ -360,10 +405,43 @@
             font-size: 3em;
             margin: 20px 0;
         }
+
+        #resultMessage {
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        #resultDescription {
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        .results-details h3 {
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        .results-summary h3 {
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        .results-summary ul {
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        p {
+            font-family: Verdana, Geneva, sans-serif;
+        }
         
         @media (max-width: 768px) {
             body {
                 padding: 10px;
+            }
+
+            .header-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .student-info {
+                min-width: auto;
             }
             
             .header h1 {
@@ -395,22 +473,35 @@
 </head>
 <body>
     <div class="container">
+        <!-- HEADER SU MYGTUKU IR VARDU -->
+        <div class="header-row">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
         <!-- Header -->
         <div class="header">
-            <h1>🎵 Garso Savybės</h1>
-            </div>
+            <h1>🎵 Garso Savybės - Interaktyvi Užduotis</h1>
+            <p class="subtitle">7 klasė | Fizikos pamokų 1-6 santrauka</p>
+        </div>
 
         <!-- Progress Bar -->
         <div class="progress-container">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressBar">0%</div>
             </div>
-            <p style="text-align: center; margin-top: 10px; color: #666;">
+            <p style="text-align: center; margin-top: 10px; color: #666; font-family: Verdana, Geneva, sans-serif;">
                 <strong>Klausimas: <span id="currentTask">0</span> / 10</strong>
             </p>
         </div>
 
-        <!-- Užduotis 1: Garso terpės (daugialypis pasirinkimas) -->
+        <!-- Užduotis 1 -->
         <div class="card active" id="card1">
             <div class="card-header">
                 <h2>📝 Klausimas 1</h2>
@@ -455,7 +546,7 @@
             </div>
         </div>
 
-        <!-- Užduotis 2: Garso šaltiniai (vienas pasirinkimas) -->
+        <!-- Užduotis 2 -->
         <div class="card" id="card2">
             <div class="card-header">
                 <h2>📝 Klausimas 2</h2>
@@ -493,7 +584,7 @@
             </div>
         </div>
 
-        <!-- Užduotis 3: Garso greitis (vienas pasirinkimas) -->
+        <!-- Užduotis 3 -->
         <div class="card" id="card3">
             <div class="card-header">
                 <h2>📝 Klausimas 3</h2>
@@ -531,7 +622,7 @@
             </div>
         </div>
 
-        <!-- Užduotis 4: Garso savybės (daugialypis pasirinkimas) -->
+        <!-- Užduotis 4 -->
         <div class="card" id="card4">
             <div class="card-header">
                 <h2>📝 Klausimas 4</h2>
@@ -577,7 +668,7 @@
             </div>
         </div>
 
-        <!-- Užduotis 5: Garso dažnis (vienas pasirinkimas) -->
+        <!-- Užduotis 5 -->
         <div class="card" id="card5">
             <div class="card-header">
                 <h2>📝 Klausimas 5</h2>
@@ -614,7 +705,8 @@
                 <button class="btn-next" onclick="nextCard()" id="next5" style="display: none;">Kitas Klausimas ➜</button>
             </div>
         </div>
-        <!-- Užduotis 6: Garsumas (vienas pasirinkimas) -->
+
+        <!-- Užduotis 6 -->
         <div class="card" id="card6">
             <div class="card-header">
                 <h2>📝 Klausimas 6</h2>
@@ -652,7 +744,7 @@
             </div>
         </div>
 
-        <!-- Užduotis 7: Infragarso ir ultragarso dažniai (daugialypis pasirinkimas) -->
+        <!-- Užduotis 7 -->
         <div class="card" id="card7">
             <div class="card-header">
                 <h2>📝 Klausimas 7</h2>
@@ -694,7 +786,7 @@
             </div>
         </div>
 
-        <!-- Užduotis 8: Garso atspindys (vienas pasirinkimas) -->
+        <!-- Užduotis 8 -->
         <div class="card" id="card8">
             <div class="card-header">
                 <h2>📝 Klausimas 8</h2>
@@ -731,7 +823,8 @@
                 <button class="btn-next" onclick="nextCard()" id="next8" style="display: none;">Kitas Klausimas ➜</button>
             </div>
         </div>
-        <!-- Užduotis 9: Garso bangos ilgis (vienas pasirinkimas) -->
+
+        <!-- Užduotis 9 -->
         <div class="card" id="card9">
             <div class="card-header">
                 <h2>📝 Klausimas 9</h2>
@@ -769,7 +862,7 @@
             </div>
         </div>
 
-        <!-- Užduotis 10: Žmogaus girdimų dažnių diapazonas (vienas pasirinkimas) -->
+        <!-- Užduotis 10 -->
         <div class="card" id="card10">
             <div class="card-header">
                 <h2>📝 Klausimas 10</h2>
@@ -852,7 +945,68 @@
         </div>
 
     </div>
+
     <script>
+        // Google Sheets konfigūracija
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+
+        // VARDŲ VALDYMAS
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: \${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+
+            console.log('Siunčiamas rezultatas:', data);
+
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+
+        // INICIALIZUOTI VARDĄ
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
         // Globalūs kintamieji
         let currentCard = 1;
         const totalCards = 11;
@@ -861,16 +1015,16 @@
 
         // Teisingi atsakymai kiekvienam klausimui
         const correctAnswersData = {
-            1: ['1', '2', '4'], // Oru, Vandeniu, Kietaisiais kūnais
-            2: ['2'],           // Virpantys kūnai
-            3: ['3'],           // Kietuose kūnuose
-            4: ['1', '2', '4'], // Garsumas, Aukštis, Tembras
-            5: ['1'],           // Nuo virpesių dažnio
-            6: ['2'],           // Nuo virpesių amplitudės
-            7: ['1', '2'],      // Infragarso < 20 Hz, Ultragarso > 20 000 Hz
-            8: ['2'],           // Garso atspindys
-            9: ['1'],           // 340 m/s
-            10: ['1']           // 20 Hz - 20 000 Hz
+            1: ['1', '2', '4'],
+            2: ['2'],
+            3: ['3'],
+            4: ['1', '2', '4'],
+            5: ['1'],
+            6: ['2'],
+            7: ['1', '2'],
+            8: ['2'],
+            9: ['1'],
+            10: ['1']
         };
 
         // Klausimų pavadinimai rezultatams
@@ -890,19 +1044,16 @@
         // Inicializacija
         window.onload = function() {
             updateProgress();
-            // Inicializuoti atsakymų masyvą
             for (let i = 1; i <= 10; i++) {
                 userAnswers[i] = { answered: false, correct: false, userValues: [] };
             }
-            
-            // Pridėti event listener'ius checkbox ir radio mygtukams
             addOptionListeners();
         };
 
         // Pridėti event listener'ius pasirinkimams
         function addOptionListeners() {
             for (let i = 1; i <= 10; i++) {
-                const options = document.querySelectorAll(`#options${i} .option`);
+                const options = document.querySelectorAll(`#options\${i} .option`);
                 options.forEach(option => {
                     option.addEventListener('click', function(e) {
                         if (!option.classList.contains('disabled')) {
@@ -921,7 +1072,7 @@
 
         // Atnaujinti pasirinkimų stilius
         function updateOptionStyles(questionNum) {
-            const options = document.querySelectorAll(`#options${questionNum} .option`);
+            const options = document.querySelectorAll(`#options\${questionNum} .option`);
             options.forEach(option => {
                 const input = option.querySelector('input');
                 if (input.checked) {
@@ -946,7 +1097,6 @@
                 document.getElementById('card' + currentCard).classList.remove('active');
                 currentCard++;
                 
-                // Jei pasiekėme rezultatų kortelę, generuojame rezultatus
                 if (currentCard === 11) {
                     generateResults();
                 }
@@ -973,27 +1123,23 @@
             const feedback = document.getElementById('feedback' + questionNum);
             const nextButton = document.getElementById('next' + questionNum);
             const checkButton = document.getElementById('checkBtn' + questionNum);
-            const options = document.querySelectorAll(`#options${questionNum} .option`);
+            const options = document.querySelectorAll(`#options\${questionNum} .option`);
             
-            // Surinkti vartotojo atsakymus
             let selectedValues = [];
-            const inputs = document.querySelectorAll(`input[name="q${questionNum}"]:checked`);
+            const inputs = document.querySelectorAll(`input[name="q\${questionNum}"]:checked`);
             inputs.forEach(input => {
                 selectedValues.push(input.value);
             });
             
-            // Patikrinti ar pasirinktas bent vienas atsakymas
             if (selectedValues.length === 0) {
                 feedback.className = 'feedback incorrect';
                 feedback.innerHTML = '<span class="feedback-icon">⚠️</span> <strong>Prašome pasirinkti atsakymą!</strong>';
                 return;
             }
             
-            // Palyginti su teisingais atsakymais
             const correctValues = correctAnswersData[questionNum];
             const isCorrect = arraysEqual(selectedValues.sort(), correctValues.sort());
             
-            // Išsaugoti atsakymą (tik pirmą kartą)
             if (!userAnswers[questionNum].answered) {
                 userAnswers[questionNum] = {
                     answered: true,
@@ -1006,7 +1152,6 @@
                 }
             }
             
-            // Pažymėti teisingus/neteisingus atsakymus
             options.forEach(option => {
                 const input = option.querySelector('input');
                 option.classList.add('disabled');
@@ -1018,7 +1163,6 @@
                 }
             });
             
-            // Rodyti grįžtamąjį ryšį
             if (isCorrect) {
                 feedback.className = 'feedback correct';
                 feedback.innerHTML = '<span class="feedback-icon">✅</span> <strong>Teisingai!</strong> Puikus darbas!';
@@ -1029,7 +1173,6 @@
                 nextButton.style.display = 'block';
             }
             
-            // Išjungti tikrinimo mygtuką
             checkButton.disabled = true;
         }
 
@@ -1041,6 +1184,7 @@
             }
             return true;
         }
+
         // Generuoti rezultatus
         function generateResults() {
             const scoreElement = document.getElementById('finalScore');
@@ -1049,10 +1193,8 @@
             const descriptionElement = document.getElementById('resultDescription');
             const detailedElement = document.getElementById('detailedResults');
             
-            // Apskaičiuoti procentinį rezultatą
             const percentage = (correctAnswers / 10) * 100;
             
-            // Nustatyti emoji ir pranešimą pagal rezultatą
             if (percentage === 100) {
                 emojiElement.textContent = '🏆';
                 messageElement.textContent = 'Puiku! Tobulas rezultatas!';
@@ -1075,10 +1217,8 @@
                 descriptionElement.textContent = 'Nesijaudinkite! Mokymasis reikalauja laiko. Peržiūrėkite pamokų medžiagą ir bandykite iš naujo!';
             }
             
-            // Rodyti galutinį rezultatą
             scoreElement.textContent = correctAnswers;
             
-            // Generuoti detalius rezultatus
             let detailedHTML = '';
             for (let i = 1; i <= 10; i++) {
                 const task = userAnswers[i];
@@ -1103,21 +1243,21 @@
             }
             
             detailedElement.innerHTML = detailedHTML;
+
+            // SIŲSTI Į GOOGLE SHEETS
+            sendResultToSheet('F0003 Garso savybės | 10 klausimų', Math.round(percentage));
         }
 
         // Pradėti testą iš naujo
         function restartQuiz() {
-            // Atstatyti kintamuosius
             currentCard = 1;
             correctAnswers = 0;
             userAnswers = [];
             
-            // Inicializuoti atsakymų masyvą
             for (let i = 1; i <= 10; i++) {
                 userAnswers[i] = { answered: false, correct: false, userValues: [] };
             }
             
-            // Išvalyti visus pasirinkimus ir grįžtamąjį ryšį
             for (let i = 1; i <= 10; i++) {
                 const inputs = document.querySelectorAll(`input[name="q${i}"]`);
                 const feedback = document.getElementById('feedback' + i);
@@ -1125,34 +1265,28 @@
                 const checkButton = document.getElementById('checkBtn' + i);
                 const options = document.querySelectorAll(`#options${i} .option`);
                 
-                // Išvalyti input'us
                 inputs.forEach(input => {
                     input.checked = false;
                 });
                 
-                // Išvalyti pasirinkimų stilius
                 options.forEach(option => {
                     option.classList.remove('selected', 'correct', 'incorrect', 'disabled');
                 });
                 
-                // Išvalyti feedback
                 if (feedback) {
                     feedback.className = 'feedback';
                     feedback.style.display = 'none';
                 }
                 
-                // Paslėpti next mygtuką
                 if (nextButton) {
                     nextButton.style.display = 'none';
                 }
                 
-                // Įjungti check mygtuką
                 if (checkButton) {
                     checkButton.disabled = false;
                 }
             }
             
-            // Grįžti į pirmą kortelę
             document.querySelectorAll('.card').forEach(card => {
                 card.classList.remove('active');
             });
@@ -1162,7 +1296,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Klaviatūros palaikymas (Enter mygtukas tikrina atsakymą)
+        // Klaviatūros palaikymas (Enter mygtukas)
         document.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 const activeCard = document.querySelector('.card.active');
@@ -1170,16 +1304,13 @@
                     const cardId = activeCard.id;
                     const cardNum = parseInt(cardId.replace('card', ''));
                     
-                    // Jei tai klausimas (1-10)
                     if (cardNum >= 1 && cardNum <= 10) {
                         const checkButton = document.getElementById('checkBtn' + cardNum);
                         const nextButton = document.getElementById('next' + cardNum);
                         
-                        // Jei check mygtukas aktyvus, tikrinti atsakymą
                         if (checkButton && !checkButton.disabled) {
                             checkAnswer(cardNum);
                         }
-                        // Jei next mygtukas matomas, pereiti į kitą
                         else if (nextButton && nextButton.style.display !== 'none') {
                             nextCard();
                         }
