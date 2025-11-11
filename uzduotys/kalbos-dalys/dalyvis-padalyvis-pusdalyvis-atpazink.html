@@ -100,7 +100,7 @@
 
         .question-title {
             font-size: 2rem;
-            font-weight: 800;
+            font-weight: 900;
             color: #1f2937;
             margin-bottom: 30px;
             text-align: center;
@@ -146,7 +146,7 @@
 
         .memo-card-title {
             font-size: 1.8rem;
-            font-weight: 800;
+            font-weight: 900;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
@@ -159,7 +159,7 @@
         }
 
         .memo-card-content {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             line-height: 1.8;
         }
 
@@ -182,22 +182,23 @@
             padding: 10px 15px;
             border-radius: 8px;
             margin-top: 10px;
-            font-weight: 700;
+            font-weight: 900;
             color: #1f2937;
         }
         
-        /* Testo žodžio rodymas */
+        /* Testo žodžio rodymas - ŠVIESIAI MĖLYNA */
         .word-to-classify {
             font-size: 3.2rem;
             font-weight: 900;
             text-align: center;
             padding: 30px;
-            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-            color: white;
+            background-color: #bbdefb;
+            color: #0d47a1;
             border-radius: 20px;
             margin: 20px 0;
-            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             letter-spacing: 0.05em;
+            border: 3px solid #1976d2;
         }
         
         /* Testo mygtukų stiliai */
@@ -282,7 +283,7 @@
 
         .hint-table h3 {
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 900;
             color: #1976d2;
             margin-bottom: 15px;
             text-align: center;
@@ -297,29 +298,31 @@
             padding: 12px;
             text-align: left;
             border: 1px solid #e5e7eb;
+            font-size: 1.05rem;
         }
 
         .hint-table th {
-            font-weight: 700;
+            font-weight: 900;
             font-size: 1.2rem;
         }
 
-        .hint-dalyvis { background-color: #a4d49d; color: #27541f; }
-        .hint-pusdalyvis { background-color: #f2e796; color: #9e8f1c; }
-        .hint-padalyvis { background-color: #c6d9f7; color: #2d4c7d; }
+        .hint-dalyvis { background-color: #a4d49d; color: #27541f; font-weight: 700; }
+        .hint-pusdalyvis { background-color: #f2e796; color: #9e8f1c; font-weight: 700; }
+        .hint-padalyvis { background-color: #c6d9f7; color: #2d4c7d; font-weight: 700; }
 
-        /* Mygtukai */
+        /* Mygtukai - TRUMPESNI */
         .action-button {
-            width: 100%;
-            padding: 18px;
-            font-size: 1.3rem;
+            max-width: 400px;
+            margin: 20px auto 0;
+            padding: 16px 32px;
+            font-size: 1.2rem;
             font-weight: 700;
             border-radius: 12px;
             border: none;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: block;
         }
 
         .action-button:hover {
@@ -403,6 +406,10 @@
 
             .student-info {
                 width: 100%;
+            }
+
+            .action-button {
+                max-width: 100%;
             }
         }
     </style>
@@ -499,19 +506,30 @@
     <script>
         // --- KONFIGURACIJA ---
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
-        const TASK_ID = 'L0050 Dalyvis, Pusdalyvis, Padalyvis | 9 žodžiai';
+        const TASK_ID = 'L0050 Dalyvis, Pusdalyvis, Padalyvis | 15 žodžių';
         
-        // --- KLAUSIMŲ DUOMENYS (9 žodžiai) ---
+        // --- KLAUSIMŲ DUOMENYS (15 žodžių - po 5 kiekvienai kategorijai) ---
         const QUESTIONS_DATA = [
+            // DALYVIS (5 žodžiai)
+            { word: "SKAITANTIS", correct: "Dalyvis" },
+            { word: "RAŠOMAS", correct: "Dalyvis" },
             { word: "PAVARGĘS", correct: "Dalyvis" },
-            { word: "ATMINĘS", correct: "Dalyvis" },
-            { word: "PERSKAITYTAS", correct: "Dalyvis" },
-            { word: "PAŽVELGĘS", correct: "Dalyvis" },
-            { word: "NEŠAMAS", correct: "Dalyvis" },
-            { word: "PATEKĘS", correct: "Dalyvis" },
-            { word: "BĖGANT", correct: "Padalyvis" },
-            { word: "DARANTIS", correct: "Dalyvis" },
-            { word: "VAŽIUOSIĄS", correct: "Dalyvis" }
+            { word: "MATYTA", correct: "Dalyvis" },
+            { word: "DIRBSIĄS", correct: "Dalyvis" },
+            
+            // PUSDALYVIS (5 žodžiai)
+            { word: "EIDAMAS", correct: "Pusdalyvis" },
+            { word: "SKAITYDAMA", correct: "Pusdalyvis" },
+            { word: "ŽIŪRĖDAMI", correct: "Pusdalyvis" },
+            { word: "KALBĖDAMAS", correct: "Pusdalyvis" },
+            { word: "RAŠYDAMA", correct: "Pusdalyvis" },
+            
+            // PADALYVIS (5 žodžiai)
+            { word: "ATĖJUS", correct: "Padalyvis" },
+            { word: "ŠVIEČIANT", correct: "Padalyvis" },
+            { word: "LYJANT", correct: "Padalyvis" },
+            { word: "SUTEMUS", correct: "Padalyvis" },
+            { word: "PRASIDĖJUS", correct: "Padalyvis" }
         ];
         
         const OPTIONS = [
@@ -584,7 +602,7 @@
             questionsShuffled = shuffleArray(QUESTIONS_DATA); 
             
             questionsShuffled.forEach((question, index) => {
-                const cardId = `card-task-${index + 1}`;
+                const cardId = `card-task-\${index + 1}`;
                 const cardDiv = document.createElement('div');
                 cardDiv.id = cardId;
                 cardDiv.className = 'card';
@@ -593,7 +611,7 @@
                 const optionsShuffled = shuffleArray([...OPTIONS]);
 
                 const optionsHtml = optionsShuffled.map(opt => 
-                    `<button class="option-btn ${opt.css}" data-answer="${opt.name}" onclick="checkAnswer(this, '${opt.name}', ${index + 1})">${opt.name}</button>`
+                    `<button class="option-btn \${opt.css}" data-answer="\${opt.name}" onclick="checkAnswer(this, '\${opt.name}', \${index + 1})">\${opt.name}</button>`
                 ).join('');
 
                 cardDiv.innerHTML = `
@@ -742,4 +760,7 @@
     </script>
 </body>
 </html>
+
+            
+            
 
