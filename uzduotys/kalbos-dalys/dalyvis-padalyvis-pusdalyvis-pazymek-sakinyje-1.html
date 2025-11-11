@@ -466,360 +466,365 @@
         </div>
     </div>
 
-    <script>
-        // --- KONFIGURACIJA ---
-        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
-        const TASK_ID = 'L0051 Dalyvis, Pusdalyvis, Padalyvis - Teksto Analizė | 10 sakinių';
-        
-        // --- SAKINIŲ DUOMENYS (10 sakinių) ---
-        const SENTENCES_DATA = [
-            {
-                sentence: "Pavargęs berniukas grįžo namo.",
-                words: ["Pavargęs", "berniukas", "grįžo", "namo."],
-                correctWord: "Pavargęs",
-                correctType: "Dalyvis"
-            },
-            {
-                sentence: "Eidamas į mokyklą sutikau draugą.",
-                words: ["Eidamas", "į", "mokyklą", "sutikau", "draugą."],
-                correctWord: "Eidamas",
-                correctType: "Pusdalyvis"
-            },
-            {
-                sentence: "Saulei šviečiant vaikai žaidė lauke.",
-                words: ["Saulei", "šviečiant", "vaikai", "žaidė", "lauke."],
-                correctWord: "šviečiant",
-                correctType: "Padalyvis"
-            },
-            {
-                sentence: "Skaitanti mergaitė sėdėjo ant suolelio.",
-                words: ["Skaitanti", "mergaitė", "sėdėjo", "ant", "suolelio."],
-                correctWord: "Skaitanti",
-                correctType: "Dalyvis"
-            },
-            {
-                sentence: "Kalbėdamas telefonu jis vaikščiojo po kambarį.",
-                words: ["Kalbėdamas", "telefonu", "jis", "vaikščiojo", "po", "kambarį."],
-                correctWord: "Kalbėdamas",
-                correctType: "Pusdalyvis"
-            },
-            {
-                sentence: "Lietui lyjant mes pasilikome namuose.",
-                words: ["Lietui", "lyjant", "mes", "pasilikome", "namuose."],
-                correctWord: "lyjant",
-                correctType: "Padalyvis"
-            },
-            {
-                sentence: "Parašytas laiškas gulėjo ant stalo.",
-                words: ["Parašytas", "laiškas", "gulėjo", "ant", "stalo."],
-                correctWord: "Parašytas",
-                correctType: "Dalyvis"
-            },
-            {
-                sentence: "Žiūrėdami filmą valgėme spragėsius.",
-                words: ["Žiūrėdami", "filmą", "valgėme", "spragėsius."],
-                correctWord: "Žiūrėdami",
-                correctType: "Pusdalyvis"
-            },
-            {
-                sentence: "Jam atėjus visi nutilo.",
-                words: ["Jam", "atėjus", "visi", "nutilo."],
-                correctWord: "atėjus",
-                correctType: "Padalyvis"
-            },
-            {
-                sentence: "Bėgantis šuo vijosi katę.",
-                words: ["Bėgantis", "šuo", "vijosi", "katę."],
-                correctWord: "Bėgantis",
-                correctType: "Dalyvis"
+<script>
+    // --- KONFIGURACIJA ---
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+    const TASK_ID = 'L0051 Dalyvis, Pusdalyvis, Padalyvis - Teksto Analizė | 10 sakinių';
+    
+    // --- SAKINIŲ DUOMENYS (10 sakinių) ---
+    const SENTENCES_DATA = [
+        {
+            sentence: "Pavargęs berniukas grįžo namo.",
+            words: ["Pavargęs", "berniukas", "grįžo", "namo."],
+            correctWord: "Pavargęs",
+            correctType: "Dalyvis"
+        },
+        {
+            sentence: "Eidamas į mokyklą sutikau draugą.",
+            words: ["Eidamas", "į", "mokyklą", "sutikau", "draugą."],
+            correctWord: "Eidamas",
+            correctType: "Pusdalyvis"
+        },
+        {
+            sentence: "Saulei šviečiant vaikai žaidė lauke.",
+            words: ["Saulei", "šviečiant", "vaikai", "žaidė", "lauke."],
+            correctWord: "šviečiant",
+            correctType: "Padalyvis"
+        },
+        {
+            sentence: "Skaitanti mergaitė sėdėjo ant suolelio.",
+            words: ["Skaitanti", "mergaitė", "sėdėjo", "ant", "suolelio."],
+            correctWord: "Skaitanti",
+            correctType: "Dalyvis"
+        },
+        {
+            sentence: "Kalbėdamas telefonu jis vaikščiojo po kambarį.",
+            words: ["Kalbėdamas", "telefonu", "jis", "vaikščiojo", "po", "kambarį."],
+            correctWord: "Kalbėdamas",
+            correctType: "Pusdalyvis"
+        },
+        {
+            sentence: "Lietui lyjant mes pasilikome namuose.",
+            words: ["Lietui", "lyjant", "mes", "pasilikome", "namuose."],
+            correctWord: "lyjant",
+            correctType: "Padalyvis"
+        },
+        {
+            sentence: "Parašytas laiškas gulėjo ant stalo.",
+            words: ["Parašytas", "laiškas", "gulėjo", "ant", "stalo."],
+            correctWord: "Parašytas",
+            correctType: "Dalyvis"
+        },
+        {
+            sentence: "Žiūrėdami filmą valgėme spragėsius.",
+            words: ["Žiūrėdami", "filmą", "valgėme", "spragėsius."],
+            correctWord: "Žiūrėdami",
+            correctType: "Pusdalyvis"
+        },
+        {
+            sentence: "Jam atėjus visi nutilo.",
+            words: ["Jam", "atėjus", "visi", "nutilo."],
+            correctWord: "atėjus",
+            correctType: "Padalyvis"
+        },
+        {
+            sentence: "Bėgantis šuo vijosi katę.",
+            words: ["Bėgantis", "šuo", "vijosi", "katę."],
+            correctWord: "Bėgantis",
+            correctType: "Dalyvis"
+        }
+    ];
+    
+    const totalQuestions = SENTENCES_DATA.length;
+
+    // --- BŪSENA ---
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let userAnswersLog = [];
+    
+    // Būsena kiekvienai kortelei
+    let questionStates = {};
+
+    // --- VARDŲ VALDYMAS ---
+    function showNamePrompt() {
+        const studentName = localStorage.getItem('studentName');
+        if (!studentName) {
+            const name = prompt('Įvesk savo vardą:');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('studentName', name.trim());
+                return name.trim();
+            } else {
+                alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                return showNamePrompt();
             }
-        ];
+        }
+        return studentName;
+    }
+
+    function changeName() {
+        localStorage.removeItem('studentName');
+        showNamePrompt();
+        location.reload();
+    }
+
+    function sendResultToSheet(taskName, score) {
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+        const timestamp = new Date().toLocaleString('lt-LT');
+        const data = {
+            name: studentName,
+            task: taskName,
+            score: score,
+            timestamp: timestamp
+        };
+        fetch(SHEET_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(() => console.log('Rezultatas sėkmingai išsiųstas!'))
+          .catch(error => console.error('Klaida siunčiant rezultatą:', error));
+    }
+
+    // --- SPALVOS PASIRINKIMAS ---
+    function selectColor(colorType, questionNum, event) { // Pridėjau 'event' argumentą
+        const state = questionStates[questionNum];
+        if (state.isChecked) return; // Negalima keisti po patikrinimo
         
-        const totalQuestions = SENTENCES_DATA.length;
-
-        // --- BŪSENA ---
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let userAnswersLog = [];
+        state.selectedColor = colorType;
         
-        // Būsena kiekvienai kortelei
-        let questionStates = {};
+        // Pašalinti selected klasę iš visų spalvų šioje kortelėje
+        const colorOptions = document.querySelectorAll(`#card-task-${questionNum} .color-option`);
+        colorOptions.forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        
+        // Pridėti selected klasę pasirinktai spalvai
+        // Naudojame event.currentTarget, kad gautume mygtuko elementą
+        event.currentTarget.classList.add('selected');
+    }
 
-        // --- VARDŲ VALDYMAS ---
-        function showNamePrompt() {
-            const studentName = localStorage.getItem('studentName');
-            if (!studentName) {
-                const name = prompt('Įvesk savo vardą:');
-                if (name && name.trim() !== '') {
-                    localStorage.setItem('studentName', name.trim());
-                    return name.trim();
-                } else {
-                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
-                    return showNamePrompt();
-                }
-            }
-            return studentName;
+    // --- ŽODŽIO PAŽYMĖJIMAS ---
+    function highlightWord(wordElement, questionNum) {
+        const state = questionStates[questionNum];
+        if (state.isChecked) return; // Negalima keisti po patikrinimo
+        
+        if (!state.selectedColor) {
+            alert('❗ Pirmiausia pasirink spalvą!');
+            return;
         }
 
-        function changeName() {
-            localStorage.removeItem('studentName');
-            showNamePrompt();
-            location.reload();
+        const sentenceContainer = document.getElementById(`sentence-${questionNum}`);
+        const allWords = sentenceContainer.querySelectorAll('.word');
+        
+        // Pašalinti paryškinimą nuo visų žodžių
+        allWords.forEach(w => {
+            w.classList.remove('highlighted-dalyvis', 'highlighted-pusdalyvis', 'highlighted-padalyvis');
+        });
+        
+        // Pažymėti pasirinktą žodį
+        state.selectedWord = wordElement.textContent.replace(/[.,!?]/g, '');
+        
+        if (state.selectedColor === 'Dalyvis') {
+            wordElement.classList.add('highlighted-dalyvis');
+        } else if (state.selectedColor === 'Pusdalyvis') {
+            wordElement.classList.add('highlighted-pusdalyvis');
+        } else if (state.selectedColor === 'Padalyvis') {
+            wordElement.classList.add('highlighted-padalyvis');
+        }
+    }
+
+    // --- ATSAKYMO TIKRINIMAS ---
+    function checkAnswer(questionNum) {
+        const state = questionStates[questionNum];
+        if (state.isChecked) return; // Jau patikrinta
+        
+        if (!state.selectedWord || !state.selectedColor) {
+            alert('❗ Pasirink spalvą ir pažymėk žodį!');
+            return;
         }
 
-        function sendResultToSheet(taskName, score) {
-            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
-            const timestamp = new Date().toLocaleString('lt-LT');
-            const data = {
-                name: studentName,
-                task: taskName,
-                score: score,
-                timestamp: timestamp
-            };
-            fetch(SHEET_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).then(() => console.log('Rezultatas sėkmingai išsiųstas!'))
-              .catch(error => console.error('Klaida siunčiant rezultatą:', error));
-        }
-
-        // --- SPALVOS PASIRINKIMAS ---
-        function selectColor(colorType, questionNum) {
-            const state = questionStates[questionNum];
-            if (state.isChecked) return; // Negalima keisti po patikrinimo
-            
-            state.selectedColor = colorType;
-            
-            // Pašalinti selected klasę iš visų spalvų šioje kortelėje
-            const colorOptions = document.querySelectorAll(`#card-task-\${questionNum} .color-option`);
-            colorOptions.forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Pridėti selected klasę pasirinktai spalvai
-            event.currentTarget.classList.add('selected');
-        }
-
-        // --- ŽODŽIO PAŽYMĖJIMAS ---
-        function highlightWord(wordElement, questionNum) {
-            const state = questionStates[questionNum];
-            if (state.isChecked) return; // Negalima keisti po patikrinimo
-            
-            if (!state.selectedColor) {
-                alert('❗ Pirmiausia pasirink spalvą!');
-                return;
-            }
-
-            const sentenceContainer = document.getElementById(`sentence-\${questionNum}`);
-            const allWords = sentenceContainer.querySelectorAll('.word');
-            
-            // Pašalinti paryškinimą nuo visų žodžių
-            allWords.forEach(w => {
+        state.isChecked = true;
+        
+        const questionData = SENTENCES_DATA[questionNum - 1];
+        const correctWord = questionData.correctWord;
+        const correctType = questionData.correctType;
+        
+        const isCorrect = (state.selectedWord === correctWord && state.selectedColor === correctType);
+        
+        const feedbackEl = document.getElementById(`feedback-${questionNum}`);
+        const checkBtn = document.getElementById(`check-btn-${questionNum}`);
+        const sentenceContainer = document.getElementById(`sentence-${questionNum}`);
+        const allWords = sentenceContainer.querySelectorAll('.word');
+        
+        // Rasti teisingą žodį ir pažymėti
+        allWords.forEach(w => {
+            const wordText = w.textContent.replace(/[.,!?]/g, '');
+            if (wordText === correctWord) {
                 w.classList.remove('highlighted-dalyvis', 'highlighted-pusdalyvis', 'highlighted-padalyvis');
-            });
-            
-            // Pažymėti pasirinktą žodį
-            state.selectedWord = wordElement.textContent.replace(/[.,!?]/g, '');
-            
-            if (state.selectedColor === 'Dalyvis') {
-                wordElement.classList.add('highlighted-dalyvis');
-            } else if (state.selectedColor === 'Pusdalyvis') {
-                wordElement.classList.add('highlighted-pusdalyvis');
-            } else if (state.selectedColor === 'Padalyvis') {
-                wordElement.classList.add('highlighted-padalyvis');
+                w.classList.add('correct-answer');
+            } else if (wordText === state.selectedWord && wordText !== correctWord) {
+                w.classList.add('wrong-answer');
             }
+        });
+
+        if (isCorrect) {
+            score++;
+            // 1. Pataisymas: atvirkštinės kabutės
+            feedbackEl.innerHTML = `✅ <strong>Teisingai!</strong> Žodis "<strong>${correctWord}</strong>" yra <strong>${correctType}</strong>.`;
+            feedbackEl.className = 'feedback correct show';
+        } else {
+            // 2. Pataisymas: atvirkštinės kabutės
+            feedbackEl.innerHTML = `❌ <strong>Neteisingai.</strong> Teisingas atsakymas: žodis "<strong>${correctWord}</strong>" yra <strong>${correctType}</strong>.`;
+            feedbackEl.className = 'feedback incorrect show';
         }
 
-        // --- ATSAKYMO TIKRINIMAS ---
-        function checkAnswer(questionNum) {
-            const state = questionStates[questionNum];
-            if (state.isChecked) return; // Jau patikrinta
+        // Įrašyti atsakymą
+        userAnswersLog.push({
+            sentence: questionData.sentence,
+            selectedWord: state.selectedWord,
+            selectedType: state.selectedColor,
+            correctWord: correctWord,
+            correctType: correctType,
+            isCorrect: isCorrect
+        });
+
+        // Paslėpti "Pasitikrinti" mygtuką
+        checkBtn.style.display = 'none';
+
+        // Rodyti "Toliau" mygtuką
+        const nextBtn = document.getElementById(`next-btn-${questionNum}`);
+        nextBtn.style.display = 'block';
+    }
+
+    // --- KORTELIŲ GENERAVIMAS ---
+    function generateTaskCards() {
+        const container = document.getElementById('task-cards-container');
+        
+        SENTENCES_DATA.forEach((sentenceData, index) => {
+            const questionNum = index + 1;
+            const cardId = `card-task-${questionNum}`;
             
-            if (!state.selectedWord || !state.selectedColor) {
-                alert('❗ Pasirink spalvą ir pažymėk žodį!');
-                return;
-            }
-
-            state.isChecked = true;
+            // Inicializuoti būseną kiekvienai kortelei
+            questionStates[questionNum] = {
+                selectedColor: null,
+                selectedWord: null,
+                isChecked: false
+            };
             
-            const questionData = SENTENCES_DATA[questionNum - 1];
-            const correctWord = questionData.correctWord;
-            const correctType = questionData.correctType;
+            const cardDiv = document.createElement('div');
+            cardDiv.id = cardId;
+            cardDiv.className = 'card';
             
-            const isCorrect = (state.selectedWord === correctWord && state.selectedColor === correctType);
-            
-            const feedbackEl = document.getElementById(`feedback-\${questionNum}`);
-            const checkBtn = document.getElementById(`check-btn-\${questionNum}`);
-            const sentenceContainer = document.getElementById(`sentence-\${questionNum}`);
-            const allWords = sentenceContainer.querySelectorAll('.word');
-            
-            // Rasti teisingą žodį ir pažymėti
-            allWords.forEach(w => {
-                const wordText = w.textContent.replace(/[.,!?]/g, '');
-                if (wordText === correctWord) {
-                    w.classList.remove('highlighted-dalyvis', 'highlighted-pusdalyvis', 'highlighted-padalyvis');
-                    w.classList.add('correct-answer');
-                } else if (wordText === state.selectedWord && wordText !== correctWord) {
-                    w.classList.add('wrong-answer');
-                }
-            });
+            // 3. Pataisymas: atvirkštinės kabutės ir $ kintamajam
+            const wordsHtml = sentenceData.words.map(word => 
+                `<span class="word" onclick="highlightWord(this, ${questionNum})">${word}</span>`
+            ).join(' ');
 
-            if (isCorrect) {
-                score++;
-                feedbackEl.innerHTML = `✅ <strong>Teisingai!</strong> Žodis "<strong>\${correctWord}</strong>" yra <strong>\${correctType}</strong>.`;
-                feedbackEl.className = 'feedback correct show';
-            } else {
-                feedbackEl.innerHTML = `❌ <strong>Neteisingai.</strong> Teisingas atsakymas: žodis "<strong>\${correctWord}</strong>" yra <strong>\${correctType}</strong>.`;
-                feedbackEl.className = 'feedback incorrect show';
-            }
+            const isLastQuestion = questionNum === totalQuestions;
 
-            // Įrašyti atsakymą
-            userAnswersLog.push({
-                sentence: questionData.sentence,
-                selectedWord: state.selectedWord,
-                selectedType: state.selectedColor,
-                correctWord: correctWord,
-                correctType: correctType,
-                isCorrect: isCorrect
-            });
+            // 4. Pataisymas: atvirkštinės kabutės visam HTML blokui
+            cardDiv.innerHTML = `
+                <h2 class="question-title">Sakinys ${questionNum} iš ${totalQuestions}</h2>
 
-            // Paslėpti "Pasitikrinti" mygtuką
-            checkBtn.style.display = 'none';
+                <div class="instructions">
+                    <h3>🎨 Pasirink spalvą ir pažymėk žodį</h3>
+                </div>
 
-            // Rodyti "Toliau" mygtuką
-            const nextBtn = document.getElementById(`next-btn-\${questionNum}`);
-            nextBtn.style.display = 'block';
-        }
-
-        // --- KORTELIŲ GENERAVIMAS ---
-        function generateTaskCards() {
-            const container = document.getElementById('task-cards-container');
-            
-            SENTENCES_DATA.forEach((sentenceData, index) => {
-                const questionNum = index + 1;
-                const cardId = `card-task-\${questionNum}`;
-                
-                // Inicializuoti būseną kiekvienai kortelei
-                questionStates[questionNum] = {
-                    selectedColor: null,
-                    selectedWord: null,
-                    isChecked: false
-                };
-                
-                const cardDiv = document.createElement('div');
-                cardDiv.id = cardId;
-                cardDiv.className = 'card';
-                
-                const wordsHtml = sentenceData.words.map(word => 
-                    `<span class="word" onclick="highlightWord(this, \${questionNum})">\${word}</span>`
-                ).join(' ');
-
-                const isLastQuestion = questionNum === totalQuestions;
-
-                cardDiv.innerHTML = `
-                    <h2 class="question-title">Sakinys ${questionNum} iš ${totalQuestions}</h2>
-
-                    <div class="instructions">
-                        <h3>🎨 Pasirink spalvą ir pažymėk žodį</h3>
+                <div class="color-palette">
+                    <div class="color-option" onclick="selectColor('Dalyvis', ${questionNum}, event)">
+                        <div class="color-box color-dalyvis"></div>
+                        <div class="color-label">📗 Dalyvis</div>
                     </div>
-
-                    <div class="color-palette">
-                        <div class="color-option" onclick="selectColor('Dalyvis', ${questionNum})">
-                            <div class="color-box color-dalyvis"></div>
-                            <div class="color-label">📗 Dalyvis</div>
-                        </div>
-                        <div class="color-option" onclick="selectColor('Pusdalyvis', ${questionNum})">
-                            <div class="color-box color-pusdalyvis"></div>
-                            <div class="color-label">📙 Pusdalyvis</div>
-                        </div>
-                        <div class="color-option" onclick="selectColor('Padalyvis', ${questionNum})">
-                            <div class="color-box color-padalyvis"></div>
-                            <div class="color-label">📘 Padalyvis</div>
-                        </div>
+                    <div class="color-option" onclick="selectColor('Pusdalyvis', ${questionNum}, event)">
+                        <div class="color-box color-pusdalyvis"></div>
+                        <div class="color-label">📙 Pusdalyvis</div>
                     </div>
-
-                    <div class="sentence-container" id="sentence-${questionNum}">
-                        ${wordsHtml}
+                    <div class="color-option" onclick="selectColor('Padalyvis', ${questionNum}, event)">
+                        <div class="color-box color-padalyvis"></div>
+                        <div class="color-label">📘 Padalyvis</div>
                     </div>
+                </div>
 
-                    <div id="feedback-${questionNum}" class="feedback"></div>
+                <div class="sentence-container" id="sentence-${questionNum}">
+                    ${wordsHtml}
+                </div>
 
-                    <button id="check-btn-${questionNum}" onclick="checkAnswer(${questionNum})" class="action-button bg-orange-600">
-                        ✅ Pasitikrinti
-                    </button>
+                <div id="feedback-${questionNum}" class="feedback"></div>
 
-                    <button id="next-btn-${questionNum}" onclick="nextQuestion(${questionNum})" class="action-button bg-blue-600" style="display: none;">
-                        ${isLastQuestion ? '🏁 Rezultatai' : '➡️ Toliau'}
-                    </button>
-                `;
-                
-                container.appendChild(cardDiv);
-            });
-        }
+                <button id="check-btn-${questionNum}" onclick="checkAnswer(${questionNum})" class="action-button bg-orange-600">
+                    ✅ Pasitikrinti
+                </button>
 
-        // --- NAVIGACIJA ---
-        function showCard(cardId) {
-            document.querySelectorAll('.card').forEach(card => {
-                card.classList.remove('active');
-            });
-            document.getElementById(cardId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        function nextQuestion(currentNum) {
-            if (currentNum < totalQuestions) {
-                showCard(`card-task-${currentNum + 1}`);
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            showCard('card-results');
-            
-            const totalScoreEl = document.getElementById('total-score');
-            const resultDetailsEl = document.getElementById('result-details');
-            
-            const percentage = Math.round((score / totalQuestions) * 100);
-            
-            totalScoreEl.innerHTML = `
-                <div>Teisingai atsakyta:</div>
-                <div style="font-size: 3rem; margin: 20px 0;"><strong>${score}</strong> iš <strong>${totalQuestions}</strong></div>
-                <div class="score-percentage">${percentage}%</div>
+                <button id="next-btn-${questionNum}" onclick="nextQuestion(${questionNum})" class="action-button bg-blue-600" style="display: none;">
+                    ${isLastQuestion ? '🏁 Rezultatai' : '➡️ Toliau'}
+                </button>
             `;
             
-            // Detali suvestinė
-            let detailsHTML = '';
-            userAnswersLog.forEach((answer, index) => {
-                const itemClass = answer.isCorrect ? 'correct' : 'incorrect';
-                const icon = answer.isCorrect ? '✅' : '❌';
-                
-                detailsHTML += `
-                    <div class="result-item ${itemClass}">
-                        ${icon} <strong>Sakinys ${index + 1}:</strong> "${answer.sentence}"<br>
-                        <span style="margin-left: 30px;">
-                            Pasirinkta: <strong>${answer.selectedWord}</strong> (${answer.selectedType}) 
-                            ${!answer.isCorrect ? `| Teisinga: <strong>${answer.correctWord}</strong> (${answer.correctType})` : ''}
-                        </span>
-                    </div>
-                `;
-            });
-            resultDetailsEl.innerHTML = detailsHTML;
-            
-            // Siunčiame rezultatus
-            sendResultToSheet(TASK_ID, percentage);
-        }
+            container.appendChild(cardDiv);
+        });
+    }
 
-        // --- INICIALIZACIJA ---
-        window.onload = function() {
-            const studentName = showNamePrompt();
-            document.getElementById('studentNameDisplay').textContent = studentName;
+    // --- NAVIGACIJA ---
+    function showCard(cardId) {
+        document.querySelectorAll('.card').forEach(card => {
+            card.classList.remove('active');
+        });
+        document.getElementById(cardId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function nextQuestion(currentNum) {
+        if (currentNum < totalQuestions) {
+            showCard(`card-task-${currentNum + 1}`);
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        showCard('card-results');
+        
+        const totalScoreEl = document.getElementById('total-score');
+        const resultDetailsEl = document.getElementById('result-details');
+        
+        const percentage = Math.round((score / totalQuestions) * 100);
+        
+        totalScoreEl.innerHTML = `
+            <div>Teisingai atsakyta:</div>
+            <div style="font-size: 3rem; margin: 20px 0;"><strong>${score}</strong> iš <strong>${totalQuestions}</strong></div>
+            <div class="score-percentage">${percentage}%</div>
+        `;
+        
+        // Detali suvestinė
+        let detailsHTML = '';
+        userAnswersLog.forEach((answer, index) => {
+            const itemClass = answer.isCorrect ? 'correct' : 'incorrect';
+            const icon = answer.isCorrect ? '✅' : '❌';
             
-            generateTaskCards();
-            showCard('card-instructions');
-        };
-    </script>
+            detailsHTML += `
+                <div class="result-item ${itemClass}">
+                    ${icon} <strong>Sakinys ${index + 1}:</strong> "${answer.sentence}"<br>
+                    <span style="margin-left: 30px;">
+                        Pasirinkta: <strong>${answer.selectedWord}</strong> (${answer.selectedType}) 
+                        ${!answer.isCorrect ? `| Teisinga: <strong>${answer.correctWord}</strong> (${answer.correctType})` : ''}
+                    </span>
+                </div>
+            `;
+        });
+        resultDetailsEl.innerHTML = detailsHTML;
+        
+        // Siunčiame rezultatus
+        sendResultToSheet(TASK_ID, percentage);
+    }
+
+    // --- INICIALIZACIJA ---
+    window.onload = function() {
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+        
+        generateTaskCards();
+        showCard('card-instructions');
+    };
+</script>
 </body>
 </html>
