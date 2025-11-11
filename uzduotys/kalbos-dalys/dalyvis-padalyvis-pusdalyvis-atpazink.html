@@ -9,7 +9,7 @@
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
             letter-spacing: 0.05em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #e3f2fd;
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
@@ -35,17 +35,20 @@
             align-items: center;
             padding: 12px 24px;
             background-color: #ffffff;
-            color: #667eea;
+            color: #1976d2;
             text-decoration: none;
             border-radius: 12px;
             font-size: 18px;
             font-weight: 700;
             transition: all 0.3s;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 2px solid #1976d2;
         }
         .back-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            background-color: #1976d2;
+            color: white;
         }
         .student-info {
             background-color: #ffffff;
@@ -58,9 +61,10 @@
             gap: 15px;
             flex-grow: 1;
             font-size: 18px;
+            border: 2px solid #1976d2;
         }
         .change-name-btn {
-            background-color: #667eea;
+            background-color: #1976d2;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -71,7 +75,7 @@
             transition: all 0.3s;
         }
         .change-name-btn:hover {
-            background-color: #764ba2;
+            background-color: #1565c0;
             transform: scale(1.05);
         }
 
@@ -82,6 +86,7 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             padding: 40px;
             display: none;
+            border: 3px solid #1976d2;
         }
         .card.active {
             display: block;
@@ -99,7 +104,7 @@
             color: #1f2937;
             margin-bottom: 30px;
             text-align: center;
-            border-bottom: 4px solid #667eea;
+            border-bottom: 4px solid #1976d2;
             padding-bottom: 15px;
         }
         
@@ -125,18 +130,18 @@
         }
 
         .memo-card-dalyvis {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            border-color: #10b981;
+            background: linear-gradient(135deg, #a4d49d 0%, #549c48 100%);
+            border-color: #27541f;
         }
 
         .memo-card-pusdalyvis {
-            background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
-            border-color: #f97316;
+            background: linear-gradient(135deg, #f2e796 0%, #decd50 100%);
+            border-color: #9e8f1c;
         }
 
         .memo-card-padalyvis {
-            background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
-            border-color: #3b82f6;
+            background: linear-gradient(135deg, #c6d9f7 0%, #6c9ef0 100%);
+            border-color: #2d4c7d;
         }
 
         .memo-card-title {
@@ -146,6 +151,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #1f2937;
         }
 
         .memo-card-icon {
@@ -163,11 +169,12 @@
         }
 
         .memo-card-examples {
-            background-color: rgba(255,255,255,0.7);
+            background-color: rgba(255,255,255,0.8);
             padding: 15px;
             border-radius: 10px;
             margin-top: 15px;
             font-style: italic;
+            color: #1f2937;
         }
 
         .memo-card-question {
@@ -185,11 +192,11 @@
             font-weight: 900;
             text-align: center;
             padding: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
             color: white;
             border-radius: 20px;
             margin: 20px 0;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
             letter-spacing: 0.05em;
         }
         
@@ -215,13 +222,13 @@
         }
 
         .btn-dalyvis { 
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #549c48 0%, #27541f 100%);
         }
         .btn-pusdalyvis { 
-            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            background: linear-gradient(135deg, #decd50 0%, #9e8f1c 100%);
         }
         .btn-padalyvis { 
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            background: linear-gradient(135deg, #6c9ef0 0%, #2d4c7d 100%);
         }
         
         .option-btn:hover:not(.disabled) {
@@ -276,7 +283,7 @@
         .hint-table h3 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #667eea;
+            color: #1976d2;
             margin-bottom: 15px;
             text-align: center;
         }
@@ -297,9 +304,9 @@
             font-size: 1.2rem;
         }
 
-        .hint-dalyvis { background-color: #d1fae5; color: #065f46; }
-        .hint-pusdalyvis { background-color: #fed7aa; color: #9a3412; }
-        .hint-padalyvis { background-color: #dbeafe; color: #1e3a8a; }
+        .hint-dalyvis { background-color: #a4d49d; color: #27541f; }
+        .hint-pusdalyvis { background-color: #f2e796; color: #9e8f1c; }
+        .hint-padalyvis { background-color: #c6d9f7; color: #2d4c7d; }
 
         /* Mygtukai */
         .action-button {
@@ -321,12 +328,12 @@
         }
 
         .bg-blue-600 {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
             color: white;
         }
 
         .bg-green-600 {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #549c48 0%, #27541f 100%);
             color: white;
         }
 
@@ -345,7 +352,7 @@
             margin: 30px 0;
             padding: 30px;
             border-radius: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
             color: white;
         }
 
@@ -361,8 +368,8 @@
         }
 
         .correct-item {
-            background-color: #d1fae5;
-            border-color: #10b981;
+            background-color: #a4d49d;
+            border-color: #27541f;
         }
 
         .incorrect-item {
@@ -650,7 +657,7 @@
 
             if (isCorrect) {
                 score++;
-                feedbackEl.innerHTML = `<span style="color: #10b981;">✅ Teisingai! Tai yra ${correct}.</span>`;
+                feedbackEl.innerHTML = `<span style="color: #549c48;">✅ Teisingai! Tai yra ${correct}.</span>`;
             } else {
                 feedbackEl.innerHTML = `<span style="color: #ef4444;">❌ Neteisingai. Teisingas atsakymas: ${correct}.</span>`;
             }
