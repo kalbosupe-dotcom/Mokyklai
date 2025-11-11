@@ -541,9 +541,9 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let userAnswersLog = [];
-        let selectedColor = null;
-        let selectedWord = null;
-        let isChecked = false;
+        
+        // Būsena kiekvienai kortelei
+        let questionStates = {};
 
         // --- VARDŲ VALDYMAS ---
         function showNamePrompt() {
@@ -586,11 +586,15 @@
         }
 
         // --- SPALVOS PASIRINKIMAS ---
-        function selectColor(colorType) {
-            selectedColor = colorType;
+        function selectColor(colorType, questionNum) {
+            const state = questionStates[questionNum];
+            if (state.isChecked) return; // Negalima keisti po patikrinimo
             
-            // Pašalinti selected klasę iš visų spalvų
-            document.querySelectorAll('.color-option').forEach(opt => {
+            state.selectedColor = colorType;
+            
+            // Pašalinti selected klasę iš visų spalvų šioje kortelėje
+            const colorOptions = document.querySelectorAll(`#card-task-\${questionNum} .color-option`);
+            colorOptions.forEach(opt => {
                 opt.classList.remove('selected');
             });
             
@@ -600,9 +604,10 @@
 
         // --- ŽODŽIO PAŽYMĖJIMAS ---
         function highlightWord(wordElement, questionNum) {
-            if (isChecked) return; // Negalima keisti po patikrinimo
+            const state = questionStates[questionNum];
+            if (state.isChecked) return; // Negalima keisti po patikrinimo
             
-            if (!selectedColor) {
+            if (!state.selectedColor) {
                 alert('❗ Pirmiausia pasirink spalvą!');
                 return;
             }
@@ -616,33 +621,34 @@
             });
             
             // Pažymėti pasirinktą žodį
-            selectedWord = wordElement.textContent.replace(/[.,!?]/g, '');
+            state.selectedWord = wordElement.textContent.replace(/[.,!?]/g, '');
             
-            if (selectedColor === 'Dalyvis') {
+            if (state.selectedColor === 'Dalyvis') {
                 wordElement.classList.add('highlighted-dalyvis');
-            } else if (selectedColor === 'Pusdalyvis') {
+            } else if (state.selectedColor === 'Pusdalyvis') {
                 wordElement.classList.add('highlighted-pusdalyvis');
-            } else if (selectedColor === 'Padalyvis') {
+            } else if (state.selectedColor === 'Padalyvis') {
                 wordElement.classList.add('highlighted-padalyvis');
             }
         }
 
         // --- ATSAKYMO TIKRINIMAS ---
         function checkAnswer(questionNum) {
-            if (isChecked) return; // Jau patikrinta
+            const state = questionStates[questionNum];
+            if (state.isChecked) return; // Jau patikrinta
             
-            if (!selectedWord || !selectedColor) {
+            if (!state.selectedWord || !state.selectedColor) {
                 alert('❗ Pasirink spalvą ir pažymėk žodį!');
                 return;
             }
 
-            isChecked = true;
+            state.isChecked = true;
             
             const questionData = SENTENCES_DATA[questionNum - 1];
             const correctWord = questionData.correctWord;
             const correctType = questionData.correctType;
             
-            const isCorrect = (selectedWord === correctWord && selectedColor === correctType);
+            const isCorrect = (state.selectedWord === correctWord && state.selectedColor === correctType);
             
             const feedbackEl = document.getElementById(`feedback-\${questionNum}`);
             const checkBtn = document.getElementById(`check-btn-\${questionNum}`);
@@ -654,18 +660,9 @@
                 const wordText = w.textContent.replace(/[.,!?]/g, '');
                 if (wordText === correctWord) {
                     w.classList.remove('highlighted-dalyvis', 'highlighted-pusdalyvis', 'highlighted-padalyvis');
-                    if (isCorrect) {
-                        w.classList.add('correct-answer');
-                    } else {
-                        w.classList.add('correct-answer');
-                        // Pažymėti klaidingą pasirinkimą
-                        allWords.forEach(word => {
-                            const wText = word.textContent.replace(/[.,!?]/g, '');
-                            if (wText === selectedWord && wText !== correctWord) {
-                                word.classList.add('wrong-answer');
-                            }
-                        });
-                    }
+                    w.classList.add('correct-answer');
+                } else if (wordText === state.selectedWord && wordText !== correctWord) {
+                    w.classList.add('wrong-answer');
                 }
             });
 
@@ -681,8 +678,8 @@
             // Įrašyti atsakymą
             userAnswersLog.push({
                 sentence: questionData.sentence,
-                selectedWord: selectedWord,
-                selectedType: selectedColor,
+                selectedWord: state.selectedWord,
+                selectedType: state.selectedColor,
                 correctWord: correctWord,
                 correctType: correctType,
                 isCorrect: isCorrect
@@ -701,50 +698,59 @@
             const container = document.getElementById('task-cards-container');
             
             SENTENCES_DATA.forEach((sentenceData, index) => {
-                const cardId = `card-task-\${index + 1}`;
+                const questionNum = index + 1;
+                const cardId = `card-task-\${questionNum}`;
+                
+                // Inicializuoti būseną kiekvienai kortelei
+                questionStates[questionNum] = {
+                    selectedColor: null,
+                    selectedWord: null,
+                    isChecked: false
+                };
+                
                 const cardDiv = document.createElement('div');
                 cardDiv.id = cardId;
                 cardDiv.className = 'card';
                 
                 const wordsHtml = sentenceData.words.map(word => 
-                    `<span class="word" onclick="highlightWord(this, \${index + 1})">\${word}</span>`
+                    `<span class="word" onclick="highlightWord(this, \${questionNum})">\${word}</span>`
                 ).join(' ');
 
-                const isLastQuestion = (index + 1) === totalQuestions;
+                const isLastQuestion = questionNum === totalQuestions;
 
                 cardDiv.innerHTML = `
-                    <h2 class="question-title">Sakinys ${index + 1} iš ${totalQuestions}</h2>
+                    <h2 class="question-title">Sakinys ${questionNum} iš ${totalQuestions}</h2>
 
                     <div class="instructions">
                         <h3>🎨 Pasirink spalvą ir pažymėk žodį</h3>
                     </div>
 
                     <div class="color-palette">
-                        <div class="color-option" onclick="selectColor('Dalyvis')">
+                        <div class="color-option" onclick="selectColor('Dalyvis', ${questionNum})">
                             <div class="color-box color-dalyvis"></div>
                             <div class="color-label">📗 Dalyvis</div>
                         </div>
-                        <div class="color-option" onclick="selectColor('Pusdalyvis')">
+                        <div class="color-option" onclick="selectColor('Pusdalyvis', ${questionNum})">
                             <div class="color-box color-pusdalyvis"></div>
                             <div class="color-label">📙 Pusdalyvis</div>
                         </div>
-                        <div class="color-option" onclick="selectColor('Padalyvis')">
+                        <div class="color-option" onclick="selectColor('Padalyvis', ${questionNum})">
                             <div class="color-box color-padalyvis"></div>
                             <div class="color-label">📘 Padalyvis</div>
                         </div>
                     </div>
 
-                    <div class="sentence-container" id="sentence-${index + 1}">
+                    <div class="sentence-container" id="sentence-${questionNum}">
                         ${wordsHtml}
                     </div>
 
-                    <div id="feedback-${index + 1}" class="feedback"></div>
+                    <div id="feedback-${questionNum}" class="feedback"></div>
 
-                    <button id="check-btn-${index + 1}" onclick="checkAnswer(${index + 1})" class="action-button bg-orange-600">
+                    <button id="check-btn-${questionNum}" onclick="checkAnswer(${questionNum})" class="action-button bg-orange-600">
                         ✅ Pasitikrinti
                     </button>
 
-                    <button id="next-btn-${index + 1}" onclick="nextQuestion(${index + 1})" class="action-button bg-blue-600" style="display: none;">
+                    <button id="next-btn-${questionNum}" onclick="nextQuestion(${questionNum})" class="action-button bg-blue-600" style="display: none;">
                         ${isLastQuestion ? '🏁 Rezultatai' : '➡️ Toliau'}
                     </button>
                 `;
@@ -760,11 +766,6 @@
             });
             document.getElementById(cardId).classList.add('active');
             window.scrollTo(0, 0);
-            
-            // Atstatyti būseną
-            selectedColor = null;
-            selectedWord = null;
-            isChecked = false;
         }
 
         function nextQuestion(currentNum) {
@@ -822,5 +823,3 @@
     </script>
 </body>
 </html>
-
-
