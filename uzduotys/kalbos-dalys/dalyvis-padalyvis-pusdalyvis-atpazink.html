@@ -596,63 +596,63 @@
             return shuffled;
         }
         
-        // --- KORTELIŲ GENERAVIMAS ---
-        function generateTaskCards() {
-            const container = document.getElementById('task-cards-container');
-            questionsShuffled = shuffleArray(QUESTIONS_DATA); 
+// --- KORTELIŲ GENERAVIMAS ---
+function generateTaskCards() {
+    const container = document.getElementById('task-cards-container');
+    questionsShuffled = shuffleArray(QUESTIONS_DATA); 
+    
+    questionsShuffled.forEach((question, index) => {
+        const cardId = `card-task-${index + 1}`;
+        const cardDiv = document.createElement('div');
+        cardDiv.id = cardId;
+        cardDiv.className = 'card';
+        
+        // Maišome pasirinkimus kiekvienam klausimui
+        const optionsShuffled = shuffleArray([...OPTIONS]);
+
+        const optionsHtml = optionsShuffled.map(opt => 
+            `<button class="option-btn ${opt.css}" data-answer="${opt.name}" onclick="checkAnswer(this, '${opt.name}', ${index + 1})">${opt.name}</button>`
+        ).join('');
+
+        cardDiv.innerHTML = `
+            <h2 class="question-title">Klausimas ${index + 1} iš ${totalQuestions}</h2>
+
+            <div class="word-to-classify">${question.word}</div>
             
-            questionsShuffled.forEach((question, index) => {
-                const cardId = `card-task-\${index + 1}`;
-                const cardDiv = document.createElement('div');
-                cardDiv.id = cardId;
-                cardDiv.className = 'card';
-                
-                // Maišome pasirinkimus kiekvienam klausimui
-                const optionsShuffled = shuffleArray([...OPTIONS]);
+            <div id="options-${index + 1}" class="options-grid">
+                ${optionsHtml}
+            </div>
 
-                const optionsHtml = optionsShuffled.map(opt => 
-                    `<button class="option-btn \${opt.css}" data-answer="\${opt.name}" onclick="checkAnswer(this, '\${opt.name}', \${index + 1})">\${opt.name}</button>`
-                ).join('');
+            <div id="feedback-${index + 1}" class="feedback"></div>
 
-                cardDiv.innerHTML = `
-                    <h2 class="question-title">Klausimas ${index + 1} iš ${totalQuestions}</h2>
-
-                    <div class="word-to-classify">${question.word}</div>
-                    
-                    <div id="options-${index + 1}" class="options-grid">
-                        ${optionsHtml}
-                    </div>
-
-                    <div id="feedback-${index + 1}" class="feedback"></div>
-
-                    <div class="hint-table">
-                        <h3>👀 Atmintinė</h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="hint-dalyvis">Dalyvis</th>
-                                    <th class="hint-pusdalyvis">Pusdalyvis</th>
-                                    <th class="hint-padalyvis">Padalyvis</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="hint-dalyvis">${OPTIONS[0].question}</td>
-                                    <td class="hint-pusdalyvis">${OPTIONS[1].question}</td>
-                                    <td class="hint-padalyvis">${OPTIONS[2].question}</td>
-                                </tr>
-                                <tr>
-                                    <td class="hint-dalyvis">${OPTIONS[0].example}</td>
-                                    <td class="hint-pusdalyvis">${OPTIONS[1].example}</td>
-                                    <td class="hint-padalyvis">${OPTIONS[2].example}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                container.appendChild(cardDiv);
-            });
-        }
+            <div class="hint-table">
+                <h3>👀 Atmintinė</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="hint-dalyvis">Dalyvis</th>
+                            <th class="hint-pusdalyvis">Pusdalyvis</th>
+                            <th class="hint-padalyvis">Padalyvis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="hint-dalyvis">${OPTIONS[0].question}</td>
+                            <td class="hint-pusdalyvis">${OPTIONS[1].question}</td>
+                            <td class="hint-padalyvis">${OPTIONS[2].question}</td>
+                        </tr>
+                        <tr>
+                            <td class="hint-dalyvis">${OPTIONS[0].example}</td>
+                            <td class="hint-pusdalyvis">${OPTIONS[1].example}</td>
+                            <td class="hint-padalyvis">${OPTIONS[2].example}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+        container.appendChild(cardDiv);
+    });
+}
         
         // --- TIKRINIMO LOGIKA ---
         function checkAnswer(button, selectedAnswer, questionNum) {
