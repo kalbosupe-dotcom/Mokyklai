@@ -658,7 +658,7 @@
         words.forEach((wordData, index) => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.id = `card-\${index}`;
+            card.id = `card-${index}`;
             
             card.innerHTML = `
                 <div class="card-header">Užduotis ${index + 1} / ${words.length}</div>
