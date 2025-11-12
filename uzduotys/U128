@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Užduotis U128 (Ryškesnė versija)</title>
+    <style>
+        body {
+            /* Naudojame Verdana - aiškus, aukšto kontrasto šriftas */
+            font-family: Verdana, Arial, sans-serif;
+            line-height: 1.7; /* Didelis tarpas tarp eilučių */
+            font-size: 1.3em; /* Didelis šrifto dydis */
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            color: #333; /* Tamsi pilka geresniam kontrastui */
+        }
+        .task-title {
+            font-size: 2.2em;
+            font-weight: 900; /* Labai storas šriftas */
+            margin-bottom: 30px;
+        }
+        .title-u {
+            color: #008000; /* Žalia */
+        }
+        .title-number {
+            color: #175080; /* Ramesnė mėlyna */
+        }
+        .main-text {
+            margin-bottom: 30px;
+        }
+        .number {
+            font-weight: 700; /* Storesnis skaičių paryškinimas */
+            color: #175080; /* Mėlyna spalva visiems skaičiams */
+            /* Pridėtas šriftas didesnis tik skaičiams, kad labiau išsiskirtų */
+            font-size: 1.1em; 
+        }
+        .sub-questions {
+            list-style-type: none; 
+            padding-left: 0;
+            margin-left: 0;
+            column-count: 2; /* Išdėsto a) ir b) vienoje eilutėje, jei telpa */
+            column-gap: 50px;
+        }
+        .sub-questions li {
+            margin-bottom: 15px;
+        }
+        .question-label {
+            font-weight: bold;
+            color: #111; /* Juoda spalva pajuodinimui */
+            margin-right: 8px;
+        }
+        .question-text {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="task-title">
+        <span class="title-u">U</span><span class="title-number">128</span>
+    </div>
+    
+    <div class="main-text">
+        Pasiskolinta <span class="number">15 000</span> eurų su <span class="number">2,8</span> % palūkanų norma. 
+        Apskaičiuokite, kiek pinigų reikės grąžinti po <span class="number">2</span> metų, jei sutartos:
+    </div>
+
+    <ul class="sub-questions">
+        <li>
+            <span class="question-label">a)</span> 
+            <span class="question-text">paprastosios palūkanos;</span>
+        </li>
+        <li>
+            <span class="question-label">b)</span> 
+            <span class="question-text">sudėtinės palūkanos.</span>
+        </li>
+    </ul>
+
+</body>
+</html>
