@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kablelis tarp vienarūšių - Kalbos Upė</title>
-    <link rel="stylesheet" href="../../css/style.css"> 
-    
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* --- VISI CSS STILIAI, SUDĖTI Į VIENĄ BLOKĄ --- */
         body {
@@ -27,15 +26,14 @@
             max-width: 1000px;
         }
         
-        /* NAUJAS: VIRŠUTINĖ JUOSTA VISAI INFORMACIJAI */
+        /* Viršutinė juosta */
         .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
             margin-bottom: 20px;
-            padding: 10px 0;
-            gap: 10px; 
+            gap: 10px;
             flex-wrap: wrap; 
         }
         
@@ -47,12 +45,8 @@
             text-decoration: none;
             border-radius: 8px;
             font-size: 18px;
+            font-weight: bold;
             transition: background-color 0.3s;
-            margin-bottom: 0; 
-        }
-        
-        .back-btn:hover {
-            background-color: #4A90E2;
         }
         
         .student-info {
@@ -64,13 +58,7 @@
             align-items: center;
             flex-wrap: nowrap;
             gap: 10px;
-            margin-bottom: 0; 
-        }
-        
-        .student-name-display {
-            font-size: 18px; 
-            color: #1A4D7A;
-            white-space: nowrap;
+            flex-grow: 1; 
         }
         
         .change-name-btn {
@@ -79,14 +67,8 @@
             border: none;
             padding: 8px 15px; 
             border-radius: 8px;
-            cursor: pointer;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
             font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .change-name-btn:hover {
-            background-color: #0D3B66;
+            font-weight: bold;
         }
         
         /* Pagrindinės kortelės stiliai */
@@ -100,7 +82,7 @@
             width: 100%;
         }
 
-        /* Įvado stiliai */
+        /* ATMINTINĖS STILIAI */
         .intro-text {
             font-size: 1.8rem;
             font-weight: bold;
@@ -108,36 +90,41 @@
             margin-bottom: 20px;
             text-align: center;
         }
-
         .intro-content {
             font-size: 1.1rem;
             color: #1A4D7A;
             line-height: 1.8;
             margin-bottom: 20px;
         }
-
         .intro-content ul {
             padding-left: 25px;
-        }
-        
-        .instruction {
-            text-align: center;
-            font-size: 18px;
-            color: #1A4D7A;
-            margin-bottom: 30px;
-            background-color: #E8F4F8;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #4A90E2;
+            list-style: disc;
         }
 
-        /* SAKINIO KONTEINERIO IR KABLELIO STILIAI (ADAPTACIJA) */
+        /* PATAISYMAS 2: Instrukcijos blokas */
+        .instruction {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #1A4D7A;
+            margin-bottom: 30px;
+            background-color: #f5f5f5; /* Labai šviesiai pilka */
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            font-weight: 500;
+        }
+        .instruction strong {
+            color: #4A90E2; /* Mėlynas paryškinimas */
+            font-weight: bold;
+        }
+
+        /* PATAISYMAS 2: SAKINIO KONTEINERIS */
         .sentence-container {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap; 
-            background-color: #ffffff;
+            background-color: #dbeafe; /* Žydras fonas */
             border-radius: 15px;
             padding: 40px 20px;
             margin: 30px 0;
@@ -146,12 +133,10 @@
             box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
         }
         
-        /* PATAISYMAS DĖL LŪŽIO: Kiekvieną žodį su "divider" talpiname į vieną nedalomą elementą */
         .sentence-unit {
             display: inline-flex; 
             align-items: center;
             margin: 0 2px;
-            /* Uždraudžiame lūžti tarp žodžio ir kablelio vietos */
             white-space: nowrap; 
         }
 
@@ -160,11 +145,10 @@
             font-weight: 500;
             color: #0D3B66;
             user-select: none;
-            /* Mažesnis tarpas, nes jį dabar valdo .sentence-unit margin */
             margin: 0; 
         }
 
-        /* Paspaudžiama sritis tarp žodžių */
+        /* Kablelių vieta */
         .sentence-container .divider {
             width: 20px; 
             height: 40px; 
@@ -172,17 +156,14 @@
             position: relative;
             border-radius: 6px;
             transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin: 0 1px;
         }
 
         .sentence-container .divider:hover {
-            background-color: #E8F4F8;
+            background-color: #D4E9F7;
         }
 
-        /* Pažymėta kablelio vieta (Mokinio pasirinkimas - Raudona, kaip įspėjimas) */
+        /* Pažymėta kablelio vieta (Mokinio pasirinkimas) */
         .sentence-container .divider.selected::after {
             content: ','; 
             color: #E74C3C; 
@@ -241,42 +222,6 @@
             display: none;
         }
         
-        .feedback {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            min-height: 60px;
-        }
-        
-        .feedback .text-green {
-            color: #155724;
-            background-color: #d4edda;
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid #c3e6cb;
-            display: inline-block;
-        }
-        
-        .feedback .text-red {
-            color: #721c24;
-            background-color: #f8d7da;
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid #f5c6cb;
-            display: inline-block;
-        }
-        
-        .feedback .correct-answer {
-            color: #1A4D7A;
-            margin-top: 10px;
-            display: block;
-            font-size: 20px;
-            font-weight: 500;
-        }
-
         .progress {
             text-align: center;
             font-size: 16px;
@@ -285,46 +230,13 @@
             font-weight: bold;
         }
         
-        /* Rezultatų kortelės stiliai */
-        .results-card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 4px 15px rgba(26, 77, 122, 0.15);
-            border: 3px solid #4ECDC4;
-            text-align: center;
-            margin-top: 30px;
-        }
-        
         .results-card.hidden {
             display: none;
         }
-        
-        .results-card h2 {
-            font-size: 32px;
-            color: #0D3B66;
-            margin-bottom: 20px;
-        }
-        
-        .final-score {
-            font-size: 48px;
-            color: #4A90E2;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        
-        .accuracy {
-            font-size: 24px;
-            color: #1A4D7A;
-            margin-bottom: 30px;
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #4ECDC4, #27ae60);
-        }
 
+        /* Mobile */
         @media (max-width: 600px) {
-            .top-header {
+             .top-header {
                 flex-direction: column;
                 align-items: stretch;
             }
@@ -357,9 +269,9 @@
                 <div class="intro-content">
                     <p>Vienarūšės sakinio dalys atlieka <strong>tą pačią funkciją</strong> ir atsako į <strong>tą patį klausimą</strong>.</p>
                     <ul>
-                        <li><strong>Visada rašykite</strong>, jei vienarūšės dalys jungiamos <strong>be jungtuko</strong> (pvz.: Miške radome baravykų, voveraičių, gūdukų).</li>
+                        <li><strong>Visada rašykite</strong>, jei vienarūšės dalys jungiamos <strong>be jungtuko</strong> (pvz.: Miške radome <strong>baravykų</strong>, <strong>voveraičių</strong>, <strong>gūdukų</strong>).</li>
                         <li><strong>Visada rašykite</strong>, jei naudojami jungtukai: <strong>bet</strong>, <strong>o</strong>, <strong>tačiau</strong>, <strong>vis dėlto</strong>.</li>
-                        <li><strong>Visada rašykite</strong>, jei jungtukas <strong>kartojasi</strong> (pvz.: Tiek vėjas, tiek šiluma, tiek drėgmė).</li>
+                        <li><strong>Visada rašykite</strong>, jei jungtukas <strong>kartojasi</strong> (pvz.: Tiek <strong>vėjas</strong>, tiek <strong>šiluma</strong>, tiek <strong>drėgmė</strong>).</li>
                         <li><strong>Nerašykite</strong>, jei jungtukas <strong>ir</strong>, <strong>arba</strong>, <strong>nei</strong> vartojamas <strong>tik vieną kartą</strong>.</li>
                     </ul>
                     <div style="text-align: center; margin-top: 30px;">
@@ -368,8 +280,9 @@
                 </div>
             </div>
             
-            <div id="task-card" style="display: none;"> <div id="instruction" class="instruction">
-                    Paspausk tarp žodžių ten, kur <strong>turi</strong> būti kablelis.
+            <div id="task-card" style="display: none;">
+                 <div id="instruction" class="instruction">
+                    <strong>Paspausk</strong> tarp žodžių ten, kur turi būti kablelis.
                 </div>
                 
                 <div id="sentence-container" class="sentence-container"></div>
@@ -395,7 +308,7 @@
     </div>
 
     <script>
-        // --- Vardų valdymas (Jūsų kodas) ---
+        // --- Vardų valdymas ---
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
             if (!studentName) {
@@ -449,36 +362,16 @@
         // --- UŽDUOČIŲ DUOMENYS (Vėjai) ---
         // 'correct' indeksai nurodo poziciją PO ŽODŽIO (žodžio indexas, PO kurio dedamas kablelis)
         const sentences = [
-            // 1. Vėjai gali būti rytų, vakarų, šiaurės ir pietų.
-            { id: 1, text: "Vėjai gali būti rytų vakarų šiaurės ir pietų.", correct: [4, 5] }, 
-            
-            // 2. Taip pat vėjai būna pietryčių, pietvakarių, šiaurės vakarų ar šiaurės rytų.
-            { id: 2, text: "Taip pat vėjai būna pietryčių pietvakarių šiaurės rytų ar šiaurės vakarų.", correct: [5, 6] },
-            
-            // 3. Lietuvos Pamario žvejai naudojo tokius vardus kaip marinis, vakarynė, ožinis ir peitvis.
-            { id: 3, text: "Lietuvos Pamario žvejai naudojo tokius vardus kaip marinis vakarynė ožinis ir peitvis.", correct: [8, 9] },
-            
-            // 4. Lietuvos Pajūrio žvejai vėjus vadino jūriniu, sominiu, žiemeliu, launagiu ir šakšiniu.
-            { id: 4, text: "Lietuvos Pajūrio žvejai vėjus vadino jūriniu sominiu žiemeliu launagiu ir šakšiniu.", correct: [6, 7, 8] },
-            
-            // 5. Vėjų klasifikacija pagal stiprumą: audra, uraganas, škvalas ir viesulas.
-            { id: 5, text: "Vėjų klasifikacija pagal stiprumą: audra uraganas škvalas ir viesulas.", correct: [5, 6] },
-            
-            // 6. Vėjai klasifikuojami į pastoviuosius, sezoninius ir vietinius.
-            { id: 6, text: "Vėjai klasifikuojami į pastoviuosius sezoninius ir vietinius.", correct: [4] }, 
-            
-            // 7. Pastovieji vėjai: pasatai, vakariniai ir poliariniai.
-            { id: 7, text: "Pastovieji vėjai: pasatai vakariniai ir poliariniai.", correct: [3] },
-            
-            // 8. Sezoniniai vėjai: musonas, haboob ir harmatanas.
-            { id: 8, text: "Sezoniniai vėjai: musonas haboob ir harmatanas.", correct: [3] },
-            
-            // 9. Vietiniai vėjai turi daug pavadinimų: brizas, fenas, bora, mistralis, sirokas ir t. t.
-            // Pataisyta: T.t. įtraukta su taškais, kaip vienas žodis
-            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir t.t.", correct: [6, 7, 8, 9] },
-            
-            // 10. Vėjai gali būti šilti, šalti, sausi arba drėgni.
-            { id: 10, text: "Vėjai gali būti šilti šalti sausi arba drėgni.", correct: [4, 5] }
+            { id: 1, text: "Vėjai gali būti rytų vakarų šiaurės ir pietų", correct: [4, 5] }, 
+            { id: 2, text: "Taip pat vėjai būna pietryčių pietvakarių šiaurės rytų ar šiaurės vakarų", correct: [5, 6] },
+            { id: 3, text: "Lietuvos Pamario žvejai naudojo tokius vardus kaip marinis vakarynė ožinis ir peitvis", correct: [8, 9] },
+            { id: 4, text: "Lietuvos Pajūrio žvejai vėjus vadino jūriniu sominiu žiemeliu launagiu ir šakšiniu", correct: [6, 7, 8] },
+            { id: 5, text: "Vėjų klasifikacija pagal stiprumą: audra uraganas škvalas ir viesulas", correct: [5, 6] },
+            { id: 6, text: "Vėjai klasifikuojami į pastoviuosius sezoninius ir vietinius", correct: [4] }, 
+            { id: 7, text: "Pastovieji vėjai: pasatai vakariniai ir poliariniai", correct: [3] },
+            { id: 8, text: "Sezoniniai vėjai: musonas haboob ir harmatanas", correct: [3] },
+            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir t.t", correct: [6, 7, 8, 9] },
+            { id: 10, text: "Vėjai gali būti šilti šalti sausi arba drėgni", correct: [4, 5] }
         ];
 
         // --- Būsenos kintamieji ---
@@ -489,27 +382,12 @@
         let totalPossibleSeparators = sentences.reduce((acc, sentence) => acc + sentence.correct.length, 0);
         let studentCorrectSeparators = 0; 
 
-        // --- DOM elementai ---
-        const introCard = document.getElementById('intro-card');
-        const taskCard = document.getElementById('task-card');
-        const sentenceContainer = document.getElementById('sentence-container');
-        const checkBtn = document.getElementById('check-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const feedbackEl = document.getElementById('feedback');
-        const progressEl = document.getElementById('progress');
-        const resultsCard = document.getElementById('results-card');
-        const mainCard = document.getElementById('main-card');
-        const finalScoreEl = document.getElementById('final-score');
-        const accuracyEl = document.getElementById('accuracy');
-        const startButton = document.getElementById('startButton'); // Gauti mygtuką
-
         // --- Funkcijos ---
 
         /**
          * Paruošia ir atvaizduoja dabartinį sakinį.
          */
         function displaySentence() {
-            // Paslėpti intro ir parodyti užduotį (tai valdoma per mygtuką 'startButton')
             introCard.style.display = 'none';
             taskCard.style.display = 'block';
 
@@ -521,7 +399,6 @@
             const cleanWords = currentText.replace(/[.,;!?"']/g, '').split(/\s+/g).filter(w => w.length > 0);
 
             cleanWords.forEach((word, index) => {
-                // Konteineris, kad žodis ir kablelio vieta nenutrūktų
                 const unit = document.createElement('div');
                 unit.classList.add('sentence-unit'); 
 
@@ -531,7 +408,7 @@
                 unit.appendChild(wordSpan);
 
                 // DEDAME DIVIDER (vietą kableliui)
-                if (index < cleanWords.length - 1) {
+                if (index < cleanWords.length) { // Leidžiame divider ir po paskutinio žodžio
                     const divider = document.createElement('div');
                     divider.classList.add('divider');
                     divider.dataset.index = index + 1; 
@@ -544,20 +421,24 @@
                 
                 sentenceContainer.appendChild(unit);
             });
+            
+            // PATAISYMAS 3: Pridedame tašką į paskutinį "sentence-unit"
+            const lastUnit = sentenceContainer.lastElementChild;
+            if (lastUnit) {
+                const dot = document.createElement('span');
+                dot.textContent = '.';
+                dot.style.pointerEvents = 'none';
+                dot.style.margin = '0 5px';
+                dot.style.fontSize = '24px';
+                lastUnit.appendChild(dot);
+            }
 
+
+            feedbackEl.innerHTML = '';
             updateProgress();
             checkBtn.classList.remove('hidden');
             checkBtn.classList.remove('btn-disabled');
             nextBtn.classList.add('hidden');
-            
-            // Pataisymas: Nustatome mygtuko veiksmą paskutinei kortelei
-            if (currentSentenceIndex === sentences.length - 1) {
-                nextBtn.textContent = '🏁 Baigti užduotį';
-                nextBtn.onclick = showFinalResults; 
-            } else {
-                nextBtn.textContent = '➡️ Kitas sakinys';
-                nextBtn.onclick = goToNextSentence;
-            }
         }
 
         /**
@@ -620,7 +501,7 @@
 
                 feedbackEl.innerHTML = `
                     <span class="text-red">❌ Beveik... Bandyk dar! (${praleista > 0 ? `Praleista kablelių: ${praleista}.` : ''} ${klaidingai > 0 ? `Klaidingai padėta kablelių: ${klaidingai}.` : ''})</span>
-                    <span class="correct-answer">Teisinga skyryba: <b>${currentSentence}</b></span>
+                    <span class="correct-answer">Teisinga skyryba: <b>${currentSentence}.</b></span>
                 `;
             }
 
@@ -639,8 +520,10 @@
             words.forEach((word, index) => {
                 result += word;
                 if (correctIndices.includes(index + 1)) { 
-                    result += ', ';
-                } else {
+                    result += ',';
+                }
+                 // Pridedame tarpą tik jei tai ne paskutinis žodis
+                if (index < words.length - 1) { 
                     result += ' ';
                 }
             });
@@ -664,7 +547,6 @@
          * Rodo galutinius rezultatus ir siunčia duomenis.
          */
         function showFinalResults() {
-            // Pakeičiame ekrano turinį
             taskCard.style.display = 'none';
             introCard.style.display = 'none';
             mainCard.style.display = 'none';
@@ -676,7 +558,6 @@
             finalScoreEl.textContent = `${studentCorrectSeparators} / ${totalPossibleSeparators} teisingai padėtų kablelių`;
             accuracyEl.textContent = `Tikslumas: ${percentage}% (Teisingai atlikta užduočių: ${correctAnswers} / ${totalTasks})`;
             
-            // Siunčiame bendrą tikslumą į Google Sheets
             sendResultToSheet('L0203 Kableliai tarp vienarūšių (Vėjai)', percentage);
         }
 
@@ -687,11 +568,16 @@
             progressEl.textContent = `Sakinys ${currentSentenceIndex + 1} iš ${sentences.length}`;
         }
 
-        // --- Pradinis paleidimas: valdoma, kaip pereiti iš atmintinės prie užduoties ---
+        // --- Pradinis paleidimas ---
         document.addEventListener('DOMContentLoaded', () => {
-             // Mygtukas jau sugeneruotas HTML'e
+             // Įsitikiname, kad intro kortelė rodoma startuojant
+             introCard.style.display = 'block'; 
              startButton.onclick = displaySentence;
         });
+
+        // Globalūs kintamieji, kad būtų pasiekiami iš HTML
+        window.checkAnswer = checkAnswer;
+        window.goToNextSentence = goToNextSentence;
 
     </script>
 </body>
