@@ -16,7 +16,7 @@
             font-family: 'OpenDyslexic', Arial, sans-serif;
             font-size: 18px;
             line-height: 1.8;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #E8F4F8; /* Šviesus, ramus fonas */
             min-height: 100vh;
             padding: 20px;
         }
@@ -27,7 +27,7 @@
             background: white;
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         /* Viršutinė juosta */
@@ -46,7 +46,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #89b5f5;
+            background: #7CB3E9;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -58,7 +58,7 @@
         }
 
         .grizti-btn:hover {
-            background: #6a9de8;
+            background: #4A90E2;
             transform: translateX(-3px);
         }
 
@@ -79,7 +79,7 @@
         }
 
         .keisti-btn {
-            background: #89b5f5;
+            background: #7CB3E9;
             color: white;
             border: none;
             padding: 8px 15px;
@@ -91,7 +91,7 @@
         }
 
         .keisti-btn:hover {
-            background: #6a9de8;
+            background: #4A90E2;
         }
 
         .header {
@@ -297,6 +297,15 @@
             transform: translateY(-2px);
         }
 
+        /* Skiemenų užuomina */
+        .syllable-hint {
+            text-align: center;
+            font-size: 24px;
+            color: #7f8c8d;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
         /* Mygtukai */
         .controls {
             text-align: center;
@@ -494,7 +503,7 @@
         { 
             word: 'trečianis', 
             correctSyllable: 'die', 
-            position: 6, // po "trečia"
+            position: 6,
             options: ['die', 'tie', 'dė'],
             fullWord: 'trečiadienis',
             syllables: 'tre-čia-die-nis'
@@ -502,7 +511,7 @@
         { 
             word: 'lodija', 
             correctSyllable: 'me', 
-            position: 0, // pradžioje
+            position: 0,
             options: ['me', 'mė', 'mie'],
             fullWord: 'melodija',
             syllables: 'me-lo-di-ja'
@@ -510,7 +519,7 @@
         { 
             word: 'kenė', 
             correctSyllable: 'lio', 
-            position: 2, // po "ke"
+            position: 2,
             options: ['io', 'lio', 'lo'],
             fullWord: 'kelionė',
             syllables: 'ke-lio-nė'
@@ -518,7 +527,7 @@
         { 
             word: 'kunugaris', 
             correctSyllable: 'pra', 
-            position: 2, // po "ku"
+            position: 2,
             options: ['pra', 'bra', 'pa'],
             fullWord: 'kupranugaris',
             syllables: 'kup-ra-nu-ga-ris'
@@ -526,7 +535,7 @@
         { 
             word: 'pusserė', 
             correctSyllable: 'se', 
-            position: 5, // po "pusse"
+            position: 5,
             options: ['se', 'e', 'sė'],
             fullWord: 'pusseserė',
             syllables: 'pus-se-se-rė'
@@ -534,7 +543,7 @@
         { 
             word: 'delis', 
             correctSyllable: 'puo', 
-            position: 0, // pradžioje
+            position: 0,
             options: ['po', 'pou', 'puo'],
             fullWord: 'puodelis',
             syllables: 'puo-de-lis'
@@ -542,7 +551,7 @@
         { 
             word: 'lesyklė', 
             correctSyllable: 'lė', 
-            position: 7, // po "lesyklė"
+            position: 7,
             options: ['le', 'lė', 'lie'],
             fullWord: 'lesyklėlė',
             syllables: 'le-syk-lė-lė'
@@ -550,7 +559,7 @@
         { 
             word: 'vardis', 
             correctSyllable: 'būd', 
-            position: 0, // pradžioje
+            position: 0,
             options: ['būt', 'būd', 'bud'],
             fullWord: 'būdvardis',
             syllables: 'būd-var-dis'
@@ -649,7 +658,7 @@
         words.forEach((wordData, index) => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.id = `card-${index}`;
+            card.id = `card-\${index}`;
             
             card.innerHTML = `
                 <div class="card-header">Užduotis ${index + 1} / ${words.length}</div>
@@ -675,7 +684,7 @@
         
         wordContainer.innerHTML = '';
         
-        // Pridėti divider pradžioje (jei skiemuo gali būti pradžioje)
+        // Pridėti divider pradžioje
         const startDivider = document.createElement('div');
         startDivider.className = 'divider';
         startDivider.dataset.position = '0';
@@ -690,7 +699,6 @@
             letterSpan.textContent = letter;
             wordContainer.appendChild(letterSpan);
             
-            // Pridėti divider po kiekvienos raidės
             const divider = document.createElement('div');
             divider.className = 'divider';
             divider.dataset.position = (index + 1).toString();
@@ -705,7 +713,7 @@
         if (isChecked && cardIndex === currentWordIndex) return;
         if (cardIndex !== currentWordIndex) return;
         
-        // Pašalinti ankstesnį pasirinkimą
+        // Pašalinti ankstesnį pasirinkimą ir dropdown
         const allDividers = document.querySelectorAll(`#word-container-${cardIndex} .divider`);
         allDividers.forEach(div => {
             div.classList.remove('selected');
@@ -714,6 +722,12 @@
                 existingDropdown.remove();
             }
         });
+        
+        // Pašalinti anksčiau įterptą skiemenį
+        const existingInserted = document.getElementById(`inserted-${cardIndex}`);
+        if (existingInserted) {
+            existingInserted.remove();
+        }
         
         // Pažymėti naują pasirinkimą
         selectedPosition = position;
@@ -727,7 +741,7 @@
             const optionDiv = document.createElement('div');
             optionDiv.className = 'syllable-option';
             optionDiv.textContent = option;
-            optionDiv.addEventListener('click', () => selectSyllable(option, cardIndex, dividerEl));
+            optionDiv.addEventListener('click', () => selectSyllable(option, cardIndex, dividerEl, dropdown));
             dropdown.appendChild(optionDiv);
         });
         
@@ -735,11 +749,10 @@
     }
 
     // --- Skiemens pasirinkimas ---
-    function selectSyllable(syllable, cardIndex, dividerEl) {
+    function selectSyllable(syllable, cardIndex, dividerEl, dropdown) {
         selectedSyllable = syllable;
         
-        // Pašalinti dropdown
-        const dropdown = dividerEl.querySelector('.syllable-dropdown');
+        // UŽDARYTI dropdown
         if (dropdown) {
             dropdown.remove();
         }
@@ -750,7 +763,6 @@
         insertedSpan.textContent = syllable;
         insertedSpan.id = `inserted-${cardIndex}`;
         
-        // Įterpti po divider
         dividerEl.classList.remove('selected');
         dividerEl.insertAdjacentElement('afterend', insertedSpan);
         
@@ -851,4 +863,5 @@
 
 </body>
 </html>
+
 
