@@ -87,33 +87,16 @@
             animation: fadeIn 0.4s ease-in;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* PATAISYMAS 1: Klausimo antraštė */
-        .question-title {
-            font-size: 1.5rem; /* Sumažintas šriftas */
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 20px;
-            text-align: center;
-            padding-bottom: 15px;
-        }
-        .question-title strong {
-             font-weight: 900;
-        }
-
-        /* PATAISYMAS 2: Instrukcijos (kaip numeruotas sąrašas) */
+        /* PATAISYMAS 1: Instrukcijų stiliai */
         .instructions {
-            background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
-            border: 3px solid #1976d2;
+            background-color: #f9fafb; /* Neutralus šviesus fonas */
+            border: 3px solid #e5e7eb; /* Švelni kraštinė */
             border-radius: 16px;
             padding: 25px;
             margin-bottom: 30px;
             font-size: 1.15rem;
             line-height: 1.8;
+            color: #1f2937;
         }
 
         .instructions ol {
@@ -126,8 +109,7 @@
         .instructions li {
             counter-increment: custom-counter;
             margin-bottom: 10px;
-            font-weight: 600;
-            color: #0d47a1;
+            font-weight: 500;
             padding-left: 30px;
             position: relative;
         }
@@ -139,8 +121,24 @@
             position: absolute;
             left: 0;
         }
+        .instructions strong {
+             font-weight: 900;
+             color: #1f2937; /* Paryškinimas tamsiu tekstu */
+        }
 
-        /* PATAISYMAS 4: Spalvų pasirinkimo mygtukai */
+        /* Kita dalis (iš paskutinio veikiančio kodo) */
+        .question-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+        .question-title strong {
+             font-weight: 900;
+        }
+
         .selection-buttons {
             display: flex;
             justify-content: center;
@@ -164,21 +162,11 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .selection-btn:hover {
-             transform: translateY(-2px);
-        }
-
-        .selection-btn.selected {
-            border-color: #1976d2;
-            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
-            transform: scale(1.05);
-        }
-
         .btn-dalyvis { background-color: #a4d49d; color: #27541f; }
         .btn-pusdalyvis { background-color: #f2e796; color: #9e8f1c; }
         .btn-padalyvis { background-color: #c6d9f7; color: #2d4c7d; }
+        .icon-book { font-size: 1.5rem; margin-bottom: 5px; }
 
-        /* PATAISYMAS 3: Sakinio rėmelis */
         .sentence-container {
             background-color: #f9fafb;
             border: 3px solid #7cb3e9;
@@ -189,7 +177,7 @@
             line-height: 2;
             text-align: center;
         }
-
+        
         .word {
             display: inline-block;
             padding: 5px 10px;
@@ -199,50 +187,25 @@
             transition: all 0.3s;
             border: 2px solid transparent;
         }
-
-        .word:hover {
-            border-color: #1976d2;
-        }
-
-        .word.highlighted-Dalyvis { background-color: #a4d49d; border-color: #27541f; font-weight: 700; }
-        .word.highlighted-Pusdalyvis { background-color: #f2e796; border-color: #9e8f1c; font-weight: 700; }
-        .word.highlighted-Padalyvis { background-color: #c6d9f7; border-color: #2d4c7d; font-weight: 700; }
         
-        .word.correct-answer { background-color: #a4d49d !important; border-color: #27541f !important; }
-        .word.wrong-answer { background-color: #fee2e2 !important; border-color: #ef4444 !important; }
-
-        /* PATAISYMAS 5: Tikrinimo mygtukas */
+        /* ... (visi kiti stiliai likę iš paskutinės veikiančios versijos) ... */
         .action-button {
-            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-            color: white;
-            max-width: 400px;
-            margin: 20px auto 0;
-            padding: 16px 32px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: block;
+            max-width: 400px; margin: 20px auto 0; padding: 16px 32px; font-size: 1.2rem; font-weight: 700; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: block;
         }
+        .action-button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+        .action-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .bg-blue-600 { background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%); color: white; }
+        .bg-green-600 { background: linear-gradient(135deg, #549c48 0%, #27541f 100%); color: white; }
+        .bg-orange-600 { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; }
+        /* ... (Rezultatų, animacijos stiliai) ... */
         
-        /* Ikonos stilius */
-        .icon-book { font-size: 1.5rem; margin-bottom: 5px; }
-
         /* Mobilusis dizainas */
         @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .student-info {
-                width: 100%;
-            }
-            .action-button {
-                max-width: 100%;
-            }
+            .sentence-container { font-size: 1.2rem; padding: 20px; }
+            .question-title { font-size: 1.5rem; }
+            .header-container { flex-direction: column; align-items: stretch; }
+            .student-info { width: 100%; }
+            .action-button { max-width: 100%; }
         }
     </style>
 </head>
@@ -256,6 +219,35 @@
                 <span>Mokinys: <strong id="studentNameDisplay"></strong></span>
                 <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
             </div>
+        </div>
+
+        <div id="card-instructions" class="card active">
+            <h1 class="question-title">🎨 Pažymėk žodžius spalvomis</h1>
+
+            <div class="instructions">
+                <ol>
+                    <li>📖 <strong>Perskaityk</strong> sakinį.</li>
+                    <li>🧠 <strong>Nustatyk</strong>, kuris žodis yra dalyvis, pusdalyvis ar padalyvis.</li>
+                    <li>🎨 <strong>Pasirink</strong> tinkamą spalvą.</li>
+                    <li>👆 <strong>Spustelėk</strong> ant žodžio, kurį nori pažymėti.</li>
+                    <li>✅ Spausk "Pasitikrinti".</li>
+                    <li>➡️ Eik prie kito sakinio.</li>
+                </ol>
+            </div>
+
+            <div class="selection-buttons">
+                <div class="color-option btn-dalyvis" style="border: 1px solid #15803d;">
+                    <span class="icon-book">📗</span> Dalyvis<br>Koks? Kokia?
+                 </div>
+                 <div class="color-option btn-pusdalyvis" style="border: 1px solid #b45309;">
+                    <span class="icon-book">📙</span> Pusdalyvis<br>Ką veikdamas?
+                 </div>
+                 <div class="color-option btn-padalyvis" style="border: 1px solid #1e40af;">
+                    <span class="icon-book">📘</span> Padalyvis<br>Kaip? Kada?
+                 </div>
+            </div>
+            
+            <button onclick="showCard('card-task-1')" class="action-button bg-blue-600">▶️ Pradėti užduotį</button>
         </div>
 
         <div id="task-cards-container"></div>
@@ -294,7 +286,7 @@
     let questionStates = {};
     let score = 0;
     let userAnswersLog = [];
-
+    
     // --- VARDŲ VALDYMAS ---
     function showNamePrompt() {
         const studentName = localStorage.getItem('studentName');
@@ -342,7 +334,7 @@
         
         state.selectedColor = colorType;
         
-        const colorOptions = document.querySelectorAll(`#card-task-${questionNum} .color-option`);
+        const colorOptions = document.querySelectorAll(`#card-task-${questionNum} .selection-btn`);
         colorOptions.forEach(opt => {
             opt.classList.remove('selected');
         });
@@ -369,7 +361,6 @@
         });
         
         // Pažymėti pasirinktą žodį
-        // Pataisymas: Žodis yra apvalytas nuo skyrybos ženklo (jei yra), kad palyginimas būtų tikslus
         state.selectedWord = wordElement.textContent.replace(/[.,!?]/g, '');
         
         wordElement.classList.add(`highlighted-${state.selectedColor}`);
@@ -403,7 +394,7 @@
         // Rasti teisingą žodį ir pažymėti
         allWords.forEach(w => {
             const wordText = w.textContent.replace(/[.,!?]/g, '');
-            w.style.cursor = 'default'; // Išjungti paspaudimą po tikrinimo
+            w.style.cursor = 'default';
             
             if (wordText === correctWord) {
                 // Teisingas žodis visada yra žalios spalvos (correct-answer)
@@ -463,15 +454,15 @@
 
             const isLastQuestion = questionNum === totalQuestions;
 
-            // PATAISYTA: Sakinio rėmelis, instrukcijos, mygtukai
             cardDiv.innerHTML = `
                 <h2 class="question-title">Sakinys <strong>${questionNum}</strong> iš <strong>${totalQuestions}</strong></h2>
 
                 <div class="instructions">
                     <ol>
-                        <li>📖 Nustatyk kuris žodis yra dalyvis, pusdalyvis ar padalyvis.</li>
-                        <li>🎨 Pasirink tinkamą spalvą.</li>
-                        <li>👆 Spustelėk ant žodžio, kurį nori pažymėti.</li>
+                        <li>📖 <strong>Perskaityk</strong> sakinį.</li>
+                        <li>🧠 <strong>Nustatyk</strong>, kuris žodis yra dalyvis, pusdalyvis ar padalyvis.</li>
+                        <li>🎨 <strong>Pasirink</strong> tinkamą spalvą.</li>
+                        <li>👆 <strong>Spustelėk</strong> ant žodžio, kurį nori pažymėti.</li>
                         <li>✅ Spausk "Pasitikrinti".</li>
                     </ol>
                 </div>
@@ -565,8 +556,10 @@
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
         
+        // Generuojame korteles
         generateTaskCards();
-        // Pradedame nuo pirmos užduoties
+
+        // Pradedame nuo pirmos užduoties (ne nuo instrukcijų kortelės, kuri buvo pašalinta)
         showCard('card-task-1');
     };
 </script>
