@@ -98,33 +98,63 @@
         }
         .intro-content ul {
             padding-left: 25px;
-            list-style: disc;
+            list-style: none; /* Nuimame numatytąjį stilių dėl ikonų */
+        }
+        .intro-content li {
+            margin-bottom: 10px;
+        }
+        /* Rezultatų kortelės stiliai (PATAISA 1: Dizainas) */
+        .results-card {
+            background-color: #f0fdf4; /* Labai šviesiai žaliai mėlynas fonas */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.25); /* Žalsvas šešėlis */
+            padding: 40px;
+            border: 4px solid #4CAF50; /* Žalia kraštinė */
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
         }
 
-        /* PATAISYMAS 2: Instrukcijos blokas */
+        .results-card h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #1B5E20; /* Tamsiai žalia */
+            margin-bottom: 25px;
+        }
+
+        .final-score, .accuracy {
+            font-size: 1.5rem;
+            color: #388E3C; /* Vidutinė žalia */
+            font-weight: bold;
+            margin: 15px 0;
+            padding: 10px;
+            border-bottom: 1px dashed #A5D6A7;
+        }
+        
+        /* Instrukcijos blokas */
         .instruction {
             text-align: center;
             font-size: 1.1rem;
             color: #1A4D7A;
             margin-bottom: 30px;
-            background-color: #f5f5f5; /* Labai šviesiai pilka */
+            background-color: #f5f5f5; 
             padding: 15px;
             border-radius: 10px;
             border: 2px solid #e0e0e0;
             font-weight: 500;
         }
         .instruction strong {
-            color: #4A90E2; /* Mėlynas paryškinimas */
+            color: #4A90E2; 
             font-weight: bold;
         }
 
-        /* PATAISYMAS 2: SAKINIO KONTEINERIS */
+        /* SAKINIO KONTEINERIS */
         .sentence-container {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap; 
-            background-color: #dbeafe; /* Žydras fonas */
+            background-color: #dbeafe; 
             border-radius: 15px;
             padding: 40px 20px;
             margin: 30px 0;
@@ -191,6 +221,10 @@
             font-size: 1.5rem;
             line-height: 1;
             position: absolute;
+            top: 5px; 
+            left: 0;
+            right: 0;
+            text-align: center;
         }
         
         /* Valdiklių stiliai */
@@ -234,6 +268,22 @@
             display: none;
         }
 
+        .text-red {
+            color: #E74C3C;
+        }
+        .text-green {
+            color: #27ae60;
+        }
+        .correct-answer {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #D4E9F7;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
         /* Mobile */
         @media (max-width: 600px) {
              .top-header {
@@ -269,10 +319,10 @@
                 <div class="intro-content">
                     <p>Vienarūšės sakinio dalys atlieka <strong>tą pačią funkciją</strong> ir atsako į <strong>tą patį klausimą</strong>.</p>
                     <ul>
-                        <li><strong>Visada rašykite</strong>, jei vienarūšės dalys jungiamos <strong>be jungtuko</strong> (pvz.: Miške radome <strong>baravykų</strong>, <strong>voveraičių</strong>, <strong>gūdukų</strong>).</li>
-                        <li><strong>Visada rašykite</strong>, jei naudojami jungtukai: <strong>bet</strong>, <strong>o</strong>, <strong>tačiau</strong>, <strong>vis dėlto</strong>.</li>
-                        <li><strong>Visada rašykite</strong>, jei jungtukas <strong>kartojasi</strong> (pvz.: Tiek <strong>vėjas</strong>, tiek <strong>šiluma</strong>, tiek <strong>drėgmė</strong>).</li>
-                        <li><strong>Nerašykite</strong>, jei jungtukas <strong>ir</strong>, <strong>arba</strong>, <strong>nei</strong> vartojamas <strong>tik vieną kartą</strong>.</li>
+                        <li><strong style="color: #4CAF50;">✅ Visada rašykite</strong>, jei vienarūšės dalys jungiamos <strong>be jungtuko</strong> (pvz.: Miške radome <strong>baravykų</strong>, <strong>voveraičių</strong>, <strong>gūdukų</strong>).</li>
+                        <li><strong style="color: #4CAF50;">✅ Visada rašykite</strong>, jei naudojami jungtukai: <strong>bet</strong>, <strong>o</strong>, <strong>tačiau</strong>, <strong>vis dėlto</strong>.</li>
+                        <li><strong style="color: #4CAF50;">✅ Visada rašykite</strong>, jei jungtukas <strong>kartojasi</strong> (pvz.: Tiek <strong>vėjas</strong>, tiek <strong>šiluma</strong>, tiek <strong>drėgmė</strong>).</li>
+                        <li><strong style="color: #E74C3C;">❌ Nerašykite</strong>, jei jungtukas <strong>ir</strong>, <strong>arba</strong>, <strong>nei</strong> vartojamas <strong>tik vieną kartą</strong>.</li>
                     </ul>
                     <div style="text-align: center; margin-top: 30px;">
                         <button id="startButton" class="btn">▶️ Pradėti užduotį</button>
@@ -307,295 +357,293 @@
         </div>
     </div>
 
-<script>
-    // --- Vardų valdymas ---
-    function showNamePrompt() {
-        const studentName = localStorage.getItem('studentName');
-        if (!studentName) {
-            const name = prompt('Įvesk savo vardą:');
-            if (name && name.trim() !== '') {
-                localStorage.setItem('studentName', name.trim());
-                return name.trim();
-            } else {
-                alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
-                return showNamePrompt();
+    <script>
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
             }
+            return studentName;
         }
-        return studentName;
-    }
 
-    function changeName() {
-        localStorage.removeItem('studentName');
-        const newName = showNamePrompt();
-        alert(`Vardas pakeistas į: ${newName}`);
-        location.reload();
-    }
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
 
-    // --- GOOGLE SHEETS API ---
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+        // --- GOOGLE SHEETS API ---
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
 
-    function sendResultToSheet(taskName, score) {
-        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
-        const timestamp = new Date().toLocaleString('lt-LT');
-        const data = {
-            name: studentName,
-            task: taskName,
-            score: score,
-            timestamp: timestamp
-        };
-        
-        fetch(SHEET_URL, {
-            method: 'POST',
-            mode: 'no-cors', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-        .then(() => console.log('Rezultatas sėkmingai išsiųstas!'))
-        .catch(error => console.error('Klaida siunčiant rezultatą:', error));
-    }
-    
-    const studentName = showNamePrompt();
-    document.getElementById('studentNameDisplay').textContent = studentName;
-
-    // --- UŽDUOČIŲ DUOMENYS (Vėjai) ---
-    const sentences = [
-        { id: 1, text: "Vėjai gali būti rytų vakarų šiaurės ir pietų", correct: [4, 5] }, 
-        { id: 2, text: "Taip pat vėjai būna pietryčių pietvakarių šiaurės rytų ar šiaurės vakarų", correct: [5, 6] },
-        { id: 3, text: "Lietuvos Pamario žvejai naudojo tokius vardus kaip marinis vakarynė ožinis ir peitvis", correct: [8, 9] },
-        { id: 4, text: "Lietuvos Pajūrio žvejai vėjus vadino jūriniu sominiu žiemeliu launagiu ir šakšiniu", correct: [6, 7, 8] },
-        { id: 5, text: "Vėjų klasifikacija pagal stiprumą: audra uraganas škvalas ir viesulas", correct: [5, 6] },
-        { id: 6, text: "Vėjai klasifikuojami į pastoviuosius sezoninius ir vietinius", correct: [4] }, 
-        { id: 7, text: "Pastovieji vėjai: pasatai vakariniai ir poliariniai", correct: [3] },
-        { id: 8, text: "Sezoniniai vėjai: musonas haboob ir harmatanas", correct: [3] },
-        { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir kiti", correct: [6, 7, 8, 9] },
-        { id: 10, text: "Vėjai gali būti šilti šalti sausi arba drėgni", correct: [4, 5] }
-    ];
-
-    // --- Būsenos kintamieji ---
-    let currentSentenceIndex = 0;
-    let userSeparators = [];
-    let isChecked = false;
-    let correctAnswers = 0; 
-    let totalPossibleSeparators = sentences.reduce((acc, sentence) => acc + sentence.correct.length, 0);
-    let studentCorrectSeparators = 0; 
-
-    // --- HTML Elementų apibrėžimas (PAGRINDINĖ PATAISA) ---
-    // Šie kintamieji turi būti apibrėžti, kad visos funkcijos juos pasiektų
-    const introCard = document.getElementById('intro-card');
-    const taskCard = document.getElementById('task-card');
-    const mainCard = document.getElementById('main-card'); 
-    const resultsCard = document.getElementById('results-card');
-    const startButton = document.getElementById('startButton');
-    const sentenceContainer = document.getElementById('sentence-container');
-    const checkBtn = document.getElementById('check-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const feedbackEl = document.getElementById('feedback');
-    const progressEl = document.getElementById('progress');
-    const finalScoreEl = document.getElementById('final-score');
-    const accuracyEl = document.getElementById('accuracy');
-
-    // --- Funkcijos ---
-
-    /**
-     * Paruošia ir atvaizduoja dabartinį sakinį.
-     */
-    function displaySentence() {
-        // PATAISA: Išjungiame intro kortelę ir įjungiame užduoties kortelę
-        introCard.style.display = 'none';
-        taskCard.style.display = 'block';
-
-        sentenceContainer.innerHTML = '';
-        userSeparators = [];
-        isChecked = false;
-        const currentText = sentences[currentSentenceIndex].text;
-
-        const cleanWords = currentText.replace(/[.,;!?"']/g, '').split(/\s+/g).filter(w => w.length > 0);
-
-        cleanWords.forEach((word, index) => {
-            const unit = document.createElement('div');
-            unit.classList.add('sentence-unit'); 
-
-            const wordSpan = document.createElement('span');
-            wordSpan.textContent = word;
-            wordSpan.style.pointerEvents = 'none';
-            unit.appendChild(wordSpan);
-
-            // DEDAME DIVIDER (vietą kableliui)
-            // Leidžiame divider po kiekvieno žodžio (index + 1 yra pozicija PO žodžio)
-            if (index < cleanWords.length) { 
-                const divider = document.createElement('div');
-                divider.classList.add('divider');
-                divider.dataset.index = index + 1; 
-                divider.addEventListener('click', () => {
-                    if (isChecked) return;
-                    toggleSeparatorBreak(divider, index + 1);
-                });
-                unit.appendChild(divider);
-            }
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
             
-            sentenceContainer.appendChild(unit);
-        });
-        
-        // PATAISYMAS 3: Pridedame tašką į paskutinį "sentence-unit"
-        const lastUnit = sentenceContainer.lastElementChild;
-        if (lastUnit) {
-            const dot = document.createElement('span');
-            dot.textContent = '.';
-            dot.style.pointerEvents = 'none';
-            dot.style.margin = '0 5px';
-            dot.style.fontSize = '24px';
-            lastUnit.appendChild(dot);
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => console.log('Rezultatas sėkmingai išsiųstas!'))
+            .catch(error => console.error('Klaida siunčiant rezultatą:', error));
         }
-
-        feedbackEl.innerHTML = '';
-        updateProgress();
-        checkBtn.classList.remove('hidden');
-        checkBtn.classList.remove('btn-disabled');
-        nextBtn.classList.add('hidden');
-    }
-
-    /**
-     * Įjungia arba išjungia kablelio žymę.
-     */
-    function toggleSeparatorBreak(dividerEl, index) {
-        dividerEl.classList.toggle('selected');
-        if (userSeparators.includes(index)) {
-            userSeparators = userSeparators.filter(s => s !== index);
-        } else {
-            userSeparators.push(index);
-        }
-        userSeparators.sort((a, b) => a - b);
-    }
-
-    /**
-     * Patikrina vartotojo atsakymą.
-     */
-    function checkAnswer() {
-        if (isChecked) return;
-        isChecked = true;
         
-        const correctSeparators = sentences[currentSentenceIndex].correct;
-        let currentCorrectCount = 0;
-        const allDividers = sentenceContainer.querySelectorAll('.divider');
-        
-        let studentCorrectsInThisSentence = 0;
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
 
-        allDividers.forEach(divider => {
-            const dividerIndex = parseInt(divider.dataset.index);
-            const isSelected = divider.classList.contains('selected');
-            const isCorrect = correctSeparators.includes(dividerIndex);
+        // --- UŽDUOČIŲ DUOMENYS (Vėjai) ---
+        const sentences = [
+            { id: 1, text: "Vėjai gali būti rytų vakarų šiaurės ir pietų", correct: [4, 5] }, 
+            { id: 2, text: "Taip pat vėjai būna pietryčių pietvakarių šiaurės rytų ar šiaurės vakarų", correct: [5, 6] },
+            { id: 3, text: "Lietuvos Pamario žvejai naudojo tokius vardus kaip marinis vakarynė ožinis ir peitvis", correct: [8, 9] },
+            { id: 4, text: "Lietuvos Pajūrio žvejai vėjus vadino jūriniu sominiu žiemeliu launagiu ir šakšiniu", correct: [6, 7, 8] },
+            { id: 5, text: "Vėjų klasifikacija pagal stiprumą: audra uraganas škvalas ir viesulas", correct: [5, 6] },
+            { id: 6, text: "Vėjai klasifikuojami į pastoviuosius sezoninius ir vietinius", correct: [4] }, 
+            { id: 7, text: "Pastovieji vėjai: pasatai vakariniai ir poliariniai", correct: [3] },
+            { id: 8, text: "Sezoniniai vėjai: musonas haboob ir harmatanas", correct: [3] },
+            { id: 9, text: "Vietiniai vėjai turi daug pavadinimų: brizas fenas bora mistralis sirokas ir kiti", correct: [6, 7, 8, 9] },
+            { id: 10, text: "Vėjai gali būti šilti šalti sausi arba drėgni", correct: [4, 5] }
+        ];
+
+        // --- Būsenos kintamieji ---
+        let currentSentenceIndex = 0;
+        let userSeparators = [];
+        let isChecked = false;
+        let correctAnswers = 0; 
+        let totalPossibleSeparators = sentences.reduce((acc, sentence) => acc + sentence.correct.length, 0);
+        let studentCorrectSeparators = 0; 
+
+        // --- HTML Elementų apibrėžimas (FUNKCIONALUMO PATAISA) ---
+        const introCard = document.getElementById('intro-card');
+        const taskCard = document.getElementById('task-card');
+        const mainCard = document.getElementById('main-card'); 
+        const resultsCard = document.getElementById('results-card');
+        const startButton = document.getElementById('startButton');
+        const sentenceContainer = document.getElementById('sentence-container');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const progressEl = document.getElementById('progress');
+        const finalScoreEl = document.getElementById('final-score');
+        const accuracyEl = document.getElementById('accuracy');
+
+        // --- Funkcijos ---
+
+        /**
+         * Paruošia ir atvaizduoja dabartinį sakinį.
+         */
+        function displaySentence() {
+            // Išjungiame intro kortelę ir įjungiame užduoties kortelę
+            introCard.style.display = 'none';
+            taskCard.style.display = 'block';
+
+            sentenceContainer.innerHTML = '';
+            userSeparators = [];
+            isChecked = false;
+            const currentText = sentences[currentSentenceIndex].text;
+
+            const cleanWords = currentText.replace(/[.,;!?"']/g, '').split(/\s+/g).filter(w => w.length > 0);
+
+            cleanWords.forEach((word, index) => {
+                const unit = document.createElement('div');
+                unit.classList.add('sentence-unit'); 
+
+                const wordSpan = document.createElement('span');
+                wordSpan.textContent = word;
+                wordSpan.style.pointerEvents = 'none';
+                unit.appendChild(wordSpan);
+
+                // DEDAME DIVIDER (vietą kableliui)
+                if (index < cleanWords.length) { 
+                    const divider = document.createElement('div');
+                    divider.classList.add('divider');
+                    divider.dataset.index = index + 1; 
+                    divider.addEventListener('click', () => {
+                        if (isChecked) return;
+                        toggleSeparatorBreak(divider, index + 1);
+                    });
+                    unit.appendChild(divider);
+                }
+                
+                sentenceContainer.appendChild(unit);
+            });
             
-            if (isSelected && isCorrect) {
-                divider.classList.remove('selected');
-                divider.classList.add('correct');
-                currentCorrectCount++;
-                studentCorrectsInThisSentence++; 
-            } else if (isSelected && !isCorrect) {
-                divider.classList.remove('selected');
-                divider.classList.add('incorrect');
-            } else if (!isSelected && isCorrect) {
-                // Pažymime praleistus teisingus žodžius
-                divider.classList.add('correct');
+            // Pridedame tašką į paskutinį "sentence-unit"
+            const lastUnit = sentenceContainer.lastElementChild;
+            if (lastUnit) {
+                const dot = document.createElement('span');
+                dot.textContent = '.';
+                dot.style.pointerEvents = 'none';
+                dot.style.margin = '0 5px';
+                dot.style.fontSize = '24px';
+                lastUnit.appendChild(dot);
             }
-            
-            divider.style.pointerEvents = 'none';
-        });
-        
-        studentCorrectSeparators += studentCorrectsInThisSentence;
-        
-        const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === currentCorrectCount;
 
-        if (isTaskCorrect) {
-            feedbackEl.innerHTML = '<span class="text-green">✅ Puiku! Visi kableliai teisingi! 🎉</span>';
-            correctAnswers++;
-        } else {
-            const currentSentence = formatCorrectAnswer(sentences[currentSentenceIndex].text, correctSeparators);
-            const praleista = correctSeparators.length - currentCorrectCount;
-            const klaidingai = userSeparators.length - studentCorrectsInThisSentence;
-
-            feedbackEl.innerHTML = `
-                <span class="text-red">❌ Beveik... Bandyk dar! (${praleista > 0 ? `Praleista kablelių: ${praleista}.` : ''} ${klaidingai > 0 ? `Klaidingai padėta kablelių: ${klaidingai}.` : ''})</span>
-                <span class="correct-answer">Teisinga skyryba: <b>${currentSentence}.</b></span>
-            `;
-        }
-
-        checkBtn.classList.add('hidden');
-        checkBtn.classList.add('btn-disabled');
-        nextBtn.classList.remove('hidden');
-    }
-    
-    /**
-     * Formatuoja sakinį su kableliais teisingam atsakymui parodyti.
-     */
-    function formatCorrectAnswer(text, correctIndices) {
-        const words = text.replace(/[.,;!?"']/g, '').split(/\s+/g).filter(w => w.length > 0);
-        let result = '';
-        
-        words.forEach((word, index) => {
-            result += word;
-            if (correctIndices.includes(index + 1)) { 
-                result += ',';
-            }
-             // Pridedame tarpą tik jei tai ne paskutinis žodis
-            if (index < words.length - 1) { 
-                result += ' ';
-            }
-        });
-        return result.trim();
-    }
-
-    /**
-     * Pereina prie kito sakinio.
-     */
-    function goToNextSentence() {
-        currentSentenceIndex++;
-        if (currentSentenceIndex < sentences.length) {
             feedbackEl.innerHTML = '';
-            displaySentence();
-        } else {
-            showFinalResults(); 
+            updateProgress();
+            checkBtn.classList.remove('hidden');
+            checkBtn.classList.remove('btn-disabled');
+            nextBtn.classList.add('hidden');
         }
-    }
 
-    /**
-     * Rodo galutinius rezultatus ir siunčia duomenis.
-     */
-    function showFinalResults() {
-        mainCard.style.display = 'none'; // Paslėpti pagrindinę kortelę (kurioje buvo intro/užduotis)
-        resultsCard.classList.remove('hidden'); // Rodyti rezultatų kortelę
+        /**
+         * Įjungia arba išjungia kablelio žymę.
+         */
+        function toggleSeparatorBreak(dividerEl, index) {
+            dividerEl.classList.toggle('selected');
+            if (userSeparators.includes(index)) {
+                userSeparators = userSeparators.filter(s => s !== index);
+            } else {
+                userSeparators.push(index);
+            }
+            userSeparators.sort((a, b) => a - b);
+        }
+
+        /**
+         * Patikrina vartotojo atsakymą.
+         */
+        function checkAnswer() {
+            if (isChecked) return;
+            isChecked = true;
+            
+            const correctSeparators = sentences[currentSentenceIndex].correct;
+            let currentCorrectCount = 0;
+            const allDividers = sentenceContainer.querySelectorAll('.divider');
+            
+            let studentCorrectsInThisSentence = 0;
+
+            allDividers.forEach(divider => {
+                const dividerIndex = parseInt(divider.dataset.index);
+                const isSelected = divider.classList.contains('selected');
+                const isCorrect = correctSeparators.includes(dividerIndex);
+                
+                if (isSelected && isCorrect) {
+                    divider.classList.remove('selected');
+                    divider.classList.add('correct');
+                    currentCorrectCount++;
+                    studentCorrectsInThisSentence++; 
+                } else if (isSelected && !isCorrect) {
+                    divider.classList.remove('selected');
+                    divider.classList.add('incorrect');
+                } else if (!isSelected && isCorrect) {
+                    // Pažymime praleistus teisingus žodžius
+                    divider.classList.add('correct');
+                }
+                
+                divider.style.pointerEvents = 'none';
+            });
+            
+            studentCorrectSeparators += studentCorrectsInThisSentence;
+            
+            const isTaskCorrect = currentCorrectCount === correctSeparators.length && userSeparators.length === currentCorrectCount;
+
+            if (isTaskCorrect) {
+                feedbackEl.innerHTML = '<span class="text-green">✅ Puiku! Visi kableliai teisingi! 🎉</span>';
+                correctAnswers++;
+            } else {
+                const currentSentence = formatCorrectAnswer(sentences[currentSentenceIndex].text, correctSeparators);
+                const praleista = correctSeparators.length - currentCorrectCount;
+                const klaidingai = userSeparators.length - studentCorrectsInThisSentence;
+
+                feedbackEl.innerHTML = `
+                    <span class="text-red">❌ Beveik... Bandyk dar! (${praleista > 0 ? `Praleista kablelių: ${praleista}.` : ''} ${klaidingai > 0 ? `Klaidingai padėta kablelių: ${klaidingai}.` : ''})</span>
+                    <span class="correct-answer">Teisinga skyryba: <b>${currentSentence}.</b></span>
+                `;
+            }
+
+            checkBtn.classList.add('hidden');
+            checkBtn.classList.add('btn-disabled');
+            nextBtn.classList.remove('hidden');
+        }
         
-        const totalTasks = sentences.length;
-        const percentage = totalPossibleSeparators > 0 ? Math.round((studentCorrectSeparators / totalPossibleSeparators) * 100) : 0;
+        /**
+         * Formatuoja sakinį su kableliais teisingam atsakymui parodyti.
+         */
+        function formatCorrectAnswer(text, correctIndices) {
+            const words = text.replace(/[.,;!?"']/g, '').split(/\s+/g).filter(w => w.length > 0);
+            let result = '';
+            
+            words.forEach((word, index) => {
+                result += word;
+                if (correctIndices.includes(index + 1)) { 
+                    result += ',';
+                }
+                 // Pridedame tarpą tik jei tai ne paskutinis žodis
+                if (index < words.length - 1) { 
+                    result += ' ';
+                }
+            });
+            return result.trim();
+        }
 
-        finalScoreEl.textContent = `${studentCorrectSeparators} / ${totalPossibleSeparators} teisingai padėtų kablelių`;
-        accuracyEl.textContent = `Tikslumas: ${percentage}% (Teisingai atlikta užduočių: ${correctAnswers} / ${totalTasks})`;
-        
-        sendResultToSheet('L0203 Kableliai tarp vienarūšių (Vėjai)', percentage);
-    }
+        /**
+         * Pereina prie kito sakinio.
+         */
+        function goToNextSentence() {
+            currentSentenceIndex++;
+            if (currentSentenceIndex < sentences.length) {
+                feedbackEl.innerHTML = '';
+                displaySentence();
+            } else {
+                showFinalResults(); 
+            }
+        }
 
-    /**
-     * Atnaujina eigos indikatorių.
-     */
-    function updateProgress() {
-        progressEl.textContent = `Sakinys ${currentSentenceIndex + 1} iš ${sentences.length}`;
-    }
+        /**
+         * Rodo galutinius rezultatus ir siunčia duomenis.
+         */
+        function showFinalResults() {
+            mainCard.style.display = 'none'; // Paslėpti pagrindinę kortelę (kurioje buvo intro/užduotis)
+            resultsCard.classList.remove('hidden'); // Rodyti rezultatų kortelę
+            
+            const totalTasks = sentences.length;
+            const percentage = totalPossibleSeparators > 0 ? Math.round((studentCorrectSeparators / totalPossibleSeparators) * 100) : 0;
 
-    // --- Pradinis paleidimas ---
-    document.addEventListener('DOMContentLoaded', () => {
-         // Užtikrinimas, kad užduočių kortelė pradžioje paslėpta
-         taskCard.style.display = 'none';
-         
-         // Intro kortelė rodoma pagal nutylėjimą
-         introCard.style.display = 'block'; 
-         startButton.onclick = displaySentence;
-    });
+            finalScoreEl.innerHTML = `<span style="font-size: 2rem;">${studentCorrectSeparators} / ${totalPossibleSeparators}</span> teisingai padėtų kablelių`;
+            accuracyEl.innerHTML = `Tikslumas: <span style="color: ${percentage >= 70 ? '#388E3C' : '#E74C3C'}; font-size: 2rem;">${percentage}%</span> (Teisingai atlikta užduočių: ${correctAnswers} / ${totalTasks})`;
+            
+            sendResultToSheet('L0203 Kableliai tarp vienarūšių (Vėjai)', percentage);
+        }
 
-    // Globalūs kintamieji, kad būtų pasiekiami iš HTML (jau apibrėžti aukščiau, bet paliekame, jei kviečiama iš onclick)
-    window.checkAnswer = checkAnswer;
-    window.goToNextSentence = goToNextSentence;
+        /**
+         * Atnaujina eigos indikatorių.
+         */
+        function updateProgress() {
+            progressEl.textContent = `Sakinys ${currentSentenceIndex + 1} iš ${sentences.length}`;
+        }
 
-</script>
+        // --- Pradinis paleidimas ---
+        document.addEventListener('DOMContentLoaded', () => {
+             // Užtikrinimas, kad užduočių kortelė pradžioje paslėpta
+             taskCard.style.display = 'none';
+             
+             // Intro kortelė rodoma pagal nutylėjimą
+             introCard.style.display = 'block'; 
+             startButton.onclick = displaySentence;
+        });
+
+        // Globalūs kintamieji, kad būtų pasiekiami iš HTML (jau apibrėžti aukščiau, bet paliekame, jei kviečiama iš onclick)
+        window.checkAnswer = checkAnswer;
+        window.goToNextSentence = goToNextSentence;
+
+    </script>
 </body>
 </html>
