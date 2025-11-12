@@ -87,10 +87,22 @@
             animation: fadeIn 0.4s ease-in;
         }
         
-        /* PATAISYMAS 1: Instrukcijų stiliai */
+        .question-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+        .question-title strong {
+             font-weight: 900;
+        }
+
+        /* Instrukcijos */
         .instructions {
-            background-color: #f9fafb; /* Neutralus šviesus fonas */
-            border: 3px solid #e5e7eb; /* Švelni kraštinė */
+            background-color: #f9fafb;
+            border: 3px solid #e5e7eb;
             border-radius: 16px;
             padding: 25px;
             margin-bottom: 30px;
@@ -123,23 +135,11 @@
         }
         .instructions strong {
              font-weight: 900;
-             color: #1f2937; /* Paryškinimas tamsiu tekstu */
+             color: #1f2937;
         }
 
-        /* Kita dalis (iš paskutinio veikiančio kodo) */
-        .question-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 20px;
-            text-align: center;
-            padding-bottom: 15px;
-        }
-        .question-title strong {
-             font-weight: 900;
-        }
-
-        .selection-buttons {
+        /* PATAISYMAS: Spalvų pasirinkimo paletė */
+        .color-palette {
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -147,7 +147,7 @@
             flex-wrap: wrap;
         }
 
-        .selection-btn {
+        .color-option {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -155,11 +155,23 @@
             padding: 15px 20px;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s;
-            border: 3px solid transparent;
+            transition: all 0.2s;
+            border: 3px solid transparent; /* Pradinė siena */
             font-size: 1.1rem;
             font-weight: 700;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: #f9fafb;
+        }
+
+        .color-option:hover {
+             transform: translateY(-2px);
+        }
+
+        /* VIZUALINIS PATVIRTINIMAS */
+        .color-option.selected {
+            border-color: #1976d2; /* Ryškus mėlynas rėmelis aktyviam pasirinkimui */
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+            transform: scale(1.05);
         }
 
         .btn-dalyvis { background-color: #a4d49d; color: #27541f; }
@@ -167,6 +179,7 @@
         .btn-padalyvis { background-color: #c6d9f7; color: #2d4c7d; }
         .icon-book { font-size: 1.5rem; margin-bottom: 5px; }
 
+        /* Sakinio rėmelis */
         .sentence-container {
             background-color: #f9fafb;
             border: 3px solid #7cb3e9;
@@ -177,7 +190,7 @@
             line-height: 2;
             text-align: center;
         }
-        
+
         .word {
             display: inline-block;
             padding: 5px 10px;
@@ -187,17 +200,26 @@
             transition: all 0.3s;
             border: 2px solid transparent;
         }
+
+        .word:hover {
+            border-color: #1976d2;
+        }
+
+        /* VIZUALINIS PATVIRTINIMAS: Aktyviai pažymėtas žodis */
+        .word.highlighted-Dalyvis { background-color: #a4d49d; border-color: #27541f; font-weight: 700; }
+        .word.highlighted-Pusdalyvis { background-color: #f2e796; border-color: #9e8f1c; font-weight: 700; }
+        .word.highlighted-Padalyvis { background-color: #c6d9f7; border-color: #2d4c7d; font-weight: 700; }
         
-        /* ... (visi kiti stiliai likę iš paskutinės veikiančios versijos) ... */
+        .word.correct-answer { background-color: #a4d49d !important; border-color: #27541f !important; }
+        .word.wrong-answer { background-color: #fee2e2 !important; border-color: #ef4444 !important; }
+
+        /* Mygtukai */
         .action-button {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
             max-width: 400px; margin: 20px auto 0; padding: 16px 32px; font-size: 1.2rem; font-weight: 700; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: block;
         }
-        .action-button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
-        .action-button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .bg-blue-600 { background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%); color: white; }
-        .bg-green-600 { background: linear-gradient(135deg, #549c48 0%, #27541f 100%); color: white; }
-        .bg-orange-600 { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; }
-        /* ... (Rezultatų, animacijos stiliai) ... */
+        /* ... (kiti stiliai) ... */
         
         /* Mobilusis dizainas */
         @media (max-width: 768px) {
@@ -219,35 +241,6 @@
                 <span>Mokinys: <strong id="studentNameDisplay"></strong></span>
                 <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
             </div>
-        </div>
-
-        <div id="card-instructions" class="card active">
-            <h1 class="question-title">🎨 Pažymėk žodžius spalvomis</h1>
-
-            <div class="instructions">
-                <ol>
-                    <li>📖 <strong>Perskaityk</strong> sakinį.</li>
-                    <li>🧠 <strong>Nustatyk</strong>, kuris žodis yra dalyvis, pusdalyvis ar padalyvis.</li>
-                    <li>🎨 <strong>Pasirink</strong> tinkamą spalvą.</li>
-                    <li>👆 <strong>Spustelėk</strong> ant žodžio, kurį nori pažymėti.</li>
-                    <li>✅ Spausk "Pasitikrinti".</li>
-                    <li>➡️ Eik prie kito sakinio.</li>
-                </ol>
-            </div>
-
-            <div class="selection-buttons">
-                <div class="color-option btn-dalyvis" style="border: 1px solid #15803d;">
-                    <span class="icon-book">📗</span> Dalyvis<br>Koks? Kokia?
-                 </div>
-                 <div class="color-option btn-pusdalyvis" style="border: 1px solid #b45309;">
-                    <span class="icon-book">📙</span> Pusdalyvis<br>Ką veikdamas?
-                 </div>
-                 <div class="color-option btn-padalyvis" style="border: 1px solid #1e40af;">
-                    <span class="icon-book">📘</span> Padalyvis<br>Kaip? Kada?
-                 </div>
-            </div>
-            
-            <button onclick="showCard('card-task-1')" class="action-button bg-blue-600">▶️ Pradėti užduotį</button>
         </div>
 
         <div id="task-cards-container"></div>
@@ -334,11 +327,13 @@
         
         state.selectedColor = colorType;
         
-        const colorOptions = document.querySelectorAll(`#card-task-${questionNum} .selection-btn`);
+        // Pašalinti selected klasę nuo visų spalvų
+        const colorOptions = document.querySelectorAll(`#card-task-${questionNum} .color-option`);
         colorOptions.forEach(opt => {
             opt.classList.remove('selected');
         });
         
+        // Pridėti selected klasę tik paspaustai spalvai (VIZUALINIS PATVIRTINIMAS 1)
         event.currentTarget.classList.add('selected');
     }
 
@@ -363,6 +358,7 @@
         // Pažymėti pasirinktą žodį
         state.selectedWord = wordElement.textContent.replace(/[.,!?]/g, '');
         
+        // Pažymėti tik pasirinktą žodį pasirinkta spalva (VIZUALINIS PATVIRTINIMAS 2)
         wordElement.classList.add(`highlighted-${state.selectedColor}`);
     }
 
@@ -471,14 +467,14 @@
                     ${wordsHtml}
                 </div>
 
-                <div class="selection-buttons">
-                    <div class="selection-btn btn-dalyvis" onclick="selectColor('Dalyvis', ${questionNum}, event)">
+                <div class="color-palette">
+                    <div class="color-option btn-dalyvis" onclick="selectColor('Dalyvis', ${questionNum}, event)">
                         <span class="icon-book">📗</span> Dalyvis<br>Koks? Kokia?
                     </div>
-                    <div class="selection-btn btn-pusdalyvis" onclick="selectColor('Pusdalyvis', ${questionNum}, event)">
+                    <div class="color-option btn-pusdalyvis" onclick="selectColor('Pusdalyvis', ${questionNum}, event)">
                         <span class="icon-book">📙</span> Pusdalyvis<br>Ką veikdamas?
                     </div>
-                    <div class="selection-btn btn-padalyvis" onclick="selectColor('Padalyvis', ${questionNum}, event)">
+                    <div class="color-option btn-padalyvis" onclick="selectColor('Padalyvis', ${questionNum}, event)">
                         <span class="icon-book">📘</span> Padalyvis<br>Kaip? Kada?
                     </div>
                 </div>
@@ -556,10 +552,8 @@
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
         
-        // Generuojame korteles
         generateTaskCards();
-
-        // Pradedame nuo pirmos užduoties (ne nuo instrukcijų kortelės, kuri buvo pašalinta)
+        // Pradedame nuo pirmos užduoties
         showCard('card-task-1');
     };
 </script>
