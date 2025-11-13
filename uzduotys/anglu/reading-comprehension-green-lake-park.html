@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Comprehension - Green Lake Park - Kalbos Upė</title>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 25px;
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        .rule-card h1 {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 1.9rem;
+            margin-bottom: 15px;
+        }
+
+        .rule-card .lead {
+            font-size: 1.2rem;
+            color: #1A4D7A;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .instruction-box {
+            background-color: #E3F2FD;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 1.1rem;
+        }
+
+        .instruction-box strong {
+            color: #1565C0;
+        }
+
+        .text-box {
+            background-color: #FFF9E6;
+            padding: 20px;
+            border-radius: 12px;
+            border: 3px solid #FBC02D;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            line-height: 2;
+        }
+
+        .chip {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: #bbdefb;
+            border: 2px solid #2196F3;
+            color: #0D47A1;
+            font-weight: 600;
+            margin: 0 2px;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            background: #90caf9;
+            transform: translateY(-2px);
+        }
+
+        .chip.used {
+            opacity: 0.4;
+        }
+
+        .chip:active {
+            cursor: grabbing;
+        }
+
+        .task-title {
+            color: #0D3B66;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 2px solid #7CB3E9;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .question-number {
+            font-weight: 700;
+            color: #1A4D7A;
+            min-width: 30px;
+            font-size: 1.2rem;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 1.15rem;
+            color: #1A4D7A;
+        }
+
+        .drop {
+            min-width: 200px;
+            min-height: 45px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: #f9fafb;
+        }
+
+        .drop.filled {
+            border-style: solid;
+            border-color: #4A90E2;
+            background: #E8F4F8;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 2px solid #4A90E2;
+            border-radius: 999px;
+            padding: 6px 12px;
+            background: #ffffff;
+            font-weight: 600;
+            color: #1A4D7A;
+            font-size: 1.1rem;
+        }
+
+        .tag .x {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 18px;
+            line-height: 1;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .tag .x:hover {
+            color: #c0392b;
+        }
+
+        .question-row.ok {
+            border-color: #27ae60;
+            background-color: #d4edda;
+        }
+
+        .question-row.err {
+            border-color: #e74c3c;
+            background-color: #f8d7da;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            transition: all 0.3s;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #4ECDC4, #27ae60);
+        }
+
+        .secondary-btn {
+            background: linear-gradient(135deg, #7CB3E9, #4A90E2);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-text {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1A4D7A;
+            margin: 15px 0;
+            min-height: 25px;
+        }
+
+        .legend {
+            font-size: 1.1rem;
+            color: #6b7280;
+            text-align: center;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .results-card h2 {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 30px 0;
+            padding: 25px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+            color: #1A4D7A;
+        }
+
+        .score-percentage {
+            font-size: 3rem;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .question-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .drop {
+                min-width: 100%;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .text-box {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .rule-card h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+        
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+
+        <!-- KORTELĖ 1: INSTRUKCIJA -->
+        <div id="card-instruction" class="card active rule-card">
+            <h1>📖 Part 1: Reading Comprehension</h1>
+            
+            <div class="instruction-box">
+                <strong>1. Read</strong> the text carefully.<br>
+                <strong>2. Then complete</strong> the sentences using only words from the text.<br>
+                <strong>3. Write</strong> one or two words for each answer.
+            </div>
+
+            <p class="lead"><strong>Text:</strong></p>
+
+            <div class="text-box" id="sourceText">
+                Last weekend, Emma and her family went to <span class="chip" draggable="true" data-value="Green Lake Park">Green Lake Park</span>. 
+                The weather was <span class="chip" draggable="true" data-value="sunny and warm">sunny and warm</span>, so they decided to have a picnic. 
+                Emma's brother, Ben, brought his <span class="chip" draggable="true" data-value="football">football</span>, and they played for almost 
+                <span class="chip" draggable="true" data-value="an hour">an hour</span>. After that, they walked around the lake and saw many ducks. 
+                Emma took pictures with her <span class="chip" draggable="true" data-value="phone">phone</span>, and her parents relaxed on 
+                <span class="chip" draggable="true" data-value="the grass">the grass</span>.
+            </div>
+
+            <h2 class="task-title">Complete the sentences using words from the text:</h2>
+            
+            <div class="questions-list" id="questions"></div>
+
+            <div class="button-group">
+                <button class="action-btn secondary-btn" id="resetBtn">🔄 Išvalyti</button>
+                <button class="action-btn primary-btn" id="checkBtn">✅ Pasitikrinti</button>
+            </div>
+
+            <p class="result-text" id="resultLine" aria-live="polite"></p>
+            <p class="legend">Green – correct answer, Red – needs correction. Press "Išvalyti" to start over.</p>
+
+            <div class="button-group">
+                <button class="action-btn secondary-btn" id="finishBtn" style="display: none;">🏁 Baigti užduotį</button>
+            </div>
+        </div>
+
+        <!-- KORTELĖ 2: REZULTATAI -->
+        <div id="card-results" class="card results-card">
+            <h2>🎉 Puiku!</h2>
+            <div class="score-display">
+                <div id="score-text"></div>
+                <div class="score-percentage" id="score-percentage"></div>
+            </div>
+            <div class="button-group">
+                <button class="action-btn secondary-btn" onclick="location.reload()">🔄 Pradėti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: \${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+        .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- UŽDUOTIES LOGIKA ---
+        
+        // Teisingi atsakymai
+        const QUESTIONS = [
+            { number: '1.', text: 'Emma and her family went to _______________', answer: 'Green Lake Park' },
+            { number: '2.', text: 'The weather was _______________', answer: 'sunny and warm' },
+            { number: '3.', text: 'Ben brought a _______________', answer: 'football' },
+            { number: '4.', text: 'They played for almost _______________', answer: 'an hour' },
+            { number: '5.', text: 'Emma took pictures with her _______________', answer: 'phone' },
+            { number: '6.', text: 'Her parents relaxed on _______________', answer: 'the grass' }
+        ];
+
+        const questionsRoot = document.getElementById('questions');
+        const resultLine = document.getElementById('resultLine');
+        const finishBtn = document.getElementById('finishBtn');
+
+        // Sukuriame klausimų eilutes su "drop" zonomis
+        QUESTIONS.forEach((q, idx) => {
+            const el = document.createElement('div');
+            el.className = 'question-row';
+            el.dataset.idx = idx;
+            el.innerHTML = `
+                <div class="question-number">${q.number}</div>
+                <div class="question-text">${q.text}</div>
+                <div class="drop" data-target="${q.answer}" aria-label="Numesti zoną"></div>
+            `;
+            questionsRoot.appendChild(el);
+        });
+
+        // Drag & Drop logika
+        function onDragStart(e) {
+            const val = e.target.dataset.value;
+            e.dataTransfer.setData('text/plain', val);
+            e.dataTransfer.effectAllowed = 'copy';
+        }
+
+        function onDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        }
+
+        function onDrop(e) {
+            e.preventDefault();
+            const val = e.dataTransfer.getData('text/plain');
+            const box = e.currentTarget;
+
+            // Išvalome seną pasirinkimą, jei buvo
+            const oldVal = box.querySelector('.tag')?.dataset.value;
+            if (oldVal) {
+                markUsage(oldVal, -1);
+            }
+
+            box.innerHTML = '';
+            const tag = document.createElement('span');
+            tag.className = 'tag';
+            tag.textContent = val;
+            tag.dataset.value = val;
+            
+            const x = document.createElement('button');
+            x.className = 'x';
+            x.type = 'button';
+            x.textContent = '✖';
+            x.title = 'Pašalinti';
+            x.addEventListener('click', () => {
+                box.innerHTML = '';
+                box.classList.remove('filled');
+                markUsage(val, -1);
+            });
+            
+            tag.appendChild(x);
+            box.appendChild(tag);
+            box.classList.add('filled');
+
+            markUsage(val, +1);
+
+            box.parentElement.classList.remove('ok', 'err');
+            resultLine.textContent = '';
+            finishBtn.style.display = 'none';
+        }
+
+        // Sužymime, kiek kartų konkreti teksto žyma panaudota
+        function markUsage(value, delta) {
+            document.querySelectorAll('.chip[data-value="' + CSS.escape(value) + '"]').forEach(ch => {
+                ch.dataset.used = String((+ch.dataset.used || 0) + delta);
+                const usedCount = +ch.dataset.used || 0;
+                ch.classList.toggle('used', usedCount > 0);
+            });
+        }
+
+        // Pritvirtiname drag įvykius prie visų chipų
+        document.querySelectorAll('.chip').forEach(ch => {
+            ch.addEventListener('dragstart', onDragStart);
+        });
+
+        // Pritvirtiname drop įvykius prie dėžučių
+        document.querySelectorAll('.drop').forEach(d => {
+            d.addEventListener('dragover', onDragOver);
+            d.addEventListener('drop', onDrop);
+        });
+
+        // Patikrinimas
+        document.getElementById('checkBtn').addEventListener('click', () => {
+            let okCount = 0;
+            document.querySelectorAll('.question-row').forEach(row => {
+                row.classList.remove('ok', 'err');
+                const box = row.querySelector('.drop');
+                const picked = box.querySelector('.tag')?.dataset.value || '';
+                const expect = box.dataset.target;
+                
+                if (picked && picked === expect) {
+                    row.classList.add('ok');
+                    okCount++;
+                } else if (picked) {
+                    row.classList.add('err');
+                }
+            });
+            
+            resultLine.textContent = `Teisingų atsakymų: ${okCount} / ${QUESTIONS.length}`;
+            
+            // Jei visi atsakymai teisingi, rodome "Baigti" mygtuką
+            if (okCount === QUESTIONS.length) {
+                resultLine.innerHTML = '<span style="color: #27ae60; font-size: 1.5rem;">🎉 Puiku! Visi atsakymai teisingi!</span>';
+                finishBtn.style.display = 'inline-block';
+            }
+        });
+
+        // Išvalymas
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            document.querySelectorAll('.drop').forEach(box => {
+                const val = box.querySelector('.tag')?.dataset.value;
+                if (val) {
+                    markUsage(val, -1);
+                }
+                box.innerHTML = '';
+                box.classList.remove('filled');
+            });
+            document.querySelectorAll('.question-row').forEach(r => r.classList.remove('ok', 'err'));
+            resultLine.textContent = '';
+            finishBtn.style.display = 'none';
+        });
+
+        // Baigti užduotį - rodyti rezultatus
+        finishBtn.addEventListener('click', () => {
+            let okCount = 0;
+            document.querySelectorAll('.question-row').forEach(row => {
+                const box = row.querySelector('.drop');
+                const picked = box.querySelector('.tag')?.dataset.value || '';
+                const expect = box.dataset.target;
+                if (picked && picked === expect) {
+                    okCount++;
+                }
+            });
+
+            const totalQuestions = QUESTIONS.length;
+            const percentage = Math.round((okCount / totalQuestions) * 100);
+
+            document.getElementById('card-instruction').classList.remove('active');
+            document.getElementById('card-results').classList.add('active');
+
+            document.getElementById('score-text').textContent = `Teisingai atsakyta: ${okCount} iš ${totalQuestions}`;
+            document.getElementById('score-percentage').textContent = `${percentage}%`;
+            document.getElementById('score-percentage').style.color = percentage >= 70 ? '#27ae60' : '#e74c3c';
+
+            // Siųsti rezultatus į Google Sheets
+            sendResultToSheet('EN02 Reading Comprehension - Green Lake Park', percentage);
+        });
+    </script>
+</body>
+</html>
+
+        
