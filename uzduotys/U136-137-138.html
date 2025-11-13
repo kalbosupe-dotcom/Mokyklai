@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Užduotys U136, U137 ir U138</title>
+    <title>Užduotys U136, U137 ir U138 (Horizontalus sąrašas)</title>
     <style>
         body {
             /* Vizualinis stilius disleksikui */
@@ -37,20 +37,25 @@
             color: #175080; /* Mėlyna spalva skaičiams IR procentams */
             font-size: 1.1em; 
         }
-        /* Vertikalus sąrašo išdėstymas */
+        /* Pataisyta dalis: Horizontalus sąrašo išdėstymas (Flexbox) */
         .sub-questions {
             list-style-type: none; 
             padding-left: 0;
             margin-left: 0;
+            display: flex; /* Pagrindinis horizontalus išdėstymas */
+            flex-wrap: wrap; /* Leidžia pereiti į kitą eilutę, jei netelpa */
+            gap: 40px; /* Tarpas tarp punktų */
         }
         .sub-questions li {
             margin-bottom: 15px; 
+            flex-shrink: 0; /* Apsaugo, kad nenutrauktų elemento */
         }
         .question-label {
             font-weight: bold;
             color: #111; 
             margin-right: 8px;
-            display: block; /* Užtikrina, kad b) eina naujoje eilutėje, jei nenaudojame a, b... */
+            display: inline;
+            white-space: nowrap; /* Apsaugo nuo "a)" lūžio */
         }
         .question-text {
             display: inline;
@@ -70,7 +75,8 @@
         
         <ul class="sub-questions">
             <li>
-                <strong>a)</strong> dviejų dienų?
+                <span class="question-label">a)</span> 
+                <span class="question-text">dviejų dienų?</span>
             </li>
             <li>
                 <span class="question-label">b)</span> 
