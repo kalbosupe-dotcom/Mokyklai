@@ -131,6 +131,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-top: 30px;
+            align-items: start;
         }
 
         .column {
@@ -155,7 +156,10 @@
             border-radius: 8px;
             border: 2px solid #E0E0E0;
             font-size: 1.1rem;
-            line-height: 1.6;
+            line-height: 1.8;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
         }
 
         .bold-word {
@@ -264,6 +268,7 @@
 
             .sentence-line {
                 font-size: 1rem;
+                min-height: auto;
             }
 
             .pronoun-select {
@@ -327,7 +332,7 @@
                         Lisa met <span class="bold-word">Tom</span> at the bus stop early in the morning.
                     </div>
                     <div class="sentence-line">
-                        <span class="bold-word">Lisa and Tom</span> were going to school together because <span class="bold-word">Lisa's mother</span> had to work.
+                        <span class="bold-word">Lisa and Tom</span> were going to school together because <span class="bold-word">Lisa's</span> mother had to work.
                     </div>
                     <div class="sentence-line">
                         When they got to school, <span class="bold-word">Lisa</span> saw <span class="bold-word">her friends</span> near the library.
@@ -336,10 +341,10 @@
                         <span class="bold-word">Tom</span> waited for <span class="bold-word">Lisa</span> while <span class="bold-word">Lisa</span> talked to <span class="bold-word">her friends</span>.
                     </div>
                     <div class="sentence-line">
-                        After that, <span class="bold-word">Lisa and Tom</span> went to class, but <span class="bold-word">Tom's bag</span> was missing.
+                        After that, <span class="bold-word">Lisa and Tom</span> went to class, but <span class="bold-word">Tom's</span> bag was missing.
                     </div>
                     <div class="sentence-line">
-                        <span class="bold-word">Lisa</span> helped <span class="bold-word">Tom</span> look for <span class="bold-word">Tom's bag</span>, and finally, <span class="bold-word">Tom</span> found it under <span class="bold-word">Tom's desk</span>.
+                        <span class="bold-word">Lisa</span> helped <span class="bold-word">Tom</span> look for <span class="bold-word">Tom's</span> bag, and finally, <span class="bold-word">Tom</span> found it under <span class="bold-word">Tom's</span> desk.
                     </div>
                     <div class="sentence-line">
                         <span class="bold-word">Lisa and Tom</span> were happy because they didn't want to be late again.
@@ -393,7 +398,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
+            alert(`Vardas pakeistas į: ${newName}`);
             location.reload();
         }
 
@@ -441,7 +446,7 @@
             },
             {
                 id: 2,
-                text: "<select class='pronoun-select' data-answer='they'></select> were going to school together because <select class='pronoun-select' data-answer='her'></select> had to work.",
+                text: "<select class='pronoun-select' data-answer='they'></select> were going to school together because <select class='pronoun-select' data-answer='her'></select> mother had to work.",
                 blanks: 2,
                 answers: ['they', 'her']
             },
@@ -459,13 +464,13 @@
             },
             {
                 id: 5,
-                text: "After that, <select class='pronoun-select' data-answer='they'></select> went to class, but <select class='pronoun-select' data-answer='his'></select> was missing.",
+                text: "After that, <select class='pronoun-select' data-answer='they'></select> went to class, but <select class='pronoun-select' data-answer='his'></select> bag was missing.",
                 blanks: 2,
                 answers: ['they', 'his']
             },
             {
                 id: 6,
-                text: "<select class='pronoun-select' data-answer='she'></select> helped <select class='pronoun-select' data-answer='him'></select> look for <select class='pronoun-select' data-answer='his'></select>, and finally, <select class='pronoun-select' data-answer='he'></select> found it under <select class='pronoun-select' data-answer='his'></select>.",
+                text: "<select class='pronoun-select' data-answer='she'></select> helped <select class='pronoun-select' data-answer='him'></select> look for <select class='pronoun-select' data-answer='his'></select> bag, and finally, <select class='pronoun-select' data-answer='he'></select> found it under <select class='pronoun-select' data-answer='his'></select> desk.",
                 blanks: 5,
                 answers: ['she', 'him', 'his', 'he', 'his']
             },
@@ -576,4 +581,3 @@
 </body>
 </html>
 
-                
