@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Užduotys U136 ir U137 (Pataisyta versija)</title>
+    <title>Užduotis U136 (Pataisyta versija)</title>
     <style>
         body {
+            /* Naudojame Verdana - aiškus, aukšto kontrasto šriftas */
             font-family: Verdana, Arial, sans-serif;
             line-height: 1.7; 
             font-size: 1.3em; 
@@ -23,38 +24,33 @@
             margin-bottom: 30px;
         }
         .title-u {
-            color: #008000; 
+            color: #008000; /* Žalia */
         }
         .title-number {
-            color: #175080; 
+            color: #175080; /* Ramesnė mėlyna */
         }
         .main-text {
             margin-bottom: 30px;
         }
         .number-percent {
             font-weight: 700; 
-            color: #175080; 
+            color: #175080; /* Mėlyna spalva skaičiams IR procentams */
             font-size: 1.1em; 
         }
-        /* Pakeitimas: Naudojame Flexbox, kad a) ir b) būtų vienoje eilutėje */
+        /* Pakeitimas: Pašalinami visi horizontalų išdėstymą užtikrinantys nustatymai */
         .sub-questions {
             list-style-type: none; 
             padding-left: 0;
             margin-left: 0;
-            display: flex; /* Įjungia lankstųjį išdėstymą */
-            gap: 40px; /* Tarpas tarp a) ir b) */
         }
         .sub-questions li {
-            /* Flex-basis užtikrina, kad kiekvienas elementas galėtų užimti vietą, bet neaugtų be reikalo */
-            flex-grow: 0; 
-            flex-shrink: 0;
-            margin-bottom: 0;
+            margin-bottom: 15px; /* Tarpas tarp a) ir b) */
         }
         .question-label {
             font-weight: bold;
             color: #111; 
             margin-right: 8px;
-            white-space: nowrap; /* Apsaugo nuo "a)" lūžio */
+            display: block; /* Užtikrina, kad b) prasidėtų naujoje eilutėje, jei nesuveikia li */
         }
         .question-text {
             display: inline;
@@ -80,27 +76,6 @@
             <li>
                 <span class="question-label">b)</span> 
                 <span class="question-text">trijų dienų?</span>
-            </li>
-        </ul>
-    </div>
-
-    <div class="task-container">
-        <div class="task-title">
-            <span class="title-u">U</span><span class="title-number">137</span>
-        </div>
-        
-        <div class="main-text">
-            Mikrorajone prieš dvejus metus gyveno <span class="number-percent">3600</span> žmonių. Kiekvienais metais gyventojų skaičius didėjo tuo pačiu procentu ir per <span class="number-percent">2</span> metus išaugo iki <span class="number-percent">5184</span>.
-        </div>
-        
-        <ul class="sub-questions">
-            <li>
-                <span class="question-label">a)</span> 
-                <span class="question-text">Ar tiesa, kad kiekvienais metais gyventojų skaičius didėjo po <span class="number-percent">20 %</span>?</span>
-            </li>
-            <li>
-                <span class="question-label">b)</span> 
-                <span class="question-text">Kiek procentų per <span class="number-percent">2</span> metus padidėjo gyventojų skaičius?</span>
             </li>
         </ul>
     </div>
