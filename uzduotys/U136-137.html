@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Užduotys U136 ir U137</title>
+    <title>Užduotys U136 ir U137 (Pataisyta versija)</title>
     <style>
         body {
-            /* Naudojame Verdana - aiškus, aukšto kontrasto šriftas */
             font-family: Verdana, Arial, sans-serif;
             line-height: 1.7; 
             font-size: 1.3em; 
@@ -16,7 +15,7 @@
             color: #333; 
         }
         .task-container {
-            margin-bottom: 50px; /* Didelis tarpas tarp užduočių */
+            margin-bottom: 50px; 
         }
         .task-title {
             font-size: 2.2em;
@@ -24,34 +23,38 @@
             margin-bottom: 30px;
         }
         .title-u {
-            color: #008000; /* Žalia */
+            color: #008000; 
         }
         .title-number {
-            color: #175080; /* Ramesnė mėlyna */
+            color: #175080; 
         }
         .main-text {
             margin-bottom: 30px;
         }
-        /* Skaičiams ir procentams naudojamas vienodas stilius */
         .number-percent {
             font-weight: 700; 
-            color: #175080; /* Mėlyna spalva skaičiams IR procentams */
+            color: #175080; 
             font-size: 1.1em; 
         }
+        /* Pakeitimas: Naudojame Flexbox, kad a) ir b) būtų vienoje eilutėje */
         .sub-questions {
             list-style-type: none; 
             padding-left: 0;
             margin-left: 0;
-            column-count: 2; /* Išdėsto a) ir b) greta */
-            column-gap: 50px;
+            display: flex; /* Įjungia lankstųjį išdėstymą */
+            gap: 40px; /* Tarpas tarp a) ir b) */
         }
         .sub-questions li {
-            margin-bottom: 15px;
+            /* Flex-basis užtikrina, kad kiekvienas elementas galėtų užimti vietą, bet neaugtų be reikalo */
+            flex-grow: 0; 
+            flex-shrink: 0;
+            margin-bottom: 0;
         }
         .question-label {
             font-weight: bold;
-            color: #111; /* Juoda spalva pajuodinimui */
+            color: #111; 
             margin-right: 8px;
+            white-space: nowrap; /* Apsaugo nuo "a)" lūžio */
         }
         .question-text {
             display: inline;
