@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dalyvio junginiai – giminė, skaičius, linksnis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #93c5fd;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        .back-btn:hover { background-color: #7CB3E9; }
+
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+            gap: 10px;
+        }
+
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .change-name-btn:hover { background-color: #0D3B66; }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 30px;
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+        .card.active { display: block; }
+
+        .intro-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .intro-content {
+            font-size: 1.05rem;
+            color: #1A4D7A;
+        }
+        .intro-content ul {
+            margin-top: 15px;
+            padding-left: 25px;
+            list-style: disc;
+        }
+        .intro-content li { margin-bottom: 8px; }
+
+        .button-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .action-button {
+            padding: 14px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .text-block {
+            background-color: #E8F4F8;
+            border-radius: 12px;
+            border: 2px solid #7CB3E9;
+            padding: 20px;
+            margin-top: 10px;
+            font-size: 1.05rem;
+            color: #1A4D7A;
+        }
+
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            margin-top: 25px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.98rem;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 6px;
+            text-align: left;
+        }
+        th {
+            background-color: #DBEAFE;
+            color: #1e3a8a;
+            font-weight: 700;
+            text-align: center;
+        }
+        td:first-child, td:nth-child(2) {
+            font-weight: 600;
+        }
+
+        select {
+            width: 100%;
+            padding: 6px 4px;
+            border-radius: 6px;
+            border: 1px solid #93c5fd;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .cell-correct {
+            background-color: #d4edda !important;
+            border-color: #27ae60 !important;
+        }
+        .cell-incorrect {
+            background-color: #f8d7da !important;
+            border-color: #e74c3c !important;
+        }
+
+        .feedback-text {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #1A4D7A;
+        }
+
+        .result-container {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #1A4D7A;
+            padding: 18px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        @media (max-width: 768px) {
+            .intro-text { font-size: 1.5rem; }
+            .card { padding: 22px; }
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <div class="header-container">
+        <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+    </div>
+
+    <!-- INSTRUKCIJŲ KORTELĖ -->
+    <div id="card-intro" class="card active">
+        <h2 class="intro-text">Dalyvio junginiai: giminė, skaičius, linksnis</h2>
+        <div class="intro-content">
+            <p>Šioje užduotyje mokysiesi atpažinti <strong>dalyvio ir daiktavardžio junginius</strong> ir nustatyti jų <strong>giminę, skaičių ir linksnį</strong>.</p>
+            <ul>
+                <li>📖 Perskaityk visą tekstą.</li>
+                <li>🟡 Tekste paryškinti <strong>dalyvio junginiai</strong> (dalyvis + daiktavardis).</li>
+                <li>📋 Lentelėje po tekstu kiekvienam junginiui parink:
+                    <ul>
+                        <li>Giminę: <em>vyriškoji / moteriškoji</em></li>
+                        <li>Skaičių: <em>vienaskaita / daugiskaita</em></li>
+                        <li>Linksnį: <em>vardininkas, kilmininkas, naudininkas, galininkas, įnagininkas, vietininkas</em></li>
+                    </ul>
+                </li>
+                <li>✅ Paspausk „Pasitikrinti“ ir pažiūrėk, kaip sekėsi.</li>
+            </ul>
+        </div>
+        <div class="button-container">
+            <button onclick="showCard('card-task')" class="action-button">▶️ Pradėti užduotį</button>
+        </div>
+    </div>
+
+    <!-- UŽDUOTIES KORTELĖ -->
+    <div id="card-task" class="card">
+        <h2 class="intro-text">Perskaityk tekstą ir užpildyk lentelę</h2>
+
+        <div class="text-block">
+            <p><strong>Balandžio 25 d.</strong></p>
+            <p>
+                1. Ties bunkerio anga auga ieva ilgomis 
+                <span class="highlight">nukarusiomis šakomis</span>. 
+                2. Sprogsta lapai. 
+                3. Vasarą bunkeris visiškai uždengiamas 
+                <span class="highlight">sužaliavusiais lapais</span>. 
+                4. Keletą metrų žemiau matai 
+                <span class="highlight">vingiuojantį upelį</span>. 
+                5. Jo abu krantai apaugę 
+                <span class="highlight">susipynusiais krūmais</span> ir nubarstytį 
+                <span class="highlight">žydinčiomis žibutėmis</span>. 
+                6. Šitas bunkeris – tikra vasarvietė. 
+                7. Deja, mes juo negalime pasidžiaugti. 
+                8. Turime tenkintis tuo, kad pro mažą angos plyšelį matome ievos šakelę, keletą 
+                <span class="highlight">prasiveržiančių spindulių</span> ir girdime lazdynų krūmuose 
+                <span class="highlight">čiulbančius paukščius</span> ir 
+                <span class="highlight">čiurlenantį upelį</span>.
+            </p>
+            <p style="text-align:right; margin-top:10px; font-size:0.9rem;"><em>(Pagal Lionginą Baliukevičių-Dzūką)</em></p>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="junction-table">
+                <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Žodžių junginys</th>
+                    <th>Giminė</th>
+                    <th>Skaičius</th>
+                    <th>Linksnis</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Eilutės bus sugeneruotos JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="feedback-text" id="feedback-area"></div>
+
+        <div class="button-container">
+            <button onclick="checkTable()" class="action-button">✅ Pasitikrinti</button>
+        </div>
+
+        <div id="result-box" class="result-container" style="display:none;"></div>
+    </div>
+
+</div>
+
+<script>
+    // --- Vardų valdymas ---
+    function showNamePrompt() {
+        const studentName = localStorage.getItem('studentName');
+        if (!studentName) {
+            const name = prompt('Įvesk savo vardą:');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('studentName', name.trim());
+                return name.trim();
+            } else {
+                alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                return showNamePrompt();
+            }
+        }
+        return studentName;
+    }
+
+    function changeName() {
+        localStorage.removeItem('studentName');
+        const newName = showNamePrompt();
+        alert(`Vardas pakeistas į: \${newName}`);
+        location.reload();
+    }
+
+    function sendResultToSheet(taskName, score) {
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+        const timestamp = new Date().toLocaleString('lt-LT');
+
+        const data = {
+            name: studentName,
+            task: taskName,
+            score: score,
+            timestamp: timestamp
+        };
+
+        fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(() => {
+            console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+        }).catch(error => {
+            console.error('Klaida siunčiant rezultatą:', error);
+        });
+    }
+
+    const studentName = showNamePrompt();
+    document.getElementById('studentNameDisplay').textContent = studentName;
+
+    // --- Kortelių rodymas ---
+    function showCard(cardId) {
+        document.querySelectorAll('.card').forEach(card => {
+            card.classList.remove('active');
+        });
+        document.getElementById(cardId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    // --- DUOMENYS APIE JUNGINIUS ---
+    const JUNCTIONS = [
+        {
+            id: 1,
+            text: "nukarusiomis šakomis",
+            gender: "moteriškoji",
+            number: "daugiskaita",
+            kase: "įnagininkas"
+        },
+        {
+            id: 2,
+            text: "sužaliavusiais lapais",
+            gender: "vyriškoji",
+            number: "daugiskaita",
+            kase: "įnagininkas"
+        },
+        {
+            id: 3,
+            text: "vingiuojantį upelį",
+            gender: "vyriškoji",
+            number: "vienaskaita",
+            kase: "galininkas"
+        },
+        {
+            id: 4,
+            text: "susipynusiais krūmais",
+            gender: "vyriškoji",
+            number: "daugiskaita",
+            kase: "įnagininkas"
+        },
+        {
+            id: 5,
+            text: "žydinčiomis žibutėmis",
+            gender: "moteriškoji",
+            number: "daugiskaita",
+            kase: "įnagininkas"
+        },
+        {
+            id: 6,
+            text: "prasiveržiančių spindulių",
+            gender: "vyriškoji",
+            number: "daugiskaita",
+            kase: "kilmininkas"
+        },
+        {
+            id: 7,
+            text: "čiulbančius paukščius",
+            gender: "vyriškoji",
+            number: "daugiskaita",
+            kase: "galininkas"
+        },
+        {
+            id: 8,
+            text: "čiurlenantį upelį",
+            gender: "vyriškoji",
+            number: "vienaskaita",
+            kase: "galininkas"
+        }
+    ];
+
+    const GENDER_OPTIONS = ["", "vyriškoji", "moteriškoji"];
+    const NUMBER_OPTIONS = ["", "vienaskaita", "daugiskaita"];
+    const CASE_OPTIONS = ["", "vardininkas", "kilmininkas", "naudininkas", "galininkas", "įnagininkas", "vietininkas"];
+
+    // --- Lentelės generavimas ---
+    function buildTable() {
+        const tbody = document.querySelector('#junction-table tbody');
+        tbody.innerHTML = "";
+
+        JUNCTIONS.forEach(j => {
+            const tr = document.createElement('tr');
+
+            const tdNr = document.createElement('td');
+            tdNr.textContent = j.id;
+            tr.appendChild(tdNr);
+
+            const tdText = document.createElement('td');
+            tdText.textContent = j.text;
+            tr.appendChild(tdText);
+
+            const tdGender = document.createElement('td');
+            const selGender = document.createElement('select');
+            selGender.id = `gender-\${j.id}`;
+            GENDER_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                selGender.appendChild(o);
+            });
+            tdGender.appendChild(selGender);
+            tr.appendChild(tdGender);
+
+            const tdNumber = document.createElement('td');
+            const selNumber = document.createElement('select');
+            selNumber.id = `number-\${j.id}`;
+            NUMBER_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                selNumber.appendChild(o);
+            });
+            tdNumber.appendChild(selNumber);
+            tr.appendChild(tdNumber);
+
+            const tdCase = document.createElement('td');
+            const selCase = document.createElement('select');
+            selCase.id = `case-${j.id}`;
+            CASE_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                selCase.appendChild(o);
+            });
+            tdCase.appendChild(selCase);
+            tr.appendChild(tdCase);
+
+            tbody.appendChild(tr);
+        });
+    }
+
+    // --- Tikrinimas ---
+    function checkTable() {
+        const feedbackArea = document.getElementById('feedback-area');
+        const resultBox = document.getElementById('result-box');
+
+        let totalFields = 0;
+        let correctFields = 0;
+
+        // nuimame senas spalvas
+        document.querySelectorAll('#junction-table td').forEach(td => {
+            td.classList.remove('cell-correct', 'cell-incorrect');
+        });
+
+        JUNCTIONS.forEach(j => {
+            const selGender = document.getElementById(`gender-${j.id}`);
+            const selNumber = document.getElementById(`number-${j.id}`);
+            const selCase   = document.getElementById(`case-${j.id}`);
+
+            const tdGender = selGender.parentElement;
+            const tdNumber = selNumber.parentElement;
+            const tdCase   = selCase.parentElement;
+
+            // Giminė
+            totalFields++;
+            if (selGender.value === j.gender) {
+                correctFields++;
+                tdGender.classList.add('cell-correct');
+            } else {
+                tdGender.classList.add('cell-incorrect');
+            }
+
+            // Skaičius
+            totalFields++;
+            if (selNumber.value === j.number) {
+                correctFields++;
+                tdNumber.classList.add('cell-correct');
+            } else {
+                tdNumber.classList.add('cell-incorrect');
+            }
+
+            // Linksnis
+            totalFields++;
+            if (selCase.value === j.kase) {
+                correctFields++;
+                tdCase.classList.add('cell-correct');
+            } else {
+                tdCase.classList.add('cell-incorrect');
+            }
+        });
+
+        const percentage = totalFields > 0 ? Math.round((correctFields / totalFields) * 100) : 0;
+
+        feedbackArea.innerHTML = `
+            Teisingų atsakymų: <strong>${correctFields}</strong> iš <strong>${totalFields}</strong> 
+            (${percentage}%).
+        `;
+
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `
+            <div>Bendras rezultatas:</div>
+            <div style="font-size:2.2rem; margin-top:8px;">
+                ${percentage}%
+            </div>
+        `;
+
+        // Siunčiame rezultatą į Google Sheets
+        sendResultToSheet('L0XXX Dalyvio junginiai – giminė, skaičius, linksnis', percentage);
+    }
+
+    // --- Inicializacija ---
+    window.onload = function () {
+        buildTable();
+    };
+</script>
+</body>
+</html>
+
