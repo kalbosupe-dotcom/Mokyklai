@@ -10,7 +10,7 @@
             font-family: 'OpenDyslexic', Arial, sans-serif;
             letter-spacing: 0.05em;
             background-color: #E8F4F8;
-            line-height: 1.8;
+            line-height: 1.9;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -86,7 +86,7 @@
         .card.active { display: block; }
 
         .intro-text {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: bold;
             color: #0D3B66;
             margin-bottom: 20px;
@@ -94,8 +94,9 @@
         }
 
         .intro-content {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: #1A4D7A;
+            line-height: 1.9;
         }
         .intro-content ul {
             margin-top: 15px;
@@ -129,9 +130,10 @@
             background-color: #E8F4F8;
             border-radius: 12px;
             border: 2px solid #7CB3E9;
-            padding: 20px;
-            margin-top: 10px;
-            font-size: 1.05rem;
+            padding: 24px;
+            margin-top: 12px;
+            font-size: 1.1rem;
+            line-height: 1.9;
             color: #1A4D7A;
         }
 
@@ -150,11 +152,11 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.98rem;
+            font-size: 1rem;
         }
         th, td {
             border: 1px solid #cbd5e1;
-            padding: 8px 6px;
+            padding: 10px 8px;
             text-align: left;
         }
         th {
@@ -187,7 +189,7 @@
 
         .feedback-text {
             margin-top: 15px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #1A4D7A;
         }
 
@@ -204,7 +206,7 @@
         }
 
         @media (max-width: 768px) {
-            .intro-text { font-size: 1.5rem; }
+            .intro-text { font-size: 1.6rem; }
             .card { padding: 22px; }
             .header-container {
                 flex-direction: column;
@@ -242,7 +244,7 @@
                     <ul>
                         <li>Giminę: <em>vyriškoji / moteriškoji</em></li>
                         <li>Skaičių: <em>vienaskaita / daugiskaita</em></li>
-                        <li>Linksnį: <em>vardininkas, kilmininkas, naudininkas, galininkas, įnagininkas, vietininkas</em></li>
+                        <li>Linksnių formas su klausimais: <em>vardininkas (Kas?), kilmininkas (Ko?) ir t. t.</em></li>
                     </ul>
                 </li>
                 <li>✅ Paspausk „Pasitikrinti“ ir pažiūrėk, kaip sekėsi.</li>
@@ -260,7 +262,7 @@
         <div class="text-block">
             <p><strong>Balandžio 25 d.</strong></p>
             <p>
-                1. Ties bunkerio anga auga ieva ilgomis 
+                1. Ties bunkerio anga auga ieva ilgomis
                 <span class="highlight">nukarusiomis šakomis</span>. 
                 2. Sprogsta lapai. 
                 3. Vasarą bunkeris visiškai uždengiamas 
@@ -268,7 +270,7 @@
                 4. Keletą metrų žemiau matai 
                 <span class="highlight">vingiuojantį upelį</span>. 
                 5. Jo abu krantai apaugę 
-                <span class="highlight">susipynusiais krūmais</span> ir nubarstytį 
+                <span class="highlight">susipynusiais krūmais</span> ir nubarstyti 
                 <span class="highlight">žydinčiomis žibutėmis</span>. 
                 6. Šitas bunkeris – tikra vasarvietė. 
                 7. Deja, mes juo negalime pasidžiaugti. 
@@ -292,7 +294,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Eilutės bus sugeneruotos JS -->
+                <!-- Eilutės sugeneruojamos JS -->
                 </tbody>
             </table>
         </div>
@@ -369,67 +371,27 @@
 
     // --- DUOMENYS APIE JUNGINIUS ---
     const JUNCTIONS = [
-        {
-            id: 1,
-            text: "nukarusiomis šakomis",
-            gender: "moteriškoji",
-            number: "daugiskaita",
-            kase: "įnagininkas"
-        },
-        {
-            id: 2,
-            text: "sužaliavusiais lapais",
-            gender: "vyriškoji",
-            number: "daugiskaita",
-            kase: "įnagininkas"
-        },
-        {
-            id: 3,
-            text: "vingiuojantį upelį",
-            gender: "vyriškoji",
-            number: "vienaskaita",
-            kase: "galininkas"
-        },
-        {
-            id: 4,
-            text: "susipynusiais krūmais",
-            gender: "vyriškoji",
-            number: "daugiskaita",
-            kase: "įnagininkas"
-        },
-        {
-            id: 5,
-            text: "žydinčiomis žibutėmis",
-            gender: "moteriškoji",
-            number: "daugiskaita",
-            kase: "įnagininkas"
-        },
-        {
-            id: 6,
-            text: "prasiveržiančių spindulių",
-            gender: "vyriškoji",
-            number: "daugiskaita",
-            kase: "kilmininkas"
-        },
-        {
-            id: 7,
-            text: "čiulbančius paukščius",
-            gender: "vyriškoji",
-            number: "daugiskaita",
-            kase: "galininkas"
-        },
-        {
-            id: 8,
-            text: "čiurlenantį upelį",
-            gender: "vyriškoji",
-            number: "vienaskaita",
-            kase: "galininkas"
-        }
+        { id: 1, text: "nukarusiomis šakomis", gender: "moteriškoji", number: "daugiskaita", kase: "įnagininkas (Kuo?)" },
+        { id: 2, text: "sužaliavusiais lapais", gender: "vyriškoji", number: "daugiskaita", kase: "įnagininkas (Kuo?)" },
+        { id: 3, text: "vingiuojantį upelį", gender: "vyriškoji", number: "vienaskaita", kase: "galininkas (Ką?)" },
+        { id: 4, text: "susipynusiais krūmais", gender: "vyriškoji", number: "daugiskaita", kase: "įnagininkas (Kuo?)" },
+        { id: 5, text: "žydinčiomis žibutėmis", gender: "moteriškoji", number: "daugiskaita", kase: "įnagininkas (Kuo?)" },
+        { id: 6, text: "prasiveržiančių spindulių", gender: "vyriškoji", number: "daugiskaita", kase: "kilmininkas (Ko?)" },
+        { id: 7, text: "čiulbančius paukščius", gender: "vyriškoji", number: "daugiskaita", kase: "galininkas (Ką?)" },
+        { id: 8, text: "čiurlenantį upelį", gender: "vyriškoji", number: "vienaskaita", kase: "galininkas (Ką?)" }
     ];
 
     const GENDER_OPTIONS = ["", "vyriškoji", "moteriškoji"];
     const NUMBER_OPTIONS = ["", "vienaskaita", "daugiskaita"];
-    const CASE_OPTIONS = ["", "vardininkas", "kilmininkas", "naudininkas", "galininkas", "įnagininkas", "vietininkas"];
+    const CASE_OPTIONS = [
+        "",
+        "vardininkas (Kas?)",
+        "kilmininkas (Ko?)",
+        "naudininkas (Kam?)",
+        "galininkas (Ką?)",
+        "įnagininkas (Kuo?)",
+        "vietininkas (Kur? Kame?)"
+    ];
 
     // --- Lentelės generavimas ---
     function buildTable() {
@@ -540,8 +502,7 @@
         const percentage = totalFields > 0 ? Math.round((correctFields / totalFields) * 100) : 0;
 
         feedbackArea.innerHTML = `
-            Teisingų atsakymų: <strong>${correctFields}</strong> iš <strong>${totalFields}</strong> 
-            (${percentage}%).
+            Teisingų atsakymų: <strong>${correctFields}</strong> iš <strong>${totalFields}</strong> (${percentage}%).
         `;
 
         resultBox.style.display = 'block';
