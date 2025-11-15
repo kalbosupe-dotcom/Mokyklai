@@ -419,24 +419,6 @@
             { id: 14, question: "Tylus garsas turi", options: ["Mažą amplitudę", "Didelę amplitudę", "Amplitudė nesvarbi"], correct: 0, image: IMG_AMPLITUDE },
             { id: 15, question: "Didėjant amplitudei, garsumas", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: IMG_AMPLITUDE },
             { id: 16, question: "Mažėjant amplitudei, garsumas", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: IMG_AMPLITUDE },
-            { id: 17, question: "Kuo bangos ilgis didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: IMG_FREQUENCY },
-            { id: 18, question: "Kuo bangos ilgis mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Bangos ilgis neįtakoja dažnio"], correct: 0, image: IMG_FREQUENCY },
-            { id: 19, question: "Jei dažnis didelis, tai bangos ilgis", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0, image: IMG_FREQUENCY },
-            { id: 20, question: "Jei dažnis mažas, tai bangos ilgis", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0, image: IMG_FREQUENCY },
-            { id: 21, question: "Aukštas garsas turi", options: ["Trumpą bangos ilgį", "Ilgą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: IMG_FREQUENCY },
-            { id: 22, question: "Žemas garsas turi", options: ["Ilgą bangos ilgį", "Trumpą bangos ilgį", "Bangos ilgis nesvarbus"], correct: 0, image: IMG_FREQUENCY },
-            { id: 23, question: "Didėjant bangos ilgiui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
-            { id: 24, question: "Mažėjant bangos ilgiui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
-            { id: 25, question: "Bangos ilgis ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0, image: IMG_FREQUENCY },
-            { id: 26, question: "Jei bangos ilgis padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0, image: IMG_FREQUENCY },
-            { id: 27, question: "Kuo periodas didesnis", options: ["Tuo dažnis mažesnis", "Tuo dažnis didesnis", "Periodas neįtakoja dažnio"], correct: 0, image: IMG_PERIOD },
-            { id: 28, question: "Kuo periodas mažesnis", options: ["Tuo dažnis didesnis", "Tuo dažnis mažesnis", "Periodas neįtakoja dažnio"], correct: 0, image: IMG_PERIOD },
-            { id: 29, question: "Jei dažnis didelis, tai periodas", options: ["Mažas", "Didelis", "Nepriklauso"], correct: 0, image: IMG_PERIOD },
-            { id: 30, question: "Jei dažnis mažas, tai periodas", options: ["Didelis", "Mažas", "Nepriklauso"], correct: 0, image: IMG_PERIOD },
-            { id: 31, question: "Periodas ir dažnis yra", options: ["Atvirkščiai proporcingi", "Tiesiogiai proporcingi", "Nepriklauso vienas nuo kito"], correct: 0, image: IMG_PERIOD },
-            { id: 32, question: "Jei periodas padidėja 2 kartus, dažnis", options: ["Sumažėja 2 kartus", "Padidėja 2 kartus", "Nekinta"], correct: 0, image: IMG_PERIOD },
-            { id: 33, question: "Didėjant periodui, dažnis", options: ["Mažėja", "Didėja", "Nekinta"], correct: 0, image: IMG_PERIOD },
-            { id: 34, question: "Mažėjant periodui, dažnis", options: ["Didėja", "Mažėja", "Nekinta"], correct: 0, image: IMG_PERIOD }
         ];
 
         let userAnswers = [];
@@ -718,7 +700,7 @@
                 <div class="score-percentage ${scoreClass}">${percentage}%</div>
             `;
             
-            sendResultToSheet('F0003 Testas #1: Garso bangų parametrų sąsajos | 34 klausimai', percentage);
+            sendResultToSheet('F0003 Testas #1: Garso bangų parametrų sąsajos | 16 klausimų', percentage);
         }
 
         document.addEventListener('keypress', function(e) {
