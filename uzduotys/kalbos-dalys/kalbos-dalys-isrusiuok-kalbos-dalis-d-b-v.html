@@ -18,10 +18,19 @@
             margin: 20px auto;
             padding: 20px;
         }
+
+        /* NAUJA VIRŠUTINĖ JUOSTA */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
         
         .back-btn {
             display: inline-block;
-            margin-bottom: 20px;
             padding: 12px 24px;
             background-color: #7CB3E9;
             color: white;
@@ -29,10 +38,6 @@
             border-radius: 8px;
             font-size: 18px;
             transition: background-color 0.3s;
-        }
-        
-        .back-btn:hover {
-            background-color: #4A90E2;
         }
         
         .student-info {
@@ -369,13 +374,17 @@
 </head>
 <body>
     <div class="task-wrapper">
-        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
-        
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+
+        <!-- NAUJA VIRŠUTINĖ JUOSTA -->
+        <div class="top-bar">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
         
         <h1>🎯 Išrūšiuok kalbos dalis: daiktavardis, būdvardis, veiksmažodis</h1>
