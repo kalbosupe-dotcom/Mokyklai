@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎧 Garso bangos – 6 uždaviniai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Verdana, Geneva, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+        
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .card.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header h2 {
+            color: #667eea;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .theory-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .theory-section h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .question-box {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #764ba2;
+            font-size: 1.2em;
+            line-height: 1.9;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .question-box strong {
+            color: #000;
+            font-weight: 700;
+        }
+        
+        .input-group {
+            margin: 20px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.05em;
+            font-weight: bold;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .options-container {
+            margin: 20px 0;
+        }
+
+        .option {
+            background: white;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            padding: 14px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(3px);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #e8f0ff;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 14px 26px;
+            font-size: 1.05em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 10px;
+            display: none;
+            font-size: 1.05em;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 3px solid #28a745;
+            color: #155724;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 3px solid #dc3545;
+            color: #721c24;
+            display: block;
+        }
+        
+        .feedback-icon {
+            font-size: 1.4em;
+            margin-right: 8px;
+        }
+        
+        .hint-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .hint-box.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .hint-box strong {
+            color: #856404;
+        }
+        
+        .results-summary {
+            text-align: center;
+            padding: 25px;
+        }
+        
+        .score-circle {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 25px auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .score-circle .score {
+            font-size: 2.8em;
+            font-weight: bold;
+        }
+        
+        .score-circle .label {
+            font-size: 1.1em;
+        }
+        
+        .results-details {
+            background: #f8f9ff;
+            padding: 22px;
+            border-radius: 10px;
+            margin: 22px 0;
+            text-align: left;
+        }
+        
+        .result-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .result-item.correct {
+            border-left-color: #28a745;
+        }
+        
+        .result-item.incorrect {
+            border-left-color: #dc3545;
+        }
+        
+        .emoji-large {
+            font-size: 3em;
+            margin: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header-row { flex-direction: column; align-items: stretch; }
+            .student-info { min-width: auto; }
+            .header h1 { font-size: 1.5em; }
+            .card { padding: 18px; }
+            .button-group { flex-direction: column; }
+            button { width: 100%; }
+            .score-circle { width: 150px; height: 150px; }
+            .score-circle .score { font-size: 2.3em; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER SU MYGTUKU IR VARDU -->
+    <div class="header-row">
+        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>🎧 Garso bangos – 6 uždaviniai</h1>
+        <p class="subtitle">Bangos ilgis, amplitudė, greitis, aidas ir ultragarsas</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+        <p style="text-align: center; margin-top: 10px; color: #666;">
+            <strong>Užduotis: <span id="currentTask">0</span> / 7</strong>
+        </p>
+    </div>
+
+    <!-- Teorijos / įžangos kortelė -->
+    <div class="card active" id="card0">
+        <div class="card-header">
+            <h2>📚 Garso bangų uždaviniai</h2>
+        </div>
+        <div class="theory-section">
+            <h3>🔍 Ką treniruosite?</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li>✅ Bangos ilgį ir amplitudę iš grafiko</li>
+                <li>✅ Garso bangos sklidimo greitį</li>
+                <li>✅ Aido (garso atspindžio) uždavinį</li>
+                <li>✅ Ultragarsą ir jūros gylio nustatymą</li>
+            </ul>
+        </div>
+        <div class="button-group">
+            <button class="btn-next" onclick="nextCard()">Pradėti uždavinius ➜</button>
+        </div>
+    </div>
+
+    <!-- 1 uždavinys – 2a: bangos ilgis -->
+    <div class="card" id="card1">
+        <div class="card-header">
+            <h2>📝 Uždavinys 1</h2>
+        </div>
+        <div class="question-box">
+            <strong>660 Hz dažnio garso banga sklinda oru.</strong> Paveiksle pavaizduotas dalelių
+            nuokrypis nuo pusiausvyros taško išilgai bangos sklidimo krypties tam tikru laiko momentu.
+            <br><br>
+            a) Nustatykite bangos ilgį <strong>λ</strong> (m).
+        </div>
+        <div class="input-group">
+            <label for="answer1">Jūsų atsakymas (m):</label>
+            <input type="number" id="answer1" step="0.01" placeholder="Įveskite bangos ilgį metrais">
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="showHint(1)">💡 Patarimas</button>
+            <button class="btn-primary" onclick="checkNumeric(1)">Tikrinti</button>
+        </div>
+        <div class="hint-box" id="hint1">
+            <strong>💡 Patarimas:</strong> Bangos ilgis – atstumas tarp dviejų gretimų vienodų fazių taškų
+            (pvz., dviejų iš eilės viršūnių). Paveiksle 4 pilnos bangos telpa į 2 m atstumą.
+        </div>
+        <div class="feedback" id="feedback1"></div>
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+            <button class="btn-next" id="next1" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+        </div>
+    </div>
+
+    <!-- 2 uždavinys – 2b: amplitudė -->
+    <div class="card" id="card2">
+        <div class="card-header">
+            <h2>📝 Uždavinys 2</h2>
+        </div>
+        <div class="question-box">
+            Remdamiesi tuo pačiu paveikslu, nustatykite:
+            <br><br>
+            b) Bangos amplitudę <strong>A</strong> (mm).
+        </div>
+        <div class="input-group">
+            <label for="answer2">Jūsų atsakymas (mm):</label>
+            <input type="number" id="answer2" step="0.1" placeholder="Įveskite amplitudę milimetrais">
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="showHint(2)">💡 Patarimas</button>
+            <button class="btn-primary" onclick="checkNumeric(2)">Tikrinti</button>
+        </div>
+        <div class="hint-box" id="hint2">
+            <strong>💡 Patarimas:</strong> Amplitudė – didžiausias dalelės nuokrypis nuo pusiausvyros
+            (nuo 0 iki viršūnės). Paveiksle viršūnė yra ties 0,5 mm.
+        </div>
+        <div class="feedback" id="feedback2"></div>
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+            <button class="btn-next" id="next2" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+        </div>
+    </div>
+
+    <!-- 3 uždavinys – 2c: garso greitis -->
+    <div class="card" id="card3">
+        <div class="card-header">
+            <h2>📝 Uždavinys 3</h2>
+        </div>
+        <div class="question-box">
+            Remdamiesi tuo pačiu paveikslu ir žinodami, kad bangos dažnis yra
+            <strong>f = 660 Hz</strong>, nustatykite:
+            <br><br>
+            c) Garso bangos sklidimo greitį <strong>v</strong> (m/s).
+        </div>
+        <div class="input-group">
+            <label for="answer3">Jūsų atsakymas (m/s):</label>
+            <input type="number" id="answer3" step="1" placeholder="Įveskite greitį m/s">
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="showHint(3)">💡 Patarimas</button>
+            <button class="btn-primary" onclick="checkNumeric(3)">Tikrinti</button>
+        </div>
+        <div class="hint-box" id="hint3">
+            <strong>💡 Patarimas:</strong> Naudokite formulę <strong>v = λ · f</strong>.
+            Pirmiausia raskite bangos ilgį iš 1 uždavinio, tada padauginkite iš dažnio.
+        </div>
+        <div class="feedback" id="feedback3"></div>
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+            <button class="btn-next" id="next3" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+        </div>
+    </div>
+
+    <!-- 4 uždavinys – 3: aidas, pasirenkami atsakymai -->
+    <div class="card" id="card4">
+        <div class="card-header">
+            <h2>📝 Uždavinys 4</h2>
+        </div>
+        <div class="question-box">
+            <strong>220 m</strong> atstumu nuo uolos stovintis mokinys garsiai surinka.
+            Garso greitis ore yra <strong>330 m/s</strong>.
+            <br><br>
+            Kiek laiko praeis, kol mokinys išgirs savo riksmą?
+        </div>
+
+        <div class="options-container" id="options4">
+            <!-- parinktys sugeneruojamos JS -->
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="checkChoice(4)">Tikrinti</button>
+        </div>
+        <div class="feedback" id="feedback4"></div>
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+            <button class="btn-next" id="next4" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+        </div>
+    </div>
+
+    <!-- 5 uždavinys – 4a: ultragarsas jūroje -->
+    <div class="card" id="card5">
+        <div class="card-header">
+            <h2>📝 Uždavinys 5</h2>
+        </div>
+        <div class="question-box">
+            Grafike pavaizduota, kaip ultragarsas sklinda jūros vandeniu.
+            <br><br>
+            a) Apskaičiuokite ultragarsinio garso greitį jūros vandenyje <strong>v</strong> (m/s).
+        </div>
+        <div class="input-group">
+            <label for="answer5">Jūsų atsakymas (m/s):</label>
+            <input type="number" id="answer5" step="10" placeholder="Įveskite greitį m/s">
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="showHint(5)">💡 Patarimas</button>
+            <button class="btn-primary" onclick="checkNumeric(5)">Tikrinti</button>
+        </div>
+        <div class="hint-box" id="hint5">
+            <strong>💡 Patarimas:</strong> Nustatykite, kokį atstumą ultragarsas nueina per
+            tam tikrą laiką iš grafiko (pvz., 900 m per 0,6 s), ir naudokite formulę
+            <strong>v = s / t</strong>.
+        </div>
+        <div class="feedback" id="feedback5"></div>
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+            <button class="btn-next" id="next5" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+        </div>
+    </div>
+
+    <!-- 6 uždavinys – 4b: jūros gylis -->
+    <div class="card" id="card6">
+        <div class="card-header">
+            <h2>📝 Uždavinys 6</h2>
+        </div>
+        <div class="question-box">
+            Ultragarsas naudojamas jūros gyliui išmatuoti. Iš laivo paleidžiamas ultragarsinis signalas,
+            kuris atsispindėjęs nuo dugno grįžta į laivą. Tarkime, tam tikroje jūros vietoje jis grįžo
+            po <strong>0,20 s</strong>.
+            <br><br>
+            Remdamiesi grafiku ir savo atsakymu iš 5 uždavinio, nustatykite jūros gylį
+            šioje vietoje <strong>h</strong> (m).
+        </div>
+        <div class="input-group">
+            <label for="answer6">Jūsų atsakymas (m):</label>
+            <input type="number" id="answer6" step="1" placeholder="Įveskite jūros gylį metrais">
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="showHint(6)">💡 Patarimas</button>
+            <button class="btn-primary" onclick="checkNumeric(6)">Tikrinti</button>
+        </div>
+        <div class="hint-box" id="hint6">
+            <strong>💡 Patarimas:</strong> Ultragarsas nueina kelią <strong>pirmyn ir atgal</strong>.
+            Jei visas laikas 0,20 s, tai į vieną pusę – 0,10 s. Naudokite formulę
+            <strong>s = v · t</strong>, o gautas atstumas bus jūros gylis.
+        </div>
+        <div class="feedback" id="feedback6"></div>
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+            <button class="btn-next" id="next6" onclick="nextCard()" style="display:none;">Peržiūrėti rezultatus ➜</button>
+        </div>
+    </div>
+
+    <!-- Rezultatų kortelė -->
+    <div class="card" id="card7">
+        <div class="card-header">
+            <h2>🎉 Rezultatai</h2>
+        </div>
+
+        <div class="results-summary">
+            <div class="emoji-large" id="resultEmoji">🎯</div>
+            <div class="score-circle">
+                <div class="score" id="finalScore">0</div>
+                <div class="label">iš 6</div>
+            </div>
+            <h3 id="resultMessage" style="color:#667eea; margin:18px 0;">Puiku!</h3>
+            <p id="resultDescription" style="font-size:1.05em; color:#666;">
+                Jūs atlikote visus uždavinius!
+            </p>
+        </div>
+
+        <div class="results-details">
+            <h3 style="color:#667eea; margin-bottom:16px;">📊 Detalūs rezultatai:</h3>
+            <div id="detailedResults"></div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+            <button class="btn-primary" onclick="restartQuiz()">🔄 Pradėti iš naujo</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Google Sheets konfigūracija
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+
+    // Vardas
+    function showNamePrompt() {
+        const stored = localStorage.getItem('studentName');
+        if (stored) return stored;
+        const name = prompt('Įvesk savo vardą:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('studentName', name.trim());
+            return name.trim();
+        }
+        alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+        return showNamePrompt();
+    }
+
+    function changeName() {
+        localStorage.removeItem('studentName');
+        const newName = showNamePrompt();
+        alert('Vardas pakeistas į: ' + newName);
+        location.reload();
+    }
+
+    const studentName = showNamePrompt();
+    document.getElementById('studentNameDisplay').textContent = studentName;
+
+    // Bendra logika
+    let currentCard = 0;
+    const totalCards = 7; // 0–6 uždaviniai, 7 – rezultatai
+    let correctCount = 0;
+
+    const numericAnswers = {
+        1: 0.5,    // bangos ilgis, m
+        2: 0.5,    // amplitudė, mm
+        3: 330,    // garso greitis, m/s
+        5: 1500,   // ultragarsas jūroje, m/s
+        6: 150     // jūros gylis, m
+    };
+
+    const tolerance = 0.03; // 3 %
+
+    const choiceQuestion = {
+        id: 4,
+        correct: 'C',
+        options: [
+            { key: 'A', text: '1,3 s' },
+            { key: 'B', text: '0,7 s' },
+            { key: 'C', text: '1,3 s' }, // teisinga – aidas: 2·220 / 330 ≈ 1,3 s
+            { key: 'D', text: '0,8 s' }
+        ]
+    };
+
+    const taskTitles = {
+        1: 'Bangos ilgis',
+        2: 'Bangos amplitudė',
+        3: 'Garso greitis (oro banga)',
+        4: 'Aidas nuo uolos',
+        5: 'Ultragarsas jūros vandenyje',
+        6: 'Jūros gylis'
+    };
+
+    const userResults = {
+        1: null, 2: null, 3: null, 4: null, 5: null, 6: null
+    };
+
+    window.onload = function () {
+        updateProgress();
+        renderChoiceOptions();
+    };
+
+    function updateProgress() {
+        const progress = (currentCard / totalCards) * 100;
+        const bar = document.getElementById('progressBar');
+        bar.style.width = progress + '%';
+        bar.textContent = Math.round(progress) + '%';
+        document.getElementById('currentTask').textContent = currentCard;
+    }
+
+    function nextCard() {
+        if (currentCard < totalCards) {
+            document.getElementById('card' + currentCard).classList.remove('active');
+            currentCard++;
+            if (currentCard === 7) generateResults();
+            document.getElementById('card' + currentCard).classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function prevCard() {
+        if (currentCard > 0) {
+            document.getElementById('card' + currentCard).classList.remove('active');
+            currentCard--;
+            document.getElementById('card' + currentCard).classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function showHint(n) {
+        const el = document.getElementById('hint' + n);
+        if (el) el.classList.add('show');
+    }
+
+    // Skaitiniai atsakymai
+    function checkNumeric(n) {
+        const input = document.getElementById('answer' + n);
+        const fb = document.getElementById('feedback' + n);
+        const nextBtn = document.getElementById('next' + n);
+
+        if (!input.value) {
+            fb.className = 'feedback incorrect';
+            fb.innerHTML = '<span class="feedback-icon">⚠️</span> Įveskite atsakymą.';
+            return;
+        }
+
+        const userVal = parseFloat(input.value.replace(',', '.'));
+        const correctVal = numericAnswers[n];
+        const diff = Math.abs(userVal - correctVal);
+        const maxDiff = Math.abs(correctVal) * tolerance;
+
+        const isCorrect = diff <= maxDiff;
+
+        userResults[n] = { user: userVal, correct: correctVal, ok: isCorrect };
+
+        if (isCorrect) {
+            fb.className = 'feedback correct';
+            fb.innerHTML = '<span class="feedback-icon">✅</span><strong>Teisingai!</strong> Teisingas atsakymas: ' + correctVal + '.';
+            input.disabled = true;
+            if (!nextBtn.dataset.counted) {
+                correctCount++;
+                nextBtn.dataset.counted = '1';
+            }
+            nextBtn.style.display = 'inline-block';
+        } else {
+            fb.className = 'feedback incorrect';
+            fb.innerHTML = '<span class="feedback-icon">❌</span><strong>Neteisingai.</strong> Teisingas atsakymas yra apie ' + correctVal + '. Bandykite dar kartą arba pasinaudokite patarimu.';
+        }
+    }
+
+    // Pasirenkami atsakymai
+    function renderChoiceOptions() {
+        const container = document.getElementById('options4');
+        const shuffled = [...choiceQuestion.options].sort(() => Math.random() - 0.5);
+        shuffled.forEach(opt => {
+            const div = document.createElement('label');
+            div.className = 'option';
+            div.innerHTML = `
+                <input type="radio" name="q4" value="${opt.key}">
+                <span><strong>${opt.key})</strong> ${opt.text}</span>
+            `;
+            div.addEventListener('click', () => {
+                document.querySelectorAll('#options4 .option').forEach(o => o.classList.remove('selected'));
+                div.classList.add('selected');
+            });
+            container.appendChild(div);
+        });
+    }
+
+    function checkChoice(id) {
+        const fb = document.getElementById('feedback' + id);
+        const nextBtn = document.getElementById('next' + id);
+        const options = document.querySelectorAll('#options4 .option');
+        const radios = document.querySelectorAll('input[name="q4"]');
+
+        let selected = null;
+        radios.forEach(r => {
+            if (r.checked) selected = r.value;
+        });
+
+        if (!selected) {
+            fb.className = 'feedback incorrect';
+            fb.innerHTML = '<span class="feedback-icon">⚠️</span> Pasirinkite vieną atsakymo variantą.';
+            return;
+        }
+
+        // Užrakinti pasirinkimus
+        options.forEach(opt => {
+            opt.classList.add('disabled');
+            const val = opt.querySelector('input').value;
+            if (val === choiceQuestion.correct) {
+                opt.classList.add('correct');
+            }
+            if (val === selected && val !== choiceQuestion.correct) {
+                opt.classList.add('incorrect');
+            }
+            opt.querySelector('input').disabled = true;
+        });
+
+        const isCorrect = selected === choiceQuestion.correct;
+        userResults[4] = { user: selected, correct: choiceQuestion.correct, ok: isCorrect };
+
+        if (isCorrect) {
+            fb.className = 'feedback correct';
+            fb.innerHTML = '<span class="feedback-icon">✅</span><strong>Teisingai!</strong> Aidas nueina kelią pirmyn ir atgal, todėl laikas ≈ 1,3 s.';
+            if (!nextBtn.dataset.counted) {
+                correctCount++;
+                nextBtn.dataset.counted = '1';
+            }
+        } else {
+            fb.className = 'feedback incorrect';
+            fb.innerHTML = '<span class="feedback-icon">❌</span><strong>Neteisingai.</strong> Teisingas atsakymas – tas, kuriame laikas apie 1,3 s (kelias pirmyn ir atgal).';
+        }
+
+        nextBtn.style.display = 'inline-block';
+    }
+
+    // Rezultatai
+    function generateResults() {
+        const scoreEl = document.getElementById('finalScore');
+        const emojiEl = document.getElementById('resultEmoji');
+        const msgEl = document.getElementById('resultMessage');
+        const descEl = document.getElementById('resultDescription');
+        const detailsEl = document.getElementById('detailedResults');
+
+        const percentage = (correctCount / 6) * 100;
+
+        if (percentage === 100) {
+            emojiEl.textContent = '🏆';
+            msgEl.textContent = 'Puiku! Tobulas rezultatas!';
+            descEl.textContent = 'Puikiai suprantate garso bangų uždavinius ir jų taikymą.';
+        } else if (percentage >= 80) {
+            emojiEl.textContent = '🌟';
+            msgEl.textContent = 'Labai gerai!';
+            descEl.textContent = 'Tik keli netikslumai – jūsų žinios labai tvirtos.';
+        } else if (percentage >= 60) {
+            emojiEl.textContent = '👍';
+            msgEl.textContent = 'Gerai!';
+            descEl.textContent = 'Pagrindus suprantate, bet verta dar kartą peržvelgti teoriją.';
+        } else if (percentage >= 40) {
+            emojiEl.textContent = '📚';
+            msgEl.textContent = 'Neblogai – dar reikia praktikos.';
+            descEl.textContent = 'Skirkite daugiau laiko uždaviniams ir bandykite dar kartą.';
+        } else {
+            emojiEl.textContent = '💪';
+            msgEl.textContent = 'Reikia daugiau treniruotės.';
+            descEl.textContent = 'Nieko tokio – svarbiausia nenuleisti rankų ir kartoti.';
+        }
+
+        scoreEl.textContent = correctCount;
+
+        let html = '';
+        for (let i = 1; i <= 6; i++) {
+            const r = userResults[i];
+            const ok = r && r.ok;
+            const cls = ok ? 'correct' : 'incorrect';
+            const icon = ok ? '✅' : '❌';
+            let userText = 'Neatsakyta';
+            let correctText = '';
+
+            if (i === 4) {
+                if (r) {
+                    userText = r.user ? r.user + ')' : 'Neatsakyta';
+                    correctText = r.correct + ')';
+                }
+            } else {
+                if (r) {
+                    userText = (r.user !== null && r.user !== undefined) ? r.user : 'Neatsakyta';
+                    correctText = r.correct;
+                } else {
+                    correctText = numericAnswers[i];
+                }
+            }
+
+            html += `
+                <div class="result-item ${cls}">
+                    <div>
+                        <strong>${i}. ${taskTitles[i]}</strong><br>
+                        <span style="color:#666;">Jūsų atsakymas: ${userText} | Teisingas: ${correctText}</span>
+                    </div>
+                    <div style="font-size:1.4em;">${icon}</div>
+                </div>
+            `;
+        }
+
+        detailsEl.innerHTML = html;
+
+        // Siųsti į Google Sheets
+        sendResultToSheet('F0007 Garso bangos | 6 uždaviniai', Math.round(percentage));
+    }
+
+    function sendResultToSheet(taskName, score) {
+        const timestamp = new Date().toLocaleString('lt-LT');
+        const data = {
+            name: studentName,
+            task: taskName,
+            score: score,
+            timestamp: timestamp
+        };
+
+        fetch(SHEET_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(() => {
+            console.log('Rezultatas išsiųstas į Google Sheets');
+        }).catch(err => {
+            console.error('Klaida siunčiant rezultatą:', err);
+        });
+    }
+
+    function restartQuiz() {
+        currentCard = 0;
+        correctCount = 0;
+        for (let i = 1; i <= 6; i++) userResults[i] = null;
+
+        // išvalyti skaitinius laukus
+        [1,2,3,5,6].forEach(n => {
+            const input = document.getElementById('answer' + n);
+            const fb = document.getElementById('feedback' + n);
+            const hint = document.getElementById('hint' + n);
+            const nextBtn = document.getElementById('next' + n);
+            if (input) { input.value = ''; input.disabled = false; }
+            if (fb) { fb.className = 'feedback'; fb.style.display = 'none'; }
+            if (hint) hint.classList.remove('show');
+            if (nextBtn) { nextBtn.style.display = 'none'; nextBtn.dataset.counted = ''; }
+        });
+
+        // atstatyti pasirenkamą klausimą
+        const fb4 = document.getElementById('feedback4');
+        fb4.className = 'feedback';
+        fb4.style.display = 'none';
+        const next4 = document.getElementById('next4');
+        next4.style.display = 'none';
+        next4.dataset.counted = '';
+        const optionsContainer = document.getElementById('options4');
+        optionsContainer.innerHTML = '';
+        renderChoiceOptions();
+
+        // perjungti korteles
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+        document.getElementById('card0').classList.add('active');
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Enter klavišas skaitiniams
+    document.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            const active = document.querySelector('.card.active');
+            if (!active) return;
+            const id = parseInt(active.id.replace('card', ''), 10);
+            if ([1,2,3,5,6].includes(id)) {
+                const input = document.getElementById('answer' + id);
+                if (document.activeElement === input) {
+                    checkNumeric(id);
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
+
