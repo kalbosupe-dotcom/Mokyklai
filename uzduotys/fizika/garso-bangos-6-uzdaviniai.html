@@ -522,64 +522,76 @@
         </div>
     </div>
 
-    <!-- 2 uždavinys – 2b -->
-    <div class="card" id="card2">
-        <div class="card-header">
-            <h2>📝 Uždavinys 2</h2>
-        </div>
-        <div class="question-box">
-            Remdamiesi tuo pačiu paveikslu, nustatykite:
-            <br><br>
-            b) Bangos amplitudę <strong>A</strong> (mm).
-        </div>
-        <div class="input-group">
-            <label for="answer2">Jūsų atsakymas (mm):</label>
-            <input type="number" id="answer2" step="0.1" placeholder="Įveskite amplitudę milimetrais">
-        </div>
-        <div class="button-group">
-            <button class="btn-secondary" onclick="showHint(2)">💡 Patarimas</button>
-            <button class="btn-primary" onclick="checkNumeric(2)">Tikrinti</button>
-        </div>
-        <div class="hint-box" id="hint2">
-            <strong>💡 Patarimas:</strong> Amplitudė – didžiausias dalelės nuokrypis nuo pusiausvyros
-            (nuo 0 iki viršūnės). Paveiksle viršūnė yra ties 0,5 mm.
-        </div>
-        <div class="feedback" id="feedback2"></div>
-        <div class="button-group" style="margin-top: 15px;">
-            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
-            <button class="btn-next" id="next2" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
-        </div>
+<!-- 2 uždavinys – 2b -->
+<div class="card" id="card2">
+    <div class="card-header">
+        <h2>📝 Uždavinys 2</h2>
     </div>
+    <div class="question-box">
+        Remdamiesi tuo pačiu paveikslu, nustatykite:
+        <br><br>
+        b) Bangos amplitudę <strong>A</strong> (mm).
+    </div>
+    <!-- pakartotas tas pats grafikas kaip 1 užduotyje -->
+    <div style="text-align:center; margin:10px 0 20px 0;">
+        <img src="https://kalbosupe-dotcom.github.io/Mokyklai/images/garso-banga.png"
+             alt="660 Hz garso bangos nuokrypio grafikas"
+             style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+    </div>
+    <div class="input-group">
+        <label for="answer2">Jūsų atsakymas (mm):</label>
+        <input type="number" id="answer2" step="0.1" placeholder="Įveskite amplitudę milimetrais">
+    </div>
+    <div class="button-group">
+        <button class="btn-secondary" onclick="showHint(2)">💡 Patarimas</button>
+        <button class="btn-primary" onclick="checkNumeric(2)">Tikrinti</button>
+    </div>
+    <div class="hint-box" id="hint2">
+        <strong>💡 Patarimas:</strong> Amplitudė – didžiausias dalelės nuokrypis nuo pusiausvyros
+        (nuo 0 iki viršūnės). Paveiksle viršūnė yra ties 0,5 mm.
+    </div>
+    <div class="feedback" id="feedback2"></div>
+    <div class="button-group" style="margin-top: 15px;">
+        <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+        <button class="btn-next" id="next2" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+    </div>
+</div>
 
-    <!-- 3 uždavinys – 2c -->
-    <div class="card" id="card3">
-        <div class="card-header">
-            <h2>📝 Uždavinys 3</h2>
-        </div>
-        <div class="question-box">
-            Remdamiesi tuo pačiu paveikslu ir žinodami, kad bangos dažnis yra
-            <strong>f = 660 Hz</strong>, nustatykite:
-            <br><br>
-            c) Garso bangos sklidimo greitį <strong>v</strong> (m/s).
-        </div>
-        <div class="input-group">
-            <label for="answer3">Jūsų atsakymas (m/s):</label>
-            <input type="number" id="answer3" step="1" placeholder="Įveskite greitį m/s">
-        </div>
-        <div class="button-group">
-            <button class="btn-secondary" onclick="showHint(3)">💡 Patarimas</button>
-            <button class="btn-primary" onclick="checkNumeric(3)">Tikrinti</button>
-        </div>
-        <div class="hint-box" id="hint3">
-            <strong>💡 Patarimas:</strong> Naudokite formulę <strong>v = λ · f</strong>.
-            Pirmiausia raskite bangos ilgį iš 1 uždavinio, tada padauginkite iš dažnio.
-        </div>
-        <div class="feedback" id="feedback3"></div>
-        <div class="button-group" style="margin-top: 15px;">
-            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
-            <button class="btn-next" id="next3" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
-        </div>
+<!-- 3 uždavinys – 2c -->
+<div class="card" id="card3">
+    <div class="card-header">
+        <h2>📝 Uždavinys 3</h2>
     </div>
+    <div class="question-box">
+        Remdamiesi tuo pačiu paveikslu ir žinodami, kad bangos dažnis yra
+        <strong>f = 660 Hz</strong>, nustatykite:
+        <br><br>
+        c) Garso bangos sklidimo greitį <strong>v</strong> (m/s).
+    </div>
+    <!-- vėl tas pats grafikas kaip 1 ir 2 užduotyse -->
+    <div style="text-align:center; margin:10px 0 20px 0;">
+        <img src="https://kalbosupe-dotcom.github.io/Mokyklai/images/garso-banga.png"
+             alt="660 Hz garso bangos nuokrypio grafikas"
+             style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+    </div>
+    <div class="input-group">
+        <label for="answer3">Jūsų atsakymas (m/s):</label>
+        <input type="number" id="answer3" step="1" placeholder="Įveskite greitį m/s">
+    </div>
+    <div class="button-group">
+        <button class="btn-secondary" onclick="showHint(3)">💡 Patarimas</button>
+        <button class="btn-primary" onclick="checkNumeric(3)">Tikrinti</button>
+    </div>
+    <div class="hint-box" id="hint3">
+        <strong>💡 Patarimas:</strong> Naudokite formulę <strong>v = λ · f</strong>.
+        Pirmiausia raskite bangos ilgį iš 1 uždavinio, tada padauginkite iš dažnio.
+    </div>
+    <div class="feedback" id="feedback3"></div>
+    <div class="button-group" style="margin-top: 15px;">
+        <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+        <button class="btn-next" id="next3" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+    </div>
+</div>
 
     <!-- 4 uždavinys – 3 (aidas, pasirinkimai) -->
     <div class="card" id="card4">
@@ -607,40 +619,41 @@
         </div>
     </div>
 
-    <!-- 5 uždavinys – 4a -->
-    <div class="card" id="card5">
-        <div class="card-header">
-            <h2>📝 Uždavinys 5</h2>
-        </div>
-        <div class="question-box">
-            Grafike pavaizduota, kaip ultragarsas sklinda jūros vandeniu.
-            <br><br>
-            a) Apskaičiuokite ultragarsinio garso greitį jūros vandenyje <strong>v</strong> (m/s).
-        </div>
-        <div style="text-align:center; margin:10px 0 20px 0;">
-            <img src="https://kalbosupe-dotcom.github.io/Mokyklai/images/ultragarso-sklidimas-juros-vandeniu.png"
-                 alt="Ultragarso sklidimo jūros vandeniu grafikas"
-                 style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
-        </div>
-        <div class="input-group">
-            <label for="answer5">Jūsų atsakymas (m/s):</label>
-            <input type="number" id="answer5" step="10" placeholder="Įveskite greitį m/s">
-        </div>
-        <div class="button-group">
-            <button class="btn-secondary" onclick="showHint(5)">💡 Patarimas</button>
-            <button class="btn-primary" onclick="checkNumeric(5)">Tikrinti</button>
-        </div>
-        <div class="hint-box" id="hint5">
-            <strong>💡 Patarimas:</strong> Nustatykite, kokį atstumą ultragarsas nueina per
-            tam tikrą laiką iš grafiko (pvz., 900 m per 0,6 s), ir naudokite formulę
-            <strong>v = s / t</strong>.
-        </div>
-        <div class="feedback" id="feedback5"></div>
-        <div class="button-group" style="margin-top: 15px;">
-            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
-            <button class="btn-next" id="next5" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
-        </div>
+<!-- 5 uždavinys – 4a -->
+<div class="card" id="card5">
+    <div class="card-header">
+        <h2>📝 Uždavinys 5</h2>
     </div>
+    <div class="question-box">
+        Grafike pavaizduota, kaip ultragarsas sklinda jūros vandeniu.
+        <br><br>
+        a) Apskaičiuokite ultragarsinio garso greitį jūros vandenyje <strong>v</strong> (m/s).
+    </div>
+    <!-- tas pats grafikas, kuris reikalingas ir 6 uždaviniui -->
+    <div style="text-align:center; margin:10px 0 20px 0;">
+        <img src="https://kalbosupe-dotcom.github.io/Mokyklai/images/ultragarso-sklidimas-juros-vandeniu.png"
+             alt="Ultragarso sklidimo jūros vandeniu grafikas"
+             style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+    </div>
+    <div class="input-group">
+        <label for="answer5">Jūsų atsakymas (m/s):</label>
+        <input type="number" id="answer5" step="10" placeholder="Įveskite greitį m/s">
+    </div>
+    <div class="button-group">
+        <button class="btn-secondary" onclick="showHint(5)">💡 Patarimas</button>
+        <button class="btn-primary" onclick="checkNumeric(5)">Tikrinti</button>
+    </div>
+    <div class="hint-box" id="hint5">
+        <strong>💡 Patarimas:</strong> Nustatykite, kokį atstumą ultragarsas nueina per
+        tam tikrą laiką iš grafiko (pvz., 900 m per 0,6 s), ir naudokite formulę
+        <strong>v = s / t</strong>.
+    </div>
+    <div class="feedback" id="feedback5"></div>
+    <div class="button-group" style="margin-top: 15px;">
+        <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+        <button class="btn-next" id="next5" onclick="nextCard()" style="display:none;">Kita užduotis ➜</button>
+    </div>
+</div>
 
     <!-- 6 uždavinys – 4b -->
     <div class="card" id="card6">
