@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <title>Veikiamieji dalyviai – dviračių žygis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .page-wrapper {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #93c5fd;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        .back-btn:hover { background-color: #7CB3E9; }
+
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+            gap: 10px;
+        }
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .change-name-btn:hover { background-color: #0D3B66; }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 30px;
+            border: 3px solid #4A90E2;
+            margin-bottom: 25px;
+        }
+
+        .intro-text {
+            font-size: 1.9rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .intro-content {
+            font-size: 1.1rem;
+            color: #1A4D7A;
+        }
+        .intro-content ul {
+            margin-top: 10px;
+            padding-left: 25px;
+            list-style: disc;
+        }
+        .intro-content li { margin-bottom: 6px; }
+
+        .text-block {
+            background-color: #E8F4F8;
+            border-radius: 12px;
+            border: 2px solid #7CB3E9;
+            padding: 20px;
+            margin-top: 12px;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #1A4D7A;
+        }
+        .text-word {
+            display: inline-block;
+            padding: 3px 4px;
+            margin: 1px 1px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .text-word:hover {
+            background-color: #dbeafe;
+        }
+        .word-selected {
+            background-color: #fff9c4;
+            border: 1px solid #facc15;
+        }
+        .word-participle-veik {
+            background-color: #bbf7d0;
+            border: 1px solid #16a34a;
+        }
+        .word-participle-neveik {
+            background-color: #fecaca;
+            border: 1px solid #ef4444;
+        }
+        .word-dragged-faded {
+            opacity: 0.4;
+        }
+
+        .drag-source-container {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9fafb;
+            border-radius: 10px;
+            border: 1px dashed #9ca3af;
+            font-size: 0.95rem;
+            color: #4b5563;
+        }
+
+        .drag-item {
+            display: inline-block;
+            padding: 6px 10px;
+            margin: 4px;
+            border-radius: 8px;
+            background-color: #e0f2fe;
+            border: 1px solid #60a5fa;
+            cursor: grab;
+            font-size: 0.98rem;
+        }
+        .drag-item.dragged {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        .table-wrapper {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.98rem;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 6px;
+            text-align: left;
+        }
+        th {
+            background-color: #DBEAFE;
+            color: #1e3a8a;
+            font-weight: 700;
+            text-align: center;
+        }
+        td:first-child { text-align: center; }
+
+        .drop-cell {
+            min-width: 140px;
+            min-height: 36px;
+            background-color: #f9fafb;
+        }
+        .drop-cell.over {
+            outline: 2px dashed #3b82f6;
+        }
+
+        select {
+            width: 100%;
+            padding: 6px 4px;
+            border-radius: 6px;
+            border: 1px solid #93c5fd;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .cell-correct {
+            background-color: #d4edda !important;
+            border-color: #27ae60 !important;
+        }
+        .cell-incorrect {
+            background-color: #f8d7da !important;
+            border-color: #e74c3c !important;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .action-button {
+            padding: 14px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .feedback-text {
+            margin-top: 12px;
+            font-size: 1rem;
+            color: #1A4D7A;
+        }
+        .result-container {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1A4D7A;
+            padding: 16px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        .memo-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1d4ed8;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .memo-card {
+            margin-top: 10px;
+            padding: 18px;
+            border-radius: 14px;
+            background-color: #f9fafb;
+            border: 2px solid #bfdbfe;
+            font-size: 0.98rem;
+            color: #1f2937;
+        }
+        .memo-card ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        .memo-card li { margin-bottom: 4px; }
+
+        @media (max-width: 768px) {
+            .intro-text { font-size: 1.6rem; }
+            .card { padding: 22px; }
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <div class="header-container">
+        <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+    </div>
+
+    <!-- PAGRINDINĖ UŽDUOTIS -->
+    <div class="card">
+        <h2 class="intro-text">Veikiamieji dalyviai – dviračių žygis</h2>
+        <div class="intro-content">
+            <ul>
+                <li>📖 Perskaityk tekstą.</li>
+                <li>🟡 Spausk ant žodžių, kurie yra <strong>dalyviai</strong> – jie bus paryškinti.</li>
+                <li>🚲 Iš paryškintų dalyvių <strong>nutempk veikiamuosius dalyvius</strong> į lentelę „Veikiamieji dalyviai“.</li>
+                <li>⏱ Šalia kiekvieno pasirink iš sąrašo, iš kokio laiko kamieno jis padarytas.</li>
+                <li>✅ Paspausk „Pasitikrinti“ ir pažiūrėk, kaip sekėsi.</li>
+            </ul>
+        </div>
+
+        <!-- TEKSTAS -->
+        <div class="text-block" id="text-container">
+            <!-- Žodžiai sugeneruojami JS -->
+        </div>
+
+        <!-- Drag šaltinis -->
+        <div class="drag-source-container" id="drag-source-info">
+            Pažymėk dalyvius tekste. Veikiamieji dalyviai atsiras čia ir galėsi juos nutempti į lentelę:
+            <div id="drag-source"></div>
+        </div>
+
+        <!-- LENTELĖ -->
+        <div class="table-wrapper">
+            <table id="veik-table">
+                <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Veikiamasis dalyvis</th>
+                    <th>Laikas (kamienas)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 6 eilutės sugeneruojamos JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="feedback-text" id="feedback-area"></div>
+
+        <div class="button-container">
+            <button onclick="checkTask()" class="action-button">✅ Pasitikrinti</button>
+        </div>
+
+        <div id="result-box" class="result-container" style="display:none;"></div>
+    </div>
+
+    <!-- ATMINTINĖS -->
+    <div class="card">
+        <div class="memo-title">👀 Atmintinė: veikiamųjų dalyvių daryba</div>
+        <div class="memo-card">
+            <strong>Veikiamieji dalyviai turi 4 laikus:</strong> esamąjį, būtąjį kartinį, būtąjį dažninį ir būsimąjį.  
+            <br>Jų kamienai daromi iš skirtingų veiksmažodžio formų.
+            <ul>
+                <li><strong>Esamasis:</strong> daromas iš esamojo laiko kamieno.  
+                    <em>dirba → dirbantis, dirbanti; laukia → laukiantis, laukianti</em></li>
+                <li><strong>Būtasis kartinis:</strong> daromas iš būtojo kartinio laiko kamieno.  
+                    <em>dirbo → dirbęs, dirbusi; laukė → laukęs, laukusi</em></li>
+                <li><strong>Būtasis dažninis:</strong> daromas iš būtojo dažninio laiko kamieno.  
+                    <em>dirbdavo → dirbdavęs, dirbdavusi</em></li>
+                <li><strong>Būsimasis:</strong> daromas iš būsimojo laiko kamieno.  
+                    <em>dirbs → dirbsiąs, dirbsianti</em></li>
+            </ul>
+        </div>
+
+        <div class="memo-title" style="margin-top:18px;">👀 Atmintinė: veikiamieji ir neveikiamieji dalyviai</div>
+        <div class="memo-card">
+            <p><strong>Veikiamasis dalyvis</strong> rodo tą, kuris <strong>daro veiksmą</strong>:</p>
+            <ul>
+                <li><em>dėdė, kuris rašo laišką → rašantis dėdė</em></li>
+                <li><em>draugė, kuri parašė žinutę → parašiusi draugė</em></li>
+            </ul>
+            <p><strong>Neveikiamasis dalyvis</strong> rodo tą, kuris <strong>yra paveiktas veiksmo</strong> (jam kažkas padaryta):</p>
+            <ul>
+                <li><em>laiškas, kurį rašo → rašomas laiškas</em></li>
+                <li><em>žinutė, kurią parašė → parašyta žinutė</em></li>
+            </ul>
+            <p>Šioje užduotyje tekste yra ir veikiamųjų, ir vienas neveikiamasis dalyvis – jį atpažink remdamasis šia atmintine.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- Vardų valdymas ---
+    function showNamePrompt() {
+        const studentName = localStorage.getItem('studentName');
+        if (!studentName) {
+            const name = prompt('Įvesk savo vardą:');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('studentName', name.trim());
+                return name.trim();
+            } else {
+                alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                return showNamePrompt();
+            }
+        }
+        return studentName;
+    }
+    function changeName() {
+        localStorage.removeItem('studentName');
+        const newName = showNamePrompt();
+        alert(`Vardas pakeistas į: \${newName}`);
+        location.reload();
+    }
+    function sendResultToSheet(taskName, score) {
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+        const timestamp = new Date().toLocaleString('lt-LT');
+        const data = { name: studentName, task: taskName, score: score, timestamp: timestamp };
+
+        fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(() => {
+            console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+        }).catch(error => {
+            console.error('Klaida siunčiant rezultatą:', error);
+        });
+    }
+
+    const studentName = showNamePrompt();
+    document.getElementById('studentNameDisplay').textContent = studentName;
+
+    // --- Tekstas ir dalyviai ---
+    const TEXT = "Išgirdęs apie dviračių žygį, skirtą Baltijos kelio akcijai paminėti, suklūsau: kodėl jie važiuoja 600 kilometrų nuo Vilniaus per Rygą iki Talino? Ar tuometiniai Baltijos kelio dalyviai taip pat keliavo dviračiais, kaip dabar kad šiuo maršrutu keliaujantys dviratininkai? Kas buvo toji Dainuojanti revoliucija? Ką tuomet dainavę žmonės? Mano klausimus suprantąs senelis ėmė pasakoti.";
+
+    // žodžiai, kurie yra dalyviai (pagal paviršinę formą tekste)
+    const PARTICIPLES = {
+        "Išgirdęs":      { type: "veikiamasis", time: "būtasis kartinis" },
+        "skirtą":       { type: "neveikiamasis", time: null },
+        "keliavę":      { type: "veikiamasis", time: "būtasis kartinis" },
+        "keliaujantys": { type: "veikiamasis", time: "esamasis" },
+        "Dainuojanti":  { type: "veikiamasis", time: "esamasis" },
+        "dainavę":      { type: "veikiamasis", time: "būtasis kartinis" },
+        "suprantąs":    { type: "veikiamasis", time: "esamasis" }
+    };
+
+    // veikiamųjų dalyvių sąrašas drag&drop daliai
+    const VEIK_PARTICIPLES = [
+        "Išgirdęs",
+        "keliavę",
+        "keliaujantys",
+        "Dainuojanti",
+        "dainavę",
+        "suprantąs"
+    ];
+
+    // select'e rodomi variantai
+    const TIME_OPTIONS = [
+        "",
+        "turi esamojo laiko kamieną",
+        "turi būtojo kartinio laiko kamieną",
+        "turi būtojo dažninio laiko kamieną",
+        "turi būsimojo laiko kamieną"
+    ];
+
+    // teisingi atsakymai veikiamiesiems (pagal kamieną)
+    const VEIK_CORRECT_TIME = {
+        "Išgirdęs":      "turi būtojo kartinio laiko kamieną",
+        "keliavę":      "turi būtojo kartinio laiko kamieną",
+        "keliaujantys": "turi esamojo laiko kamieną",
+        "Dainuojanti":  "turi esamojo laiko kamieną",
+        "dainavę":      "turi būtojo kartinio laiko kamieną",
+        "suprantąs":    "turi esamojo laiko kamieną"
+    };
+
+    // --- Būsena ---
+    let draggedWord = null;          // kuris dalyvis šiuo metu tempiamas
+    const usedWords = {};            // { "Išgirdęs": true, ... } – kad nekartotų
+    const dropAssignments = {};      // { rowId: "Išgirdęs", ... }
+
+    // --- Teksto generavimas su paspaudžiamais žodžiais ---
+    function buildText() {
+        const container = document.getElementById('text-container');
+        container.innerHTML = "";
+
+        // skaidome į žodžius, bet paliekame skyrybą
+        const tokens = TEXT.split(/(\s+|[,.?!:;])/);
+
+        tokens.forEach(token => {
+            if (token.trim() === "") {
+                container.appendChild(document.createTextNode(token));
+                return;
+            }
+
+            // skyrybos ženklai – ne spaudžiami
+            if (/^[,.?!:;]$/.test(token)) {
+                const spanPunct = document.createElement('span');
+                spanPunct.textContent = token;
+                container.appendChild(spanPunct);
+                return;
+            }
+
+            const span = document.createElement('span');
+            span.textContent = token;
+            span.className = "text-word";
+
+            // jei tai dalyvis – leisime pažymėti
+            if (PARTICIPLES[token]) {
+                span.addEventListener('click', () => toggleParticiple(span, token));
+            }
+
+            container.appendChild(span);
+        });
+    }
+
+    function toggleParticiple(span, word) {
+        // perjungiam pažymėjimą
+        if (span.classList.contains('word-selected') ||
+            span.classList.contains('word-participle-veik') ||
+            span.classList.contains('word-participle-neveik')) {
+
+            span.classList.remove('word-selected', 'word-participle-veik', 'word-participle-neveik');
+            // jei tai veikiamasis ir jis dar nebuvo nutemptas – pašalinam iš drag sąrašo
+            if (PARTICIPLES[word].type === "veikiamasis" && !usedWords[word]) {
+                removeFromDragSource(word);
+            }
+        } else {
+            const info = PARTICIPLES[word];
+            if (info.type === "veikiamasis") {
+                span.classList.add('word-participle-veik');
+                addToDragSource(word);
+            } else {
+                span.classList.add('word-participle-neveik');
+            }
+        }
+    }
+
+    // --- Drag source (veikiamieji dalyviai) ---
+    function addToDragSource(word) {
+        const container = document.getElementById('drag-source');
+        // jei jau yra – nedubliuojam
+        if (container.querySelector(`[data-word="${word}"]`)) return;
+
+        const item = document.createElement('span');
+        item.className = 'drag-item';
+        item.textContent = word;
+        item.draggable = true;
+        item.dataset.word = word;
+
+        item.addEventListener('dragstart', (e) => {
+            if (usedWords[word]) {
+                e.preventDefault();
+                return;
+            }
+            draggedWord = word;
+            e.dataTransfer.effectAllowed = "move";
+        });
+
+        item.addEventListener('dragend', () => {
+            draggedWord = null;
+        });
+
+        container.appendChild(item);
+    }
+
+    function removeFromDragSource(word) {
+        const container = document.getElementById('drag-source');
+        const el = container.querySelector(`[data-word="${word}"]`);
+        if (el && !usedWords[word]) {
+            container.removeChild(el);
+        }
+    }
+
+    // --- Lentelės generavimas ---
+    function buildTable() {
+        const tbody = document.querySelector('#veik-table tbody');
+        tbody.innerHTML = "";
+
+        // turime 6 veikiamuosius – tiek ir eilučių
+        for (let i = 1; i <= VEIK_PARTICIPLES.length; i++) {
+            const tr = document.createElement('tr');
+
+            const tdNr = document.createElement('td');
+            tdNr.textContent = i;
+            tr.appendChild(tdNr);
+
+            const tdWord = document.createElement('td');
+            tdWord.className = 'drop-cell';
+            tdWord.id = `drop-${i}`;
+            tdWord.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                tdWord.classList.add('over');
+            });
+            tdWord.addEventListener('dragleave', () => {
+                tdWord.classList.remove('over');
+            });
+            tdWord.addEventListener('drop', (e) => {
+                e.preventDefault();
+                tdWord.classList.remove('over');
+                handleDrop(tdWord.id);
+            });
+            tr.appendChild(tdWord);
+
+            const tdSelect = document.createElement('td');
+            const sel = document.createElement('select');
+            sel.id = `time-${i}`;
+            TIME_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                sel.appendChild(o);
+            });
+            tdSelect.appendChild(sel);
+            tr.appendChild(tdSelect);
+
+            tbody.appendChild(tr);
+        }
+    }
+
+    function handleDrop(dropId) {
+        if (!draggedWord) return;
+
+        // jei šis žodis jau panaudotas – nebededam
+        if (usedWords[draggedWord]) return;
+
+        const cell = document.getElementById(dropId);
+        // jei jau yra žodis – pakeičiame: atlaisvinam seną
+        if (dropAssignments[dropId]) {
+            const oldWord = dropAssignments[dropId];
+            usedWords[oldWord] = false;
+            // grąžinti drag-item į aktyvią būseną
+            const itemOld = document.querySelector(`.drag-item[data-word="${oldWord}"]`);
+            if (itemOld) itemOld.classList.remove('dragged');
+        }
+
+        cell.textContent = draggedWord;
+        dropAssignments[dropId] = draggedWord;
+
+        // pažymim, kad žodis panaudotas
+        usedWords[draggedWord] = true;
+        const item = document.querySelector(`.drag-item[data-word="${draggedWord}"]`);
+        if (item) item.classList.add('dragged');
+
+        // tekste tą žodį padarom „faded“
+        const textContainer = document.getElementById('text-container');
+        textContainer.querySelectorAll('.text-word').forEach(span => {
+            if (span.textContent === draggedWord) {
+                span.classList.add('word-dragged-faded');
+            }
+        });
+
+        draggedWord = null;
+    }
+
+    // --- Tikrinimas ---
+    function checkTask() {
+        const feedbackArea = document.getElementById('feedback-area');
+        const resultBox = document.getElementById('result-box');
+
+        let total = 0;
+        let correct = 0;
+
+        // nuimame senas spalvas
+        document.querySelectorAll('#veik-table td').forEach(td => {
+            td.classList.remove('cell-correct', 'cell-incorrect');
+        });
+
+        // tikriname kiekvieną eilutę
+        for (let i = 1; i <= VEIK_PARTICIPLES.length; i++) {
+            const dropId = `drop-${i}`;
+            const wordCell = document.getElementById(dropId);
+            const sel = document.getElementById(`time-${i}`);
+
+            const word = dropAssignments[dropId];
+            const selectedTime = sel.value;
+
+            if (!word) {
+                // nieko neįrašyta – laikom neteisingu, bet vis tiek skaičiuojam
+                total++;
+                wordCell.classList.add('cell-incorrect');
+                continue;
+            }
+
+            total++; // už laiką
+            const correctTime = VEIK_CORRECT_TIME[word];
+
+            if (selectedTime === correctTime) {
+                correct++;
+                wordCell.classList.add('cell-correct');
+                sel.parentElement.classList.add('cell-correct');
+            } else {
+                wordCell.classList.add('cell-incorrect');
+                sel.parentElement.classList.add('cell-incorrect');
+            }
+        }
+
+        const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+        feedbackArea.innerHTML = `
+            Teisingų atsakymų: <strong>${correct}</strong> iš <strong>${total}</strong> (${percentage}%).
+        `;
+
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `
+            <div>Bendras rezultatas:</div>
+            <div style="font-size:2.2rem; margin-top:8px;">
+                ${percentage}%
+            </div>
+        `;
+
+        // išsiunčiame rezultatą
+        sendResultToSheet('L0XXX Veikiamieji dalyviai – dviračių žygis', percentage);
+    }
+
+    // --- Inicializacija ---
+    window.onload = function () {
+        buildText();
+        buildTable();
+    };
+</script>
+</body>
+</html>
+
