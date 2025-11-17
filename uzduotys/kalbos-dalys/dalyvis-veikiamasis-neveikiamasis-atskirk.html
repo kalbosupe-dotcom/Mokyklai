@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <title>Veikiamieji ir neveikiamieji dalyviai – atskirk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .page-wrapper {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #93c5fd;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        .back-btn:hover { background-color: #7CB3E9; }
+
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+            gap: 10px;
+        }
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .change-name-btn:hover { background-color: #0D3B66; }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 30px;
+            border: 3px solid #4A90E2;
+            margin-bottom: 25px;
+        }
+
+        .intro-text {
+            font-size: 1.9rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .intro-content {
+            font-size: 1.05rem;
+            color: #1A4D7A;
+        }
+        .intro-content ul {
+            margin-top: 10px;
+            padding-left: 25px;
+            list-style: disc;
+        }
+        .intro-content li { margin-bottom: 6px; }
+
+        .table-wrapper {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.98rem;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 6px;
+            text-align: left;
+        }
+        th {
+            background-color: #DBEAFE;
+            color: #1e3a8a;
+            font-weight: 700;
+            text-align: center;
+        }
+        td:first-child { text-align: center; }
+
+        .participle {
+            font-weight: 700;
+        }
+
+        select {
+            width: 100%;
+            padding: 6px 4px;
+            border-radius: 6px;
+            border: 1px solid #93c5fd;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .cell-correct {
+            background-color: #d4edda !important;
+            border-color: #27ae60 !important;
+        }
+        .cell-incorrect {
+            background-color: #f8d7da !important;
+            border-color: #e74c3c !important;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .action-button {
+            padding: 14px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .feedback-text {
+            margin-top: 12px;
+            font-size: 1rem;
+            color: #1A4D7A;
+        }
+        .result-container {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1A4D7A;
+            padding: 16px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        .memo-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1d4ed8;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .memo-card {
+            margin-top: 10px;
+            padding: 18px;
+            border-radius: 14px;
+            background-color: #f9fafb;
+            border: 2px solid #bfdbfe;
+            font-size: 0.98rem;
+            color: #1f2937;
+        }
+        .memo-card ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        .memo-card li { margin-bottom: 4px; }
+
+        .memo-label {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .memo-label-noun {
+            background-color: #fde68a;
+        }
+        .memo-label-verb {
+            background-color: #e5e7eb;
+        }
+        .memo-label-participle {
+            background-color: #bbf7d0;
+        }
+        .memo-label-participle-passive {
+            background-color: #bfdbfe;
+        }
+
+        @media (max-width: 768px) {
+            .intro-text { font-size: 1.6rem; }
+            .card { padding: 22px; }
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <div class="header-container">
+        <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+        <div class="student-info">
+            <span style="font-size: 18px; color: #1A4D7A;">
+                Mokinys: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+    </div>
+
+    <!-- UŽDUOTIS -->
+    <div class="card">
+        <h2 class="intro-text">Atskirk veikiamuosius ir neveikiamuosius dalyvius</h2>
+        <div class="intro-content">
+            <ul>
+                <li>📚 Perskaityk žodžių junginius.</li>
+                <li>🟡 Kiekviename junginyje paryškintas žodis yra <strong>dalyvis</strong>.</li>
+                <li>📝 Kiekvienai eilutei pasirink:
+                    <ul>
+                        <li>ar tai <strong>veikiamasis</strong>, ar <strong>neveikiamasis</strong> dalyvis;</li>
+                        <li><strong>giminę</strong> – vyriškoji ar moteriškoji;</li>
+                        <li><strong>laiką</strong> – esamasis ar būtasis kartinis;</li>
+                        <li><strong>skaičių</strong> – vienaskaita ar daugiskaita.</li>
+                    </ul>
+                </li>
+                <li>✅ Paspausk „Pasitikrinti“.</li>
+            </ul>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="task-table">
+                <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Žodžių junginys</th>
+                    <th>Dalyvio rūšis</th>
+                    <th>Giminė</th>
+                    <th>Laikas</th>
+                    <th>Skaičius</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Eilutės sugeneruojamos JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="feedback-text" id="feedback-area"></div>
+
+        <div class="button-container">
+            <button onclick="checkTask()" class="action-button">✅ Pasitikrinti</button>
+        </div>
+
+        <div id="result-box" class="result-container" style="display:none;"></div>
+    </div>
+
+    <!-- ATMINTINĖ -->
+    <div class="card">
+        <div class="memo-title">👀 Atmintinė: veikiamieji ir neveikiamieji dalyviai</div>
+        <div class="memo-card">
+            <p><strong>Vyriškoji giminė</strong></p>
+            <p>
+                Koks draugas? <span class="memo-label memo-label-noun">Draugas</span>  
+                Koks laiškas? <span class="memo-label memo-label-noun">laiškas</span>
+            </p>
+            <p>
+                <span class="memo-label memo-label-verb">rašo</span> laišką →  
+                <span class="memo-label memo-label-participle">rašantis</span> draugas  
+                (draugas, <u>kuris rašo</u>)
+            </p>
+            <p>
+                <span class="memo-label memo-label-participle-passive">rašomas</span> laiškas  
+                (laiškas, <u>kurį rašo</u>)
+            </p>
+            <p style="margin-top:8px;">
+                <span class="memo-label memo-label-verb">parašė</span> laišką →  
+                <span class="memo-label memo-label-participle">parašęs</span> draugas  
+                (draugas, <u>kuris parašė</u>)  
+                ir <span class="memo-label memo-label-participle-passive">parašytas</span> laiškas  
+                (laiškas, <u>kurį parašė</u>).
+            </p>
+
+            <hr style="margin:14px 0; border-color:#e5e7eb;">
+
+            <p><strong>Moteriškoji giminė</strong></p>
+            <p>
+                Kokia draugė? <span class="memo-label memo-label-noun">Draugė</span>  
+                Kokia žinutė? <span class="memo-label memo-label-noun">žinutė</span>
+            </p>
+            <p>
+                <span class="memo-label memo-label-verb">rašo</span> žinutę →  
+                <span class="memo-label memo-label-participle">rašanti</span> draugė  
+                (draugė, <u>kuri rašo</u>)  
+                ir <span class="memo-label memo-label-participle-passive">rašoma</span> žinutė  
+                (žinutė, <u>kurią rašo</u>).
+            </p>
+            <p style="margin-top:8px;">
+                <span class="memo-label memo-label-verb">parašė</span> žinutę →  
+                <span class="memo-label memo-label-participle">parašiusi</span> draugė  
+                (draugė, <u>kuri parašė</u>)  
+                ir <span class="memo-label memo-label-participle-passive">parašyta</span> žinutė  
+                (žinutė, <u>kurią parašė</u>).
+            </p>
+
+            <ul style="margin-top:10px;">
+                <li><strong>Veikiamasis dalyvis</strong> – tas, kuris <u>daro veiksmą</u> (kuris rašo, kuris parašė).</li>
+                <li><strong>Neveikiamasis dalyvis</strong> – tas, kuriam <u>veiksmas padarytas</u> (kurį rašo, kurią parašė).</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- Vardų valdymas ---
+    function showNamePrompt() {
+        const studentName = localStorage.getItem('studentName');
+        if (!studentName) {
+            const name = prompt('Įvesk savo vardą:');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('studentName', name.trim());
+                return name.trim();
+            } else {
+                alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                return showNamePrompt();
+            }
+        }
+        return studentName;
+    }
+    function changeName() {
+        localStorage.removeItem('studentName');
+        const newName = showNamePrompt();
+        alert(`Vardas pakeistas į: \${newName}`);
+        location.reload();
+    }
+    function sendResultToSheet(taskName, score) {
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+        const timestamp = new Date().toLocaleString('lt-LT');
+        const data = { name: studentName, task: taskName, score: score, timestamp: timestamp };
+
+        fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(() => {
+            console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+        }).catch(error => {
+            console.error('Klaida siunčiant rezultatą:', error);
+        });
+    }
+
+    const studentName = showNamePrompt();
+    document.getElementById('studentNameDisplay').textContent = studentName;
+
+    // --- UŽDUOTIES DUOMENYS ---
+    // 10 junginių, dalyvis paryškintas (<strong>)
+    const ITEMS = [
+        {
+            text: 'su <span class="participle">dainuojančia</span> klase',
+            type: 'veikiamasis',
+            gender: 'moteriškoji',
+            time: 'esamasis',
+            number: 'vienaskaita'
+        },
+        {
+            text: 'apie <span class="participle">dainuojančius</span> vaikus',
+            type: 'veikiamasis',
+            gender: 'vyriškoji',
+            time: 'esamasis',
+            number: 'daugiskaita'
+        },
+        {
+            text: 'nuo <span class="participle">dainavusių</span> žmonių',
+            type: 'veikiamasis',
+            gender: 'vyriškoji',
+            time: 'būtasis kartinis',
+            number: 'daugiskaita'
+        },
+        {
+            text: 'su <span class="participle">dainavusiomis</span> mergaitėmis',
+            type: 'veikiamasis',
+            gender: 'moteriškoji',
+            time: 'būtasis kartinis',
+            number: 'daugiskaita'
+        },
+        {
+            text: 'apie <span class="participle">rašomą</span> pasaką',
+            type: 'neveikiamasis',
+            gender: 'moteriškoji',
+            time: 'esamasis',
+            number: 'vienaskaita'
+        },
+        {
+            text: 'apie <span class="participle">rašomus</span> laiškus',
+            type: 'neveikiamasis',
+            gender: 'vyriškoji',
+            time: 'esamasis',
+            number: 'daugiskaita'
+        },
+        {
+            text: 'su <span class="participle">parašytu</span> laišku',
+            type: 'neveikiamasis',
+            gender: 'vyriškoji',
+            time: 'būtasis kartinis',
+            number: 'vienaskaita'
+        },
+        {
+            text: 'su <span class="participle">parašytomis</span> užduotimis',
+            type: 'neveikiamasis',
+            gender: 'moteriškoji',
+            time: 'būtasis kartinis',
+            number: 'daugiskaita'
+        },
+        {
+            text: 'apie <span class="participle">skaitančius</span> mokinius',
+            type: 'veikiamasis',
+            gender: 'vyriškoji',
+            time: 'esamasis',
+            number: 'daugiskaita'
+        },
+        {
+            text: 'su <span class="participle">skaičiusiais</span> vaikaičiais',
+            type: 'veikiamasis',
+            gender: 'vyriškoji',
+            time: 'būtasis kartinis',
+            number: 'daugiskaita'
+        }
+    ];
+
+    const TYPE_OPTIONS = ["", "veikiamasis dalyvis", "neveikiamasis dalyvis"];
+    const GENDER_OPTIONS = ["", "vyriškoji giminė", "moteriškoji giminė"];
+    const TIME_OPTIONS = ["", "esamasis laikas", "būtasis kartinis laikas"];
+    const NUMBER_OPTIONS = ["", "vienaskaita", "daugiskaita"];
+
+    // --- Lentelės generavimas ---
+    function buildTable() {
+        const tbody = document.querySelector('#task-table tbody');
+        tbody.innerHTML = "";
+
+        ITEMS.forEach((item, index) => {
+            const tr = document.createElement('tr');
+
+            const tdNr = document.createElement('td');
+            tdNr.textContent = index + 1;
+            tr.appendChild(tdNr);
+
+            const tdText = document.createElement('td');
+            tdText.innerHTML = item.text;
+            tr.appendChild(tdText);
+
+            // Rūšis
+            const tdType = document.createElement('td');
+            const selType = document.createElement('select');
+            selType.id = `type-${index}`;
+            TYPE_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                selType.appendChild(o);
+            });
+            tdType.appendChild(selType);
+            tr.appendChild(tdType);
+
+            // Giminė
+            const tdGender = document.createElement('td');
+            const selGender = document.createElement('select');
+            selGender.id = `gender-${index}`;
+            GENDER_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                selGender.appendChild(o);
+            });
+            tdGender.appendChild(selGender);
+            tr.appendChild(tdGender);
+
+            // Laikas
+            const tdTime = document.createElement('td');
+            const selTime = document.createElement('select');
+            selTime.id = `time-${index}`;
+            TIME_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                selTime.appendChild(o);
+            });
+            tdTime.appendChild(selTime);
+            tr.appendChild(tdTime);
+
+            // Skaičius
+            const tdNumber = document.createElement('td');
+            const selNumber = document.createElement('select');
+            selNumber.id = `number-${index}`;
+            NUMBER_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt === "" ? "Pasirink" : opt;
+                selNumber.appendChild(o);
+            });
+            tdNumber.appendChild(selNumber);
+            tr.appendChild(tdNumber);
+
+            tbody.appendChild(tr);
+        });
+    }
+
+    // --- Tikrinimas ---
+    function checkTask() {
+        const feedbackArea = document.getElementById('feedback-area');
+        const resultBox = document.getElementById('result-box');
+
+        let total = 0;
+        let correct = 0;
+
+        // nuimame senas spalvas
+        document.querySelectorAll('#task-table td').forEach(td => {
+            td.classList.remove('cell-correct', 'cell-incorrect');
+        });
+
+        ITEMS.forEach((item, index) => {
+            const tdType = document.getElementById(`type-${index}`).parentElement;
+            const tdGender = document.getElementById(`gender-${index}`).parentElement;
+            const tdTime = document.getElementById(`time-${index}`).parentElement;
+            const tdNumber = document.getElementById(`number-${index}`).parentElement;
+
+            const selType = document.getElementById(`type-${index}`);
+            const selGender = document.getElementById(`gender-${index}`);
+            const selTime = document.getElementById(`time-${index}`);
+            const selNumber = document.getElementById(`number-${index}`);
+
+            // Rūšis
+            total++;
+            const correctType = item.type === "veikiamasis" ? "veikiamasis dalyvis" : "neveikiamasis dalyvis";
+            if (selType.value === correctType) {
+                correct++;
+                tdType.classList.add('cell-correct');
+            } else {
+                tdType.classList.add('cell-incorrect');
+            }
+
+            // Giminė
+            total++;
+            const correctGender = item.gender === "vyriškoji" ? "vyriškoji giminė" : "moteriškoji giminė";
+            if (selGender.value === correctGender) {
+                correct++;
+                tdGender.classList.add('cell-correct');
+            } else {
+                tdGender.classList.add('cell-incorrect');
+            }
+
+            // Laikas
+            total++;
+            const correctTime = item.time === "esamasis" ? "esamasis laikas" : "būtasis kartinis laikas";
+            if (selTime.value === correctTime) {
+                correct++;
+                tdTime.classList.add('cell-correct');
+            } else {
+                tdTime.classList.add('cell-incorrect');
+            }
+
+            // Skaičius
+            total++;
+            const correctNumber = item.number === "vienaskaita" ? "vienaskaita" : "daugiskaita";
+            if (selNumber.value === correctNumber) {
+                correct++;
+                tdNumber.classList.add('cell-correct');
+            } else {
+                tdNumber.classList.add('cell-incorrect');
+            }
+        });
+
+        const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+        feedbackArea.innerHTML = `
+            Teisingų atsakymų: <strong>${correct}</strong> iš <strong>${total}</strong> (${percentage}%).
+        `;
+
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `
+            <div>Bendras rezultatas:</div>
+            <div style="font-size:2.2rem; margin-top:8px;">
+                ${percentage}%
+            </div>
+        `;
+
+        sendResultToSheet('L0XXX Veikiamieji ir neveikiamieji dalyviai – atskirk', percentage);
+    }
+
+    // --- Inicializacija ---
+    window.onload = function () {
+        buildTable();
+    };
+</script>
+</body>
+</html>
+
