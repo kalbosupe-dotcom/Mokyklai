@@ -655,38 +655,44 @@
     </div>
 </div>
 
-    <!-- 6 uždavinys – 4b -->
-    <div class="card" id="card6">
-        <div class="card-header">
-            <h2>📝 Uždavinys 6</h2>
-        </div>
-        <div class="question-box">
-            Ultragarsas naudojamas jūros gyliui išmatuoti. Iš laivo paleidžiamas ultragarsinis signalas,
-            kuris atsispindėjęs nuo dugno grįžta į laivą. Tarkime, tam tikroje jūros vietoje jis grįžo
-            po <strong>0,20 s</strong>.
-            <br><br>
-            Remdamiesi grafiku ir savo atsakymu iš 5 uždavinio, nustatykite jūros gylį
-            šioje vietoje <strong>h</strong> (m).
-        </div>
-        <div class="input-group">
-            <label for="answer6">Jūsų atsakymas (m):</label>
-            <input type="number" id="answer6" step="1" placeholder="Įveskite jūros gylį metrais">
-        </div>
-        <div class="button-group">
-            <button class="btn-secondary" onclick="showHint(6)">💡 Patarimas</button>
-            <button class="btn-primary" onclick="checkNumeric(6)">Tikrinti</button>
-        </div>
-        <div class="hint-box" id="hint6">
-            <strong>💡 Patarimas:</strong> Ultragarsas nueina kelią <strong>pirmyn ir atgal</strong>.
-            Jei visas laikas 0,20 s, tai į vieną pusę – 0,10 s. Naudokite formulę
-            <strong>s = v · t</strong>, o gautas atstumas bus jūros gylis.
-        </div>
-        <div class="feedback" id="feedback6"></div>
-        <div class="button-group" style="margin-top: 15px;">
-            <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
-            <button class="btn-next" id="next6" onclick="nextCard()" style="display:none;">Peržiūrėti rezultatus ➜</button>
-        </div>
+<!-- 6 uždavinys – 4b -->
+<div class="card" id="card6">
+    <div class="card-header">
+        <h2>📝 Uždavinys 6</h2>
     </div>
+    <div class="question-box">
+        Ultragarsas naudojamas jūros gyliui išmatuoti. Iš laivo paleidžiamas ultragarsinis signalas,
+        kuris atsispindėjęs nuo dugno grįžta į laivą. Tarkime, tam tikroje jūros vietoje jis grįžo
+        po <strong>0,20 s</strong>.
+        <br><br>
+        Remdamiesi grafiku ir savo atsakymu iš 5 uždavinio, nustatykite jūros gylį
+        šioje vietoje <strong>h</strong> (m).
+    </div>
+    <!-- pakartotas tas pats ultragarsinio sklidimo grafikas kaip 5 užduotyje -->
+    <div style="text-align:center; margin:10px 0 20px 0;">
+        <img src="https://kalbosupe-dotcom.github.io/Mokyklai/images/ultragarso-sklidimas-juros-vandeniu.png"
+             alt="Ultragarso sklidimo jūros vandeniu grafikas"
+             style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+    </div>
+    <div class="input-group">
+        <label for="answer6">Jūsų atsakymas (m):</label>
+        <input type="number" id="answer6" step="1" placeholder="Įveskite jūros gylį metrais">
+    </div>
+    <div class="button-group">
+        <button class="btn-secondary" onclick="showHint(6)">💡 Patarimas</button>
+        <button class="btn-primary" onclick="checkNumeric(6)">Tikrinti</button>
+    </div>
+    <div class="hint-box" id="hint6">
+        <strong>💡 Patarimas:</strong> Ultragarsas nueina kelią <strong>pirmyn ir atgal</strong>.
+        Jei visas laikas 0,20 s, tai į vieną pusę – 0,10 s. Naudokite formulę
+        <strong>s = v · t</strong>, o gautas atstumas bus jūros gylis.
+    </div>
+    <div class="feedback" id="feedback6"></div>
+    <div class="button-group" style="margin-top: 15px;">
+        <button class="btn-secondary" onclick="prevCard()">⬅ Atgal</button>
+        <button class="btn-next" id="next6" onclick="nextCard()" style="display:none;">Peržiūrėti rezultatus ➜</button>
+    </div>
+</div>
 
     <!-- Rezultatai -->
     <div class="card" id="card7">
