@@ -58,6 +58,7 @@
             align-items: center;
             flex-grow: 1;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .change-name-btn {
@@ -103,7 +104,7 @@
             border-radius: 12px;
             border: 2px solid #E5E7EB;
             padding: 15px 20px;
-            margin-bottom: 12px; /* sumažintas tarpas */
+            margin-bottom: 12px;
             font-size: 1.05rem;
             color: #1A4D7A;
         }
@@ -121,22 +122,22 @@
             background-color: #E3F2FD;
             border-radius: 14px;
             border: 3px solid #3B82F6;
-            padding: 14px;
-            margin-bottom: 15px;
+            padding: 8px;              /* mažesnis padding */
+            margin-bottom: 12px;
         }
 
         .word-display-container {
             text-align: center;
-            min-height: 25px;
+            min-height: 40px;          /* mažesnis min-height */
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         #word-display {
-            font-size: 3rem;
+            font-size: 2.4rem;         /* buvo 3rem */
             font-weight: bold;
-            color: #1D4ED8; /* tamsiai mėlyna */
+            color: #1D4ED8;
             letter-spacing: 0.18em;
             visibility: visible;
             text-transform: lowercase;
@@ -146,8 +147,8 @@
             display: none;
             width: 100%;
             box-sizing: border-box;
-            font-size: 1.6rem;
-            padding: 10px 12px;
+            font-size: 1.4rem;
+            padding: 8px 10px;
             border: 2px solid #4A90E2;
             border-radius: 10px;
             margin-bottom: 10px;
@@ -210,7 +211,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        /* Rezultatų kortelė */
         .results-title {
             text-align: center;
             color: #0D3B66;
@@ -277,6 +277,17 @@
                 </span>
                 <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
             </div>
+        </div>
+
+        <!-- Papildomas blokas mokytojo el. paštui -->
+        <div style="margin-bottom: 15px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <label style="display:flex; align-items:center; gap:6px;">
+                <input type="checkbox" id="sendToTeacherCheckbox">
+                <span>Siųsti rezultatus mokytojai (-ui)</span>
+            </label>
+            <input type="email" id="teacherEmailInput"
+                   placeholder="Mokytojo el. paštas"
+                   style="display:none; padding:6px 10px; border-radius:8px; border:1px solid #93c5fd; min-width:220px;">
         </div>
 
         <!-- KORTELĖ 1: UŽDUOTIS -->
@@ -357,19 +368,36 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: ${newName}`);
+            alert(`Vardas pakeistas į: \${newName}`);
             location.reload();
         }
+
+        // Checkbox + el. pašto laukas
+        const sendToTeacherCheckbox = document.getElementById('sendToTeacherCheckbox');
+        const teacherEmailInput = document.getElementById('teacherEmailInput');
+
+        sendToTeacherCheckbox.addEventListener('change', () => {
+            if (sendToTeacherCheckbox.checked) {
+                teacherEmailInput.style.display = 'block';
+                teacherEmailInput.focus();
+            } else {
+                teacherEmailInput.style.display = 'none';
+                teacherEmailInput.value = '';
+            }
+        });
 
         function sendResultToSheet(taskName, score) {
             const studentName = localStorage.getItem('studentName') || 'Nežinomas';
             const timestamp = new Date().toLocaleString('lt-LT');
+            const teacherEmail = teacherEmailInput.value.trim();
 
             const data = {
                 name: studentName,
                 task: taskName,
                 score: score,
-                timestamp: timestamp
+                timestamp: timestamp,
+                teacherEmail: teacherEmail,
+                sendToTeacher: !!teacherEmail
             };
 
             console.log('Siunčiamas rezultatas:', data);
@@ -400,7 +428,7 @@
         let currentWordIndex = 0;
         let score = 0;
         let wordHasBeenChecked = false;
-        const userAnswers = []; // mokinio įvestys
+        const userAnswers = [];
 
         const wordDisplay = document.getElementById('word-display');
         const wordInput = document.getElementById('word-input');
@@ -449,7 +477,7 @@
                     score++;
                 }
             } else {
-                feedback.textContent = `Correct spelling: ${correctWord}`;
+                feedback.textContent = `Correct spelling: \${correctWord}`;
                 feedback.style.color = '#DC2626';
             }
 
@@ -490,11 +518,10 @@
             cardResults.classList.add('active');
 
             const percentage = Math.round((score / words.length) * 100);
-            scoreText.textContent = `Teisingai parašyti žodžiai: ${score} iš ${words.length}`;
-            scorePercentage.textContent = `${percentage}%`;
+            scoreText.textContent = `Teisingai parašyti žodžiai: \${score} iš \${words.length}`;
+            scorePercentage.textContent = `\${percentage}%`;
             scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
 
-            // Užpildome lentelę
             answersTableBody.innerHTML = '';
             words.forEach((word, index) => {
                 const tr = document.createElement('tr');
@@ -510,7 +537,7 @@
                 answersTableBody.appendChild(tr);
             });
 
-            sendResultToSheet('EN04 Spelling Practice (LSCWC)', percentage);
+             sendResultToSheet('EN04 Spelling Practice (LSCWC)', percentage);
         }
 
         function restartQuiz() {
@@ -529,3 +556,4 @@
     </script>
 </body>
 </html>
+
