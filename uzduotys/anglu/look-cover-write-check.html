@@ -122,20 +122,20 @@
             background-color: #E3F2FD;
             border-radius: 14px;
             border: 3px solid #3B82F6;
-            padding: 8px;              /* mažesnis padding */
+            padding: 8px;
             margin-bottom: 12px;
         }
 
         .word-display-container {
             text-align: center;
-            min-height: 40px;          /* mažesnis min-height */
+            min-height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         #word-display {
-            font-size: 2.4rem;         /* buvo 3rem */
+            font-size: 2.4rem;
             font-weight: bold;
             color: #1D4ED8;
             letter-spacing: 0.18em;
@@ -279,7 +279,7 @@
             </div>
         </div>
 
-        <!-- Papildomas blokas mokytojo el. paštui -->
+        <!-- Mokytojo el. paštas -->
         <div style="margin-bottom: 15px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <label style="display:flex; align-items:center; gap:6px;">
                 <input type="checkbox" id="sendToTeacherCheckbox">
@@ -368,11 +368,10 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
+            alert('Vardas pakeistas į: ' + newName);
             location.reload();
         }
 
-        // Checkbox + el. pašto laukas
         const sendToTeacherCheckbox = document.getElementById('sendToTeacherCheckbox');
         const teacherEmailInput = document.getElementById('teacherEmailInput');
 
@@ -400,29 +399,18 @@
                 sendToTeacher: !!teacherEmail
             };
 
-            console.log('Siunčiamas rezultatas:', data);
-
             fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
-            })
-            .then(() => {
-                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
-            })
-            .catch(error => {
-                console.error('Klaida siunčiant rezultatą:', error);
-            });
+            }).catch(console.error);
         }
 
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
         // --- Užduoties logika ---
-
         const words = ['because', 'friend', 'which', 'there', 'people'];
 
         let currentWordIndex = 0;
@@ -473,11 +461,9 @@
             if (userLower === correctLower) {
                 feedback.textContent = 'Correct!';
                 feedback.style.color = '#16A34A';
-                if (!wordHasBeenChecked) {
-                    score++;
-                }
+                if (!wordHasBeenChecked) score++;
             } else {
-                feedback.textContent = `Correct spelling: \${correctWord}`;
+                feedback.textContent = 'Correct spelling: ' + correctWord;
                 feedback.style.color = '#DC2626';
             }
 
@@ -489,7 +475,6 @@
 
         function nextWord() {
             currentWordIndex++;
-
             if (currentWordIndex < words.length) {
                 loadWordCard(currentWordIndex);
             } else {
@@ -518,14 +503,13 @@
             cardResults.classList.add('active');
 
             const percentage = Math.round((score / words.length) * 100);
-            scoreText.textContent = `Teisingai parašyti žodžiai: \${score} iš \${words.length}`;
-            scorePercentage.textContent = `\${percentage}%`;
+            scoreText.textContent = 'Teisingai parašyti žodžiai: ' + score + ' iš ' + words.length;
+            scorePercentage.textContent = percentage + '%';
             scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
 
             answersTableBody.innerHTML = '';
             words.forEach((word, index) => {
                 const tr = document.createElement('tr');
-
                 const user = userAnswers[index] !== undefined ? userAnswers[index] : '';
                 const isCorrect = user.trim().toLowerCase() === word.toLowerCase();
 
@@ -537,7 +521,7 @@
                 answersTableBody.appendChild(tr);
             });
 
-             sendResultToSheet('EN04 Spelling Practice (LSCWC)', percentage);
+            sendResultToSheet('EN04 Spelling Practice (LSCWC)', percentage);
         }
 
         function restartQuiz() {
@@ -556,4 +540,3 @@
     </script>
 </body>
 </html>
-
