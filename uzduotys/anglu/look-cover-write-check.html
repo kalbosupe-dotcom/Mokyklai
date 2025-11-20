@@ -1,289 +1,457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spelling Practice (LSCWC)</title>
+    <title>Spelling Practice (LSCWC) - Kalbos Upė</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            line-height: 1.6;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .container {
-            width: 90%;
-            max-width: 600px;
-            margin: 20px;
-            padding: 25px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        h2 {
-            color: #005a9c;
-            border-bottom: 2px solid #005a9c;
-            padding-bottom: 5px;
-        }
-        ol {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px 15px 15px 40px;
-        }
-        #word-display-container {
-            text-align: center;
-            min-height: 70px; /* Ensures layout doesn't jump */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        #word-display {
-            font-size: 3.5em;
-            font-weight: bold;
-            color: #d9534f;
-            letter-spacing: 2px;
-            /* Visibility is used to hide without removing space */
-            visibility: visible; 
-        }
-        #word-input {
-            display: none; /* Hidden initially */
+
+        .page-wrapper {
             width: 100%;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
-            font-size: 1.5em;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .buttons {
-            text-align: center;
-            margin-top: 20px;
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-        .buttons button {
-            font-size: 1em;
-            padding: 12px 20px;
-            margin: 5px;
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #93c5fd;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .back-btn:hover {
+            background-color: #7CB3E9;
+        }
+
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+            gap: 10px;
+        }
+
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
             border: none;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
-        #cover-btn {
-            background-color: #007bff;
-            color: white;
+
+        .change-name-btn:hover {
+            background-color: #0D3B66;
         }
-        #cover-btn:hover {
-            background-color: #0056b3;
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 20px;
+            border: 3px solid #4A90E2;
+            display: none;
         }
-        #check-btn {
-            background-color: #28a745;
-            color: white;
+
+        .card.active {
+            display: block;
         }
-        #check-btn:hover {
-            background-color: #218838;
-        }
-        #next-btn {
-            background-color: #ffc107;
-            color: #333;
-        }
-        #next-btn:hover {
-            background-color: #e0a800;
-        }
-         #restart-btn {
-            background-color: #007bff;
-            color: white;
-        }
-        #feedback {
+
+        .card h2 {
             text-align: center;
-            font-size: 1.2em;
+            color: #0D3B66;
+            font-size: 1.7rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .instructions {
+            background-color: #F9FAFB;
+            border-radius: 12px;
+            border: 2px solid #E5E7EB;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: #1A4D7A;
+        }
+
+        .instructions ol {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .instructions li {
+            margin-bottom: 6px;
+        }
+
+        .word-display-container {
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #word-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #E53935;
+            letter-spacing: 0.15em;
+            visibility: visible;
+        }
+
+        #word-input {
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1.6rem;
+            padding: 10px 12px;
+            border: 2px solid #4A90E2;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #word-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.4);
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.3rem;
             font-weight: bold;
             min-height: 1.5em;
-            margin-top: 15px;
+            margin-top: 10px;
         }
-        /* Results container is hidden by default */
-        #results-container {
-            display: none;
+
+        .button-group {
             text-align: center;
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        #results-container h2 {
-            color: #28a745;
-            border-bottom-color: #28a745;
+
+        .action-btn {
+            font-size: 1.1rem;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: 600;
+            color: white;
         }
-        #score-text {
-            font-size: 1.5em;
+
+        #cover-btn {
+            background: linear-gradient(135deg, #60A5FA, #2563EB);
+        }
+
+        #check-btn {
+            background: linear-gradient(135deg, #34D399, #059669);
+        }
+
+        #next-btn {
+            background: linear-gradient(135deg, #FBBF24, #F59E0B);
+            color: #1F2937;
+        }
+
+        #restart-btn {
+            background: linear-gradient(135deg, #60A5FA, #2563EB);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        /* Rezultatų kortelė */
+        .results-title {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.6rem;
             font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+            color: #1A4D7A;
+        }
+
+        .score-percentage {
+            font-size: 2.5rem;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
 
-    <div class="container">
-        
-        <h2>Instructions (Look, Cover, Write, Check)</h2>
-        <ol>
-            <li><strong>Look:</strong> Look carefully at the word on the screen.</li>
-            <li><strong>Cover:</strong> Click the "Cover Word" button. The word will disappear.</li>
-            <li><strong>Write:</strong> Type the word from memory in the box.</li>
-            <li><strong>Check:</strong> Click the "Check" button. The original word will reappear. Compare your spelling and see the feedback.</li>
-            <li>Click "Next" to continue.</li>
-        </ol>
-        
-        <hr>
-
-        <div id="quiz-container">
-            <div id="word-display-container">
-                <p id="word-display"></p> </div>
-            
-            <input type="text" id="word-input" placeholder="Type the word here...">
-            
-            <div id="feedback"></div> <div class="buttons">
-                <button id="cover-btn">Cover Word</button>
-                <button id="check-btn" style="display:none;">Check</button>
-                <button id="next-btn" style="display:none;">Next</button>
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
             </div>
         </div>
 
-        <div id="results-container">
-            <h2>Results</h2>
-            <p id="score-text"></p>
-            <button id="restart-btn" class="buttons">Try Again</button>
+        <!-- KORTELĖ 1: UŽDUOTIS -->
+        <div id="card-task" class="card active">
+            <h2>Spelling Practice (Look – Cover – Write – Check)</h2>
+
+            <div class="instructions">
+                <ol>
+                    <li><strong>Look</strong> – įdėmiai perskaityk žodį.</li>
+                    <li><strong>Cover</strong> – spausk „Cover word“, žodis pasislėps.</li>
+                    <li><strong>Write</strong> – parašyk žodį iš atminties.</li>
+                    <li><strong>Check</strong> – spausk „Check“ ir palygink savo rašybą.</li>
+                    <li>Tada spausk „Next“ ir eik prie kito žodžio.</li>
+                </ol>
+            </div>
+
+            <div id="quiz-container">
+                <div class="word-display-container">
+                    <p id="word-display"></p>
+                </div>
+
+                <input type="text" id="word-input" placeholder="Type the word here...">
+
+                <div id="feedback" class="feedback"></div>
+
+                <div class="button-group">
+                    <button id="cover-btn" class="action-btn">Cover word</button>
+                    <button id="check-btn" class="action-btn" style="display:none;">Check</button>
+                    <button id="next-btn" class="action-btn" style="display:none;">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KORTELĖ 2: REZULTATAI -->
+        <div id="card-results" class="card">
+            <h2 class="results-title">🎉 Užduoties rezultatai</h2>
+            <div class="score-display">
+                <div id="score-text"></div>
+                <div id="score-percentage" class="score-percentage"></div>
+            </div>
+            <div class="button-group">
+                <button id="restart-btn" class="action-btn">🔄 Pradėti iš naujo</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- Užduoties logika (JavaScript) ---
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
 
-        // 1. Žodžių sąrašas (5 dažni žodžiai)
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: ${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+
+            console.log('Siunčiamas rezultatas:', data);
+
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- Užduoties logika ---
+
+        // Žodžių sąrašas
         const words = ['because', 'friend', 'which', 'there', 'people'];
-        
-        // 2. Būsenos kintamieji
+
         let currentWordIndex = 0;
         let score = 0;
-        let wordHasBeenChecked = false; // Neleidžia gauti taškų kelis kartus už tą patį žodį
+        let wordHasBeenChecked = false;
 
-        // 3. DOM Elementai
         const wordDisplay = document.getElementById('word-display');
         const wordInput = document.getElementById('word-input');
         const feedback = document.getElementById('feedback');
-        
+
         const coverBtn = document.getElementById('cover-btn');
         const checkBtn = document.getElementById('check-btn');
         const nextBtn = document.getElementById('next-btn');
-        
-        const quizContainer = document.getElementById('quiz-container');
-        const resultsContainer = document.getElementById('results-container');
+
+        const cardTask = document.getElementById('card-task');
+        const cardResults = document.getElementById('card-results');
         const scoreText = document.getElementById('score-text');
+        const scorePercentage = document.getElementById('score-percentage');
         const restartBtn = document.getElementById('restart-btn');
 
-        // 4. Mygtukų funkcijos
         coverBtn.addEventListener('click', coverWord);
         checkBtn.addEventListener('click', checkWord);
         nextBtn.addEventListener('click', nextWord);
         restartBtn.addEventListener('click', restartQuiz);
 
-        // Funkcija, kuri paleidžiama paspaudus "Cover Word"
         function coverWord() {
-            // (Cover)
-            wordDisplay.style.visibility = 'hidden'; // Paslepia žodį, bet palieka vietą
-            
-            // (Write)
-            wordInput.style.display = 'block'; // Parodo įvesties laukelį
-            wordInput.focus(); // Automatiškai fokusuoja laukelį
-            
-            // Keičia mygtukus
+            wordDisplay.style.visibility = 'hidden';
+            wordInput.style.display = 'block';
+            wordInput.focus();
+
             coverBtn.style.display = 'none';
             checkBtn.style.display = 'inline-block';
         }
 
-        // Funkcija, kuri paleidžiama paspaudus "Check"
         function checkWord() {
-            // (Check)
-            wordDisplay.style.visibility = 'visible'; // Vėl parodo žodį palyginimui
-            wordInput.disabled = true; // Užrakina įvesties laukelį
+            wordDisplay.style.visibility = 'visible';
+            wordInput.disabled = true;
 
             const userInput = wordInput.value.trim().toLowerCase();
             const correctWord = words[currentWordIndex].toLowerCase();
 
             if (userInput === correctWord) {
                 feedback.textContent = 'Correct!';
-                feedback.style.color = 'green';
-                // Duoda tašką tik jei tikrinama pirmą kartą
+                feedback.style.color = '#16A34A';
                 if (!wordHasBeenChecked) {
                     score++;
                 }
             } else {
                 feedback.textContent = `Correct spelling: ${words[currentWordIndex]}`;
-                feedback.style.color = 'red';
+                feedback.style.color = '#DC2626';
             }
-            
-            wordHasBeenChecked = true; // Pažymi, kad žodis patikrintas
-            
-            // Keičia mygtukus
+
+            wordHasBeenChecked = true;
+
             checkBtn.style.display = 'none';
             nextBtn.style.display = 'inline-block';
         }
 
-        // Funkcija, kuri paleidžiama paspaudus "Next"
         function nextWord() {
-            currentWordIndex++; // Eina prie kito žodžio indekso
-            
+            currentWordIndex++;
+
             if (currentWordIndex < words.length) {
-                // Jei dar yra žodžių, paruošia kitą kortelę
                 loadWordCard(currentWordIndex);
             } else {
-                // Jei žodžiai baigėsi, rodo rezultatus
                 showResults();
             }
         }
 
-        // Paruošia naują kortelę
         function loadWordCard(index) {
             wordDisplay.textContent = words[index];
-            wordDisplay.style.visibility = 'visible'; // (Look)
-            
+            wordDisplay.style.visibility = 'visible';
+
             wordInput.value = '';
             wordInput.style.display = 'none';
             wordInput.disabled = false;
-            
+
             feedback.textContent = '';
-            wordHasBeenChecked = false; // Nustato naujam žodžiui
-            
-            // Atstato mygtukų būseną
+            wordHasBeenChecked = false;
+
             coverBtn.style.display = 'inline-block';
             checkBtn.style.display = 'none';
             nextBtn.style.display = 'none';
         }
 
-        // Rodo galutinę rezultatų kortelę
         function showResults() {
-            quizContainer.style.display = 'none';
-            resultsContainer.style.display = 'block';
-            scoreText.textContent = `Your final score is ${score} out of ${words.length}.`;
+            cardTask.classList.remove('active');
+            cardResults.classList.add('active');
+
+            const percentage = Math.round((score / words.length) * 100);
+            scoreText.textContent = `Teisingai parašyti žodžiai: ${score} iš ${words.length}`;
+            scorePercentage.textContent = `${percentage}%`;
+            scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
+
+            sendResultToSheet('EN04 Spelling Practice (LSCWC)', percentage);
         }
-        
-        // Funkcija, kuri paleidžiama paspaudus "Try Again"
+
         function restartQuiz() {
             currentWordIndex = 0;
             score = 0;
-            
-            resultsContainer.style.display = 'none';
-            quizContainer.style.display = 'block';
-            
-            loadWordCard(0); // Pradeda nuo pirmo žodžio
+
+            cardResults.classList.remove('active');
+            cardTask.classList.add('active');
+
+            loadWordCard(0);
         }
 
-        // --- Paleidimas ---
-        // Užkrauna pirmą žodį, kai puslapis atsidaro
+        // Paleidimas
         loadWordCard(0);
-        
     </script>
-
 </body>
 </html>
