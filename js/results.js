@@ -1,5 +1,5 @@
 // Google Sheets Web App URL
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6APl7i3lOOn9YlWH/exec';
 
 // Funkcija vardui įvesti prieš užduotį
 function showNamePrompt() {
