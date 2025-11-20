@@ -324,7 +324,6 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Žodis</th>
                         <th>Teisinga rašyba</th>
                         <th>Mokinio rašyba</th>
                     </tr>
@@ -505,7 +504,6 @@
 
                 tr.innerHTML = `
                     <td>${index + 1}</td>
-                    <td>${word}</td>
                     <td>${word}</td>
                     <td class="${isCorrect ? 'correct' : 'incorrect'}">${user || '—'}</td>
                 `;
