@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelling Practice (LSCWC)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        h2 {
+            color: #005a9c;
+            border-bottom: 2px solid #005a9c;
+            padding-bottom: 5px;
+        }
+        ol {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px 15px 15px 40px;
+        }
+        #word-display-container {
+            text-align: center;
+            min-height: 70px; /* Ensures layout doesn't jump */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #word-display {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #d9534f;
+            letter-spacing: 2px;
+            /* Visibility is used to hide without removing space */
+            visibility: visible; 
+        }
+        #word-input {
+            display: none; /* Hidden initially */
+            width: 100%;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            font-size: 1.5em;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons button {
+            font-size: 1em;
+            padding: 12px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #cover-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        #cover-btn:hover {
+            background-color: #0056b3;
+        }
+        #check-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        #check-btn:hover {
+            background-color: #218838;
+        }
+        #next-btn {
+            background-color: #ffc107;
+            color: #333;
+        }
+        #next-btn:hover {
+            background-color: #e0a800;
+        }
+         #restart-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        #feedback {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            min-height: 1.5em;
+            margin-top: 15px;
+        }
+        /* Results container is hidden by default */
+        #results-container {
+            display: none;
+            text-align: center;
+        }
+        #results-container h2 {
+            color: #28a745;
+            border-bottom-color: #28a745;
+        }
+        #score-text {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <h2>Instructions (Look, Cover, Write, Check)</h2>
+        <ol>
+            <li><strong>Look:</strong> Look carefully at the word on the screen.</li>
+            <li><strong>Cover:</strong> Click the "Cover Word" button. The word will disappear.</li>
+            <li><strong>Write:</strong> Type the word from memory in the box.</li>
+            <li><strong>Check:</strong> Click the "Check" button. The original word will reappear. Compare your spelling and see the feedback.</li>
+            <li>Click "Next" to continue.</li>
+        </ol>
+        
+        <hr>
+
+        <div id="quiz-container">
+            <div id="word-display-container">
+                <p id="word-display"></p> </div>
+            
+            <input type="text" id="word-input" placeholder="Type the word here...">
+            
+            <div id="feedback"></div> <div class="buttons">
+                <button id="cover-btn">Cover Word</button>
+                <button id="check-btn" style="display:none;">Check</button>
+                <button id="next-btn" style="display:none;">Next</button>
+            </div>
+        </div>
+
+        <div id="results-container">
+            <h2>Results</h2>
+            <p id="score-text"></p>
+            <button id="restart-btn" class="buttons">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Užduoties logika (JavaScript) ---
+
+        // 1. Žodžių sąrašas (5 dažni žodžiai)
+        const words = ['because', 'friend', 'which', 'there', 'people'];
+        
+        // 2. Būsenos kintamieji
+        let currentWordIndex = 0;
+        let score = 0;
+        let wordHasBeenChecked = false; // Neleidžia gauti taškų kelis kartus už tą patį žodį
+
+        // 3. DOM Elementai
+        const wordDisplay = document.getElementById('word-display');
+        const wordInput = document.getElementById('word-input');
+        const feedback = document.getElementById('feedback');
+        
+        const coverBtn = document.getElementById('cover-btn');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const scoreText = document.getElementById('score-text');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // 4. Mygtukų funkcijos
+        coverBtn.addEventListener('click', coverWord);
+        checkBtn.addEventListener('click', checkWord);
+        nextBtn.addEventListener('click', nextWord);
+        restartBtn.addEventListener('click', restartQuiz);
+
+        // Funkcija, kuri paleidžiama paspaudus "Cover Word"
+        function coverWord() {
+            // (Cover)
+            wordDisplay.style.visibility = 'hidden'; // Paslepia žodį, bet palieka vietą
+            
+            // (Write)
+            wordInput.style.display = 'block'; // Parodo įvesties laukelį
+            wordInput.focus(); // Automatiškai fokusuoja laukelį
+            
+            // Keičia mygtukus
+            coverBtn.style.display = 'none';
+            checkBtn.style.display = 'inline-block';
+        }
+
+        // Funkcija, kuri paleidžiama paspaudus "Check"
+        function checkWord() {
+            // (Check)
+            wordDisplay.style.visibility = 'visible'; // Vėl parodo žodį palyginimui
+            wordInput.disabled = true; // Užrakina įvesties laukelį
+
+            const userInput = wordInput.value.trim().toLowerCase();
+            const correctWord = words[currentWordIndex].toLowerCase();
+
+            if (userInput === correctWord) {
+                feedback.textContent = 'Correct!';
+                feedback.style.color = 'green';
+                // Duoda tašką tik jei tikrinama pirmą kartą
+                if (!wordHasBeenChecked) {
+                    score++;
+                }
+            } else {
+                feedback.textContent = `Correct spelling: ${words[currentWordIndex]}`;
+                feedback.style.color = 'red';
+            }
+            
+            wordHasBeenChecked = true; // Pažymi, kad žodis patikrintas
+            
+            // Keičia mygtukus
+            checkBtn.style.display = 'none';
+            nextBtn.style.display = 'inline-block';
+        }
+
+        // Funkcija, kuri paleidžiama paspaudus "Next"
+        function nextWord() {
+            currentWordIndex++; // Eina prie kito žodžio indekso
+            
+            if (currentWordIndex < words.length) {
+                // Jei dar yra žodžių, paruošia kitą kortelę
+                loadWordCard(currentWordIndex);
+            } else {
+                // Jei žodžiai baigėsi, rodo rezultatus
+                showResults();
+            }
+        }
+
+        // Paruošia naują kortelę
+        function loadWordCard(index) {
+            wordDisplay.textContent = words[index];
+            wordDisplay.style.visibility = 'visible'; // (Look)
+            
+            wordInput.value = '';
+            wordInput.style.display = 'none';
+            wordInput.disabled = false;
+            
+            feedback.textContent = '';
+            wordHasBeenChecked = false; // Nustato naujam žodžiui
+            
+            // Atstato mygtukų būseną
+            coverBtn.style.display = 'inline-block';
+            checkBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+
+        // Rodo galutinę rezultatų kortelę
+        function showResults() {
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+            scoreText.textContent = `Your final score is ${score} out of ${words.length}.`;
+        }
+        
+        // Funkcija, kuri paleidžiama paspaudus "Try Again"
+        function restartQuiz() {
+            currentWordIndex = 0;
+            score = 0;
+            
+            resultsContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            
+            loadWordCard(0); // Pradeda nuo pirmo žodžio
+        }
+
+        // --- Paleidimas ---
+        // Užkrauna pirmą žodį, kai puslapis atsidaro
+        loadWordCard(0);
+        
+    </script>
+
+</body>
+</html>
