@@ -103,7 +103,7 @@
             border-radius: 12px;
             border: 2px solid #E5E7EB;
             padding: 15px 20px;
-            margin-bottom: 20px;
+            margin-bottom: 12px; /* sumažintas tarpas */
             font-size: 1.05rem;
             color: #1A4D7A;
         }
@@ -117,21 +117,29 @@
             margin-bottom: 6px;
         }
 
+        .word-display-wrapper {
+            background-color: #E3F2FD;
+            border-radius: 14px;
+            border: 3px solid #3B82F6;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
         .word-display-container {
             text-align: center;
             min-height: 80px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
         }
 
         #word-display {
             font-size: 3rem;
             font-weight: bold;
-            color: #E53935;
-            letter-spacing: 0.15em;
+            color: #1D4ED8; /* tamsiai mėlyna */
+            letter-spacing: 0.18em;
             visibility: visible;
+            text-transform: lowercase;
         }
 
         #word-input {
@@ -212,7 +220,7 @@
 
         .score-display {
             text-align: center;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: bold;
             margin: 20px 0;
             padding: 20px;
@@ -225,6 +233,36 @@
         .score-percentage {
             font-size: 2.5rem;
             margin-top: 10px;
+        }
+
+        .answers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .answers-table th,
+        .answers-table td {
+            border: 1px solid #BFDBFE;
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .answers-table th {
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+            font-weight: 700;
+        }
+
+        .answers-table td.correct {
+            background-color: #DCFCE7;
+            color: #166534;
+        }
+
+        .answers-table td.incorrect {
+            background-color: #FEE2E2;
+            color: #B91C1C;
         }
     </style>
 </head>
@@ -256,8 +294,10 @@
             </div>
 
             <div id="quiz-container">
-                <div class="word-display-container">
-                    <p id="word-display"></p>
+                <div class="word-display-wrapper">
+                    <div class="word-display-container">
+                        <p id="word-display"></p>
+                    </div>
                 </div>
 
                 <input type="text" id="word-input" placeholder="Type the word here...">
@@ -279,6 +319,19 @@
                 <div id="score-text"></div>
                 <div id="score-percentage" class="score-percentage"></div>
             </div>
+
+            <table class="answers-table" id="answers-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Žodis</th>
+                        <th>Teisinga rašyba</th>
+                        <th>Mokinio rašyba</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
             <div class="button-group">
                 <button id="restart-btn" class="action-btn">🔄 Pradėti iš naujo</button>
             </div>
@@ -343,12 +396,12 @@
 
         // --- Užduoties logika ---
 
-        // Žodžių sąrašas
         const words = ['because', 'friend', 'which', 'there', 'people'];
 
         let currentWordIndex = 0;
         let score = 0;
         let wordHasBeenChecked = false;
+        const userAnswers = []; // mokinio įvestys
 
         const wordDisplay = document.getElementById('word-display');
         const wordInput = document.getElementById('word-input');
@@ -363,6 +416,7 @@
         const scoreText = document.getElementById('score-text');
         const scorePercentage = document.getElementById('score-percentage');
         const restartBtn = document.getElementById('restart-btn');
+        const answersTableBody = document.querySelector('#answers-table tbody');
 
         coverBtn.addEventListener('click', coverWord);
         checkBtn.addEventListener('click', checkWord);
@@ -382,17 +436,21 @@
             wordDisplay.style.visibility = 'visible';
             wordInput.disabled = true;
 
-            const userInput = wordInput.value.trim().toLowerCase();
-            const correctWord = words[currentWordIndex].toLowerCase();
+            const userInput = wordInput.value.trim();
+            const userLower = userInput.toLowerCase();
+            const correctWord = words[currentWordIndex];
+            const correctLower = correctWord.toLowerCase();
 
-            if (userInput === correctWord) {
+            userAnswers[currentWordIndex] = userInput;
+
+            if (userLower === correctLower) {
                 feedback.textContent = 'Correct!';
                 feedback.style.color = '#16A34A';
                 if (!wordHasBeenChecked) {
                     score++;
                 }
             } else {
-                feedback.textContent = `Correct spelling: ${words[currentWordIndex]}`;
+                feedback.textContent = `Correct spelling: ${correctWord}`;
                 feedback.style.color = '#DC2626';
             }
 
@@ -437,12 +495,30 @@
             scorePercentage.textContent = `${percentage}%`;
             scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
 
+            // Užpildome lentelę
+            answersTableBody.innerHTML = '';
+            words.forEach((word, index) => {
+                const tr = document.createElement('tr');
+
+                const user = userAnswers[index] !== undefined ? userAnswers[index] : '';
+                const isCorrect = user.trim().toLowerCase() === word.toLowerCase();
+
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${word}</td>
+                    <td>${word}</td>
+                    <td class="${isCorrect ? 'correct' : 'incorrect'}">${user || '—'}</td>
+                `;
+                answersTableBody.appendChild(tr);
+            });
+
             sendResultToSheet('EN04 Spelling Practice (LSCWC)', percentage);
         }
 
         function restartQuiz() {
             currentWordIndex = 0;
             score = 0;
+            userAnswers.length = 0;
 
             cardResults.classList.remove('active');
             cardTask.classList.add('active');
