@@ -10,7 +10,7 @@
             font-family: 'OpenDyslexic', Arial, sans-serif;
             letter-spacing: 0.05em;
             background-color: #E8F4F8;
-            line-height: 1.9;
+            line-height: 2.2; /* buvo 1.9 – ~+15% */
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -81,9 +81,7 @@
             box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
             padding: 30px;
             border: 3px solid #4A90E2;
-            display: none;
         }
-        .card.active { display: block; }
 
         .intro-text {
             font-size: 1.9rem;
@@ -96,44 +94,23 @@
         .intro-content {
             font-size: 1.1rem;
             color: #1A4D7A;
-            line-height: 1.9;
+            line-height: 2.2; /* buvo 1.9 */
         }
         .intro-content ul {
             margin-top: 15px;
             padding-left: 25px;
             list-style: disc;
         }
-        .intro-content li { margin-bottom: 8px; }
-
-        .button-container {
-            text-align: center;
-            margin-top: 25px;
-        }
-        .action-button {
-            padding: 14px 32px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            background: linear-gradient(135deg, #4A90E2, #0D3B66);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            transition: all 0.3s;
-            font-family: 'OpenDyslexic', Arial, sans-serif;
-        }
-        .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-        }
+        .intro-content li { margin-bottom: 10px; }
 
         .text-block {
             background-color: #E8F4F8;
             border-radius: 12px;
             border: 2px solid #7CB3E9;
             padding: 24px;
-            margin-top: 12px;
+            margin-top: 20px;
             font-size: 1.1rem;
-            line-height: 1.9;
+            line-height: 2.2; /* buvo 1.9 */
             color: #1A4D7A;
         }
 
@@ -145,7 +122,7 @@
         }
 
         .table-wrapper {
-            margin-top: 25px;
+            margin-top: 30px;
             overflow-x: auto;
         }
 
@@ -153,10 +130,11 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1rem;
+            line-height: 2.0; /* šiek tiek didesnis tarpas tarp eilučių lentelėje */
         }
         th, td {
             border: 1px solid #cbd5e1;
-            padding: 10px 8px;
+            padding: 12px 8px; /* truputį daugiau vertikalaus tarpo */
             text-align: left;
         }
         th {
@@ -188,7 +166,7 @@
         }
 
         .feedback-text {
-            margin-top: 15px;
+            margin-top: 18px;
             font-size: 1rem;
             color: #1A4D7A;
         }
@@ -232,32 +210,25 @@
         </div>
     </div>
 
-    <!-- INSTRUKCIJŲ KORTELĖ -->
-    <div id="card-intro" class="card active">
+    <!-- VIENA KORTELĖ: INSTRUKCIJA + UŽDUOTIS -->
+    <div class="card">
         <h2 class="intro-text">Dalyvio junginiai: giminė, skaičius, linksnis</h2>
+
         <div class="intro-content">
             <p>Šioje užduotyje mokysiesi atpažinti <strong>dalyvio ir daiktavardžio junginius</strong> ir nustatyti jų <strong>giminę, skaičių ir linksnį</strong>.</p>
             <ul>
-                <li>📖 Perskaityk visą tekstą.</li>
+                <li>📖 Perskaityk visą tekstą žemiau.</li>
                 <li>🟡 Tekste paryškinti <strong>dalyvio junginiai</strong> (dalyvis + daiktavardis).</li>
                 <li>📋 Lentelėje po tekstu kiekvienam junginiui parink:
                     <ul>
                         <li>Giminę: <em>vyriškoji / moteriškoji</em></li>
                         <li>Skaičių: <em>vienaskaita / daugiskaita</em></li>
-                        <li>Linksnių formas su klausimais: <em>vardininkas (Kas?), kilmininkas (Ko?) ir t. t.</em></li>
+                        <li>Linksnį su klausimu: <em>vardininkas (Kas?), kilmininkas (Ko?) ir t. t.</em></li>
                     </ul>
                 </li>
-                <li>✅ Paspausk „Pasitikrinti“ ir pažiūrėk, kaip sekėsi.</li>
+                <li>✅ Pabaigoje paspausk „Pasitikrinti“ ir pažiūrėk, kaip sekėsi.</li>
             </ul>
         </div>
-        <div class="button-container">
-            <button onclick="showCard('card-task')" class="action-button">▶️ Pradėti užduotį</button>
-        </div>
-    </div>
-
-    <!-- UŽDUOTIES KORTELĖ -->
-    <div id="card-task" class="card">
-        <h2 class="intro-text">Perskaityk tekstą ir užpildyk lentelę</h2>
 
         <div class="text-block">
             <p><strong>Balandžio 25 d.</strong></p>
@@ -301,8 +272,10 @@
 
         <div class="feedback-text" id="feedback-area"></div>
 
-        <div class="button-container">
-            <button onclick="checkTable()" class="action-button">✅ Pasitikrinti</button>
+        <div style="text-align:center; margin-top:22px;">
+            <button onclick="checkTable()" class="change-name-btn" style="font-size:1.1rem; padding:12px 28px;">
+                ✅ Pasitikrinti
+            </button>
         </div>
 
         <div id="result-box" class="result-container" style="display:none;"></div>
@@ -359,15 +332,6 @@
 
     const studentName = showNamePrompt();
     document.getElementById('studentNameDisplay').textContent = studentName;
-
-    // --- Kortelių rodymas ---
-    function showCard(cardId) {
-        document.querySelectorAll('.card').forEach(card => {
-            card.classList.remove('active');
-        });
-        document.getElementById(cardId).classList.add('active');
-        window.scrollTo(0, 0);
-    }
 
     // --- DUOMENYS APIE JUNGINIUS ---
     const JUNCTIONS = [
@@ -435,7 +399,7 @@
 
             const tdCase = document.createElement('td');
             const selCase = document.createElement('select');
-            selCase.id = `case-${j.id}`;
+            selCase.id = `case-\${j.id}`;
             CASE_OPTIONS.forEach(opt => {
                 const o = document.createElement('option');
                 o.value = opt;
@@ -457,7 +421,6 @@
         let totalFields = 0;
         let correctFields = 0;
 
-        // nuimame senas spalvas
         document.querySelectorAll('#junction-table td').forEach(td => {
             td.classList.remove('cell-correct', 'cell-incorrect');
         });
@@ -524,4 +487,3 @@
 </script>
 </body>
 </html>
-
