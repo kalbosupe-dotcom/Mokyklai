@@ -13,7 +13,7 @@
             line-height: 1.8;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -25,16 +25,27 @@
             max-width: 900px;
         }
 
+        /* Viršutinė juosta: grįžti + vardas vienoje eilutėje */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
         .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 12px 24px;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
             background-color: #7CB3E9;
             color: white;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 18px;
+            font-size: 16px;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
         
         .back-btn:hover {
@@ -43,27 +54,28 @@
         
         .student-info {
             background-color: #ffffff;
-            padding: 20px;
+            padding: 10px 18px;
             border-radius: 10px;
-            margin-bottom: 20px;
             border: 2px solid #4A90E2;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            flex-grow: 1;
         }
         
         .change-name-btn {
             background-color: #4A90E2;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-family: 'OpenDyslexic', Arial, sans-serif;
-            font-size: 16px;
+            font-size: 14px;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
         
         .change-name-btn:hover {
@@ -76,41 +88,61 @@
             background-color: #ffffff;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
-            padding: 25px;
+            padding: 18px 22px 24px;
             box-sizing: border-box;
             border: 3px solid #4A90E2;
         }
 
+        /* Antraštė: pavadinimas + kortelės nr. vienoje eilutėje */
         #card-header {
-            text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         #card-header h1 {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             color: #0D3B66;
             margin: 0;
         }
         
         #card-progress {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #1A4D7A;
             font-weight: bold;
-            margin-top: 10px;
+            margin: 0;
+        }
+
+        /* Instrukcija su ikonėlėmis */
+        .instructions {
+            font-size: 0.95rem;
+            color: #1A4D7A;
+            margin-bottom: 10px;
+        }
+        .instructions p {
+            margin: 2px 0;
+        }
+        .instructions span.icon {
+            display: inline-block;
+            width: 22px;
         }
 
         #card {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 16px;
+            margin-top: 10px;
         }
+
         /* Kairė pusė su linksniais */
         #cases-column {
-            width: 55%;
+            width: 58%;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .case-row {
@@ -118,13 +150,12 @@
             align-items: center;
             border: 2px solid #7CB3E9;
             border-radius: 10px;
-            padding: 10px;
-            transition: background-color 0.3s;
+            padding: 8px 10px;
             background-color: #ffffff;
         }
 
         .case-name {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #0D3B66;
             width: 55%;
@@ -134,14 +165,14 @@
         
         .case-name span {
             font-weight: normal;
-            font-size: 1.0rem;
+            font-size: 0.95rem;
             color: #4A90E2;
             margin-left: 5px;
         }
 
         .drop-zone {
             width: 45%;
-            height: 55px;
+            min-height: 42px;
             background-color: #E8F4F8;
             border: 2px dashed #7CB3E9;
             border-radius: 10px;
@@ -156,22 +187,34 @@
             border-color: #4A90E2;
         }
 
+        /* Teksto laukelis trūkstamam linksniui */
+        .missing-input {
+            width: 90%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 1.2rem;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            outline: none;
+            color: #0D3B66;
+        }
+
         /* Dešinė pusė su žodžiais */
         #words-column {
-            width: 30%;
-            padding: 15px;
+            width: 35%;
+            padding: 10px;
             background-color: #E8F4F8;
             border-radius: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             border: 2px solid #7CB3E9;
         }
 
         .draggable-word {
-            font-size: 1.5rem;
-            padding: 12px 20px;
+            font-size: 1.3rem;
+            padding: 8px 14px;
             background-color: #ffffff;
             border: 2px solid #4A90E2;
             border-radius: 10px;
@@ -179,17 +222,17 @@
             user-select: none;
             text-align: center;
             width: 90%;
-            box-shadow: 0 4px 8px rgba(26, 77, 122, 0.1);
+            box-shadow: 0 3px 6px rgba(26, 77, 122, 0.1);
             transition: transform 0.2s, box-shadow 0.2s, color 0.3s, background-color 0.3s;
             color: #1A4D7A;
             font-weight: bold;
-            touch-action: none; /* PRIDĖTA - neleidžia scroll'inti tempiant */
+            touch-action: none;
         }
         
         .draggable-word:active {
             cursor: grabbing;
             transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(26, 77, 122, 0.2);
+            box-shadow: 0 6px 12px rgba(26, 77, 122, 0.2);
         }
         
         .drop-zone .draggable-word {
@@ -197,24 +240,25 @@
             box-shadow: none;
             background-color: transparent;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             padding: 0;
             width: auto;
             color: #0D3B66;
             font-weight: bold;
         }
+
         /* Valdymo mygtukai */
         #controls {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 16px;
+            margin-top: 18px;
             flex-wrap: wrap;
         }
 
         .control-btn {
-            font-size: 1.2rem;
-            padding: 12px 25px;
+            font-size: 1.05rem;
+            padding: 10px 22px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -274,6 +318,14 @@
             font-weight: bold;
             color: #721c24;
         }
+        .input-incorrect {
+            border-color: #e74c3c !important;
+            background-color: #f8d7da !important;
+        }
+        .input-correct {
+            border-color: #27ae60 !important;
+            background-color: #d4edda !important;
+        }
         
         /* Rezultatų langas */
         #results-container {
@@ -282,33 +334,33 @@
         }
 
         #results-container h2 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: #0D3B66;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         #results-list {
             list-style-type: none;
             padding: 0;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         #results-list li {
-            font-size: 1.3rem;
-            padding: 12px;
+            font-size: 1.1rem;
+            padding: 10px;
             background-color: #E8F4F8;
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #1A4D7A;
             border: 2px solid #7CB3E9;
         }
 
         #total-score {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            margin-top: 30px;
+            margin-top: 20px;
             color: #4A90E2;
-            padding: 20px;
+            padding: 14px;
             background-color: #E8F4F8;
             border-radius: 10px;
             border: 3px solid #4ECDC4;
@@ -328,47 +380,47 @@
                 width: 100%;
             }
             .case-name {
-                font-size: 1.2rem;
+                font-size: 1.05rem;
             }
             .case-name span {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
             .draggable-word {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
             #card-header h1 {
-                font-size: 1.8rem;
-            }
-            .control-btn {
-                font-size: 1.1rem;
-                padding: 10px 20px;
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="page-wrapper">
-        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
-        
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            <div class="student-info">
+                <span style="font-size: 16px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
+
         <div id="main-container">
             <div id="card-header">
                 <h1>Daiktavardžių linksniavimas</h1>
-                <p id="card-progress">1 / 10 kortelė</p>
+                <p id="card-progress">1 / 5 kortelė</p>
+            </div>
+
+            <div class="instructions">
+                <p><span class="icon">🧩</span><strong>Nutempk</strong> žodžius prie tinkamų linksnių.</p>
+                <p><span class="icon">✏️</span><strong>Įrašyk</strong> trūkstamą linksnio formą tuščiame langelyje.</p>
+                <p><span class="icon">✅</span><strong>Pasitikrink</strong> ir, jei reikia, pabandyk dar kartą.</p>
             </div>
             
             <div id="card">
-                <div id="cases-column">
-                    <!-- Bus sugeneruota su JavaScript -->
-                </div>
-                <div id="words-column">
-                    <!-- Bus sugeneruota su JavaScript -->
-                </div>
+                <div id="cases-column"></div>
+                <div id="words-column"></div>
             </div>
 
             <div id="controls">
@@ -390,7 +442,6 @@
         // --- Vardų valdymas ---
         function showNamePrompt() {
             const studentName = localStorage.getItem('studentName');
-            
             if (!studentName) {
                 const name = prompt('Įvesk savo vardą:');
                 if (name && name.trim() !== '') {
@@ -407,7 +458,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: ${newName}`);
+            alert(`Vardas pakeistas į: \${newName}`);
             location.reload();
         }
 
@@ -443,18 +494,13 @@
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
 
-        // --- Duomenys: 10 žodžių ir jų linksniai ---
+        // --- Duomenys: 5 žodžiai ir jų linksniai ---
         const cardsData = [
             { word: 'stalas', forms: ['stalas', 'stalo', 'stalui', 'stalą', 'stalu', 'stale', 'stale'] },
             { word: 'knyga', forms: ['knyga', 'knygos', 'knygai', 'knygą', 'knyga', 'knygoje', 'knyga'] },
             { word: 'pieštukas', forms: ['pieštukas', 'pieštuko', 'pieštukui', 'pieštuką', 'pieštuku', 'pieštuke', 'pieštuke'] },
             { word: 'saulė', forms: ['saulė', 'saulės', 'saulei', 'saulę', 'saule', 'saulėje', 'saule'] },
-            { word: 'namas', forms: ['namas', 'namo', 'namui', 'namą', 'namu', 'name', 'name'] },
-            { word: 'miškas', forms: ['miškas', 'miško', 'miškui', 'mišką', 'mišku', 'miške', 'miške'] },
-            { word: 'gėlė', forms: ['gėlė', 'gėlės', 'gėlei', 'gėlę', 'gėle', 'gėlėje', 'gėle'] },
-            { word: 'mokinys', forms: ['mokinys', 'mokinio', 'mokiniui', 'mokinį', 'mokiniu', 'mokinyje', 'mokiny'] },
-            { word: 'upė', forms: ['upė', 'upės', 'upei', 'upę', 'upe', 'upėje', 'upe'] },
-            { word: 'langas', forms: ['langas', 'lango', 'langui', 'langą', 'langu', 'lange', 'lange'] },
+            { word: 'namas', forms: ['namas', 'namo', 'namui', 'namą', 'namu', 'name', 'name'] }
         ];
 
         const cases = [
@@ -483,7 +529,6 @@
         const totalScoreEl = document.getElementById('total-score');
         const restartBtn = document.getElementById('restart-btn');
 
-        // Funkcija, kuri sumaišo masyvo elementus
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -491,7 +536,8 @@
             }
             return array;
         }
-        // Kortelės sukūrimas
+
+        // Kortelės sukūrimas (1 trūkstamas linksnis – įrašomas)
         function createCard(index) {
             casesColumn.innerHTML = '';
             wordsColumn.innerHTML = '';
@@ -502,27 +548,55 @@
             actionBtn.disabled = false;
             actionBtn.textContent = '✅ Pasitikrinti';
 
+            const card = cardsData[index];
+
+            // Pasirenkame, kuris linksnis bus trūkstamas (0–6)
+            const missingCaseIndex = Math.floor(Math.random() * cases.length);
+            card.missingCaseIndex = missingCaseIndex;
+
+            // Kairė pusė – linksniai
             cases.forEach((caseInfo, i) => {
                 const caseRow = document.createElement('div');
                 caseRow.className = 'case-row';
+
                 const caseName = document.createElement('div');
                 caseName.className = 'case-name';
                 caseName.innerHTML = `${caseInfo.name} <span>${caseInfo.question}</span>`;
+
                 const dropZone = document.createElement('div');
                 dropZone.className = 'drop-zone';
                 dropZone.dataset.caseIndex = i;
+
+                if (i === missingCaseIndex) {
+                    // čia bus įrašomas žodis
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'missing-input';
+                    input.placeholder = 'įrašyk formą';
+                    input.autocomplete = 'off';
+                    input.dataset.caseIndex = i;
+                    dropZone.appendChild(input);
+                    dropZone.classList.add('missing-zone');
+                }
+
                 caseRow.appendChild(caseName);
                 caseRow.appendChild(dropZone);
                 casesColumn.appendChild(caseRow);
             });
-            
-            const shuffledWords = shuffleArray([...cardsData[index].forms]);
+
+            // Dešinė pusė – 6 likusios formos (be trūkstamos)
+            const formsForDrag = card.forms
+                .map((f, i) => ({ f, i }))
+                .filter(obj => obj.i !== missingCaseIndex)
+                .map(obj => obj.f);
+
+            const shuffledWords = shuffleArray(formsForDrag);
             shuffledWords.forEach((word, i) => {
                 const wordEl = document.createElement('div');
                 wordEl.className = 'draggable-word';
                 wordEl.textContent = word;
                 wordEl.draggable = true;
-                wordEl.id = `word-${index}-${i}`; 
+                wordEl.id = `word-${index}-${i}`;
                 wordsColumn.appendChild(wordEl);
             });
 
@@ -530,20 +604,15 @@
             updateNavButtons();
         }
 
-        // Touch event handlers - NAUJAS KODAS
+        // Touch drag helper kintamieji
         let touchedElement = null;
         let clone = null;
-        let touchStartX = 0;
-        let touchStartY = 0;
 
         function handleTouchStart(e) {
             e.preventDefault();
             touchedElement = e.target;
             const touch = e.touches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-            
-            // Sukuriame vizualinę kopiją
+
             clone = touchedElement.cloneNode(true);
             clone.style.position = 'fixed';
             clone.style.pointerEvents = 'none';
@@ -553,19 +622,17 @@
             clone.style.top = touch.clientY - touchedElement.offsetHeight / 2 + 'px';
             clone.style.width = touchedElement.offsetWidth + 'px';
             document.body.appendChild(clone);
-            
+
             touchedElement.style.opacity = '0.3';
         }
 
         function handleTouchMove(e) {
             e.preventDefault();
             if (!clone) return;
-            
             const touch = e.touches[0];
             clone.style.left = touch.clientX - clone.offsetWidth / 2 + 'px';
             clone.style.top = touch.clientY - clone.offsetHeight / 2 + 'px';
-            
-            // Pažymime drop zoną, jei virš jos
+
             const dropZones = document.querySelectorAll('.drop-zone');
             dropZones.forEach(zone => {
                 const rect = zone.getBoundingClientRect();
@@ -581,69 +648,61 @@
         function handleTouchEnd(e) {
             e.preventDefault();
             if (!touchedElement) return;
-            
             const touch = e.changedTouches[0];
             const dropZones = document.querySelectorAll('.drop-zone');
             let dropped = false;
-            
-            // Tikriname, ar paleista virš drop zonos
+
             dropZones.forEach(zone => {
                 const rect = zone.getBoundingClientRect();
                 if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
                     touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
-                    
-                    // Jei zonoje jau yra žodis, grąžiname jį atgal
-                    if(zone.children.length > 0) {
+
+                    // nenaudojame drag ant missing input zonos
+                    if (zone.classList.contains('missing-zone')) return;
+
+                    if (zone.children.length > 0) {
                         wordsColumn.appendChild(zone.firstElementChild);
                     }
-                    
-                    // Perkeliame žodį į zoną
                     zone.appendChild(touchedElement);
                     zone.classList.remove('hovered');
                     dropped = true;
                     clearFeedback();
                 }
             });
-            
-            // Jei nepaleista virš zonos ir žodis buvo zonoje, grąžiname į sąrašą
+
             if (!dropped && touchedElement.parentElement.classList.contains('drop-zone')) {
                 wordsColumn.appendChild(touchedElement);
             }
-            
-            // Išvalome
+
             touchedElement.style.opacity = '1';
             if (clone) {
                 document.body.removeChild(clone);
                 clone = null;
             }
             touchedElement = null;
-            
-            // Pašaliname visas hovered klases
             dropZones.forEach(zone => zone.classList.remove('hovered'));
         }
 
-        // Drag & Drop logika su touch palaikymu - ATNAUJINTAS KODAS
         function addDragAndDropListeners() {
             const draggables = document.querySelectorAll('.draggable-word');
             const dropZones = document.querySelectorAll('.drop-zone');
 
             draggables.forEach(draggable => {
-                // Desktop drag events
                 draggable.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', e.target.id);
                 });
 
-                // Touch events for mobile/tablet - NAUJAS KODAS
                 draggable.addEventListener('touchstart', handleTouchStart, { passive: false });
                 draggable.addEventListener('touchmove', handleTouchMove, { passive: false });
                 draggable.addEventListener('touchend', handleTouchEnd, { passive: false });
             });
 
             dropZones.forEach(zone => {
-                // Desktop drop events
                 zone.addEventListener('dragover', (e) => {
                     e.preventDefault();
-                    zone.classList.add('hovered');
+                    if (!zone.classList.contains('missing-zone')) {
+                        zone.classList.add('hovered');
+                    }
                 });
                 zone.addEventListener('dragleave', () => {
                     zone.classList.remove('hovered');
@@ -651,10 +710,11 @@
                 zone.addEventListener('drop', (e) => {
                     e.preventDefault();
                     zone.classList.remove('hovered');
+                    if (zone.classList.contains('missing-zone')) return;
+
                     const id = e.dataTransfer.getData('text/plain');
                     const draggableElement = document.getElementById(id);
-                    
-                    if(zone.children.length > 0) {
+                    if (zone.children.length > 0) {
                         wordsColumn.appendChild(zone.firstElementChild);
                     }
                     if (draggableElement) {
@@ -664,42 +724,10 @@
                 });
             });
         }
-        // Pasitikrinimo funkcija
-        function checkAnswers() {
-            if (scores[currentCardIndex] !== null) return;
 
-            let correctCount = 0;
-            const dropZones = document.querySelectorAll('.drop-zone');
-            dropZones.forEach(zone => {
-                zone.classList.remove('correct', 'incorrect');
-                const droppedWord = zone.querySelector('.draggable-word');
-                if(droppedWord) {
-                    const caseIndex = zone.dataset.caseIndex;
-                    const correctForm = cardsData[currentCardIndex].forms[caseIndex];
-                    if (droppedWord.textContent === correctForm) {
-                        zone.classList.add('correct');
-                        correctCount++;
-                    } else {
-                        zone.classList.add('incorrect');
-                    }
-                } else {
-                    zone.classList.add('incorrect');
-                }
-            });
-            scores[currentCardIndex] = correctCount;
-            isChecked = true;
-            
-            // Pakeisti mygtuką į "Toliau"
-            if (currentCardIndex === cardsData.length - 1) {
-                actionBtn.textContent = '🏁 Rezultatai';
-            } else {
-                actionBtn.textContent = '➡️ Toliau';
-            }
-        }
-        
         function clearFeedback() {
-             const dropZones = document.querySelectorAll('.drop-zone');
-             dropZones.forEach(zone => zone.classList.remove('correct', 'incorrect'));
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => zone.classList.remove('correct', 'incorrect', 'input-correct', 'input-incorrect'));
         }
 
         function resetCard() {
@@ -710,7 +738,52 @@
         function updateNavButtons() {
             prevBtn.disabled = currentCardIndex === 0;
         }
-        
+
+        function checkAnswers() {
+            if (scores[currentCardIndex] !== null) return;
+
+            const card = cardsData[currentCardIndex];
+            const missingIndex = card.missingCaseIndex;
+
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            dropZones.forEach(zone => {
+                const caseIndex = parseInt(zone.dataset.caseIndex, 10);
+                const correctForm = card.forms[caseIndex];
+
+                zone.classList.remove('correct', 'incorrect', 'input-correct', 'input-incorrect');
+
+                if (caseIndex === missingIndex) {
+                    const input = zone.querySelector('.missing-input');
+                    const value = (input.value || '').trim();
+                    if (value.toLowerCase() === correctForm.toLowerCase()) {
+                        zone.classList.add('input-correct');
+                        correctCount++;
+                    } else {
+                        zone.classList.add('input-incorrect');
+                    }
+                } else {
+                    const droppedWord = zone.querySelector('.draggable-word');
+                    if (droppedWord && droppedWord.textContent === correctForm) {
+                        zone.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                }
+            });
+
+            scores[currentCardIndex] = correctCount;
+            isChecked = true;
+
+            if (currentCardIndex === cardsData.length - 1) {
+                actionBtn.textContent = '🏁 Rezultatai';
+            } else {
+                actionBtn.textContent = '➡️ Toliau';
+            }
+        }
+
         function goToNextCard() {
             if (currentCardIndex < cardsData.length - 1) {
                 currentCardIndex++;
@@ -728,31 +801,31 @@
 
             resultsList.innerHTML = '';
             let totalCorrect = 0;
-            const totalWords = cardsData.length * 7;
+            const totalPerCard = cases.length; // 7
+            const totalWords = cardsData.length * totalPerCard;
 
             cardsData.forEach((card, index) => {
                 const score = scores[index] === null ? 0 : scores[index];
                 totalCorrect += score;
-                const percentage = (score / 7 * 100).toFixed(0);
+                const percentage = (score / totalPerCard * 100).toFixed(0);
                 const listItem = document.createElement('li');
-                listItem.textContent = `"${card.word}": Teisinga ${score}/7 - ${percentage}%`;
+                listItem.textContent = `"${card.word}": teisinga ${score}/${totalPerCard} – ${percentage}%`;
                 resultsList.appendChild(listItem);
             });
 
             const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
-            totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} - ${totalPercentage}%`;
-            
-            // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('L0004 Linksniavimas: Daiktavardžiai | nutemk prie tinkamo linksnio, įrašyk trūkstamą  (I)', totalPercentage);
+            totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} – ${totalPercentage}%`;
+
+            sendResultToSheet('L0004 Linksniavimas: Daiktavardžiai | nutemk ir įrašyk trūkstamą (I)', totalPercentage);
         }
-        
+
         function restartGame() {
             scores.fill(null);
             currentCardIndex = 0;
             resultsContainer.style.display = 'none';
             document.getElementById('card').style.display = 'flex';
             document.getElementById('controls').style.display = 'flex';
-            document.getElementById('card-header').style.display = 'block';
+            document.getElementById('card-header').style.display = 'flex';
             createCard(currentCardIndex);
         }
 
@@ -766,10 +839,8 @@
 
         actionBtn.addEventListener('click', () => {
             if (!isChecked) {
-                // Pirmas paspaudimas - tikrinti
                 checkAnswers();
             } else {
-                // Antras paspaudimas - toliau
                 goToNextCard();
             }
         });
