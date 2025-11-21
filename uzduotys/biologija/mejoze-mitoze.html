@@ -11,19 +11,20 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6; /* gray-100 */
         }
+        /* Didesnis plotis ir šriftai */
         .container-wrapper {
-            max-width: 650px;
+            max-width: 960px;           /* buvo 650px */
             margin: 20px auto;
-            padding: 20px;
+            padding: 24px;
         }
         .card {
             background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            border: 3px solid #60a5fa; /* blue-400 */
-            min-height: 400px;
-            display: none; /* Viskas paslėpta, rodoma per JS */
+            border-radius: 16px;        /* šiek tiek labiau „kortelė“ */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            padding: 32px;
+            border: 3px solid #60a5fa;  /* blue-400 */
+            min-height: 420px;
+            display: none;
             flex-direction: column;
             justify-content: space-between;
         }
@@ -31,80 +32,87 @@
             display: flex;
         }
         .question-box {
-            background-color: #dbeafe; /* blue-100 */
-            padding: 20px;
-            border-radius: 8px;
-            font-size: 1.4rem;
+            background-color: #dbeafe;
+            padding: 24px;
+            border-radius: 10px;
+            font-size: 1.6rem;          /* buvo 1.4rem */
             font-weight: 600;
             text-align: center;
-            color: #1e40af; /* blue-700 */
-            min-height: 80px;
+            color: #1e40af;
+            min-height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
-        
-        /* 1. SKIRTINGOS SPALVOS PASIRINKIMO MYGTUKAMS */
+
+        /* Mygtukai: oranžinis ir žalias, vienoje juostoje */
+        .options-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
         .option-btn {
             color: white;
             font-weight: 700;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 14px 32px;
+            border-radius: 9999px;      /* „tabletės“ formos */
             transition: background-color 0.2s, transform 0.1s, border 0.2s;
             cursor: pointer;
-            margin: 10px 0;
             font-size: 1.2rem;
             text-align: center;
+            min-width: 150px;
         }
         .btn-mejoze {
-            background-color: #6366f1; /* Indigo-500 */
+            background-color: #f97316;  /* oranžinė */
         }
         .btn-mejoze:hover:not(.disabled) {
-            background-color: #4f46e5; /* Indigo-600 */
+            background-color: #ea580c;
             transform: translateY(-2px);
         }
         .btn-mitoze {
-            background-color: #3b82f6; /* Blue-500 */
+            background-color: #22c55e;  /* žalia */
         }
         .btn-mitoze:hover:not(.disabled) {
-            background-color: #2563eb; /* Blue-600 */
+            background-color: #16a34a;
             transform: translateY(-2px);
         }
         .option-btn.correct {
-            background-color: #10b981; /* Žalia */
+            background-color: #16a34a;  /* teisingas – žalia */
         }
         .option-btn.incorrect {
-            background-color: #ef4444; /* Raudona */
+            background-color: #ef4444;  /* neteisingas – raudona */
         }
         .option-btn.selected-border {
-             border: 3px solid #f59e0b; /* Geltona / Oranžinė */
+            border: 3px solid #facc15;  /* geltonas rėmelis */
         }
-
         .disabled {
             pointer-events: none;
-            opacity: 0.8;
+            opacity: 0.85;
         }
-        
-        /* Viršutinis informacijos blokas */
+
         .header-row {
             display: flex;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 16px;
+            margin-bottom: 18px;
+            align-items: center;
+            flex-wrap: wrap;
         }
         .back-btn {
             display: inline-flex;
             align-items: center;
-            background-color: #93c5fd; /* blue-300 */
-            color: #1e3a8a; /* blue-800 */
+            background-color: #93c5fd;
+            color: #1e3a8a;
             font-weight: 600;
             padding: 12px 24px;
             border-radius: 8px;
             transition: background-color 0.2s;
             text-decoration: none;
+            white-space: nowrap;
         }
         .back-btn:hover {
-            background-color: #60a5fa; /* blue-400 */
+            background-color: #60a5fa;
         }
         .student-info {
             background-color: #ffffff;
@@ -114,54 +122,75 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #d1d5db; /* gray-300 */
+            border: 1px solid #d1d5db;
+            font-size: 1.05rem;         /* truputį didesnis */
         }
         .change-name-btn {
-            background-color: #60a5fa; /* blue-400 */
+            background-color: #60a5fa;
             color: white;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             transition: background-color 0.2s;
         }
         .change-name-btn:hover {
-            background-color: #3b82f6; /* blue-500 */
+            background-color: #3b82f6;
         }
-        
-        /* Lentelės stiliai (Atmintiė) */
+
         .memo-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 1.05rem;          /* didesnis tekstas lentelėje */
         }
         .memo-table th, .memo-table td {
-            border: 1px solid #e5e7eb; /* gray-200 */
-            padding: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 12px;
             text-align: left;
-            font-size: 1rem;
         }
         .memo-table th {
-            background-color: #f3f4f6; /* gray-100 */
+            background-color: #f3f4f6;
             font-weight: 700;
-            color: #1f2937; /* gray-800 */
+            color: #1f2937;
         }
         .memo-table tr:nth-child(even) {
-            background-color: #f9fafb; /* gray-50 */
+            background-color: #f9fafb;
         }
         .task-description {
-            background-color: #e0f2f1; /* teal-100 */
-            padding: 15px 25px;
+            background-color: #e0f2f1;
+            padding: 18px 26px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 5px solid #14b8a6; /* teal-500 */
+            margin-bottom: 22px;
+            border-left: 5px solid #14b8a6;
+            font-size: 1.05rem;
         }
         .task-description ol {
             list-style: decimal;
             list-style-position: inside;
             padding-left: 0;
-            line-height: 1.6;
+            line-height: 1.7;
         }
         .task-description strong {
             font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .container-wrapper {
+                padding: 16px;
+            }
+            .card {
+                padding: 20px;
+            }
+            .question-box {
+                font-size: 1.3rem;
+                padding: 18px;
+            }
+            .options-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .option-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -177,21 +206,22 @@
         </div>
     </div>
     
-    <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
+    <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-8">
         Mejozė ar Mitozė?
     </h1>
 
+    <!-- Atmintinė -->
     <div class="card active" id="memo-card">
         <div class="flex flex-col h-full">
-             <h2 class="text-2xl font-bold text-center text-blue-700 mb-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-blue-700 mb-4">
                 📚 Atmintinė: Mejozė ir Mitozė
             </h2>
             <div class="task-description">
-                <h3 class="font-extrabold text-lg text-teal-700 mb-2">UŽDUOTIS: Susipažink su informacija</h3>
+                <h3 class="font-extrabold text-xl text-teal-700 mb-2">UŽDUOTIS: Susipažink su informacija</h3>
                 <ol>
                     <li><strong>Peržiūrėk</strong> palyginimo lentelę.</li>
                     <li><strong>Įsimink</strong> Mitozės ir Mejozės savybių skirtumus.</li>
-                    <li>Paspausk "Pradėti testą".</li>
+                    <li>Paspausk „Pradėti testą“.</li>
                 </ol>
             </div>
             
@@ -214,25 +244,26 @@
                 </table>
             </div>
             
-            <button id="start-test-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors mt-auto">
+            <button id="start-test-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-lg text-xl transition-colors mt-auto self-center">
                 Pradėti testą
             </button>
         </div>
     </div>
 
+    <!-- Testas -->
     <div class="card" id="test-card">
         
         <div class="task-description">
-            <h3 class="font-extrabold text-lg text-teal-700 mb-2">UŽDUOTIS: Priskirk savybę</h3>
+            <h3 class="font-extrabold text-xl text-teal-700 mb-2">UŽDUOTIS: Priskirk savybę</h3>
             <ol>
                 <li><strong>Perskaityk</strong> pateiktą savybę.</li>
                 <li><strong>Priskirk</strong> ją Mitozei arba Mejozei.</li>
-                <li>Paspausk "Patikrinti".</li>
+                <li>Paspausk „Patikrinti“.</li>
             </ol>
         </div>
         
         <div class="mb-6">
-            <p class="text-lg font-semibold text-gray-500 mb-2 text-center" id="question-count">
+            <p class="text-xl font-semibold text-gray-500 mb-3 text-center" id="question-count">
                 Klausimas 0 iš 12
             </p>
             <div class="question-box" id="question-text">
@@ -240,29 +271,29 @@
             </div>
         </div>
 
-        <div class="flex flex-col space-y-4" id="options-container">
+        <div class="options-row" id="options-container">
             <button class="option-btn btn-mejoze" data-type="Mejoze">Mejozė</button>
             <button class="option-btn btn-mitoze" data-type="Mitoze">Mitozė</button>
         </div>
 
-        <div class="mt-8 text-center">
-            <div id="feedback-message" class="text-xl font-bold min-h-[30px] mb-4"></div>
-            <button id="action-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors">
+        <div class="mt-10 text-center">
+            <div id="feedback-message" class="text-2xl font-bold min-h-[32px] mb-4"></div>
+            <button id="action-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg text-xl transition-colors">
                 Patikrinti
             </button>
         </div>
     </div>
 
+    <!-- Rezultatai -->
     <div class="card hidden mt-6" id="results-card">
-        <h2 class="text-2xl font-bold text-center text-blue-700 mb-4">
+        <h2 class="text-3xl font-bold text-center text-blue-700 mb-4">
             🎉 Rezultatai
         </h2>
-        <p class="text-center text-xl font-semibold mb-6">
+        <p class="text-center text-2xl font-semibold mb-6">
             Teisingai atsakyta: <span id="final-score" class="text-green-600"></span>
         </p>
-        <div id="result-details" class="space-y-3 max-h-60 overflow-y-auto p-2 border rounded-md">
-            </div>
-        <button onclick="location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg mt-6">
+        <div id="result-details" class="space-y-3 max-h-60 overflow-y-auto p-2 border rounded-md"></div>
+        <button onclick="location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg mt-6 self-center">
             Pradėti iš naujo
         </button>
     </div>
@@ -270,7 +301,6 @@
 </div>
 
 <script>
-    // GOOGLE SHEETS URL IR DUOMENYS
     const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
     const TASK_ID = 'B0001 Mejozė vs Mitozė | Klasifikacija';
 
@@ -289,8 +319,7 @@
         { savybe: "Vyksta įvairaus amžiaus organizmuose.", tipas: "Mitoze" }
     ];
     const totalQuestions = DATA.length;
-    
-    // ELEMENTAI
+
     const memoCard = document.getElementById('memo-card');
     const testCard = document.getElementById('test-card');
     const resultsCard = document.getElementById('results-card');
@@ -302,17 +331,14 @@
     const finalScoreEl = document.getElementById('final-score');
     const resultDetailsEl = document.getElementById('result-details');
     const studentNameDisplay = document.getElementById('studentNameDisplay');
-    
-    // BŪSENA
-    let currentQuestions = []; 
+
+    let currentQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
     let isAnswerChecked = false;
     let selectedAnswer = null;
     let userAnswersLog = [];
 
-    // PAGALBINĖS FUNKCIJOS
-    
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -325,37 +351,23 @@
         const studentName = localStorage.getItem('studentName') || 'Nežinomas';
         const timestamp = new Date().toLocaleString('lt-LT');
         
-        const data = {
-            name: studentName,
-            task: taskName,
-            score: score,
-            timestamp: timestamp
-        };
+        const data = { name: studentName, task: taskName, score: score, timestamp: timestamp };
         
         fetch(SHEET_URL, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
-        })
-        .then(() => {
-            console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
-        })
-        .catch(error => {
-            console.error('Klaida siunčiant rezultatą:', error);
-        });
+        }).catch(() => {});
     }
-    
+
     function showNamePrompt() {
         let studentName = localStorage.getItem('studentName');
-        
         if (!studentName) {
             let name = prompt('Įveskite savo vardą:');
             if (name && name.trim() !== '') {
-                localStorage.setItem('studentName', name.trim());
                 studentName = name.trim();
+                localStorage.setItem('studentName', studentName);
             } else {
                 alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
                 return showNamePrompt();
@@ -370,24 +382,24 @@
         showNamePrompt();
         location.reload();
     }
+    window.changeName = changeName;
 
-    // TESTO LOGIKA
-    
     function initializeTest() {
         showNamePrompt();
+
         startTestBtn.addEventListener('click', () => {
             memoCard.classList.remove('active');
             testCard.classList.add('active');
-            currentQuestions = shuffleArray([...DATA]); 
+            currentQuestions = shuffleArray([...DATA]);
             currentQuestionIndex = 0;
             score = 0;
             userAnswersLog = [];
             showQuestion();
         });
-        
-        // Nustatome pradines korteles būsenas
+
+        // pradinė būsena
         testCard.classList.remove('active');
-        memoCard.classList.add('active'); 
+        memoCard.classList.add('active');
     }
 
     function showQuestion() {
@@ -397,7 +409,7 @@
         }
 
         const question = currentQuestions[currentQuestionIndex];
-        
+
         questionCountEl.textContent = `Klausimas ${currentQuestionIndex + 1} iš ${totalQuestions}`;
         questionTextEl.textContent = question.savybe;
         feedbackMessageEl.textContent = '';
@@ -415,13 +427,13 @@
 
     function handleOptionClick(event) {
         if (isAnswerChecked) return;
-        
+
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.classList.remove('selected-border');
         });
 
-        event.target.classList.add('selected-border');
-        selectedAnswer = event.target.dataset.type;
+        event.currentTarget.classList.add('selected-border');
+        selectedAnswer = event.currentTarget.dataset.type;
     }
 
     function checkAnswer() {
@@ -494,17 +506,14 @@
         });
 
         resultDetailsEl.innerHTML = detailsHTML;
-        
+
         sendResultToSheet(TASK_ID, percentage);
-        
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
-    // Kad funkcija būtų pasiekiama iš HTML mygtuko
-    window.changeName = changeName;
 
-    // Pradinis paleidimas
+    // paleidimas
     initializeTest();
 </script>
 </body>
 </html>
+
