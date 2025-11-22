@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Irregular Verbs – Match the 3 Forms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background-color: #E8F4F8;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #93c5fd;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .back-btn:hover {
+            background-color: #7CB3E9;
+        }
+
+        .student-info {
+            background-color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .teacher-row {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .teacher-row input[type="email"] {
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid #93c5fd;
+            min-width: 220px;
+        }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 18px;
+            border: 3px solid #4A90E2;
+            margin-bottom: 18px;
+        }
+
+        .card.hidden {
+            display: none;
+        }
+
+        .card-title-main {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 1.6rem;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .instructions {
+            background-color: #F9FAFB;
+            border-radius: 12px;
+            border: 2px solid #E5E7EB;
+            padding: 12px 18px;
+            color: #1A4D7A;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        .instructions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 4px;
+        }
+
+        .verb-card {
+            background-color: #ffffff;
+            border-radius: 14px;
+            border: 2px solid #4A90E2;
+            box-shadow: 0 6px 16px rgba(26, 77, 122, 0.12);
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: #0D3B66;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .slots-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .slot-label {
+            font-size: 0.9rem;
+            color: #1F2937;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+
+        .slot {
+            min-height: 40px;
+            border-radius: 10px;
+            border: 2px dashed #93C5FD;
+            background-color: #EFF6FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            font-size: 1.1rem;
+            color: #1D4ED8;
+        }
+
+        .slot.correct {
+            border-color: #16A34A;
+            background-color: #DCFCE7;
+        }
+
+        .slot.incorrect {
+            border-color: #DC2626;
+            background-color: #FEE2E2;
+        }
+
+        .words-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .word-chip {
+            padding: 6px 14px;
+            border-radius: 999px;
+            background-color: #DBEAFE;
+            border: 2px solid #3B82F6;
+            color: #1D4ED8;
+            font-size: 1rem;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .word-chip.dragging {
+            opacity: 0.6;
+        }
+
+        .feedback {
+            text-align: center;
+            font-weight: 600;
+            margin-top: 4px;
+            min-height: 1.4em;
+        }
+
+        .button-row {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .action-btn {
+            font-size: 1.05rem;
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #34D399, #059669);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+        }
+
+        /* Results card */
+        .results-title {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 16px 0;
+            padding: 16px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+            color: #1A4D7A;
+        }
+
+        .score-percentage {
+            font-size: 2.3rem;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 700px) {
+            .slots-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <div class="header-container">
+        <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+
+        <div class="student-info">
+            <span style="font-size: 16px; color: #1A4D7A;">
+                Student: <strong id="studentNameDisplay"></strong>
+            </span>
+            <button class="change-name-btn" onclick="changeName()">Change name</button>
+        </div>
+    </div>
+
+    <div class="teacher-row">
+        <label style="display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="sendToTeacherCheckbox">
+            <span>Send results to the teacher</span>
+        </label>
+        <input type="email" id="teacherEmailInput"
+               placeholder="Teacher's email"
+               style="display:none;">
+    </div>
+
+    <!-- CARD 1: TASK -->
+    <div id="card-task" class="card">
+        <h2 class="card-title-main">Irregular Verbs – Match the 3 Forms</h2>
+
+        <div class="instructions">
+            <ul>
+                <li>Look at the three boxes: <strong>infinitive – past simple – past participle</strong>.</li>
+                <li>Drag the verb forms from the blue chips into the correct boxes.</li>
+                <li>Each form can be used only once in each card.</li>
+                <li>When you finish all cards, click <strong>Check answers</strong>.</li>
+            </ul>
+        </div>
+
+        <div id="cards-container"></div>
+
+        <div class="button-row">
+            <button id="check-btn" class="action-btn">Check answers</button>
+        </div>
+    </div>
+
+    <!-- CARD 2: RESULTS -->
+    <div id="card-results" class="card hidden">
+        <h2 class="results-title">🎉 Task results</h2>
+        <div class="score-display">
+            <div id="score-text"></div>
+            <div id="score-percentage" class="score-percentage"></div>
+        </div>
+
+        <div class="button-row">
+            <button id="restart-btn" class="action-btn">🔄 Try again</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- Name handling (same logic as other tasks) ---
+    function showNamePrompt() {
+        const studentName = localStorage.getItem('studentName');
+        if (!studentName) {
+            const name = prompt('Type your name:');
+            if (name && name.trim() !== '') {
+                localStorage.setItem('studentName', name.trim());
+                return name.trim();
+            } else {
+                alert('Please type your name before you start.');
+                return showNamePrompt();
+            }
+        }
+        return studentName;
+    }
+
+    function changeName() {
+        localStorage.removeItem('studentName');
+        const newName = showNamePrompt();
+        alert('Name changed to: ' + newName);
+        location.reload();
+    }
+
+    const studentName = showNamePrompt();
+    document.getElementById('studentNameDisplay').textContent = studentName;
+
+    // Teacher email UI
+    const sendToTeacherCheckbox = document.getElementById('sendToTeacherCheckbox');
+    const teacherEmailInput = document.getElementById('teacherEmailInput');
+
+    sendToTeacherCheckbox.addEventListener('change', () => {
+        if (sendToTeacherCheckbox.checked) {
+            teacherEmailInput.style.display = 'block';
+            teacherEmailInput.focus();
+        } else {
+            teacherEmailInput.style.display = 'none';
+            teacherEmailInput.value = '';
+        }
+    });
+
+    // --- Google Sheets + teacher email ---
+    function sendResultToSheet(taskName, score) {
+        const studentName = localStorage.getItem('studentName') || 'Unknown';
+        const timestamp = new Date().toLocaleString('lt-LT');
+        const teacherEmail = teacherEmailInput.value.trim();
+
+        const data = {
+            name: studentName,
+            task: taskName,
+            score: score,
+            timestamp: timestamp,
+            teacherEmail: teacherEmail,
+            sendToTeacher: !!teacherEmail
+        };
+
+        fetch('https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6API7i3IOOn9YlWH/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(console.error);
+    }
+
+    // --- Task logic ---
+
+    const verbs = [
+        { base: 'go',    past: 'went',   part: 'gone' },
+        { base: 'see',   past: 'saw',    part: 'seen' },
+        { base: 'take',  past: 'took',   part: 'taken' },
+        { base: 'write', past: 'wrote',  part: 'written' },
+        { base: 'speak', past: 'spoke',  part: 'spoken' }
+    ];
+
+    const cardsContainer = document.getElementById('cards-container');
+
+    function shuffle(array) {
+        return array
+            .map(value => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value);
+    }
+
+    function createCards() {
+        cardsContainer.innerHTML = '';
+        verbs.forEach((verb, index) => {
+            const card = document.createElement('div');
+            card.className = 'verb-card';
+            card.dataset.index = index;
+
+            card.innerHTML = `
+                <div class="card-title">Card ${index + 1}</div>
+                <div class="slots-row">
+                    <div>
+                        <div class="slot-label">Infinitive</div>
+                        <div class="slot" data-slot="base" data-card="${index}"></div>
+                    </div>
+                    <div>
+                        <div class="slot-label">Past Simple</div>
+                        <div class="slot" data-slot="past" data-card="${index}"></div>
+                    </div>
+                    <div>
+                        <div class="slot-label">Past Participle</div>
+                        <div class="slot" data-slot="part" data-card="${index}"></div>
+                    </div>
+                </div>
+                <div class="words-row" data-card="${index}"></div>
+                <div class="feedback" id="feedback-${index}"></div>
+            `;
+
+            cardsContainer.appendChild(card);
+
+            const wordsRow = card.querySelector('.words-row');
+            const forms = [
+                { type: 'base', text: verb.base },
+                { type: 'past', text: verb.past },
+                { type: 'part', text: verb.part }
+            ];
+            shuffle(forms).forEach(form => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.textContent = form.text;
+                chip.draggable = true;
+                chip.dataset.type = form.type;
+                chip.dataset.card = index;
+                wordsRow.appendChild(chip);
+            });
+        });
+    }
+
+    createCards();
+
+    // Drag & drop
+    let draggedChip = null;
+
+    document.addEventListener('dragstart', (e) => {
+        const target = e.target;
+        if (target.classList.contains('word-chip')) {
+            draggedChip = target;
+            target.classList.add('dragging');
+        }
+    });
+
+    document.addEventListener('dragend', (e) => {
+        const target = e.target;
+        if (target.classList.contains('word-chip')) {
+            target.classList.remove('dragging');
+        }
+        draggedChip = null;
+    });
+
+    document.addEventListener('dragover', (e) => {
+        if (draggedChip) e.preventDefault();
+    });
+
+    document.addEventListener('drop', (e) => {
+        if (!draggedChip) return;
+
+        const slot = e.target.closest('.slot');
+        const wordsRow = e.target.closest('.words-row');
+
+        // Drop onto slot
+        if (slot && slot.dataset.card === draggedChip.dataset.card) {
+            e.preventDefault();
+
+            const existingChip = slot.querySelector('.word-chip');
+            if (existingChip) {
+                const row = slot.closest('.verb-card').querySelector('.words-row');
+                row.appendChild(existingChip);
+            }
+
+            slot.innerHTML = '';
+            slot.appendChild(draggedChip);
+            slot.classList.remove('correct', 'incorrect');
+            const feedback = slot.closest('.verb-card').querySelector('.feedback');
+            feedback.textContent = '';
+        }
+
+        // Drop back to words row
+        if (wordsRow && wordsRow.dataset.card === draggedChip.dataset.card) {
+            e.preventDefault();
+            wordsRow.appendChild(draggedChip);
+            const card = wordsRow.closest('.verb-card');
+            card.querySelectorAll('.slot').forEach(s => {
+                if (s.contains(draggedChip)) {
+                    s.innerHTML = '';
+                    s.classList.remove('correct', 'incorrect');
+                }
+            });
+            const feedback = card.querySelector('.feedback');
+            feedback.textContent = '';
+        }
+    });
+
+    const checkBtn = document.getElementById('check-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const cardTask = document.getElementById('card-task');
+    const cardResults = document.getElementById('card-results');
+    const scoreText = document.getElementById('score-text');
+    const scorePercentage = document.getElementById('score-percentage');
+
+    checkBtn.addEventListener('click', () => {
+        let totalCorrect = 0;
+        const totalForms = verbs.length * 3; // 5 * 3 = 15
+
+        verbs.forEach((verb, index) => {
+            const card = document.querySelector(`.verb-card[data-index="${index}"]`);
+            const slots = card.querySelectorAll('.slot');
+            let correctCount = 0;
+
+            slots.forEach(slot => {
+                const type = slot.dataset.slot; // base / past / part
+                const chip = slot.querySelector('.word-chip');
+                if (!chip) {
+                    slot.classList.remove('correct', 'incorrect');
+                    return;
+                }
+
+                const isCorrect =
+                    (type === 'base' && chip.textContent === verb.base) ||
+                    (type === 'past' && chip.textContent === verb.past) ||
+                    (type === 'part' && chip.textContent === verb.part);
+
+                if (isCorrect) {
+                    slot.classList.add('correct');
+                    slot.classList.remove('incorrect');
+                    correctCount++;
+                    totalCorrect++;
+                } else {
+                    slot.classList.add('incorrect');
+                    slot.classList.remove('correct');
+                }
+            });
+
+            const feedback = document.getElementById(`feedback-${index}`);
+            if (correctCount === 3) {
+                feedback.textContent = 'Great! All three forms are correct.';
+                feedback.style.color = '#16A34A';
+            } else {
+                feedback.textContent = `You have ${correctCount} / 3 correct in this card.`;
+                feedback.style.color = '#DC2626';
+            }
+        });
+
+        const percentage = Math.round((totalCorrect / totalForms) * 100);
+
+        // Show results card
+        scoreText.textContent = `Correct forms: ${totalCorrect} out of ${totalForms}`;
+        scorePercentage.textContent = percentage + '%';
+        scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
+
+        cardTask.classList.add('hidden');
+        cardResults.classList.remove('hidden');
+
+        // Send to Google Sheets + teacher
+        sendResultToSheet('EN05 Irregular Verbs – 3 Forms', percentage);
+    });
+
+    restartBtn.addEventListener('click', () => {
+        // Reset UI
+        cardResults.classList.add('hidden');
+        cardTask.classList.remove('hidden');
+
+        // Recreate cards (fresh shuffle, no colours)
+        createCards();
+    });
+</script>
+</body>
+</html>
