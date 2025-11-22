@@ -108,7 +108,7 @@
         .card-title-main {
             text-align: center;
             color: #0D3B66;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             margin-top: 0;
             margin-bottom: 12px;
         }
@@ -119,7 +119,7 @@
             border: 2px solid #E5E7EB;
             padding: 12px 18px;
             color: #1A4D7A;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 16px;
         }
 
@@ -130,6 +130,17 @@
 
         .instructions li {
             margin-bottom: 4px;
+        }
+
+        .drag-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 4px;
+            vertical-align: middle;
+            background-image: url('PATH/TO/drag-icon.svg'); /* <-- čia įrašyk savo ikonėlės kelią */
+            background-size: contain;
+            background-repeat: no-repeat;
         }
 
         .verb-card {
@@ -156,10 +167,10 @@
         }
 
         .slot-label {
-            font-size: 0.9rem;
+            font-size: 1.05rem;
             color: #0D3B66;      /* tamsiai mėlyna */
             text-align: center;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             font-weight: 700;    /* paryškinta */
         }
 
@@ -195,14 +206,15 @@
         }
 
         .word-chip {
-            padding: 6px 14px;
+            padding: 6px 18px;
             border-radius: 999px;
             background-color: #DBEAFE;
             border: 2px solid #3B82F6;
             color: #1D4ED8;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: grab;
             user-select: none;
+            position: relative;
         }
 
         .word-chip.dragging {
@@ -302,7 +314,10 @@
 
         <div class="instructions">
             <ul>
-                <li><strong>Drag</strong> the verb forms from the blue chips into the correct boxes.</li>
+                <li>
+                    <span class="drag-icon"></span>
+                    <strong>Drag</strong> the verb forms from the blue chips into the correct boxes.
+                </li>
             </ul>
         </div>
 
@@ -329,7 +344,7 @@
 </div>
 
 <script>
-    // --- Name handling (same logic as other tasks) ---
+    // --- Name handling ---
     function showNamePrompt() {
         const studentName = localStorage.getItem('studentName');
         if (!studentName) {
@@ -371,7 +386,7 @@
 
     // --- Google Sheets + teacher email ---
     function sendResultToSheet(taskName, score) {
-        const studentName = localStorage.getItem('studentName') || 'Unknown';
+        const studentName = localStorage.getItem('studentName') || 'Nežinomas';
         const timestamp = new Date().toLocaleString('lt-LT');
         const teacherEmail = teacherEmailInput.value.trim();
 
@@ -384,7 +399,7 @@
             sendToTeacher: !!teacherEmail
         };
 
-        fetch('https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6API7i3IOOn9YlWH/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6APl7i3lOOn9YlWH/exec', {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
@@ -567,7 +582,7 @@
                 feedback.textContent = 'Great! All three forms are correct.';
                 feedback.style.color = '#16A34A';
             } else {
-                feedback.textContent = `You have ${correctCount} / 3 correct in this card.`;
+                feedback.textContent = 'You have ' + correctCount + ' / 3 correct in this card.';
                 feedback.style.color = '#DC2626';
             }
         });
@@ -575,7 +590,7 @@
         const percentage = Math.round((totalCorrect / totalForms) * 100);
 
         // Show results card
-        scoreText.textContent = `Correct forms: ${totalCorrect} out of ${totalForms}`;
+        scoreText.textContent = 'Correct forms: ' + totalCorrect + ' out of ' + totalForms;
         scorePercentage.textContent = percentage + '%';
         scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
 
@@ -597,3 +612,4 @@
 </script>
 </body>
 </html>
+
