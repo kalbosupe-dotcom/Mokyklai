@@ -700,69 +700,101 @@
         }
     });
 
-    const checkBtn = document.getElementById('check-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const cardTask = document.getElementById('card-task');
-    const cardResults = document.getElementById('card-results');
-    const scoreText = document.getElementById('score-text');
-    const scorePercentage = document.getElementById('score-percentage');
+const checkBtn = document.getElementById('check-btn');
+const restartBtn = document.getElementById('restart-btn');
+const cardTask = document.getElementById('card-task');
+const cardResults = document.getElementById('card-results');
+const scoreText = document.getElementById('score-text');
+const scorePercentage = document.getElementById('score-percentage');
 
-    checkBtn.addEventListener('click', () => {
-        let totalCorrect = 0;
-        const totalForms = verbs.length * 3; // 5 * 3 = 15
+let lastTotalCorrect = 0;
+let lastTotalForms = verbs.length * 3;
+let hasCheckedOnce = false;
 
-        verbs.forEach((verb, index) => {
-            const card = document.querySelector(`.verb-card[data-index="${index}"]`);
-            const slots = card.querySelectorAll('.slot');
-            let correctCount = 0;
+function checkAllCards() {
+    let totalCorrect = 0;
+    const totalForms = verbs.length * 3; // 5 * 3 = 15
 
-            slots.forEach(slot => {
-                const type = slot.dataset.slot; // base / past / part
-                const chip = slot.querySelector('.word-chip');
-                if (!chip) {
-                    slot.classList.remove('correct', 'incorrect');
-                    return;
-                }
+    verbs.forEach((verb, index) => {
+        const card = document.querySelector(`.verb-card[data-index="${index}"]`);
+        const slots = card.querySelectorAll('.slot');
+        let correctCount = 0;
 
-                const isCorrect =
-                    (type === 'base' && chip.textContent === verb.base) ||
-                    (type === 'past' && chip.textContent === verb.past) ||
-                    (type === 'part' && chip.textContent === verb.part);
+        slots.forEach(slot => {
+            const type = slot.dataset.slot; // base / past / part
+            const chip = slot.querySelector('.word-chip');
+            if (!chip) {
+                slot.classList.remove('correct', 'incorrect');
+                return;
+            }
 
-                if (isCorrect) {
-                    slot.classList.add('correct');
-                    slot.classList.remove('incorrect');
-                    correctCount++;
-                    totalCorrect++;
-                } else {
-                    slot.classList.add('incorrect');
-                    slot.classList.remove('correct');
-                }
-            });
+            const isCorrect =
+                (type === 'base' && chip.textContent === verb.base) ||
+                (type === 'past' && chip.textContent === verb.past) ||
+                (type === 'part' && chip.textContent === verb.part);
 
-            const feedback = document.getElementById(`feedback-${index}`);
-            if (correctCount === 3) {
-                feedback.textContent = 'Great! All three forms are correct.';
-                feedback.style.color = '#16A34A';
+            if (isCorrect) {
+                slot.classList.add('correct');
+                slot.classList.remove('incorrect');
+                correctCount++;
+                totalCorrect++;
             } else {
-                feedback.textContent = 'You have ' + correctCount + ' / 3 correct in this card.';
-                feedback.style.color = '#DC2626';
+                slot.classList.add('incorrect');
+                slot.classList.remove('correct');
             }
         });
 
-        const percentage = Math.round((totalCorrect / totalForms) * 100);
-
-        // Show results card
-        scoreText.textContent = 'Correct forms: ' + totalCorrect + ' out of ' + totalForms;
-        scorePercentage.textContent = percentage + '%';
-        scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
-
-        cardTask.classList.add('hidden');
-        cardResults.classList.remove('hidden');
-
-        // Send to Google Sheets + teacher
-        sendResultToSheet('EN0702 Irregular Verbs – 3 Forms (II)', percentage);
+        const feedback = document.getElementById(`feedback-${index}`);
+        if (correctCount === 3) {
+            feedback.textContent = 'Great! All three forms are correct.';
+            feedback.style.color = '#16A34A';
+        } else {
+            feedback.textContent = 'You have ' + correctCount + ' / 3 correct in this card.';
+            feedback.style.color = '#DC2626';
+        }
     });
+
+    lastTotalCorrect = totalCorrect;
+    lastTotalForms = totalForms;
+}
+
+function showResultsCard() {
+    const percentage = Math.round((lastTotalCorrect / lastTotalForms) * 100);
+
+    scoreText.textContent = 'Correct forms: ' + lastTotalCorrect + ' out of ' + lastTotalForms;
+    scorePercentage.textContent = percentage + '%';
+    scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
+
+    cardTask.classList.add('hidden');
+    cardResults.classList.remove('hidden');
+
+    // Send to Google Sheets + teacher
+    sendResultToSheet('EN05 Irregular Verbs – 3 Forms', percentage);
+}
+
+checkBtn.addEventListener('click', () => {
+    if (!hasCheckedOnce) {
+        // 1-asis paspaudimas: patikrinam, nuspalvinam, paliekam korteles matomas
+        checkAllCards();
+        hasCheckedOnce = true;
+        checkBtn.textContent = 'Finish task';
+    } else {
+        // 2-asis paspaudimas: rodome rezultatų kortelę
+        showResultsCard();
+    }
+});
+
+restartBtn.addEventListener('click', () => {
+    // Reset UI
+    cardResults.classList.add('hidden');
+    cardTask.classList.remove('hidden');
+
+    hasCheckedOnce = false;
+    checkBtn.textContent = 'Check answers';
+
+    // Recreate cards (fresh shuffle, no colours)
+    createCards();
+});
 
     restartBtn.addEventListener('click', () => {
         // Reset UI
