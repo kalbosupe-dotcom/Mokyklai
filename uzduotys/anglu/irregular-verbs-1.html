@@ -108,7 +108,7 @@
         .card-title-main {
             text-align: center;
             color: #0D3B66;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-top: 0;
             margin-bottom: 12px;
         }
@@ -119,7 +119,7 @@
             border: 2px solid #E5E7EB;
             padding: 12px 18px;
             color: #1A4D7A;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 16px;
         }
 
@@ -170,7 +170,7 @@
         }
 
         .slot-label {
-            font-size: 1.2rem;
+            font-size: 1.05rem;
             color: #0D3B66;
             text-align: center;
             margin-bottom: 4px;
@@ -178,13 +178,16 @@
         }
 
         .form-code {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             margin-right: 4px;
-            padding: 2px 6px;
+            width: 26px;
+            height: 26px;
             border-radius: 999px;
             background-color: #DBEAFE;
             color: #1D4ED8;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 700;
         }
 
@@ -220,12 +223,12 @@
         }
 
         .word-chip {
-            padding: 6px 18px;
+            padding: 8px 22px;
             border-radius: 999px;
             background-color: #DBEAFE;
             border: 2px solid #3B82F6;
             color: #1D4ED8;
-            font-size: 1.2rem;
+            font-size: 1.3rem; /* bigger font */
             cursor: grab;
             user-select: none;
             position: relative;
@@ -288,6 +291,16 @@
             margin: 4px 0 10px 0;
         }
 
+        .cheatsheet-examples {
+            margin: 4px 0 10px 24px;
+            padding-left: 0;
+            list-style-type: disc;
+        }
+
+        .cheatsheet-examples li {
+            margin-bottom: 2px;
+        }
+
         .cheatsheet-table {
             width: 100%;
             border-collapse: collapse;
@@ -305,6 +318,14 @@
             background-color: #DBEAFE;
             color: #1D4ED8;
             font-weight: 700;
+        }
+
+        .row-regular {
+            background-color: #E0F2FE; /* light blue */
+        }
+
+        .row-irregular {
+            background-color: #FCE7F3; /* light pink */
         }
 
         /* Results card */
@@ -386,10 +407,29 @@
             <div class="cheatsheet-header">
                 👀 <strong>Reminder: the three verb forms (V1, V2, V3)</strong>
             </div>
+
             <p class="cheatsheet-text">
-                V1 is the base form (dictionary form), V2 is the simple past, and V3 is the past participle.
-                These forms are often used in grammar rules and exercises.
+                <span class="form-code">V1</span> is the base form (dictionary form). We use it for the infinitive and for the present simple.
             </p>
+            <ul class="cheatsheet-examples">
+                <li><span class="form-code">V1</span> to <strong>go</strong> to school. (infinitive)</li>
+                <li><span class="form-code">V1</span> I <strong>go</strong> to school every day. (present simple)</li>
+            </ul>
+
+            <p class="cheatsheet-text">
+                <span class="form-code">V2</span> is the simple past form. We use it for actions that finished in the past.
+            </p>
+            <ul class="cheatsheet-examples">
+                <li><span class="form-code">V2</span> I <strong>went</strong> to school yesterday. (simple past)</li>
+            </ul>
+
+            <p class="cheatsheet-text">
+                <span class="form-code">V3</span> is the past participle. We use it in perfect tenses and in the passive voice.
+            </p>
+            <ul class="cheatsheet-examples">
+                <li><span class="form-code">V3</span> I have <strong>gone</strong> to school already. (present perfect)</li>
+                <li><span class="form-code">V3</span> I had <strong>gone</strong> to school before it started to rain. (past perfect)</li>
+            </ul>
 
             <table class="cheatsheet-table">
                 <thead>
@@ -401,37 +441,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr class="row-regular">
                         <td>walk</td>
                         <td>walked</td>
                         <td>walked</td>
                         <td>Regular</td>
                     </tr>
-                    <tr>
+                    <tr class="row-regular">
                         <td>play</td>
                         <td>played</td>
                         <td>played</td>
                         <td>Regular</td>
                     </tr>
-                    <tr>
+                    <tr class="row-irregular">
                         <td>go</td>
                         <td>went</td>
                         <td>gone</td>
                         <td>Irregular</td>
                     </tr>
-                    <tr>
+                    <tr class="row-irregular">
                         <td>see</td>
                         <td>saw</td>
                         <td>seen</td>
                         <td>Irregular</td>
                     </tr>
-                    <tr>
+                    <tr class="row-irregular">
                         <td>eat</td>
                         <td>ate</td>
                         <td>eaten</td>
                         <td>Irregular</td>
                     </tr>
-                    <tr>
+                    <tr class="row-irregular">
                         <td>put</td>
                         <td>put</td>
                         <td>put</td>
@@ -730,3 +770,5 @@
 </script>
 </body>
 </html>
+
+           
