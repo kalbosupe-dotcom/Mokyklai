@@ -133,14 +133,17 @@
         }
 
         .drag-icon {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            margin-right: 4px;
-            vertical-align: middle;
-            background-image: url('PATH/TO/drag-icon.svg'); /* <-- čia įrašyk savo ikonėlės kelią */
-            background-size: contain;
-            background-repeat: no-repeat;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-right: 6px;
+            border-radius: 999px;
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+            font-size: 16px;
+            font-weight: 700;
         }
 
         .verb-card {
@@ -168,10 +171,21 @@
 
         .slot-label {
             font-size: 1.05rem;
-            color: #0D3B66;      /* tamsiai mėlyna */
+            color: #0D3B66;
             text-align: center;
             margin-bottom: 4px;
-            font-weight: 700;    /* paryškinta */
+            font-weight: 700;
+        }
+
+        .form-code {
+            display: inline-block;
+            margin-right: 4px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+            font-size: 0.9rem;
+            font-weight: 700;
         }
 
         .slot {
@@ -252,6 +266,47 @@
             box-shadow: 0 6px 14px rgba(0,0,0,0.18);
         }
 
+        /* Reminder / cheatsheet */
+        .cheatsheet {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 2px solid #BFDBFE;
+            background-color: #EFF6FF;
+            color: #1A4D7A;
+            font-size: 0.95rem;
+        }
+
+        .cheatsheet-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .cheatsheet-text {
+            margin: 4px 0 10px 0;
+        }
+
+        .cheatsheet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .cheatsheet-table th,
+        .cheatsheet-table td {
+            border: 1px solid #BFDBFE;
+            padding: 6px 8px;
+            text-align: center;
+        }
+
+        .cheatsheet-table th {
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+            font-weight: 700;
+        }
+
         /* Results card */
         .results-title {
             text-align: center;
@@ -315,13 +370,76 @@
         <div class="instructions">
             <ul>
                 <li>
-                    <span class="drag-icon"></span>
+                    <span class="drag-icon">✋</span>
                     <strong>Drag</strong> the verb forms from the blue chips into the correct boxes.
+                </li>
+                <li>
+                    👀 Look at the reminder below the cards if you need help with the verb forms (V1, V2, V3).
                 </li>
             </ul>
         </div>
 
         <div id="cards-container"></div>
+
+        <!-- Reminder / cheatsheet -->
+        <div id="forms-cheatsheet" class="cheatsheet">
+            <div class="cheatsheet-header">
+                👀 <strong>Reminder: the three verb forms (V1, V2, V3)</strong>
+            </div>
+            <p class="cheatsheet-text">
+                V1 is the base form (dictionary form), V2 is the simple past, and V3 is the past participle.
+                These forms are often used in grammar rules and exercises.
+            </p>
+
+            <table class="cheatsheet-table">
+                <thead>
+                    <tr>
+                        <th>V1 (Base Form)</th>
+                        <th>V2 (Simple Past)</th>
+                        <th>V3 (Past Participle)</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>walk</td>
+                        <td>walked</td>
+                        <td>walked</td>
+                        <td>Regular</td>
+                    </tr>
+                    <tr>
+                        <td>play</td>
+                        <td>played</td>
+                        <td>played</td>
+                        <td>Regular</td>
+                    </tr>
+                    <tr>
+                        <td>go</td>
+                        <td>went</td>
+                        <td>gone</td>
+                        <td>Irregular</td>
+                    </tr>
+                    <tr>
+                        <td>see</td>
+                        <td>saw</td>
+                        <td>seen</td>
+                        <td>Irregular</td>
+                    </tr>
+                    <tr>
+                        <td>eat</td>
+                        <td>ate</td>
+                        <td>eaten</td>
+                        <td>Irregular</td>
+                    </tr>
+                    <tr>
+                        <td>put</td>
+                        <td>put</td>
+                        <td>put</td>
+                        <td>Irregular (no change)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="button-row">
             <button id="check-btn" class="action-btn">Check answers</button>
@@ -437,15 +555,15 @@
                 <div class="card-title">Card ${index + 1}</div>
                 <div class="slots-row">
                     <div>
-                        <div class="slot-label">Infinitive</div>
+                        <div class="slot-label"><span class="form-code">V1</span> Infinitive</div>
                         <div class="slot" data-slot="base" data-card="${index}"></div>
                     </div>
                     <div>
-                        <div class="slot-label">Past Simple</div>
+                        <div class="slot-label"><span class="form-code">V2</span> Past Simple</div>
                         <div class="slot" data-slot="past" data-card="${index}"></div>
                     </div>
                     <div>
-                        <div class="slot-label">Past Participle</div>
+                        <div class="slot-label"><span class="form-code">V3</span> Past Participle</div>
                         <div class="slot" data-slot="part" data-card="${index}"></div>
                     </div>
                 </div>
@@ -612,4 +730,3 @@
 </script>
 </body>
 </html>
-
