@@ -701,24 +701,17 @@
     });
 
 const checkBtn = document.getElementById('check-btn');
-const restartBtn = document.getElementById('restart-btn');
-const cardTask = document.getElementById('card-task');
-const cardResults = document.getElementById('card-results');
-const scoreText = document.getElementById('score-text');
-const scorePercentage = document.getElementById('score-percentage');
+const overallScoreEl = document.getElementById('overall-score');
 
-let lastTotalCorrect = 0;
-let lastTotalForms = verbs.length * 3;
 let hasCheckedOnce = false;
 
 function checkAllCards() {
     let totalCorrect = 0;
-    const totalForms = verbs.length * 3; // 5 * 3 = 15
+    const totalForms = verbs.length * 3; // jei 10 žodžių – 30 formų
 
     verbs.forEach((verb, index) => {
         const card = document.querySelector(`.verb-card[data-index="${index}"]`);
         const slots = card.querySelectorAll('.slot');
-        let correctCount = 0;
 
         slots.forEach(slot => {
             const type = slot.dataset.slot; // base / past / part
@@ -736,7 +729,6 @@ function checkAllCards() {
             if (isCorrect) {
                 slot.classList.add('correct');
                 slot.classList.remove('incorrect');
-                correctCount++;
                 totalCorrect++;
             } else {
                 slot.classList.add('incorrect');
@@ -744,33 +736,29 @@ function checkAllCards() {
             }
         });
 
+        // išvalom bet kokį seną tekstą, jei buvo
         const feedback = document.getElementById(`feedback-${index}`);
-        if (correctCount === 3) {
-            feedback.textContent = 'Great! All three forms are correct.';
-            feedback.style.color = '#16A34A';
-        } else {
-            feedback.textContent = 'You have ' + correctCount + ' / 3 correct in this card.';
-            feedback.style.color = '#DC2626';
+        if (feedback) {
+            feedback.textContent = '';
         }
     });
 
-    lastTotalCorrect = totalCorrect;
-    lastTotalForms = totalForms;
+    const percentage = Math.round((totalCorrect / totalForms) * 100);
+
+    overallScoreEl.textContent =
+        'You have ' + totalCorrect + ' / ' + totalForms + ' correct – ' + percentage + '%';
+    overallScoreEl.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
+
+    // Siunčiam į Google Sheets tik pirmą kartą
+    if (!hasCheckedOnce) {
+        sendResultToSheet('EN05 Irregular Verbs – 3 Forms', percentage);
+        hasCheckedOnce = true;
+    }
 }
 
-function showResultsCard() {
-    const percentage = Math.round((lastTotalCorrect / lastTotalForms) * 100);
-
-    scoreText.textContent = 'Correct forms: ' + lastTotalCorrect + ' out of ' + lastTotalForms;
-    scorePercentage.textContent = percentage + '%';
-    scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
-
-    cardTask.classList.add('hidden');
-    cardResults.classList.remove('hidden');
-
-    // Send to Google Sheets + teacher
-    sendResultToSheet('EN0701 Irregular Verbs – 3 Forms (I)', percentage);
-}
+checkBtn.addEventListener('click', () => {
+    checkAllCards();
+});
 
 checkBtn.addEventListener('click', () => {
     if (!hasCheckedOnce) {
