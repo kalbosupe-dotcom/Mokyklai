@@ -22,7 +22,7 @@
 
         .page-wrapper {
             width: 100%;
-            max-width: 850px; /* PAKEISTA */
+            max-width: 850px; /* Susiaurinta */
         }
 
         /* Viršutinė juosta: grįžti + vardas vienoje eilutėje */
@@ -133,19 +133,23 @@
             width: 24px;
         }
 
+        /* ======== PRADŽIA: PAKEISTAS CSS KODAS ======== */
         #card {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            /* Naujas stulpelis etiketėms, asmenų stulpelis, žodžių stulpelis */
+            grid-template-columns: auto 1.2fr 0.8fr; 
             gap: 20px;
             margin-top: 15px;
+            align-items: start; /* Sulygiuoja stulpelių viršų */
         }
 
         /* Kairė pusė su asmenimis ir drop zonos */
         #persons-column {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 20px; /* Tarpas tarp Vns ir Dgs grupių */
         }
+        /* ======== PABAIGA: PAKEISTAS CSS KODAS ======== */
 
         .person-row {
             display: grid;
@@ -196,11 +200,11 @@
             border: none;
             background: transparent;
             text-align: center;
-            font-size: 1.3rem; /* PAKEISTA */
+            font-size: 1.3rem; /* Pakeistas dydis */
             font-family: 'OpenDyslexic', Arial, sans-serif;
             outline: none;
-            color: #0D3B66; /* PAKEISTA */
-            font-weight: bold; /* PAKEISTA */
+            color: #0D3B66; /* Pakeista spalva */
+            font-weight: bold; /* Pridėtas paryškinimas */
         }
 
         .missing-input::placeholder {
@@ -337,24 +341,48 @@
             border-color: #27ae60 !important;
             background-color: #d4edda !important;
         }
-        
-        /* ======== PRADŽIA: NAUJAS CSS KODAS ======== */
-        /* Stilius "Vienaskaita" / "Daugiskaita" antraštėms */
-        .person-group-heading {
-            font-size: 1.6rem; /* Padidiname šriftą */
-            font-weight: bold;
-            color: #0D3B66;    /* Tamsiai mėlyna */
-            margin-top: 20px;   /* Tarps viršuje */
-            margin-bottom: 5px; /* Tarps apačioje */
-            padding-left: 5px;  /* Mažas atitraukimas, kad lygiuotųsi su eilutėmis */
+
+        /* ======== PRADŽIA: NAUJAS CSS KODAS (VERTIKALIOS ETIKETĖS) ======== */
+        #labels-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Tarpas tarp "Vienaskaita" ir "Daugiskaita" */
+            /* Sulygiuojam su person-row viršumi (10px padding + 2px border) */
+            padding-top: 12px; 
         }
         
-        /* Pirmai antraštei nereikia tarpo viršuje */
-        .person-group-heading:first-of-type {
-            margin-top: 0;
+        .vertical-label {
+            writing-mode: vertical-rl; /* Tekstas iš viršaus į apačią */
+            transform: rotate(180deg);  /* Apsuka raides teisingai */
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #0D3B66;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #E8F4F8; /* Šviesus fonas */
+            border-radius: 10px;
+            padding: 10px 5px;
+            /* Apytikslis 3 eilučių aukštis + tarpai */
+            min-height: 220px; 
+            border: 2px solid #7CB3E9;
+        }
+        
+        /* Naujas konteineris asmenų grupėms (Vns ir Dgs) */
+        .person-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* Tarpas tarp "Aš", "Tu", "Jis/Ji" eilučių */
+        }
+        
+        /* Paslepiam senas H3 antraštes, jei jos liko */
+        .person-group-heading {
+            display: none;
         }
         /* ======== PABAIGA: NAUJAS CSS KODAS ======== */
 
+        
         /* Rezultatų langas */
         #results-container {
             display: none;
@@ -402,7 +430,11 @@
         /* Responsive */
         @media (max-width: 900px) {
             #card {
+                /* Pašalinam etiketes ir grįžtam prie 1 stulpelio */
                 grid-template-columns: 1fr;
+            }
+            #labels-column {
+                display: none; /* Paslepiam etiketes mob. versijoje */
             }
             .person-row {
                 grid-template-columns: 120px 1fr;
@@ -415,6 +447,19 @@
                 position: static;
                 display: inline-block;
                 margin-top: 10px;
+            }
+            /* Mob. versijoje grąžinam senas antraštes */
+            .person-group-heading {
+                display: block; 
+                font-size: 1.6rem;
+                font-weight: bold;
+                color: #0D3B66;
+                margin-top: 20px;
+                margin-bottom: 5px;
+                padding-left: 5px;
+            }
+            .person-group-heading:first-of-type {
+                margin-top: 0;
             }
         }
         
@@ -454,10 +499,10 @@
             </div>
             
             <div id="card">
+                <div id="labels-column"></div>
                 <div id="persons-column"></div>
                 <div id="words-column"></div>
             </div>
-
             <div id="controls">
                 <button id="prev-btn" class="control-btn" disabled>⬅ Atgal</button>
                 <button id="reset-btn" class="control-btn">🔄 Iš naujo</button>
@@ -577,6 +622,11 @@
         const resultsList = document.getElementById('results-list');
         const totalScoreEl = document.getElementById('total-score');
         const restartBtn = document.getElementById('restart-btn');
+        
+        // ======== PRADŽIA: NAUJAS JS KODAS ========
+        const labelsColumn = document.getElementById('labels-column');
+        // ======== PABAIGA: NAUJAS JS KODAS ========
+
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -586,14 +636,15 @@
             return array;
         }
 
-        // Kortelės sukūrimas (1 trūkstamas asmuo – įrašomas)
+        // ======== PRADŽIA: PERRAŠYTA createCard FUNKCIJOS PRADŽIA ========
         function createCard(index) {
             personsColumn.innerHTML = '';
             wordsColumn.innerHTML = '';
+            labelsColumn.innerHTML = ''; // Išvalom etikečių stulpelį
             clearFeedback();
             isChecked = false;
             
-            cardProgress.textContent = `${index + 1} / ${cardsData.length} kortelė`; // PATAISYTA
+            cardProgress.textContent = `${index + 1} / ${cardsData.length} kortelė`; // PATAISYTA (pašalintas \)
             actionBtn.disabled = false;
             actionBtn.textContent = '✅ Pasitikrinti';
 
@@ -603,38 +654,50 @@
             const missingPersonIndex = Math.floor(Math.random() * persons.length);
             card.missingPersonIndex = missingPersonIndex;
 
+            // Kuriame etiketes
+            const vnsLabel = document.createElement('div');
+            vnsLabel.className = 'vertical-label';
+            vnsLabel.textContent = 'Vienaskaita';
+            labelsColumn.appendChild(vnsLabel);
+
+            const dgsLabel = document.createElement('div');
+            dgsLabel.className = 'vertical-label';
+            dgsLabel.textContent = 'Daugiskaita';
+            labelsColumn.appendChild(dgsLabel);
+            
+            // Kuriame konteinerius asmenų eilutėms
+            const vnsGroup = document.createElement('div');
+            vnsGroup.className = 'person-group';
+            
+            const dgsGroup = document.createElement('div');
+            dgsGroup.className = 'person-group';
+            
+            // horizontalios antraštės mob. versijai (jos bus paslėptos PC)
+            const vnsHeading = document.createElement('h3');
+            vnsHeading.className = 'person-group-heading';
+            vnsHeading.textContent = 'Vienaskaita';
+            vnsGroup.appendChild(vnsHeading);
+
+            const dgsHeading = document.createElement('h3');
+            dgsHeading.className = 'person-group-heading';
+            dgsHeading.textContent = 'Daugiskaita';
+            dgsGroup.appendChild(dgsHeading);
+
+
             // Kairė pusė – asmenys
             persons.forEach((personInfo, i) => {
                 
-                // ======== PRADŽIA: NAUJAS JS KODAS ========
-                if (i === 0) {
-                    const heading = document.createElement('h3');
-                    heading.className = 'person-group-heading';
-                    heading.textContent = 'Vienaskaita';
-                    personsColumn.appendChild(heading);
-                }
-                
-                if (i === 3) {
-                    const heading = document.createElement('h3');
-                    heading.className = 'person-group-heading';
-                    heading.textContent = 'Daugiskaita';
-                    personsColumn.appendChild(heading);
-                }
-                // ======== PABAIGA: NAUJAS JS KODAS ========
-
-
+                // --- Šis vidinis blokas kuria .person-row (lieka toks pats) ---
                 const personRow = document.createElement('div');
                 personRow.className = 'person-row';
 
                 const personName = document.createElement('div');
                 personName.className = 'person-name';
-                
                 personName.textContent = personInfo.name;
                 
                 const questionSpan = document.createElement('span');
                 questionSpan.className = 'person-question';
                 questionSpan.textContent = personInfo.question;
-                
                 personName.appendChild(questionSpan);
 
                 const dropZone = document.createElement('div');
@@ -655,8 +718,21 @@
 
                 personRow.appendChild(personName);
                 personRow.appendChild(dropZone);
-                personsColumn.appendChild(personRow);
+                // --- person-row kūrimo pabaiga ---
+                
+                // Priskiriam eilutę į teisingą grupę
+                if (i < 3) {
+                    vnsGroup.appendChild(personRow);
+                } else {
+                    dgsGroup.appendChild(personRow);
+                }
             });
+            
+            // Pridedam grupes į #persons-column
+            personsColumn.appendChild(vnsGroup);
+            personsColumn.appendChild(dgsGroup);
+            
+        // ======== PABAIGA: PERRAŠYTA createCard FUNKCIJOS PRADŽIA ========
 
             // Dešinė pusė – 5 likusios formos (be trūkstamos)
             const formsForDrag = card.forms
@@ -670,7 +746,7 @@
                 wordEl.className = 'draggable-word';
                 wordEl.textContent = word;
                 wordEl.draggable = true;
-                wordEl.id = `word-${index}-${i}`; // PATAISYTA
+                wordEl.id = `word-${index}-${i}`; // PATAISYTA (pašalintas \)
                 wordsColumn.appendChild(wordEl);
             });
 
@@ -846,7 +922,7 @@
                     
                     // Įdedame naują žodį
                     zone.appendChild(draggableElement);
-
+                    
                     // Pašaliname drag funkcionalumą iš įdėto žodžio
                     draggableElement.draggable = false;
                     draggableElement.removeEventListener('touchstart', handleTouchStart);
@@ -867,6 +943,8 @@
             createCard(currentCardIndex);
             scores[currentCardIndex] = null;
         }
+
+
 
         function updateNavButtons() {
             prevBtn.disabled = currentCardIndex === 0;
