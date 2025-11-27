@@ -576,7 +576,7 @@
             clearFeedback();
             isChecked = false;
             
-            cardProgress.textContent = `\${index + 1} / \${cardsData.length} kortelė`;
+            cardProgress.textContent = `${index + 1} / ${cardsData.length} kortelė`;
             actionBtn.disabled = false;
             actionBtn.textContent = '✅ Pasitikrinti';
 
@@ -636,7 +636,7 @@
                 wordEl.className = 'draggable-word';
                 wordEl.textContent = word;
                 wordEl.draggable = true;
-                wordEl.id = `word-\${index}-\${i}`;
+                wordEl.id = `word-${index}-${i}`;
                 wordsColumn.appendChild(wordEl);
             });
 
