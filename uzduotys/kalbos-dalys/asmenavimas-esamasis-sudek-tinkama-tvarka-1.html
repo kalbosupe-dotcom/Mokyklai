@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veiksmažodžių asmenavimas - Kalbos Upė</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Viršutinė juosta: grįžti + vardas vienoje eilutėje */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        #main-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 18px 22px 24px;
+            box-sizing: border-box;
+            border: 3px solid #4A90E2;
+        }
+
+        /* Antraštė: pavadinimas + kortelės nr. vienoje eilutėje */
+        #card-header {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        #card-header h1 {
+            font-size: 1.7rem;
+            color: #0D3B66;
+            margin: 0;
+        }
+        
+        #card-progress {
+            font-size: 1rem;
+            color: #1A4D7A;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Instrukcija su ikonėlėmis */
+        .instructions {
+            font-size: 0.95rem;
+            color: #1A4D7A;
+            margin-bottom: 10px;
+        }
+        .instructions p {
+            margin: 2px 0;
+        }
+        .instructions span.icon {
+            display: inline-block;
+            width: 22px;
+        }
+
+        #card {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        /* Kairė pusė su asmenimis */
+        #persons-column {
+            width: 58%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .person-row {
+            display: flex;
+            align-items: center;
+            border: 2px solid #7CB3E9;
+            border-radius: 10px;
+            padding: 8px 10px;
+            background-color: #ffffff;
+        }
+
+        .person-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0D3B66;
+            width: 55%;
+            line-height: 1.4;
+        }
+        
+        .person-name span {
+            font-weight: normal;
+            font-size: 0.95rem;
+            color: #4A90E2;
+            margin-left: 5px;
+        }
+
+        .drop-zone {
+            width: 45%;
+            min-height: 42px;
+            background-color: #E8F4F8;
+            border: 2px dashed #7CB3E9;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .drop-zone.hovered {
+            background-color: #D4E9F7;
+            border-color: #4A90E2;
+        }
+
+        /* Teksto laukelis trūkstamam asmeniui */
+        .missing-input {
+            width: 90%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 1.2rem;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            outline: none;
+            color: #0D3B66;
+        }
+
+        /* Dešinė pusė su žodžiais */
+        #words-column {
+            width: 35%;
+            padding: 10px;
+            background-color: #E8F4F8;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid #7CB3E9;
+        }
+
+        .draggable-word {
+            font-size: 1.3rem;
+            padding: 8px 14px;
+            background-color: #ffffff;
+            border: 2px solid #4A90E2;
+            border-radius: 10px;
+            cursor: grab;
+            user-select: none;
+            text-align: center;
+            width: 90%;
+            box-shadow: 0 3px 6px rgba(26, 77, 122, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s, color 0.3s, background-color 0.3s;
+            color: #1A4D7A;
+            font-weight: bold;
+            touch-action: none;
+        }
+        
+        .draggable-word:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(26, 77, 122, 0.2);
+        }
+        
+        .drop-zone .draggable-word {
+            cursor: default;
+            box-shadow: none;
+            background-color: transparent;
+            border: none;
+            font-size: 1.3rem;
+            padding: 0;
+            width: auto;
+            color: #0D3B66;
+            font-weight: bold;
+        }
+
+        /* Valdymo mygtukai */
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            font-size: 1.05rem;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+        
+        .control-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        #prev-btn {
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+        }
+        
+        #prev-btn:disabled {
+            background: #a0cfff;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #action-btn {
+            background: linear-gradient(135deg, #4ECDC4, #27ae60);
+            color: white;
+        }
+
+        #action-btn:disabled {
+            background: #8fcca0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #reset-btn {
+            background: linear-gradient(135deg, #FFB84D, #F39C12);
+            color: white;
+        }
+
+        /* Atsakymų stilius */
+        .correct {
+            border-width: 3px !important;
+            border-color: #27ae60 !important;
+            background-color: #d4edda !important;
+        }
+        .correct .draggable-word {
+            font-weight: bold;
+            color: #155724;
+        }
+
+        .incorrect {
+            border-width: 3px !important;
+            border-color: #e74c3c !important;
+            background-color: #f8d7da !important;
+        }
+        .incorrect .draggable-word {
+            font-weight: bold;
+            color: #721c24;
+        }
+        .input-incorrect {
+            border-color: #e74c3c !important;
+            background-color: #f8d7da !important;
+        }
+        .input-correct {
+            border-color: #27ae60 !important;
+            background-color: #d4edda !important;
+        }
+        
+        /* Rezultatų langas */
+        #results-container {
+            display: none;
+            text-align: center;
+        }
+
+        #results-container h2 {
+            font-size: 2rem;
+            color: #0D3B66;
+            margin-bottom: 15px;
+        }
+
+        #results-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        #results-list li {
+            font-size: 1.1rem;
+            padding: 10px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            color: #1A4D7A;
+            border: 2px solid #7CB3E9;
+        }
+
+        #total-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #4A90E2;
+            padding: 14px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        #restart-btn {
+            background: linear-gradient(135deg, #4ECDC4, #27ae60);
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            #card {
+                flex-direction: column;
+            }
+            #persons-column, #words-column {
+                width: 100%;
+            }
+            .person-name {
+                font-size: 1.05rem;
+            }
+            .person-name span {
+                font-size: 0.95rem;
+            }
+            .draggable-word {
+                font-size: 1.2rem;
+            }
+            #card-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            <div class="student-info">
+                <span style="font-size: 16px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
+        <div id="main-container">
+            <div id="card-header">
+                <h1>Veiksmažodžių asmenavimas (esamasis laikas)</h1>
+                <p id="card-progress">1 / 5 kortelė</p>
+            </div>
+
+            <div class="instructions">
+                <p><span class="icon">🧩</span><strong>Nutempk</strong> veiksmažodžius prie tinkamų asmenų.</p>
+                <p><span class="icon">✏️</span><strong>Įrašyk</strong> trūkstamą asmens formą tuščiame langelyje.</p>
+                <p><span class="icon">✅</span><strong>Pasitikrink</strong> ir, jei reikia, pabandyk dar kartą.</p>
+            </div>
+            
+            <div id="card">
+                <div id="persons-column"></div>
+                <div id="words-column"></div>
+            </div>
+
+            <div id="controls">
+                <button id="prev-btn" class="control-btn" disabled>⬅️ Atgal</button>
+                <button id="reset-btn" class="control-btn">🔄 Iš naujo</button>
+                <button id="action-btn" class="control-btn">✅ Pasitikrinti</button>
+            </div>
+
+            <div id="results-container">
+                <h2>🎉 Užduoties rezultatai</h2>
+                <ul id="results-list"></ul>
+                <p id="total-score"></p>
+                <button id="restart-btn" class="control-btn">🔄 Žaisti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: \${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- Duomenys: 5 veiksmažodžiai ir jų asmenavimas esamuoju laiku ---
+        const cardsData = [
+            { 
+                verb: 'rašyti', 
+                forms: ['rašau', 'rašai', 'rašo', 'rašome', 'rašote', 'rašo']
+            },
+            { 
+                verb: 'skaityti', 
+                forms: ['skaitau', 'skaitai', 'skaito', 'skaitome', 'skaitote', 'skaito']
+            },
+            { 
+                verb: 'bėgti', 
+                forms: ['bėgu', 'bėgi', 'bėga', 'bėgame', 'bėgate', 'bėga']
+            },
+            { 
+                verb: 'žaisti', 
+                forms: ['žaidžiu', 'žaidi', 'žaidžia', 'žaidžiame', 'žaidžiate', 'žaidžia']
+            },
+            { 
+                verb: 'mokytis', 
+                forms: ['mokausi', 'mokaisi', 'mokosi', 'mokomės', 'mokotės', 'mokosi']
+            }
+        ];
+
+        const persons = [
+            { name: 'Aš', question: 'ką veikiu?' },
+            { name: 'Tu', question: 'ką veiki?' },
+            { name: 'Jis/Ji', question: 'ką veikia?' },
+            { name: 'Mes', question: 'ką veikiame?' },
+            { name: 'Jūs', question: 'ką veikiate?' },
+            { name: 'Jie/Jos', question: 'ką veikia?' }
+        ];
+
+        let currentCardIndex = 0;
+        let scores = new Array(cardsData.length).fill(null);
+        let isChecked = false;
+
+        const personsColumn = document.getElementById('persons-column');
+        const wordsColumn = document.getElementById('words-column');
+        const cardProgress = document.getElementById('card-progress');
+        const prevBtn = document.getElementById('prev-btn');
+        const actionBtn = document.getElementById('action-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        const resultsContainer = document.getElementById('results-container');
+        const resultsList = document.getElementById('results-list');
+        const totalScoreEl = document.getElementById('total-score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Kortelės sukūrimas (1 trūkstamas asmuo – įrašomas)
+        function createCard(index) {
+            personsColumn.innerHTML = '';
+            wordsColumn.innerHTML = '';
+            clearFeedback();
+            isChecked = false;
+            
+            cardProgress.textContent = `\${index + 1} / \${cardsData.length} kortelė`;
+            actionBtn.disabled = false;
+            actionBtn.textContent = '✅ Pasitikrinti';
+
+            const card = cardsData[index];
+
+            // Pasirenkame, kuris asmuo bus trūkstamas (0–5)
+            const missingPersonIndex = Math.floor(Math.random() * persons.length);
+            card.missingPersonIndex = missingPersonIndex;
+
+            // Kairė pusė – asmenys
+            persons.forEach((personInfo, i) => {
+                const personRow = document.createElement('div');
+                personRow.className = 'person-row';
+
+                const personName = document.createElement('div');
+                personName.className = 'person-name';
+                personName.innerHTML = `\${personInfo.name} <span>\${personInfo.question}</span>`;
+
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.personIndex = i;
+
+                if (i === missingPersonIndex) {
+                    // čia bus įrašomas žodis
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'missing-input';
+                    input.placeholder = 'įrašyk formą';
+                    input.autocomplete = 'off';
+                    input.dataset.personIndex = i;
+                    dropZone.appendChild(input);
+                    dropZone.classList.add('missing-zone');
+                }
+
+                personRow.appendChild(personName);
+                personRow.appendChild(dropZone);
+                personsColumn.appendChild(personRow);
+            });
+
+            // Dešinė pusė – 5 likusios formos (be trūkstamos)
+            const formsForDrag = card.forms
+                .map((f, i) => ({ f, i }))
+                .filter(obj => obj.i !== missingPersonIndex)
+                .map(obj => obj.f);
+
+            const shuffledWords = shuffleArray(formsForDrag);
+            shuffledWords.forEach((word, i) => {
+                const wordEl = document.createElement('div');
+                wordEl.className = 'draggable-word';
+                wordEl.textContent = word;
+                wordEl.draggable = true;
+                wordEl.id = `word-\${index}-\${i}`;
+                wordsColumn.appendChild(wordEl);
+            });
+
+            addDragAndDropListeners();
+            updateNavButtons();
+        }
+
+        // Touch drag helper kintamieji
+        let touchedElement = null;
+        let clone = null;
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            touchedElement = e.target;
+            const touch = e.touches[0];
+
+            clone = touchedElement.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.pointerEvents = 'none';
+            clone.style.opacity = '0.8';
+            clone.style.zIndex = '1000';
+            clone.style.left = touch.clientX - touchedElement.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - touchedElement.offsetHeight / 2 + 'px';
+            clone.style.width = touchedElement.offsetWidth + 'px';
+            document.body.appendChild(clone);
+
+            touchedElement.style.opacity = '0.3';
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!clone) return;
+            const touch = e.touches[0];
+            clone.style.left = touch.clientX - clone.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - clone.offsetHeight / 2 + 'px';
+
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                    zone.classList.add('hovered');
+                } else {
+                    zone.classList.remove('hovered');
+                }
+            });
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            if (!touchedElement) return;
+            const touch = e.changedTouches[0];
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let dropped = false;
+
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+
+                    // nenaudojame drag ant missing input zonos
+                    if (zone.classList.contains('missing-zone')) return;
+
+                    if (zone.children.length > 0) {
+                        wordsColumn.appendChild(zone.firstElementChild);
+                    }
+                    zone.appendChild(touchedElement);
+                    zone.classList.remove('hovered');
+                    dropped = true;
+                    clearFeedback();
+                }
+            });
+
+            if (!dropped && touchedElement.parentElement.classList.contains('drop-zone')) {
+                wordsColumn.appendChild(touchedElement);
+            }
+
+            touchedElement.style.opacity = '1';
+            if (clone) {
+                document.body.removeChild(clone);
+                clone = null;
+            }
+            touchedElement = null;
+            dropZones.forEach(zone => zone.classList.remove('hovered'));
+        }
+
+        function addDragAndDropListeners() {
+            const draggables = document.querySelectorAll('.draggable-word');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                });
+
+                draggable.addEventListener('touchstart', handleTouchStart, { passive: false });
+                draggable.addEventListener('touchmove', handleTouchMove, { passive: false });
+                draggable.addEventListener('touchend', handleTouchEnd, { passive: false });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!zone.classList.contains('missing-zone')) {
+                        zone.classList.add('hovered');
+                    }
+                });
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('hovered');
+                });
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('hovered');
+                    if (zone.classList.contains('missing-zone')) return;
+
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggableElement = document.getElementById(id);
+                    if (zone.children.length > 0) {
+                        wordsColumn.appendChild(zone.firstElementChild);
+                    }
+                    if (draggableElement) {
+                        zone.appendChild(draggableElement);
+                    }
+                    clearFeedback();
+                });
+            });
+        }
+
+        function clearFeedback() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => zone.classList.remove('correct', 'incorrect', 'input-correct', 'input-incorrect'));
+        }
+
+        function resetCard() {
+            createCard(currentCardIndex);
+            scores[currentCardIndex] = null;
+        }
+
+        function updateNavButtons() {
+            prevBtn.disabled = currentCardIndex === 0;
+        }
+
+        function checkAnswers() {
+            if (scores[currentCardIndex] !== null) return;
+
+            const card = cardsData[currentCardIndex];
+            const missingIndex = card.missingPersonIndex;
+
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            dropZones.forEach(zone => {
+                const personIndex = parseInt(zone.dataset.personIndex, 10);
+                const correctForm = card.forms[personIndex];
+
+                zone.classList.remove('correct', 'incorrect', 'input-correct', 'input-incorrect');
+
+                if (personIndex === missingIndex) {
+                    const input = zone.querySelector('.missing-input');
+                    const value = (input.value || '').trim();
+                    if (value.toLowerCase() === correctForm.toLowerCase()) {
+                        zone.classList.add('input-correct');
+                        correctCount++;
+                    } else {
+                        zone.classList.add('input-incorrect');
+                    }
+                } else {
+                    const droppedWord = zone.querySelector('.draggable-word');
+                    if (droppedWord && droppedWord.textContent === correctForm) {
+                        zone.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                }
+            });
+
+            scores[currentCardIndex] = correctCount;
+            isChecked = true;
+
+            if (currentCardIndex === cardsData.length - 1) {
+                actionBtn.textContent = '🏁 Rezultatai';
+            } else {
+                actionBtn.textContent = '➡️ Toliau';
+            }
+        }
+
+        function goToNextCard() {
+            if (currentCardIndex < cardsData.length - 1) {
+                currentCardIndex++;
+                createCard(currentCardIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('card').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
+            document.getElementById('card-header').style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            resultsList.innerHTML = '';
+            let totalCorrect = 0;
+            const totalPerCard = persons.length; // 6
+            const totalWords = cardsData.length * totalPerCard;
+
+            cardsData.forEach((card, index) => {
+                const score = scores[index] === null ? 0 : scores[index];
+                totalCorrect += score;
+                const percentage = (score / totalPerCard * 100).toFixed(0);
+                const listItem = document.createElement('li');
+                listItem.textContent = `"\${card.verb}": teisinga \${score}/\${totalPerCard} – \${percentage}%`;
+                resultsList.appendChild(listItem);
+            });
+
+            const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
+            totalScoreEl.textContent = `Bendras rezultatas: \${totalCorrect}/\${totalWords} – \${totalPercentage}%`;
+
+            sendResultToSheet('A0001 Asmenavimas: Esamasis laikas | nutemk ir įrašyk trūkstamą (I)', totalPercentage);
+        }
+
+        function restartGame() {
+            scores.fill(null);
+            currentCardIndex = 0;
+            resultsContainer.style.display = 'none';
+            document.getElementById('card').style.display = 'flex';
+            document.getElementById('controls').style.display = 'flex';
+            document.getElementById('card-header').style.display = 'flex';
+            createCard(currentCardIndex);
+        }
+
+        // --- Įvykių klausytojai ---
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                createCard(currentCardIndex);
+            }
+        });
+
+        actionBtn.addEventListener('click', () => {
+            if (!isChecked) {
+                checkAnswers();
+            } else {
+                goToNextCard();
+            }
+        });
+
+        resetBtn.addEventListener('click', resetCard);
+        restartBtn.addEventListener('click', restartGame);
+
+        // --- Pradinis paleidimas ---
+        createCard(currentCardIndex);
+    </script>
+</body>
+</html>
+
+
