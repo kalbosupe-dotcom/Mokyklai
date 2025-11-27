@@ -915,7 +915,7 @@
             const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
             totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} – ${totalPercentage}%`;
 
-            sendResultToSheet('A0001 Asmenavimas: Esamasis laikas | nutemk ir įrašyk trūkstamą (I)', totalPercentage);
+            sendResultToSheet('L0101 Asmenavimas: Esamasis laikas | nutemk ir įrašyk trūkstamą (I)', totalPercentage);
         }
 
         function restartGame() {
