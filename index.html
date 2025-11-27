@@ -3,754 +3,881 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalbos Upė | Užduočių bankas</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Veiksmažodžių asmenavimas - Kalbos Upė</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* Viršutinė juosta: grįžti + vardas vienoje eilutėje */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        #main-container {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 25px 30px;
+            box-sizing: border-box;
+            border: 3px solid #4A90E2;
+        }
+
+        /* Antraštė */
+        #card-header {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        #card-header h1 {
+            font-size: 1.8rem;
+            color: #0D3B66;
+            margin: 0;
+        }
+        
+        #card-progress {
+            font-size: 1rem;
+            color: #1A4D7A;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Instrukcija su ikonėlėmis */
+        .instructions {
+            font-size: 1rem;
+            color: #1A4D7A;
+            margin-bottom: 20px;
+        }
+        .instructions p {
+            margin: 5px 0;
+        }
+        .instructions span.icon {
+            display: inline-block;
+            width: 24px;
+        }
+
+        #card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        /* Kairė pusė su asmenimis ir drop zonos */
+        #persons-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .person-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid #7CB3E9;
+            border-radius: 12px;
+            padding: 12px 15px;
+            background-color: #ffffff;
+        }
+
+        .person-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0D3B66;
+            line-height: 1.4;
+        }
+        
+        .person-question {
+            font-weight: normal;
+            font-size: 0.95rem;
+            color: #4A90E2;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .drop-zone {
+            min-height: 50px;
+            background-color: #E8F4F8;
+            border: 2px dashed #7CB3E9;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s, border-color 0.3s;
+            padding: 8px;
+        }
+
+        .drop-zone.hovered {
+            background-color: #D4E9F7;
+            border-color: #4A90E2;
+        }
+
+        /* Teksto laukelis trūkstamam asmeniui */
+        .missing-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 1.1rem;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            outline: none;
+            color: #999;
+        }
+
+        .missing-input::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        /* Dešinė pusė su žodžiais */
+        #words-column {
+            padding: 15px;
+            background-color: #E8F4F8;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            border: 2px solid #7CB3E9;
+        }
+
+        .draggable-word {
+            font-size: 1.3rem;
+            padding: 12px 18px;
+            background-color: #ffffff;
+            border: 2px solid #4A90E2;
+            border-radius: 10px;
+            cursor: grab;
+            user-select: none;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(26, 77, 122, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: #1A4D7A;
+            font-weight: bold;
+            touch-action: none;
+        }
+        
+        .draggable-word:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(26, 77, 122, 0.2);
+        }
+        
+        .drop-zone .draggable-word {
+            cursor: default;
+            box-shadow: none;
+            background-color: transparent;
+            border: none;
+            font-size: 1.2rem;
+            padding: 0;
+            color: #0D3B66;
+            font-weight: bold;
+        }
+
+        /* Valdymo mygtukai */
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            font-size: 1.05rem;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+        
+        .control-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        #prev-btn {
+            background-color: #7CB3E9;
+            color: white;
+        }
+        
+        #prev-btn:disabled {
+            background: #a0cfff;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #action-btn {
+            background-color: #4ECDC4;
+            color: white;
+        }
+
+        #action-btn:disabled {
+            background: #8fcca0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #reset-btn {
+            background-color: #FFB84D;
+            color: white;
+        }
+
+        /* Atsakymų stilius */
+        .correct {
+            border-width: 3px !important;
+            border-color: #27ae60 !important;
+            background-color: #d4edda !important;
+        }
+        .correct .draggable-word {
+            font-weight: bold;
+            color: #155724;
+        }
+
+        .incorrect {
+            border-width: 3px !important;
+            border-color: #e74c3c !important;
+            background-color: #f8d7da !important;
+        }
+        .incorrect .draggable-word {
+            font-weight: bold;
+            color: #721c24;
+        }
+        .input-incorrect {
+            border-color: #e74c3c !important;
+            background-color: #f8d7da !important;
+        }
+        .input-correct {
+            border-color: #27ae60 !important;
+            background-color: #d4edda !important;
+        }
+        
+        /* Rezultatų langas */
+        #results-container {
+            display: none;
+            text-align: center;
+        }
+
+        #results-container h2 {
+            font-size: 2rem;
+            color: #0D3B66;
+            margin-bottom: 15px;
+        }
+
+        #results-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        #results-list li {
+            font-size: 1.1rem;
+            padding: 10px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            color: #1A4D7A;
+            border: 2px solid #7CB3E9;
+        }
+
+        #total-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #4A90E2;
+            padding: 14px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+        }
+
+        #restart-btn {
+            background-color: #4ECDC4;
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            #card {
+                grid-template-columns: 1fr;
+            }
+            .person-row {
+                grid-template-columns: 150px 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .person-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            #card-header h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <h1>Interaktyvios užduotys • pritaikyta mokiniams, turintiems mokymosi ypatumų • tinka visiems</h1>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            <div class="student-info">
+                <span style="font-size: 16px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
-    </header>
 
-    <main class="container main-content">
-        <section class="intro">
-            <p>Pasirinkite kriterijus, kad rastumėte tinkančias užduotis.</p>
-        </section>
-        
-        <div class="filter-controls">
-            
-            <div class="filter-group full-width">
-                <label for="search-input">Paieška pagal raktinį žodį:</label>
-                <input type="text" id="search-input" class="filter-select" placeholder="Įveskite raktinį žodį (pvz., linksniavimas, ląstelė, veiksmažodis)">
+        <div id="main-container">
+            <div id="card-header">
+                <h1>Veiksmažodžių asmenavimas (esamasis laikas)</h1>
+                <p id="card-progress">1 / 5 kortelė</p>
+            </div>
+
+            <div class="instructions">
+                <p><span class="icon">🧩</span><strong>Nutempk</strong> veiksmažodžius prie tinkamų asmenų.</p>
+                <p><span class="icon">✏️</span><strong>Įrašyk</strong> trūkstamą asmens formą tuščiame langelyje.</p>
+                <p><span class="icon">✅</span><strong>Pasitikrink</strong> ir, jei reikia, pabandyk dar kartą.</p>
             </div>
             
-            <div class="filter-group">
-                <label for="dalykas-select">Dalykas:</label>
-                <select id="dalykas-select" class="filter-select">
-                    <option value="visi">Visi dalykai</option>
-                    <option value="lietuvių">Lietuvių kalba</option>
-                    <option value="anglu">Anglų kalba</option>
-                    <option value="matematika">Matematika</option>
-                    <option value="biologija">Biologija</option>
-                    <option value="fizika">Fizika</option>
-                </select>
+            <div id="card">
+                <div id="persons-column"></div>
+                <div id="words-column"></div>
             </div>
 
-            <div class="filter-group">
-                <label for="klase-select">Klasė:</label>
-                <select id="klase-select" class="filter-select">
-                    <option value="visos">Visos klasės</option>
-                    <option value="3">3 klasė</option>
-                    <option value="4">4 klasė</option>
-                    <option value="5">5 klasė</option>
-                    <option value="6">6 klasė</option>
-                    <option value="7">7 klasė</option>
-                    <option value="8">8 klasė</option>
-                    <option value="9">9 klasė</option>
-                </select>
+            <div id="controls">
+                <button id="prev-btn" class="control-btn" disabled>⬅ Atgal</button>
+                <button id="reset-btn" class="control-btn">🔄 Iš naujo</button>
+                <button id="action-btn" class="control-btn">✅ Pasitikrinti</button>
             </div>
 
-            <div class="filter-group">
-                <label for="sup-select">Pritaikymas SUP:</label>
-                <select id="sup-select" class="filter-select">
-                    <option value="visi">Visi pritaikymai</option>
-                    <option value="disleksija">Disleksija</option>
-                    <option value="disgrafija">Disgrafija</option>
-                    <option value="kalbos">Kalbos sutrikimas</option>
-                    <option value="demesio">Dėmesio sutrikimas</option>
-                </select>
+            <div id="results-container">
+                <h2>🎉 Užduoties rezultatai</h2>
+                <ul id="results-list"></ul>
+                <p id="total-score"></p>
+                <button id="restart-btn" class="control-btn">🔄 Žaisti iš naujo</button>
             </div>
         </div>
+    </div>
 
-        <div class="results-info">
-            <span id="result-count">0 užduočių rasta.</span>
-            <button class="reset-filters">Išvalyti filtrus</button>
-        </div>
-
-        <div class="task-grid" id="task-grid">
-            <p class="no-results-msg">Pasirinkite filtrus aukščiau, kad pamatytumėte užduotis.</p>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Kalbos Upė.</p>
-        </div>
-    </footer>
-    
     <script>
-        // --- UŽDUOČIŲ DUOMENŲ BAZĖ (SU TEMA LAUKU) ---
-        const taskDatabase = [
-            {
-                id: 'L0001',
-                title: 'Kalbos dalys: Atpažink',
-                description: 'Daiktavardis, Būdvardis, Veiksmažodis',
-                url: 'uzduotys/kalbos-dalys/kalbos-dalys-atpazink-kuri-d-b-v.html',
-                dalykas: 'lietuvių',
-                klase: 5, 
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert(`Vardas pakeistas į: \${newName}`);
+            location.reload();
+        }
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+        
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+        
+            console.log('Siunčiamas rezultatas:', data);
+        
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+        
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- Duomenys: 5 veiksmažodžiai ir jų asmenavimas esamuoju laiku ---
+        const cardsData = [
+            { 
+                verb: 'rašyti', 
+                forms: ['rašau', 'rašai', 'rašo', 'rašome', 'rašote', 'rašo']
             },
-            {
-                id: 'L0002',
-                title: 'Kalbos dalys: Atpažink',
-                description: 'Daiktavardis, Būdvardis, Veiksmažodis, Prieveiksmis',
-                url: 'uzduotys/kalbos-dalys/kalbos-dalys-atpazink-kuri-d-b-v-p.html',
-                dalykas: 'lietuvių',
-                klase: 5, 
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
+            { 
+                verb: 'skaityti', 
+                forms: ['skaitau', 'skaitai', 'skaito', 'skaitome', 'skaitote', 'skaito']
             },
-            {
-                id: 'L0003',
-                title: 'Kalbos dalys: Išrūšiuok',
-                description: 'Daiktavardis, Būdvardis, Veiksmažodis',
-                url: 'uzduotys/kalbos-dalys/kalbos-dalys-isrusiuok-kalbos-dalis-d-b-v.html',            
-                dalykas: 'lietuvių',
-                klase: 5, 
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
+            { 
+                verb: 'bėgti', 
+                forms: ['bėgu', 'bėgi', 'bėga', 'bėgame', 'bėgate', 'bėga']
             },
-            {
-                id: 'L0004',
-                title: 'Linksniavimas: Daiktavardžiai',
-                description: 'Sudėk daiktavardžius tinkama tvarka prie linksnių: stalas, knyga, pieštukas, saulė, namas.',
-                url: 'uzduotys/kalbos-dalys/linksniavimas-sudek-zodzius-tinkama-tvarka-prie-linksniu-1.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
+            { 
+                verb: 'žaisti', 
+                forms: ['žaidžiu', 'žaidi', 'žaidžia', 'žaidžiame', 'žaidžiate', 'žaidžia']
             },
-            {
-                id: 'L0005',
-                title: 'Linksniavimas: Daiktavardžiai',
-                description: 'Parink linksniui tinkamą daiktavardį: katė, zylė, morka, knyga, dangus, miestas, kėdė, koja, muilas, mįslė, lenta, pienas, žmogus, draugas.',
-                url: 'uzduotys/kalbos-dalys/linksniavimas-parink-linksniui-daiktavardi-1.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0006',
-                title: 'Linksniavimas: Daiktavardžiai',
-                description: 'Parink linksnį daiktavardžiui sakinyje.',
-                url: 'uzduotys/kalbos-dalys/linksniavimas-parink-linksni-daiktavardziui-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 4,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0007',
-                title: 'Daiktavardis: nurodyk giminę, skaičių, linksnį',
-                description: 'ąžuolas, pjuvena, mįslė, šaknis, jautis, pjesė, ąsotis, pjūvis, Kęstutis, stalas',
-                url: 'uzduotys/kalbos-dalys/daiktavardis-nurodyk-gimine-skaicius-linksnis-1.html',
-                dalykas: 'lietuvių',
-                klase: 5,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0050',
-                title: 'Dalyvis, padalyvis, pusdalyvis | Atpažink (I)',
-                description: '15 žodžių (po 5)',
-                url: 'uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-atpazink.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0051',
-                title: 'Dalyvis, padalyvis, pusdalyvis | Atpažink (II)',
-                description: '15 žodžių (po 5)',
-                url: 'uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-atpazink-2.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0052',
-                title: 'Dalyvio junginiai | Dalyvis + Daiktavardis',
-                description: 'Nurodyk giminę, skaičių ir linksnį (8 sakiniai)',
-                url: 'uzduotys/kalbos-dalys/dalyvis-ir-daiktavardis-nurodyk-gim-sk-lnk.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0055',
-                title: 'Dalyvis, padalyvis, pusdalyvis | Pažymėk sakinyje',
-                description: '10 sakinių',
-                url: 'uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-pazymek-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0070',
-                title: '(ruošiama) Veikiamieji ir neveikiamieji dalyviai',
-                description: 'Atskirk veikiamuosius ir neveikiamuosius dalyvius bei nustatyk jų giminę, skaičių ir linksnį',
-                url: 'uzduotys/kalbos-dalys/dalyvis-veikiamasis-neveikiamasis-atskirk.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0071',
-                title: 'Veikiamieji dalyviai | surask tekste',
-                description: 'Tekste surask veikiamuosius dalyvius bei nustatyk iš kurio laiko veiksmažodžio formos sudarytas šis dalyvis',
-                url: 'uzduotys/kalbos-dalys/dalyvis-veikiamasis-rask-tekste-nustatyk-laika.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0101',
-                title: 'Asmenavimas | Esamasis laikas | Sudėk tinkama tvarka',
-                description: 'Žodžiai: žaisti',
-                url: 'uzduotys/kalbos-dalys/asmenavimas-esamasis-sudek-tinkama-tvarka-1.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0110',
-                title: 'Asmenavimas | esamasis, būtasis kartinis ir dažninins bei būsimasis laikai',
-                description: 'Žodžio ŽAISTI asmenavimas',
-                url: 'uzduotys/kalbos-dalys/asmenavimas-esm-but-butd-bus-zaisti.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0201',
-                title: 'Vienarūšės sakinio dalys | Pažymėk sakinyje (1)',
-                description: 'Sakiniuose pažymėk vienarūšes sakinio dalis',
-                url: 'uzduotys/sakinio-dalys/vienaruses-pazymek-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 5,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0202',
-                title: 'Vienarūšės sakinio dalys | Pažymėk sakinyje (2)',
-                description: 'Sakiniuose pažymėk vienarūšes sakinio dalis',
-                url: 'uzduotys/sakinio-dalys/vienaruses-pazymek-sakinyje-2.html',
-                dalykas: 'lietuvių',
-                klase: 6,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0203',
-                title: 'Vienarūšės sakinio dalys | Sudėk trūkstamus kablelius',
-                description: 'Vėjai | 10 sakinių',
-                url: 'uzduotys/sakinio-dalys/vienaruses-sudek-trukstamus-kablelius-vejai.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0211',
-                title: 'Veiksnys ir Tarinys: pažymėk sakinyje',
-                description: 'Lietuvių mitas apie Pasaulio sukūrimą',
-                url: 'uzduotys/sakinio-dalys/veiksnys-tarinys-pazymek-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0212',
-                title: 'Veiksnys ir Tarinys: pažymėk sakinyje',
-                description: 'Graikų mitas apie Pasaulio sukūrimą',
-                url: 'uzduotys/sakinio-dalys/veiksnys-tarinys-pazymek-sakinyje-2.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0401',
-                title: 'Veiksmažodis: galūnių rašymas | Ką veikia?',
-                description: 'Parink tinkamą veiksmažodžio galūnę',
-                url: 'uzduotys/zodzio-dalys/veiksmazodis-galuniu-rasymas-ka-veikia.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0402',
-                title: 'Skiemenavimas: Įvairūs žodžiai',
-                description: 'Nesudėtingi žodžiai su 2-3 skiemenimis.',
-                url: 'uzduotys/zodzio-dalys/skiemenavimas-ivairus-zodziai.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },            
-            {
-                id: 'L0403',
-                title: 'Skiemenavimas: Ląstelės sandaros žodžiai',
-                description: 'Išmok ląstelės sandaros žodžius (vakuolė, mitochondrija...).',
-                url: 'uzduotys/zodzio-dalys/skiemenavimas-biologija-lastele.html',
-                dalykas: 'lietuvių',
-                klase: 6,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0404',
-                title: 'Veiksmažodis: galūnių rašymas | Ką veikia?',
-                description: 'Įrašyk tinkamą veiksmažodžio galūnę',
-                url: 'uzduotys/zodzio-dalys/veiksmazodis-galuniu-rasymas-ka-veikia-2.html',
-                dalykas: 'lietuvių',
-                klase: 4,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0601',
-                title: 'Sinonimai ir Antonimai',
-                description: 'Parink tinkamą sinonimą arba antonimą duotam žodžiui',
-                url: 'uzduotys/kalbos-vystymas/sinonimai-antonimai.html',
-                dalykas: 'lietuvių',
-                klase: 5,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Kalbos vystymas'
-            },
-            {
-                id: 'L0602',
-                title: 'Sinonimai | Rask porą tekste',
-                description: 'Tekstas apie Mindaugo karūnavimą',
-                url: 'uzduotys/kalbos-vystymas/sinonimai-mindaugo-karunavimas.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Kalbos vystymas'
-            },
-            {
-                id: 'L0801',
-                title: 'Fonologinis suvokimas | Rask trūkstamą skiemenį',
-                description: 'Žodžiai: trečianis, lodija, kenė, kunugaris, pusserė, delis, lesyklė, vardis',
-                url: 'uzduotys/fonologinis-suvokimas/rask-trukstama-skiemeni.html',
-                dalykas: 'lietuvių',
-                klase: 6,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Fonologinis suvokimas'
-            },
-            {
-                id: 'L0802',
-                title: 'Fonologinis suvokimas | Rask trūkstamą skiemenį',
-                description: 'Žodžiai: trečianis, lodija, kenė, kunugaris, pusserė, delis, lesyklė, vardis',
-                url: 'uzduotys/fonologinis-suvokimas/rask-trukstama-skiemeni-2.html',
-                dalykas: 'lietuvių',
-                klase: 6,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Fonologinis suvokimas'
-            },           
-            {
-                id: 'B0001',
-                title: 'Mejozė ir Mitozė',
-                description: 'Priskirk sąvybes.',
-                url: 'uzduotys/biologija/mejoze-mitoze.html',
-                dalykas: 'biologija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Ląstelė'
-            },
-            {
-                id: 'B0002',
-                title: 'Genai ir paveldimumas',
-                description: 'Atsakyk į klausimus.',
-                url: 'uzduotys/biologija/dnr-struktura.html',
-                dalykas: 'biologija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Genai'
-            },
-            {
-                id: 'F0001',
-                title: 'Garso bangų sąvybės',
-                description: 'Mokykis: garso sąvybės (bangos ilgis, greitis, dažnis ir periodas)',
-                url: 'uzduotys/fizika/garso-savybes.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso banga'
-            },
-            {
-                id: 'F0002',
-                title: 'Garso bangos ilgis, greitis, dažnis ir periodas',
-                description: 'Išspręsk 10 uždavinių.',
-                url: 'uzduotys/fizika/garso-bangos-10-uzdaviniu.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso banga'
-            },
-            {
-                id: 'F0003',
-                title: 'Garso bangos | dažnis, amplitudė ir garsumas',
-                description: '📝 TESTAS #1: Garso bangų parametrų sąsajos | 16 trumpų klausimų',
-                url: 'uzduotys/fizika/garso-bangos-sasajos-daznis-amplitude-garsumas-t1.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso banga'
-            },
-            {
-                id: 'F0004',
-                title: 'Garso bangos | ilgis, dažnis ir periodas',
-                description: '📝 TESTAS #2: Garso bangų parametrų sąsajos | 16 trumpų klausimų',
-                url: 'uzduotys/fizika/garso-bangu-sasajos-ilgis-daznis-periodas-t2.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso banga'
-            },
-            {
-                id: 'F0005',
-                title: 'Garso bangos ilgis, greitis, dažnis, amplitudė ir periodas',
-                description: '📝 (ruošiama) TESTAS #3: Garso bangos: faktai, palyginimas, formulės | 34 trumpi klausimai',
-                url: 'uzduotys/fizika/garso-bangos-faktai-testas2-34-klausimai.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso banga'
-            },
-            {
-                id: 'F0007',
-                title: 'Garso bangos ilgis, greitis, dažnis, amplitudė ir periodas',
-                description: '(ruošiama) Išspręsk 6 uždavinius',
-                url: 'uzduotys/fizika/garso-bangos-6-uzdaviniai.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso banga'
-            },
-            {
-                id: 'EN0001',
-                title: 'Nouns to Pronouns',
-                description: 'Replace nouns with the correct pronouns',
-                url: 'uzduotys/anglu/nouns-to-pronouns.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Pronouns'
-            },
-            {
-                id: 'EN0101',
-                title: 'Reading comprehension | Green Lake Park',
-                description: 'Complete the sentences using words from the text',
-                url: 'uzduotys/anglu/reading-comprehension-green-lake-park.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Reading comprehension'
-            },
-            {
-                id: 'EN0201',
-                title: 'Comparatives and Superlatives (I)',
-                description: 'Comparatives and Superlatives',
-                url: 'uzduotys/anglu/comparatives-superlatives.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Comparatives and Superlatives'
-            },
-            {
-                id: 'EN0202',
-                title: 'Comparatives and Superlatives (II)',
-                description: 'Comparatives and Superlatives',
-                url: 'uzduotys/anglu/comparatives-superlatives-2.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Comparatives and Superlatives'
-            },
-            {
-                id: 'EN0501',
-                title: 'Look, Cover, Write, Check (I)',
-                description: 'because, friend, which, there, people',
-                url: 'uzduotys/anglu/look-cover-write-check.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0502',
-                title: 'Look, Cover, Write, Check (II)',
-                description: 'which, ...',
-                url: 'uzduotys/anglu/look-cover-write-check-2.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0701',
-                title: 'Irregular verbs (I)',
-                description: 'go, see, take, write, speak, get, make, take, come, write',
-                url: 'uzduotys/anglu/irregular-verbs-1.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0702',
-                title: 'Irregular verbs (II)',
-                description: 'speak, eat, drink, give, find, think, know, feel, leave, meet',
-                url: 'uzduotys/anglu/irregular-verbs-2.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0703',
-                title: 'Irregular verbs (III)',
-                description: 'begin, bring, buy, build, choose, drive, read, run, sleep, sit',
-                url: 'uzduotys/anglu/irregular-verbs-3.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            // PRIDĖKITE ČIA kitas užduotis, nurodydami jų klases, SUP ir BŪTINAI temą!
+            { 
+                verb: 'mokytis', 
+                forms: ['mokausi', 'mokaisi', 'mokosi', 'mokomės', 'mokotės', 'mokosi']
+            }
         ];
-        // --- FILTRAVIMO LOGIKA ---
 
-        const dalykasSelect = document.getElementById('dalykas-select');
-        const klaseSelect = document.getElementById('klase-select');
-        const supSelect = document.getElementById('sup-select');
-        const searchInput = document.getElementById('search-input'); // NAUJAS
-        const taskGrid = document.getElementById('task-grid');
-        const resultCount = document.getElementById('result-count');
-        const resetButton = document.querySelector('.reset-filters');
-        const noResultsMsg = document.querySelector('.no-results-msg');
+        const persons = [
+            { name: 'Aš', question: 'ką veikiu?' },
+            { name: 'Tu', question: 'ką veiki?' },
+            { name: 'Jis/Ji', question: 'ką veikia?' },
+            { name: 'Mes', question: 'ką veikiame?' },
+            { name: 'Jūs', question: 'ką veikiate?' },
+            { name: 'Jie/Jos', question: 'ką veikia?' }
+        ];
 
+        let currentCardIndex = 0;
+        let scores = new Array(cardsData.length).fill(null);
+        let isChecked = false;
 
-        function filterTasks() {
-            const selectedDalykas = dalykasSelect.value;
-            const selectedKlase = klaseSelect.value;
-            const selectedSup = supSelect.value;
-            const searchTerm = searchInput.value.toLowerCase().trim(); // NAUJAS: Paieškos tekstas
+        const personsColumn = document.getElementById('persons-column');
+        const wordsColumn = document.getElementById('words-column');
+        const cardProgress = document.getElementById('card-progress');
+        const prevBtn = document.getElementById('prev-btn');
+        const actionBtn = document.getElementById('action-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        const resultsContainer = document.getElementById('results-container');
+        const resultsList = document.getElementById('results-list');
+        const totalScoreEl = document.getElementById('total-score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Kortelės sukūrimas (1 trūkstamas asmuo – įrašomas)
+        function createCard(index) {
+            personsColumn.innerHTML = '';
+            wordsColumn.innerHTML = '';
+            clearFeedback();
+            isChecked = false;
             
-            if (noResultsMsg) noResultsMsg.style.display = 'none';
+            cardProgress.textContent = `\${index + 1} / \${cardsData.length} kortelė`;
+            actionBtn.disabled = false;
+            actionBtn.textContent = '✅ Pasitikrinti';
 
-            const filteredTasks = taskDatabase.filter(task => {
-                const taskKlase = task.klase; 
-                const filterKlase = selectedKlase === 'visos' ? 'visos' : parseInt(selectedKlase);
+            const card = cardsData[index];
 
-                const dalykasMatch = selectedDalykas === 'visi' || task.dalykas === selectedDalykas;
-                const klaseMatch = selectedKlase === 'visos' || taskKlase === filterKlase;
-                const supMatch = selectedSup === 'visi' || task.sup.includes(selectedSup);
-                
-                // Paieškos sąlyga: Tikriname title, description ir temą
-                const searchMatch = searchTerm === '' || 
-                                    task.title.toLowerCase().includes(searchTerm) ||
-                                    task.description.toLowerCase().includes(searchTerm) ||
-                                    (task.tema && task.tema.toLowerCase().includes(searchTerm)); 
+            // Pasirenkame, kuris asmuo bus trūkstamas (0–5)
+            const missingPersonIndex = Math.floor(Math.random() * persons.length);
+            card.missingPersonIndex = missingPersonIndex;
 
-                return dalykasMatch && klaseMatch && supMatch && searchMatch;
+            // Kairė pusė – asmenys
+            persons.forEach((personInfo, i) => {
+                const personRow = document.createElement('div');
+                personRow.className = 'person-row';
+
+                const personName = document.createElement('div');
+                personName.className = 'person-name';
+                personName.innerHTML = `\${personInfo.name}<span class="person-question">\${personInfo.question}</span>`;
+
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.personIndex = i;
+
+                if (i === missingPersonIndex) {
+                    // čia bus įrašomas žodis
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'missing-input';
+                    input.placeholder = 'įrašyk formą';
+                    input.autocomplete = 'off';
+                    input.dataset.personIndex = i;
+                    dropZone.appendChild(input);
+                    dropZone.classList.add('missing-zone');
+                }
+
+                personRow.appendChild(personName);
+                personRow.appendChild(dropZone);
+                personsColumn.appendChild(personRow);
             });
 
-            renderTasks(filteredTasks);
+            // Dešinė pusė – 5 likusios formos (be trūkstamos)
+            const formsForDrag = card.forms
+                .map((f, i) => ({ f, i }))
+                .filter(obj => obj.i !== missingPersonIndex)
+                .map(obj => obj.f);
+
+            const shuffledWords = shuffleArray(formsForDrag);
+            shuffledWords.forEach((word, i) => {
+                const wordEl = document.createElement('div');
+                wordEl.className = 'draggable-word';
+                wordEl.textContent = word;
+                wordEl.draggable = true;
+                wordEl.id = `word-\${index}-\${i}`;
+                wordsColumn.appendChild(wordEl);
+            });
+
+            addDragAndDropListeners();
+            updateNavButtons();
         }
 
-        function renderTasks(tasks) {
-            taskGrid.innerHTML = ''; 
-            
-            if (tasks.length === 0) {
-                taskGrid.innerHTML = '<p class="no-results">Pagal pasirinktus kriterijus užduočių nerasta. Pabandykite keisti filtrus.</p>';
-                taskGrid.style.display = 'grid'; 
-            } else {
-                tasks.forEach(task => {
-                    const taskCard = document.createElement('a');
-                    taskCard.href = task.url;
-                    taskCard.classList.add('task-card-filtered');
+        // Touch drag helper kintamieji
+        let touchedElement = null;
+        let clone = null;
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            touchedElement = e.target;
+            const touch = e.touches[0];
+
+            clone = touchedElement.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.pointerEvents = 'none';
+            clone.style.opacity = '0.8';
+            clone.style.zIndex = '1000';
+            clone.style.left = touch.clientX - touchedElement.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - touchedElement.offsetHeight / 2 + 'px';
+            clone.style.width = touchedElement.offsetWidth + 'px';
+            document.body.appendChild(clone);
+
+            touchedElement.style.opacity = '0.3';
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!clone) return;
+            const touch = e.touches[0];
+            clone.style.left = touch.clientX - clone.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - clone.offsetHeight / 2 + 'px';
+
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                    zone.classList.add('hovered');
+                } else {
+                    zone.classList.remove('hovered');
+                }
+            });
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            if (!touchedElement) return;
+            const touch = e.changedTouches[0];
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let dropped = false;
+
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+
+                    // nenaudojame drag ant missing input zonos
+                    if (zone.classList.contains('missing-zone')) return;
+
+                    // PATAISYMAS: jei zonoje jau yra žodis, grąžiname jį į wordsColumn
+                    const existingWord = zone.querySelector('.draggable-word');
+                    if (existingWord) {
+                        wordsColumn.appendChild(existingWord);
+                    }
                     
-                    const supBadges = task.sup.map(sup => `<span class="sup-badge sup-${sup}">${sup.charAt(0).toUpperCase() + sup.slice(1)}</span>`).join('');
+                    zone.appendChild(touchedElement);
+                    zone.classList.remove('hovered');
+                    dropped = true;
+                    clearFeedback();
+                }
+            });
 
-                    taskCard.innerHTML = `
-                        <div class="task-header">
-                            <span class="task-klase">${task.klase} klasė</span>
-                            <span class="task-id">ID: ${task.id}</span>
-                        </div>
-                        <h3 class="task-title">${task.title}</h3>
-                        <p class="task-topic">Tema: ${task.tema}</p> <p class="task-description">${task.description}</p>
-                        <div class="task-footer">
-                            <span class="task-dalykas">${task.dalykas.charAt(0).toUpperCase() + task.dalykas.slice(1)}</span>
-                            <div class="sup-badges">${supBadges}</div>
-                        </div>
-                    `;
-                    taskGrid.appendChild(taskCard);
-                });
+            if (!dropped && touchedElement.parentElement.classList.contains('drop-zone')) {
+                wordsColumn.appendChild(touchedElement);
             }
-            
-            resultCount.textContent = `${tasks.length} užduočių rasta.`;
-        }
-        
-        function resetFilters() {
-            dalykasSelect.value = 'visi';
-            klaseSelect.value = 'visos';
-            supSelect.value = 'visi';
-            searchInput.value = ''; // Išvalome paieškos lauką
-            filterTasks(); 
+
+            touchedElement.style.opacity = '1';
+            if (clone) {
+                document.body.removeChild(clone);
+                clone = null;
+            }
+            touchedElement = null;
+            dropZones.forEach(zone => zone.classList.remove('hovered'));
         }
 
-        // Įvykių klausytojai
-        dalykasSelect.addEventListener('change', filterTasks);
-        klaseSelect.addEventListener('change', filterTasks);
-        supSelect.addEventListener('change', filterTasks);
-        searchInput.addEventListener('input', filterTasks); // NAUJAS klausytojas paieškai
-        resetButton.addEventListener('click', resetFilters);
+        function addDragAndDropListeners() {
+            const draggables = document.querySelectorAll('.draggable-word');
+            const dropZones = document.querySelectorAll('.drop-zone');
 
-        // Pradinis paleidimas
-        filterTasks();
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                    e.target.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', (e) => {
+                    e.target.classList.remove('dragging');
+                });
+
+                draggable.addEventListener('touchstart', handleTouchStart, { passive: false });
+                draggable.addEventListener('touchmove', handleTouchMove, { passive: false });
+                draggable.addEventListener('touchend', handleTouchEnd, { passive: false });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!zone.classList.contains('missing-zone')) {
+                        zone.classList.add('hovered');
+                    }
+                });
+                
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('hovered');
+                });
+                
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('hovered');
+                    
+                    if (zone.classList.contains('missing-zone')) return;
+
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggableElement = document.getElementById(id);
+                    
+                    if (!draggableElement) return;
+
+                    // PATAISYMAS: jei zonoje jau yra žodis, grąžiname jį į wordsColumn
+                    const existingWord = zone.querySelector('.draggable-word');
+                    if (existingWord && existingWord !== draggableElement) {
+                        wordsColumn.appendChild(existingWord);
+                    }
+                    
+                    zone.appendChild(draggableElement);
+                    clearFeedback();
+                });
+            });
+        }
+
+        function clearFeedback() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => zone.classList.remove('correct', 'incorrect', 'input-correct', 'input-incorrect'));
+        }
+
+        function resetCard() {
+            createCard(currentCardIndex);
+            scores[currentCardIndex] = null;
+        }
+
+        function updateNavButtons() {
+            prevBtn.disabled = currentCardIndex === 0;
+        }
+
+        function checkAnswers() {
+            if (scores[currentCardIndex] !== null) return;
+
+            const card = cardsData[currentCardIndex];
+            const missingIndex = card.missingPersonIndex;
+
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            dropZones.forEach(zone => {
+                const personIndex = parseInt(zone.dataset.personIndex, 10);
+                const correctForm = card.forms[personIndex];
+
+                zone.classList.remove('correct', 'incorrect', 'input-correct', 'input-incorrect');
+
+                if (personIndex === missingIndex) {
+                    const input = zone.querySelector('.missing-input');
+                    const value = (input.value || '').trim();
+                    if (value.toLowerCase() === correctForm.toLowerCase()) {
+                        zone.classList.add('input-correct');
+                        correctCount++;
+                    } else {
+                        zone.classList.add('input-incorrect');
+                    }
+                } else {
+                    const droppedWord = zone.querySelector('.draggable-word');
+                    if (droppedWord && droppedWord.textContent === correctForm) {
+                        zone.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                }
+            });
+
+            scores[currentCardIndex] = correctCount;
+            isChecked = true;
+
+            if (currentCardIndex === cardsData.length - 1) {
+                actionBtn.textContent = '🏁 Rezultatai';
+            } else {
+                actionBtn.textContent = '➡️ Toliau';
+            }
+        }
+
+        function goToNextCard() {
+            if (currentCardIndex < cardsData.length - 1) {
+                currentCardIndex++;
+                createCard(currentCardIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('card').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
+            document.getElementById('card-header').style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            resultsList.innerHTML = '';
+            let totalCorrect = 0;
+            const totalPerCard = persons.length; // 6
+            const totalWords = cardsData.length * totalPerCard;
+
+            cardsData.forEach((card, index) => {
+                const score = scores[index] === null ? 0 : scores[index];
+                totalCorrect += score;
+                const percentage = (score / totalPerCard * 100).toFixed(0);
+                const listItem = document.createElement('li');
+                listItem.textContent = `"${card.verb}": teisinga ${score}/${totalPerCard} – ${percentage}%`;
+                resultsList.appendChild(listItem);
+            });
+
+            const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
+            totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} – ${totalPercentage}%`;
+
+            sendResultToSheet('A0001 Asmenavimas: Esamasis laikas | nutemk ir įrašyk trūkstamą (I)', totalPercentage);
+        }
+
+        function restartGame() {
+            scores.fill(null);
+            currentCardIndex = 0;
+            resultsContainer.style.display = 'none';
+            document.getElementById('card').style.display = 'grid';
+            document.getElementById('controls').style.display = 'flex';
+            document.getElementById('card-header').style.display = 'flex';
+            createCard(currentCardIndex);
+        }
+
+        // --- Įvykių klausytojai ---
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                createCard(currentCardIndex);
+            }
+        });
+
+        actionBtn.addEventListener('click', () => {
+            if (!isChecked) {
+                checkAnswers();
+            } else {
+                goToNextCard();
+            }
+        });
+
+        resetBtn.addEventListener('click', resetCard);
+        restartBtn.addEventListener('click', restartGame);
+
+        // --- Pradinis paleidimas ---
+        createCard(currentCardIndex);
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
