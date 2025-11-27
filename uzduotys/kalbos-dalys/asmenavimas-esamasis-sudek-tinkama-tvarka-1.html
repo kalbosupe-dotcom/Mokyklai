@@ -22,7 +22,7 @@
 
         .page-wrapper {
             width: 100%;
-            max-width: 850px;
+            max-width: 850px; /* PAKEISTA */
         }
 
         /* Viršutinė juosta: grįžti + vardas vienoje eilutėje */
@@ -196,11 +196,11 @@
             border: none;
             background: transparent;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.3rem; /* PAKEISTA */
             font-family: 'OpenDyslexic', Arial, sans-serif;
             outline: none;
-            color: #0D3B66;
-            font-weight: bold;
+            color: #0D3B66; /* PAKEISTA */
+            font-weight: bold; /* PAKEISTA */
         }
 
         .missing-input::placeholder {
@@ -338,6 +338,23 @@
             background-color: #d4edda !important;
         }
         
+        /* ======== PRADŽIA: NAUJAS CSS KODAS ======== */
+        /* Stilius "Vienaskaita" / "Daugiskaita" antraštėms */
+        .person-group-heading {
+            font-size: 1.6rem; /* Padidiname šriftą */
+            font-weight: bold;
+            color: #0D3B66;    /* Tamsiai mėlyna */
+            margin-top: 20px;   /* Tarps viršuje */
+            margin-bottom: 5px; /* Tarps apačioje */
+            padding-left: 5px;  /* Mažas atitraukimas, kad lygiuotųsi su eilutėmis */
+        }
+        
+        /* Pirmai antraštei nereikia tarpo viršuje */
+        .person-group-heading:first-of-type {
+            margin-top: 0;
+        }
+        /* ======== PABAIGA: NAUJAS CSS KODAS ======== */
+
         /* Rezultatų langas */
         #results-container {
             display: none;
@@ -476,7 +493,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
+            alert(`Vardas pakeistas į: ${newName}`); // PATAISYTA (pašalintas \)
             location.reload();
         }
 
@@ -576,7 +593,7 @@
             clearFeedback();
             isChecked = false;
             
-            cardProgress.textContent = `${index + 1} / ${cardsData.length} kortelė`;
+            cardProgress.textContent = `${index + 1} / ${cardsData.length} kortelė`; // PATAISYTA
             actionBtn.disabled = false;
             actionBtn.textContent = '✅ Pasitikrinti';
 
@@ -588,13 +605,30 @@
 
             // Kairė pusė – asmenys
             persons.forEach((personInfo, i) => {
+                
+                // ======== PRADŽIA: NAUJAS JS KODAS ========
+                if (i === 0) {
+                    const heading = document.createElement('h3');
+                    heading.className = 'person-group-heading';
+                    heading.textContent = 'Vienaskaita';
+                    personsColumn.appendChild(heading);
+                }
+                
+                if (i === 3) {
+                    const heading = document.createElement('h3');
+                    heading.className = 'person-group-heading';
+                    heading.textContent = 'Daugiskaita';
+                    personsColumn.appendChild(heading);
+                }
+                // ======== PABAIGA: NAUJAS JS KODAS ========
+
+
                 const personRow = document.createElement('div');
                 personRow.className = 'person-row';
 
                 const personName = document.createElement('div');
                 personName.className = 'person-name';
                 
-                // PATAISYTA: naudojame textContent ir appendChild
                 personName.textContent = personInfo.name;
                 
                 const questionSpan = document.createElement('span');
@@ -636,7 +670,7 @@
                 wordEl.className = 'draggable-word';
                 wordEl.textContent = word;
                 wordEl.draggable = true;
-                wordEl.id = `word-${index}-${i}`;
+                wordEl.id = `word-${index}-${i}`; // PATAISYTA
                 wordsColumn.appendChild(wordEl);
             });
 
@@ -812,7 +846,7 @@
                     
                     // Įdedame naują žodį
                     zone.appendChild(draggableElement);
-                    
+
                     // Pašaliname drag funkcionalumą iš įdėto žodžio
                     draggableElement.draggable = false;
                     draggableElement.removeEventListener('touchstart', handleTouchStart);
@@ -952,4 +986,3 @@
     </script>
 </body>
 </html>
-
