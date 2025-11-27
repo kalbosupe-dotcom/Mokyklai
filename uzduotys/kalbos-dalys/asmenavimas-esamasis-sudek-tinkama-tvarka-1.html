@@ -95,24 +95,28 @@
         /* Antraštė */
         #card-header {
             margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 10px;
-            flex-wrap: wrap;
+            position: relative;
         }
 
         #card-header h1 {
             font-size: 1.8rem;
             color: #0D3B66;
             margin: 0;
+            padding-right: 150px;
         }
         
         #card-progress {
+            position: absolute;
+            top: 0;
+            right: 0;
             font-size: 1rem;
             color: #1A4D7A;
             font-weight: bold;
             margin: 0;
+            padding: 8px 20px;
+            background-color: #E8F4F8;
+            border: 2px solid #4A90E2;
+            border-radius: 25px;
         }
 
         /* Instrukcija su ikonėlėmis */
@@ -131,7 +135,7 @@
 
         #card {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.2fr 0.8fr;
             gap: 20px;
             margin-top: 15px;
         }
@@ -145,25 +149,25 @@
 
         .person-row {
             display: grid;
-            grid-template-columns: 200px 1fr;
+            grid-template-columns: 140px 1fr;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             border: 2px solid #7CB3E9;
             border-radius: 12px;
-            padding: 12px 15px;
+            padding: 10px 12px;
             background-color: #ffffff;
         }
 
         .person-name {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: bold;
             color: #0D3B66;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         
         .person-question {
             font-weight: normal;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #4A90E2;
             display: block;
             margin-top: 2px;
@@ -205,7 +209,7 @@
 
         /* Dešinė pusė su žodžiais */
         #words-column {
-            padding: 15px;
+            padding: 12px;
             background-color: #E8F4F8;
             border-radius: 15px;
             display: flex;
@@ -213,7 +217,7 @@
             align-items: stretch;
             gap: 10px;
             border: 2px solid #7CB3E9;
-            min-height: 400px;
+            min-height: 350px;
         }
 
         .draggable-word {
@@ -384,14 +388,23 @@
                 grid-template-columns: 1fr;
             }
             .person-row {
-                grid-template-columns: 150px 1fr;
+                grid-template-columns: 120px 1fr;
+            }
+            #card-header h1 {
+                padding-right: 0;
+                margin-bottom: 10px;
+            }
+            #card-progress {
+                position: static;
+                display: inline-block;
+                margin-top: 10px;
             }
         }
         
         @media (max-width: 600px) {
             .person-row {
                 grid-template-columns: 1fr;
-                gap: 10px;
+                gap: 8px;
             }
             #card-header h1 {
                 font-size: 1.4rem;
@@ -637,7 +650,9 @@
 
         function handleTouchStart(e) {
             // Tik jei elementas yra wordsColumn
-            if (e.target.parentElement.id !== 'words-column') return;
+            if (!e.target.parentElement || e.target.parentElement.id !== 'words-column') {
+                return;
+            }
             
             e.preventDefault();
             touchedElement = e.target;
@@ -678,6 +693,7 @@
         function handleTouchEnd(e) {
             e.preventDefault();
             if (!touchedElement) return;
+            
             const touch = e.changedTouches[0];
             const dropZones = document.querySelectorAll('.drop-zone');
             let dropped = false;
@@ -692,24 +708,31 @@
 
                     // Jei zonoje jau yra žodis, grąžiname jį į wordsColumn
                     const existingWord = zone.querySelector('.draggable-word');
-                    if (existingWord && existingWord !== touchedElement) {
+                    if (existingWord) {
                         wordsColumn.appendChild(existingWord);
-                        addDragListenersToWord(existingWord);
+                        // Grąžiname drag funkcionalumą
+                        existingWord.draggable = true;
+                        existingWord.addEventListener('touchstart', handleTouchStart, { passive: false });
+                        existingWord.addEventListener('touchmove', handleTouchMove, { passive: false });
+                        existingWord.addEventListener('touchend', handleTouchEnd, { passive: false });
                     }
                     
                     zone.appendChild(touchedElement);
-                    removeDragListenersFromWord(touchedElement);
+                    
+                    // Pašaliname drag funkcionalumą
+                    touchedElement.draggable = false;
+                    touchedElement.removeEventListener('touchstart', handleTouchStart);
+                    touchedElement.removeEventListener('touchmove', handleTouchMove);
+                    touchedElement.removeEventListener('touchend', handleTouchEnd);
+                    
                     zone.classList.remove('hovered');
                     dropped = true;
                     clearFeedback();
                 }
             });
 
-            if (!dropped && touchedElement.parentElement.classList.contains('drop-zone')) {
-                wordsColumn.appendChild(touchedElement);
-                addDragListenersToWord(touchedElement);
-            }
-
+            // Jei nenumesta niekur - nieko nedarome, lieka wordsColumn
+            
             touchedElement.style.opacity = '1';
             if (clone) {
                 document.body.removeChild(clone);
@@ -719,34 +742,20 @@
             dropZones.forEach(zone => zone.classList.remove('hovered'));
         }
 
-        // Nauja funkcija - pridėti drag listeners vienam žodžiui
-        function addDragListenersToWord(wordEl) {
-            wordEl.draggable = true;
-            wordEl.addEventListener('touchstart', handleTouchStart, { passive: false });
-            wordEl.addEventListener('touchmove', handleTouchMove, { passive: false });
-            wordEl.addEventListener('touchend', handleTouchEnd, { passive: false });
-        }
-
-        // Nauja funkcija - pašalinti drag listeners iš žodžio
-        function removeDragListenersFromWord(wordEl) {
-            wordEl.draggable = false;
-            wordEl.removeEventListener('touchstart', handleTouchStart);
-            wordEl.removeEventListener('touchmove', handleTouchMove);
-            wordEl.removeEventListener('touchend', handleTouchEnd);
-        }
-
         function addDragAndDropListeners() {
             const draggables = document.querySelectorAll('.draggable-word');
             const dropZones = document.querySelectorAll('.drop-zone');
 
             draggables.forEach(draggable => {
-                // Tik jei žodis yra wordsColumn, leidžiame drag
                 draggable.addEventListener('dragstart', (e) => {
-                    if (draggable.parentElement.id === 'words-column') {
+                    // Leidžiame drag tik jei elementas yra wordsColumn
+                    if (e.target.parentElement && e.target.parentElement.id === 'words-column') {
+                        e.dataTransfer.effectAllowed = 'move';
                         e.dataTransfer.setData('text/plain', e.target.id);
                         e.target.classList.add('dragging');
                     } else {
                         e.preventDefault();
+                        return false;
                     }
                 });
 
@@ -754,8 +763,8 @@
                     e.target.classList.remove('dragging');
                 });
 
-                // Touch events - tik jei wordsColumn
-                if (draggable.parentElement.id === 'words-column') {
+                // Touch events - pridedame tik jei wordsColumn
+                if (draggable.parentElement && draggable.parentElement.id === 'words-column') {
                     draggable.addEventListener('touchstart', handleTouchStart, { passive: false });
                     draggable.addEventListener('touchmove', handleTouchMove, { passive: false });
                     draggable.addEventListener('touchend', handleTouchEnd, { passive: false });
@@ -765,17 +774,19 @@
             dropZones.forEach(zone => {
                 zone.addEventListener('dragover', (e) => {
                     e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
                     if (!zone.classList.contains('missing-zone')) {
                         zone.classList.add('hovered');
                     }
                 });
                 
-                zone.addEventListener('dragleave', () => {
+                zone.addEventListener('dragleave', (e) => {
                     zone.classList.remove('hovered');
                 });
                 
                 zone.addEventListener('drop', (e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     zone.classList.remove('hovered');
                     
                     if (zone.classList.contains('missing-zone')) return;
@@ -784,16 +795,30 @@
                     const draggableElement = document.getElementById(id);
                     
                     if (!draggableElement) return;
+                    
+                    // Patikriname ar elementas iš wordsColumn
+                    if (draggableElement.parentElement.id !== 'words-column') return;
 
                     // Jei zonoje jau yra žodis, grąžiname jį į wordsColumn
                     const existingWord = zone.querySelector('.draggable-word');
-                    if (existingWord && existingWord !== draggableElement) {
+                    if (existingWord) {
                         wordsColumn.appendChild(existingWord);
-                        addDragListenersToWord(existingWord);
+                        // Grąžiname drag funkcionalumą
+                        existingWord.draggable = true;
+                        existingWord.addEventListener('touchstart', handleTouchStart, { passive: false });
+                        existingWord.addEventListener('touchmove', handleTouchMove, { passive: false });
+                        existingWord.addEventListener('touchend', handleTouchEnd, { passive: false });
                     }
                     
+                    // Įdedame naują žodį
                     zone.appendChild(draggableElement);
-                    removeDragListenersFromWord(draggableElement);
+                    
+                    // Pašaliname drag funkcionalumą iš įdėto žodžio
+                    draggableElement.draggable = false;
+                    draggableElement.removeEventListener('touchstart', handleTouchStart);
+                    draggableElement.removeEventListener('touchmove', handleTouchMove);
+                    draggableElement.removeEventListener('touchend', handleTouchEnd);
+                    
                     clearFeedback();
                 });
             });
@@ -899,7 +924,7 @@
             resultsContainer.style.display = 'none';
             document.getElementById('card').style.display = 'grid';
             document.getElementById('controls').style.display = 'flex';
-            document.getElementById('card-header').style.display = 'flex';
+            document.getElementById('card-header').style.display = 'block';
             createCard(currentCardIndex);
         }
 
