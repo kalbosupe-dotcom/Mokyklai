@@ -14,6 +14,32 @@
             line-height: 1.6;
         }
 
+        .header-container {
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #7dd3fc;
+            color: #1a5490;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background: #38bdf8;
+            transform: translateY(-2px);
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -35,6 +61,25 @@
             border-radius: 10px;
             margin-bottom: 20px;
             font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .change-name-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #1a5490;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .change-name-btn:hover {
+            background: #0f3a6f;
         }
 
         .progress-bar {
@@ -221,6 +266,16 @@
             cursor: move;
             font-size: 18px;
             text-align: center;
+            transition: all 0.2s;
+        }
+
+        .drag-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drag-item.placed {
+            opacity: 0.3;
+            cursor: not-allowed;
         }
 
         .drop-zone {
@@ -230,11 +285,38 @@
             border-radius: 8px;
             min-height: 50px;
             font-size: 18px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .drop-zone.drag-over {
+            background: #e0f2fe;
+            border-color: #1a5490;
         }
 
         .drop-zone.filled {
+            background: #f0f0f0;
+            border-style: solid;
+            border-color: #666;
+        }
+
+        .drop-zone.correct {
             background: #dcfce7;
             border-color: #16a34a;
+        }
+
+        .drop-zone.incorrect {
+            background: #fee2e2;
+            border-color: #dc2626;
+        }
+
+        .dropped-item {
+            background: #1a5490;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
 
         .helper-text {
@@ -242,15 +324,29 @@
             font-size: 16px;
             margin-bottom: 15px;
         }
+
+        @media (max-width: 768px) {
+            .drag-drop-container {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="header-container">
+        <a href="../../index.html" class="back-button">
+            ← Grįžti į pradžią
+        </a>
+    </div>
+
     <div class="container">
         <h1>🌍 Europos Geografija</h1>
         
         <div class="student-info">
-            👤 Mokinys: <strong id="studentNameDisplay"></strong>
-            <button onclick="changeName()" style="margin-left: 20px; padding: 5px 15px; border-radius: 5px; border: none; background: #1a5490; color: white; cursor: pointer;">Keisti vardą</button>
+            <div>
+                👤 Mokinys: <strong id="studentNameDisplay"></strong>
+            </div>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
         </div>
 
         <div class="progress-bar">
@@ -381,6 +477,7 @@
         let userAnswers = {};
         let checkedAnswers = {};
         let isChecked = false;
+        let dragDropAnswers = {};
 
         function init() {
             renderQuestions();
@@ -414,7 +511,30 @@
                         </div>`
                     ).join('');
                 } else if (q.type === 'dragdrop') {
-                    optionsHTML = '<p style="color: #666; font-style: italic;">🚧 Drag & Drop užduotis bus pridėta netrukus...</p>';
+                    const items = Object.keys(q.pairs);
+                    const zones = Object.values(q.pairs);
+                    
+                    optionsHTML = `
+                        <p class="helper-text">Vilkite aukščius į tinkamas reljefo formas</p>
+                        <div class="drag-drop-container">
+                            <div class="drag-items">
+                                <h4 style="margin-bottom: 15px; color: #1a5490;">📏 Aukščiai:</h4>
+                                ${items.map((item, i) => 
+                                    `<div class="drag-item" draggable="true" data-item="${item}" id="item-${index}-${i}">
+                                        ${item}
+                                    </div>`
+                                ).join('')}
+                            </div>
+                            <div class="drop-zones">
+                                <h4 style="margin-bottom: 15px; color: #1a5490;">🏔️ Reljefo formos:</h4>
+                                ${zones.map((zone, i) => 
+                                    `<div class="drop-zone" data-zone="${zone}" data-correct="${items[i]}" id="zone-${index}-${i}">
+                                        <strong>${zone}</strong>
+                                    </div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    `;
                 }
 
                 card.innerHTML = `
@@ -435,7 +555,99 @@
                 `;
 
                 container.appendChild(card);
+
+                // Inicializuoti drag & drop jei tai tas klausimo tipas
+                if (q.type === 'dragdrop') {
+                    initDragDrop(index);
+                }
             });
+        }
+
+        function initDragDrop(qIndex) {
+            dragDropAnswers[qIndex] = {};
+            
+            const dragItems = document.querySelectorAll(`#question-${qIndex} .drag-item`);
+            const dropZones = document.querySelectorAll(`#question-${qIndex} .drop-zone`);
+
+            dragItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('drop', handleDrop);
+                zone.addEventListener('dragleave', handleDragLeave);
+            });
+
+            updateCheckButton(qIndex);
+        }
+
+        let draggedElement = null;
+        let draggedItem = null;
+
+        function handleDragStart(e) {
+            if (isChecked) return;
+            
+            draggedElement = e.target;
+            draggedItem = e.target.dataset.item;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            if (isChecked) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (isChecked) return;
+            
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+
+            const dropZone = e.currentTarget;
+            const zoneName = dropZone.dataset.zone;
+            
+            // Patikrinti ar jau yra elementas šioje zonoje
+            const existingItem = dropZone.querySelector('.dropped-item');
+            if (existingItem) {
+                // Grąžinti seną elementą atgal
+                const oldItemText = existingItem.textContent;
+                const oldDragItem = Array.from(document.querySelectorAll('.drag-item')).find(
+                    item => item.dataset.item === oldItemText
+                );
+                if (oldDragItem) {
+                    oldDragItem.classList.remove('placed');
+                }
+                existingItem.remove();
+            }
+
+            // Pridėti naują elementą
+            const droppedItem = document.createElement('div');
+            droppedItem.className = 'dropped-item';
+            droppedItem.textContent = draggedItem;
+            dropZone.appendChild(droppedItem);
+            dropZone.classList.add('filled');
+
+            // Paslėpti originalų drag item
+            draggedElement.classList.add('placed');
+
+            // Išsaugoti atsakymą
+            const qIndex = currentQuestion;
+            dragDropAnswers[qIndex][zoneName] = draggedItem;
+
+            updateCheckButton(qIndex);
         }
 
         function selectSingle(qIndex, option) {
@@ -487,6 +699,10 @@
                 canCheck = userAnswers[qIndex] !== undefined;
             } else if (q.type === 'multiselect') {
                 canCheck = userAnswers[qIndex] && userAnswers[qIndex].length === q.maxSelect;
+            } else if (q.type === 'dragdrop') {
+                const answersCount = Object.keys(dragDropAnswers[qIndex] || {}).length;
+                const expectedCount = Object.keys(q.pairs).length;
+                canCheck = answersCount === expectedCount;
             }
             
             btn.disabled = !canCheck;
@@ -495,37 +711,67 @@
         function checkAnswer(qIndex) {
             isChecked = true;
             const q = questions[qIndex];
-            const userAnswer = userAnswers[qIndex];
             let isCorrect = false;
 
             if (q.type === 'single') {
+                const userAnswer = userAnswers[qIndex];
                 isCorrect = userAnswer === q.correct;
-            } else if (q.type === 'multiselect') {
-                isCorrect = JSON.stringify(userAnswer.sort()) === JSON.stringify(q.correct.sort());
-            }
 
-            checkedAnswers[qIndex] = isCorrect;
-
-            // Spalvinti atsakymus
-            const options = document.querySelectorAll(`#question-${qIndex} .option`);
-            options.forEach(opt => {
-                opt.classList.add('disabled');
-                const optVal = opt.dataset.option;
-                
-                if (q.type === 'single') {
+                // Spalvinti atsakymus
+                const options = document.querySelectorAll(`#question-${qIndex} .option`);
+                options.forEach(opt => {
+                    opt.classList.add('disabled');
+                    const optVal = opt.dataset.option;
+                    
                     if (optVal === q.correct) {
                         opt.classList.add('correct');
                     } else if (optVal === userAnswer && !isCorrect) {
                         opt.classList.add('incorrect');
                     }
-                } else if (q.type === 'multiselect') {
+                });
+            } else if (q.type === 'multiselect') {
+                const userAnswer = userAnswers[qIndex];
+                isCorrect = JSON.stringify(userAnswer.sort()) === JSON.stringify(q.correct.sort());
+
+                // Spalvinti atsakymus
+                const options = document.querySelectorAll(`#question-${qIndex} .option`);
+                options.forEach(opt => {
+                    opt.classList.add('disabled');
+                    const optVal = opt.dataset.option;
+                    
                     if (q.correct.includes(optVal)) {
                         opt.classList.add('correct');
                     } else if (userAnswer.includes(optVal)) {
                         opt.classList.add('incorrect');
                     }
-                }
-            });
+                });
+            } else if (q.type === 'dragdrop') {
+                // Patikrinti kiekviena atitikimą
+                isCorrect = true;
+                const dropZones = document.querySelectorAll(`#question-${qIndex} .drop-zone`);
+                
+                dropZones.forEach(zone => {
+                    const zoneName = zone.dataset.zone;
+                    const correctAnswer = zone.dataset.correct;
+                    const userAnswer = dragDropAnswers[qIndex][zoneName];
+                    
+                    if (userAnswer === correctAnswer) {
+                        zone.classList.add('correct');
+                    } else {
+                        zone.classList.add('incorrect');
+                        isCorrect = false;
+                    }
+                });
+
+                // Uždrausti tolimesnį vilkimą
+                const dragItems = document.querySelectorAll(`#question-${qIndex} .drag-item`);
+                dragItems.forEach(item => {
+                    item.setAttribute('draggable', 'false');
+                    item.style.cursor = 'not-allowed';
+                });
+            }
+
+            checkedAnswers[qIndex] = isCorrect;
 
             // Rodyti feedback
             const feedback = document.getElementById(`feedback-${qIndex}`);
@@ -586,6 +832,7 @@
             currentQuestion = 0;
             userAnswers = {};
             checkedAnswers = {};
+            dragDropAnswers = {};
             isChecked = false;
             
             document.getElementById('resultsSection').classList.remove('show');
