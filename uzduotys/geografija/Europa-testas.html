@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Europos Geografija - Quiz</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF8DC;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1a5490;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .student-info {
+            background: #e0f2fe;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #1a5490;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .question-card {
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .question-card.active {
+            display: block;
+        }
+
+        .question-title {
+            font-size: 24px;
+            color: #1a5490;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .option {
+            padding: 15px 20px;
+            margin: 10px 0;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.2s;
+            background: #f9f9f9;
+        }
+
+        .option:hover {
+            background: #f0f0f0;
+        }
+
+        .option.selected {
+            background: #1a5490;
+            color: white;
+            border-color: #1a5490;
+        }
+
+        .option.correct {
+            background: #dcfce7;
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+
+        .option.incorrect {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid currentColor;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #dcfce7;
+            border: 3px solid #16a34a;
+            color: #16a34a;
+        }
+
+        .feedback.incorrect {
+            background: #fee2e2;
+            border: 3px solid #dc2626;
+            color: #dc2626;
+        }
+
+        .explanation {
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        .btn-check {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-check:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-next {
+            background: #1a5490;
+            color: white;
+        }
+
+        .btn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .results {
+            text-align: center;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .drag-drop-container {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .drag-items, .drop-zones {
+            flex: 1;
+        }
+
+        .drag-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: #e0f2fe;
+            border: 2px solid #1a5490;
+            border-radius: 8px;
+            cursor: move;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .drop-zone {
+            padding: 15px;
+            margin: 10px 0;
+            border: 3px dashed #ccc;
+            border-radius: 8px;
+            min-height: 50px;
+            font-size: 18px;
+        }
+
+        .drop-zone.filled {
+            background: #dcfce7;
+            border-color: #16a34a;
+        }
+
+        .helper-text {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Europos Geografija</h1>
+        
+        <div class="student-info">
+            👤 Mokinys: <strong id="studentNameDisplay"></strong>
+            <button onclick="changeName()" style="margin-left: 20px; padding: 5px 15px; border-radius: 5px; border: none; background: #1a5490; color: white; cursor: pointer;">Keisti vardą</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <!-- Klausimai -->
+        <div id="questionsContainer"></div>
+
+        <!-- Rezultatai -->
+        <div class="results" id="resultsSection">
+            <h2>🎉 Puiku! Baigei užduotį!</h2>
+            <div class="score-display" id="scoreDisplay"></div>
+            <p id="scoreMessage" style="font-size: 22px; margin: 20px 0;"></p>
+            <button class="btn btn-next" onclick="restartQuiz()">🔄 Bandyti dar kartą</button>
+        </div>
+    </div>
+
+    <script src="../../js/results.js"></script>
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "Pažymėkite vandenynų ir jūrų pavadinimus, su kuriais ribojasi Europa",
+                type: "multiselect",
+                options: ["Atlanto vandenynas", "Arkties vandenynas", "Ramusis vandenynas", "Indijos vandenynas", "Viduržemio jūra"],
+                correct: ["Atlanto vandenynas", "Arkties vandenynas", "Viduržemio jūra"],
+                maxSelect: 3,
+                explanation: "Europa ribojasi su Atlanto vandenynu vakaruose, Arkties vandenynu šiaurėje ir Viduržemio jūra pietuose."
+            },
+            {
+                id: 2,
+                question: "Kurie kalnai yra Europos rytuose?",
+                type: "single",
+                options: ["Uralo kalnai", "Alpės", "Pirėnai", "Karpatai"],
+                correct: "Uralo kalnai",
+                explanation: "Uralo kalnai yra Europos rytinė riba, skirianti Europą nuo Azijos."
+            },
+            {
+                id: 3,
+                question: "Koks yra Europos plotas?",
+                type: "single",
+                options: ["5 mln. km²", "10,5 mln. km²", "15 mln. km²", "20 mln. km²"],
+                correct: "10,5 mln. km²",
+                explanation: "Europos plotas yra 10,5 milijono kvadratinių kilometrų."
+            },
+            {
+                id: 4,
+                question: "Kiek žmonių gyvena Europoje (2024 m.)?",
+                type: "single",
+                options: ["apie 500 mln.", "apie 750 mln.", "apie 1 mlrd."],
+                correct: "apie 750 mln.",
+                explanation: "2024 metais Europoje gyvena apie 750 milijonų žmonių."
+            },
+            {
+                id: 5,
+                question: "Pažymėkite VISUS Europos pusiasalius",
+                type: "multiselect",
+                options: ["Skandinavijos", "Pirėnų", "Apenų", "Balkanų", "Arabijos"],
+                correct: ["Skandinavijos", "Pirėnų", "Apenų", "Balkanų"],
+                maxSelect: 4,
+                explanation: "Europos pagrindiniai pusiasaliai yra: Skandinavijos, Pirėnų, Apenų ir Balkanų. Arabijos pusiasalis yra Azijoje."
+            },
+            {
+                id: 6,
+                question: "Kuris pusiasalis yra didžiausias Europoje?",
+                type: "single",
+                options: ["Skandinavijos", "Pirėnų", "Apenų", "Balkanų"],
+                correct: "Skandinavijos",
+                explanation: "Skandinavijos pusiasalis yra didžiausias Europos pusiasalis."
+            },
+            {
+                id: 7,
+                question: "Kokia didžiausia Europos sala?",
+                type: "single",
+                options: ["Islandija", "Airija", "Sicilija", "Didžioji Britanija"],
+                correct: "Didžioji Britanija",
+                explanation: "Didžioji Britanija yra didžiausia Europos sala."
+            },
+            {
+                id: 8,
+                question: "Kuri upė yra ilgiausia Europoje?",
+                type: "single",
+                options: ["Volga (apie 3530 km)", "Dunojus (apie 2850 km)", "Reinas", "Odra"],
+                correct: "Volga (apie 3530 km)",
+                explanation: "Volga yra ilgiausia Europos upė – jos ilgis apie 3530 km."
+            },
+            {
+                id: 9,
+                question: "Kuris ežeras yra didžiausias Europoje?",
+                type: "single",
+                options: ["Ladogos", "Onega", "Venerno", "Peipaus"],
+                correct: "Ladogos",
+                explanation: "Ladogos ežeras yra didžiausias Europos ežeras."
+            },
+            {
+                id: 10,
+                question: "Sujunkite reljefo formas su jų aukščiu",
+                type: "dragdrop",
+                pairs: {
+                    "daugiau nei 2000 m": "Aukšti kalnai",
+                    "1000-2000 m": "Vidutinio aukščio kalnai",
+                    "200-1000 m": "Aukštumos",
+                    "0-200 m": "Lygumos"
+                },
+                explanation: "Reljefo formos skirstomos pagal aukštį: Aukšti kalnai (>2000m), Vidutinio aukščio kalnai (1000-2000m), Aukštumos (200-1000m), Lygumos (0-200m)."
+            },
+            {
+                id: 11,
+                question: "Pažymėkite VISUS Europos kalnus",
+                type: "multiselect",
+                options: ["Alpės", "Pirėnai", "Karpatai", "Uralo kalnai", "Himalai", "Andai"],
+                correct: ["Alpės", "Pirėnai", "Karpatai", "Uralo kalnai"],
+                maxSelect: 4,
+                explanation: "Europos kalnai: Alpės, Pirėnai, Karpatai, Uralo kalnai. Himalai yra Azijoje, o Andai – Pietų Amerikoje."
+            },
+            {
+                id: 12,
+                question: "Kokia paviršių formavimo jėga suformavo Skandinavijos kalnus ir ežerus?",
+                type: "single",
+                options: ["Ledynų veikla", "Ugnikalniai", "Vėjo erozija", "Vandens erozija"],
+                correct: "Ledynų veikla",
+                explanation: "Ledynų veikla suformavo Skandinavijos kalnus, ežerus ir fjordus."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = {};
+        let checkedAnswers = {};
+        let isChecked = false;
+
+        function init() {
+            renderQuestions();
+            updateProgress();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `question-${index}`;
+                if (index === 0) card.classList.add('active');
+
+                let optionsHTML = '';
+
+                if (q.type === 'single') {
+                    optionsHTML = q.options.map(opt => 
+                        `<div class="option" onclick="selectSingle(${index}, '${opt}')" data-option="${opt}">
+                            ${opt}
+                        </div>`
+                    ).join('');
+                } else if (q.type === 'multiselect') {
+                    const helperText = `<p class="helper-text">Pažymėkite ${q.maxSelect} atsakymus</p>`;
+                    optionsHTML = helperText + q.options.map(opt => 
+                        `<div class="option checkbox-option" onclick="selectMulti(${index}, '${opt}')" data-option="${opt}">
+                            <div class="checkbox"></div>
+                            <span>${opt}</span>
+                        </div>`
+                    ).join('');
+                } else if (q.type === 'dragdrop') {
+                    optionsHTML = '<p style="color: #666; font-style: italic;">🚧 Drag & Drop užduotis bus pridėta netrukus...</p>';
+                }
+
+                card.innerHTML = `
+                    <div class="question-title">Klausimas ${index + 1}/${questions.length}</div>
+                    <h3 style="font-size: 24px; margin-bottom: 20px;">${q.question}</h3>
+                    <div class="options-container" id="options-${index}">
+                        ${optionsHTML}
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                    <div class="button-container">
+                        <button class="btn btn-check" id="checkBtn-${index}" onclick="checkAnswer(${index})">
+                            ✓ Pasitikrinti
+                        </button>
+                        <button class="btn btn-next" id="nextBtn-${index}" onclick="nextQuestion()" style="display: none;">
+                            ${index < questions.length - 1 ? 'Kitas klausimas →' : 'Baigti užduotį'}
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectSingle(qIndex, option) {
+            if (isChecked) return;
+            
+            userAnswers[qIndex] = option;
+            
+            const options = document.querySelectorAll(`#question-${qIndex} .option`);
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.option === option) {
+                    opt.classList.add('selected');
+                }
+            });
+            
+            updateCheckButton(qIndex);
+        }
+
+        function selectMulti(qIndex, option) {
+            if (isChecked) return;
+            
+            const q = questions[qIndex];
+            if (!userAnswers[qIndex]) userAnswers[qIndex] = [];
+            
+            const index = userAnswers[qIndex].indexOf(option);
+            if (index > -1) {
+                userAnswers[qIndex].splice(index, 1);
+            } else if (userAnswers[qIndex].length < q.maxSelect) {
+                userAnswers[qIndex].push(option);
+            }
+            
+            const options = document.querySelectorAll(`#question-${qIndex} .option`);
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                if (userAnswers[qIndex].includes(opt.dataset.option)) {
+                    opt.classList.add('selected');
+                }
+            });
+            
+            updateCheckButton(qIndex);
+        }
+
+        function updateCheckButton(qIndex) {
+            const q = questions[qIndex];
+            const btn = document.getElementById(`checkBtn-${qIndex}`);
+            
+            let canCheck = false;
+            if (q.type === 'single') {
+                canCheck = userAnswers[qIndex] !== undefined;
+            } else if (q.type === 'multiselect') {
+                canCheck = userAnswers[qIndex] && userAnswers[qIndex].length === q.maxSelect;
+            }
+            
+            btn.disabled = !canCheck;
+        }
+
+        function checkAnswer(qIndex) {
+            isChecked = true;
+            const q = questions[qIndex];
+            const userAnswer = userAnswers[qIndex];
+            let isCorrect = false;
+
+            if (q.type === 'single') {
+                isCorrect = userAnswer === q.correct;
+            } else if (q.type === 'multiselect') {
+                isCorrect = JSON.stringify(userAnswer.sort()) === JSON.stringify(q.correct.sort());
+            }
+
+            checkedAnswers[qIndex] = isCorrect;
+
+            // Spalvinti atsakymus
+            const options = document.querySelectorAll(`#question-${qIndex} .option`);
+            options.forEach(opt => {
+                opt.classList.add('disabled');
+                const optVal = opt.dataset.option;
+                
+                if (q.type === 'single') {
+                    if (optVal === q.correct) {
+                        opt.classList.add('correct');
+                    } else if (optVal === userAnswer && !isCorrect) {
+                        opt.classList.add('incorrect');
+                    }
+                } else if (q.type === 'multiselect') {
+                    if (q.correct.includes(optVal)) {
+                        opt.classList.add('correct');
+                    } else if (userAnswer.includes(optVal)) {
+                        opt.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // Rodyti feedback
+            const feedback = document.getElementById(`feedback-${qIndex}`);
+            feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.innerHTML = `
+                <strong style="font-size: 22px;">${isCorrect ? '✓ Teisingai!' : '✗ Neteisingai'}</strong>
+                <div class="explanation">${q.explanation}</div>
+            `;
+
+            // Paslėpti check, rodyti next
+            document.getElementById(`checkBtn-${qIndex}`).style.display = 'none';
+            document.getElementById(`nextBtn-${qIndex}`).style.display = 'block';
+        }
+
+        function nextQuestion() {
+            isChecked = false;
+            
+            if (currentQuestion < questions.length - 1) {
+                document.getElementById(`question-${currentQuestion}`).classList.remove('active');
+                currentQuestion++;
+                document.getElementById(`question-${currentQuestion}`).classList.add('active');
+                updateProgress();
+                window.scrollTo(0, 0);
+            } else {
+                showResults();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('show');
+
+            const correctCount = Object.values(checkedAnswers).filter(v => v === true).length;
+            const percentage = Math.round((correctCount / questions.length) * 100);
+
+            document.getElementById('scoreDisplay').textContent = `${correctCount} / ${questions.length}`;
+            document.getElementById('scoreDisplay').style.color = 
+                percentage >= 70 ? '#16a34a' : percentage >= 50 ? '#f59e0b' : '#dc2626';
+
+            let message = '';
+            if (percentage >= 90) message = '🌟 Puikiai! Tu tikrai gerai išmanai Europos geografiją!';
+            else if (percentage >= 70) message = '✅ Labai gerai! Tu gerai moki Europos geografiją!';
+            else if (percentage >= 50) message = '👍 Neblogai! Dar pakartok ir būsi ekspertas!';
+            else message = '📚 Pakartok medžiagą ir bandyk dar kartą!';
+
+            document.getElementById('scoreMessage').textContent = message;
+
+            // Siųsti rezultatą į Google Sheets
+            sendResultToSheet('Europos Geografija', percentage);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = {};
+            checkedAnswers = {};
+            isChecked = false;
+            
+            document.getElementById('resultsSection').classList.remove('show');
+            document.getElementById('questionsContainer').style.display = 'block';
+            
+            init();
+            window.scrollTo(0, 0);
+        }
+
+        // Paleisti užduotį
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
