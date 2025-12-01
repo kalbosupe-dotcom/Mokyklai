@@ -51,13 +51,14 @@
         .instructions {
             font-size: 1rem; color: #1A4D7A; margin: 0; font-weight: 500;
         }
+        .instructions div { margin-bottom: 2px; }
         .instructions span.icon { display: inline-block; width: 22px; }
+        .instructions b { color: #0D3B66; }
         .card-badge {
             background-color: #ffeb3b; color: #1b5e20;
             padding: 4px 10px; border-radius: 6px; font-weight: bold;
             font-size: 1rem; white-space: nowrap; margin-left: 10px; margin-top: 2px;
         }
-        .quiz-card h2 { text-align: center; color: #0D3B66; font-size: 1.7rem; margin-bottom: 10px; }
         #word-display {
             font-size: 2.2rem; font-weight: bold; color: #4A90E2;
             margin: 15px auto 20px; padding: 12px; border-bottom: 3px solid #4A90E2; text-align: center;
@@ -130,14 +131,14 @@
         <div class="card-container">
             <!-- KORTELĖS: UŽDUOTIS -->
             <div id="quiz-card" class="card quiz-card active">
-        <div class="task-top-bar">
-            <div class="instructions">
-                <div><span class="icon">👀</span> <b>Perskaityk</b> daiktavardį.</div>
-                <div><span class="icon">📝</span> <b>Pažymėk</b> giminę, skaičių ir linksnį.</div>
-                <div><span class="icon">✅</span> Spausk „Pasitikrinti“.</div>
-            </div>
-            <div class="card-badge" id="card-badge"></div>
-        </div>
+                <div class="task-top-bar">
+                    <div class="instructions">
+                        <div><span class="icon">👀</span> <b>Perskaityk</b> daiktavardį.</div>
+                        <div><span class="icon">📝</span> <b>Pažymėk</b> giminę, skaičių ir linksnį.</div>
+                        <div><span class="icon">✅</span> Spausk „Pasitikrinti“.</div>
+                    </div>
+                    <div class="card-badge" id="card-badge"></div>
+                </div>
                 <div id="word-display">Žodis</div>
                 <div class="criteria-grid" id="quiz-options">
                     <div class="column">
@@ -244,142 +245,144 @@
         }
         const studentName = showNamePrompt();
         document.getElementById('studentNameDisplay').textContent = studentName;
-        // --- UŽDUOČIŲ DUOMENYS ---
-        const questions = [
-            { word: "ĄŽUOLĄ", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "galininkas" } },
-            { word: "PJUVENA", answers: { gimine: "moteriska", skaicius: "vienaskaita", linksmas: "vardininkas" } },
-            { word: "MĮSLIŲ", answers: { gimine: "moteriska", skaicius: "daugiskaita", linksmas: "kilmininkas" } },
-            { word: "ŠAKNIMI", answers: { gimine: "moteriska", skaicius: "vienaskaita", linksmas: "inagininkas" } },
-            { word: "JAUTIS", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "vardininkas" } },
-            { word: "PJESĖSE", answers: { gimine: "moteriska", skaicius: "daugiskaita", linksmas: "vietininkas" } },
-            { word: "ĄSOČIU", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "inagininkas" } },
-            { word: "PJŪVIŲ", answers: { gimine: "vyriska", skaicius: "daugiskaita", linksmas: "kilmininkas" } },
-            { word: "KĘSTUTI!", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "sauksmininkas" } },
-            { word: "STALUOSE", answers: { gimine: "vyriska", skaicius: "daugiskaita", linksmas: "vietininkas" } }
-        ];
+// --- UŽDUOČIŲ DUOMENYS ---
+const questions = [
+    { word: "ĄŽUOLĄ", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "galininkas" } },
+    { word: "PJUVENA", answers: { gimine: "moteriska", skaicius: "vienaskaita", linksmas: "vardininkas" } },
+    { word: "MĮSLIŲ", answers: { gimine: "moteriska", skaicius: "daugiskaita", linksmas: "kilmininkas" } },
+    { word: "ŠAKNIMI", answers: { gimine: "moteriska", skaicius: "vienaskaita", linksmas: "inagininkas" } },
+    { word: "JAUTIS", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "vardininkas" } },
+    { word: "PJESĖSE", answers: { gimine: "moteriska", skaicius: "daugiskaita", linksmas: "vietininkas" } },
+    { word: "ĄSOČIU", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "inagininkas" } },
+    { word: "PJŪVIŲ", answers: { gimine: "vyriska", skaicius: "daugiskaita", linksmas: "kilmininkas" } },
+    { word: "KĘSTUTI!", answers: { gimine: "vyriska", skaicius: "vienaskaita", linksmas: "sauksmininkas" } },
+    { word: "STALUOSE", answers: { gimine: "vyriska", skaicius: "daugiskaita", linksmas: "vietininkas" } }
+];
 
-        let currentQuestionIndex = 0;
-        let isChecked = false;
-        let totalCorrectQuizzes = 0;
-        let quizResults = [];
+let currentQuestionIndex = 0;
+let isChecked = false;
+let totalCorrectQuizzes = 0;
+let quizResults = [];
 
-        const wordDisplay = document.getElementById('word-display');
-        const checkBtn = document.getElementById('check-btn');
-        const messageDiv = document.getElementById('message');
-        const quizTitle = document.getElementById('quiz-title');
-        const cardBadge = document.getElementById('card-badge');
-        const criteriaNames = ['gimine', 'skaicius', 'linksmas'];
+const wordDisplay = document.getElementById('word-display');
+const checkBtn = document.getElementById('check-btn');
+const messageDiv = document.getElementById('message');
+const cardBadge = document.getElementById('card-badge');
+const criteriaNames = ['gimine', 'skaicius', 'linksmas'];
 
-        // Pradinis užkrovimas
+// Pradinis užkrovimas
+loadQuestion();
+
+function loadQuestion() {
+    if (currentQuestionIndex >= questions.length) {
+        showResults();
+        return;
+    }
+    const currentQ = questions[currentQuestionIndex];
+    wordDisplay.textContent = currentQ.word;
+    cardBadge.textContent = `${currentQuestionIndex + 1} / ${questions.length} kortelė`;
+
+    messageDiv.textContent = "";
+    isChecked = false;
+    checkBtn.textContent = "✅ Pasitikrinti";
+    checkBtn.classList.remove('continue');
+
+    // Tinkamai išvalome tik šios kortelės pasirinkimus
+    const quizCard = document.getElementById('quiz-card');
+    const criteriaGrid = quizCard.querySelector('.criteria-grid');
+    const allRadios = criteriaGrid.querySelectorAll('input[type="radio"]');
+    allRadios.forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentNode.classList.remove('correct', 'incorrect');
+    });
+}
+
+function checkAnswer() {
+    if (isChecked) {
+        // Mygtukas veikia kaip 'Toliau'
+        currentQuestionIndex++;
         loadQuestion();
+        return;
+    }
 
-        function loadQuestion() {
-            if (currentQuestionIndex >= questions.length) {
-                showResults();
-                return;
+    const currentQ = questions[currentQuestionIndex];
+    let allCorrect = true;
+    let correctCount = 0;
+
+    criteriaNames.forEach(criteria => {
+        const selected = document.querySelector(`input[name="${criteria}"]:checked`);
+        const correctAnswer = currentQ.answers[criteria];
+        const radios = document.querySelectorAll(`input[name="${criteria}"]`);
+        radios.forEach(radio => {
+            const label = radio.parentNode;
+            radio.disabled = true;
+            // Tiksliai viena pažymėta - tik ji gauna incorrect, jei bloga
+            label.classList.remove('correct', 'incorrect');
+            if (radio.value === correctAnswer) {
+                label.classList.add('correct');
+            } else if (selected && radio.value === selected.value) {
+                label.classList.add('incorrect');
+                allCorrect = false;
             }
-            const currentQ = questions[currentQuestionIndex];
-            wordDisplay.textContent = currentQ.word;
-            quizTitle.textContent = "Daiktavardžio analizė";
-            cardBadge.textContent = `${currentQuestionIndex + 1} / ${questions.length} kortelė`;
-
-            messageDiv.textContent = "";
-            isChecked = false;
-            checkBtn.textContent = "✅ Pasitikrinti";
-            checkBtn.classList.remove('continue');
-
-            // Atstatome radijo mygtukus
-            const allRadios = document.querySelectorAll('input[type="radio"]');
-            allRadios.forEach(radio => {
-                radio.checked = false;
-                radio.disabled = false;
-                radio.parentNode.classList.remove('correct', 'incorrect');
-            });
+        });
+        if (selected && selected.value === correctAnswer) {
+            correctCount++;
+        } else {
+            allCorrect = false;
         }
+    });
 
-        function checkAnswer() {
-            if (isChecked) {
-                // Mygtukas veikia kaip 'Toliau'
-                currentQuestionIndex++;
-                loadQuestion();
-                return;
-            }
+    // Grįžtamasis ryšys
+    if (allCorrect) {
+        messageDiv.textContent = `Šaunu! Visi 3 atsakymai teisingi! ✅`;
+        messageDiv.style.color = '#27ae60';
+        totalCorrectQuizzes++;
+        quizResults.push(true);
+    } else {
+        messageDiv.textContent = `Atsakei teisingai į ${correctCount}/3 kriterijus. Peržiūrėk teisingus atsakymus (žalios spalvos).`;
+        messageDiv.style.color = '#e74c3c';
+        quizResults.push(false);
+    }
+    isChecked = true;
+    checkBtn.textContent = currentQuestionIndex === questions.length - 1 ? "🏁 Rezultatai" : "➡️ Toliau";
+    checkBtn.classList.add('continue');
+}
 
-            const currentQ = questions[currentQuestionIndex];
-            let allCorrect = true;
-            let correctCount = 0;
+function showResults() {
+    document.getElementById('quiz-card').classList.remove('active');
+    document.getElementById('results-card').classList.add('active');
 
-            criteriaNames.forEach(criteria => {
-                const selected = document.querySelector(`input[name="${criteria}"]:checked`);
-                const correctAnswer = currentQ.answers[criteria];
-                const radios = document.querySelectorAll(`input[name="${criteria}"]`);
-                radios.forEach(radio => {
-                    const label = radio.parentNode;
-                    radio.disabled = true;
-                    if (radio.value === correctAnswer) {
-                        label.classList.add('correct');
-                    } else if (selected && radio.value === selected.value) {
-                        label.classList.add('incorrect');
-                        allCorrect = false;
-                    }
-                });
-                if (selected && selected.value === correctAnswer) {
-                    correctCount++;
-                } else {
-                    allCorrect = false;
-                }
-            });
+    const totalQuestions = questions.length;
+    const scorePercentage = Math.round((totalCorrectQuizzes / totalQuestions) * 100);
 
-            // Grįžtamasis ryšys
-            if (allCorrect) {
-                messageDiv.textContent = `Šaunu! Visi 3 atsakymai teisingi! ✅`;
-                messageDiv.style.color = '#27ae60';
-                totalCorrectQuizzes++;
-                quizResults.push(true);
-            } else {
-                messageDiv.textContent = `Atsakei teisingai į ${correctCount}/3 kriterijus. Peržiūrėk teisingus atsakymus (žalios spalvos).`;
-                messageDiv.style.color = '#e74c3c';
-                quizResults.push(false);
-            }
-            isChecked = true;
-            checkBtn.textContent = currentQuestionIndex === questions.length - 1 ? "🏁 Rezultatai" : "➡️ Toliau";
-            checkBtn.classList.add('continue');
-        }
+    let resultsHTML = '<div style="margin: 20px 0;">';
+    questions.forEach((q, index) => {
+        const resultText = quizResults[index] ? '✔️ Teisingai (3/3)' : '❌ Neteisingai';
+        const resultColor = quizResults[index] ? '#27ae60' : '#e74c3c';
+        resultsHTML += `
+            <div style="padding: 12px; margin: 8px 0; background-color: #E8F4F8; border-radius: 8px; border-left: 4px solid ${resultColor};">
+                <strong>${q.word}</strong>: <span style="color: ${resultColor}; font-weight: bold;">${resultText}</span>
+            </div>
+        `;
+    });
+    resultsHTML += '</div>';
+    resultsHTML += `
+        <div class="score-display">
+            <div style="font-size: 1.2rem; color: #1A4D7A;">
+                Teisingai atsakyta: <strong>${totalCorrectQuizzes} iš ${totalQuestions}</strong>
+            </div>
+            <div class="score-percentage" style="color: ${scorePercentage >= 70 ? '#27ae60' : '#e74c3c'};">
+                ${scorePercentage}%
+            </div>
+        </div>
+    `;
+    document.getElementById('results-details').innerHTML = resultsHTML;
 
-        function showResults() {
-            document.getElementById('quiz-card').classList.remove('active');
-            document.getElementById('results-card').classList.add('active');
-
-            const totalQuestions = questions.length;
-            const scorePercentage = Math.round((totalCorrectQuizzes / totalQuestions) * 100);
-
-            let resultsHTML = '<div style="margin: 20px 0;">';
-            questions.forEach((q, index) => {
-                const resultText = quizResults[index] ? '✔️ Teisingai (3/3)' : '❌ Neteisingai';
-                const resultColor = quizResults[index] ? '#27ae60' : '#e74c3c';
-                resultsHTML += `
-                    <div style="padding: 12px; margin: 8px 0; background-color: #E8F4F8; border-radius: 8px; border-left: 4px solid ${resultColor};">
-                        <strong>${q.word}</strong>: <span style="color: ${resultColor}; font-weight: bold;">${resultText}</span>
-                    </div>
-                `;
-            });
-            resultsHTML += '</div>';
-            resultsHTML += `
-                <div class="score-display">
-                    <div style="font-size: 1.2rem; color: #1A4D7A;">
-                        Teisingai atsakyta: <strong>${totalCorrectQuizzes} iš ${totalQuestions}</strong>
-                    </div>
-                    <div class="score-percentage" style="color: ${scorePercentage >= 70 ? '#27ae60' : '#e74c3c'};">
-                        ${scorePercentage}%
-                    </div>
-                </div>
-            `;
-            document.getElementById('results-details').innerHTML = resultsHTML;
-
-            // Siųsti rezultatus į Google Sheets
-            sendResultToSheet('L0006 Daiktavardis: parink giminę, skaičių, linksnį', scorePercentage);
-        }
-    </script>
+    // Siųsti rezultatus į Google Sheets
+    sendResultToSheet('L0006 Daiktavardis: parink giminę, skaičių, linksnį', scorePercentage);
+}
+</script>
 </body>
 </html>
 
