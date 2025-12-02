@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Look-Cover-Write-Check | Natural Disasters</title>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #93c5fd;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .back-btn:hover {
+            background-color: #7CB3E9;
+        }
+
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 20px;
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        .card h2 {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 1.7rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .instructions {
+            background-color: #F9FAFB;
+            border-radius: 12px;
+            border: 2px solid #E5E7EB;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+            color: #1A4D7A;
+        }
+
+        .instructions ol {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .instructions li {
+            margin-bottom: 6px;
+        }
+
+        .word-display-wrapper {
+            background-color: #E3F2FD;
+            border-radius: 12px;
+            border: 3px solid #3B82F6;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .word-display-container {
+            text-align: center;
+            min-height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #word-display {
+            font-size: 2.4rem;
+            font-weight: bold;
+            color: #1D4ED8;
+            letter-spacing: 0.18em;
+            visibility: visible;
+            text-transform: lowercase;
+        }
+
+        #word-input {
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1.4rem;
+            padding: 8px 10px;
+            border: 2px solid #4A90E2;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #word-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.4);
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-height: 1.5em;
+            margin-top: 10px;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            font-size: 1.1rem;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: 600;
+            color: white;
+        }
+
+        #cover-btn {
+            background: linear-gradient(135deg, #60A5FA, #2563EB);
+        }
+
+        #check-btn {
+            background: linear-gradient(135deg, #34D399, #059669);
+        }
+
+        #next-btn {
+            background: linear-gradient(135deg, #FBBF24, #F59E0B);
+            color: #1F2937;
+        }
+
+        #restart-btn {
+            background: linear-gradient(135deg, #60A5FA, #2563EB);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .results-title {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #E8F4F8;
+            border-radius: 10px;
+            border: 3px solid #4ECDC4;
+            color: #1A4D7A;
+        }
+
+        .score-percentage {
+            font-size: 2.5rem;
+            margin-top: 10px;
+        }
+
+        .answers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .answers-table th,
+        .answers-table td {
+            border: 1px solid #BFDBFE;
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .answers-table th {
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+            font-weight: 700;
+        }
+
+        .answers-table td.correct {
+            background-color: #DCFCE7;
+            color: #166534;
+        }
+
+        .answers-table td.incorrect {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+
+            <div class="student-info">
+                <span style="font-size: 18px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
+        <!-- Mokytojo el. paštas -->
+        <div style="margin-bottom: 15px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <label style="display:flex; align-items:center; gap:6px;">
+                <input type="checkbox" id="sendToTeacherCheckbox">
+                <span>Siųsti rezultatus mokytojai (-ui)</span>
+            </label>
+            <input type="email" id="teacherEmailInput"
+                   placeholder="Mokytojo el. paštas"
+                   style="display:none; padding:6px 10px; border-radius:8px; border:1px solid #93c5fd; min-width:220px;">
+        </div>
+
+        <!-- KORTELĖ 1: UŽDUOTIS -->
+        <div id="card-task" class="card active">
+            <h2>Spelling Practice (Look – Cover – Write – Check)</h2>
+
+            <div class="instructions">
+                <ol>
+                    <li>📖 <strong>Look</strong> – read the word carefully.</li>
+                    <li>🙈 <strong>Cover</strong> – click “Cover word”, the word will disappear.</li>
+                    <li>✍️ <strong>Write</strong> – write the word from memory.</li>
+                    <li>✅ <strong>Check</strong> – click “Check” and compare your spelling.</li>
+                    <li>⏭️ Go to the next word.</li>
+                </ol>
+            </div>
+
+            <div id="quiz-container">
+                <div class="word-display-wrapper">
+                    <div class="word-display-container">
+                        <p id="word-display"></p>
+                    </div>
+                </div>
+
+                <input type="text" id="word-input" placeholder="Type the word here...">
+
+                <div id="feedback" class="feedback"></div>
+
+                <div class="button-group">
+                    <button id="cover-btn" class="action-btn">Cover word</button>
+                    <button id="check-btn" class="action-btn" style="display:none;">Check</button>
+                    <button id="next-btn" class="action-btn" style="display:none;">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KORTELĖ 2: REZULTATAI -->
+        <div id="card-results" class="card">
+            <h2 class="results-title">🎉 Užduoties rezultatai</h2>
+            <div class="score-display">
+                <div id="score-text"></div>
+                <div id="score-percentage" class="score-percentage"></div>
+            </div>
+
+            <table class="answers-table" id="answers-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Teisinga rašyba</th>
+                        <th>Mokinio rašyba</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <div class="button-group">
+                <button id="restart-btn" class="action-btn">🔄 Pradėti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Vardų valdymas ---
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert('Vardas pakeistas į: ' + newName);
+            location.reload();
+        }
+
+        const sendToTeacherCheckbox = document.getElementById('sendToTeacherCheckbox');
+        const teacherEmailInput = document.getElementById('teacherEmailInput');
+
+        sendToTeacherCheckbox.addEventListener('change', () => {
+            if (sendToTeacherCheckbox.checked) {
+                teacherEmailInput.style.display = 'block';
+                teacherEmailInput.focus();
+            } else {
+                teacherEmailInput.style.display = 'none';
+                teacherEmailInput.value = '';
+            }
+        });
+
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+            const teacherEmail = teacherEmailInput.value.trim();
+
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp,
+                teacherEmail: teacherEmail,
+                sendToTeacher: !!teacherEmail
+            };
+
+            fetch('https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6APl7i3lOOn9YlWH/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(console.error);
+        }
+
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+
+        // --- Užduoties logika ---
+        const words = ['volcano', 'tornado', 'flood', 'wildfire', 'hurricane', 'drought', 'earthquake'];
+
+        let currentWordIndex = 0;
+        let score = 0;
+        let wordHasBeenChecked = false;
+        const userAnswers = [];
+
+        const wordDisplay = document.getElementById('word-display');
+        const wordInput = document.getElementById('word-input');
+        const feedback = document.getElementById('feedback');
+
+        const coverBtn = document.getElementById('cover-btn');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        const cardTask = document.getElementById('card-task');
+        const cardResults = document.getElementById('card-results');
+        const scoreText = document.getElementById('score-text');
+        const scorePercentage = document.getElementById('score-percentage');
+        const restartBtn = document.getElementById('restart-btn');
+        const answersTableBody = document.querySelector('#answers-table tbody');
+
+        coverBtn.addEventListener('click', coverWord);
+        checkBtn.addEventListener('click', checkWord);
+        nextBtn.addEventListener('click', nextWord);
+        restartBtn.addEventListener('click', restartQuiz);
+
+        function coverWord() {
+            wordDisplay.style.visibility = 'hidden';
+            wordInput.style.display = 'block';
+            wordInput.focus();
+
+            coverBtn.style.display = 'none';
+            checkBtn.style.display = 'inline-block';
+        }
+
+        function checkWord() {
+            wordDisplay.style.visibility = 'visible';
+            wordInput.disabled = true;
+
+            const userInput = wordInput.value.trim();
+            const userLower = userInput.toLowerCase();
+            const correctWord = words[currentWordIndex];
+            const correctLower = correctWord.toLowerCase();
+
+            userAnswers[currentWordIndex] = userInput;
+
+            if (userLower === correctLower) {
+                feedback.textContent = 'Correct!';
+                feedback.style.color = '#16A34A';
+                if (!wordHasBeenChecked) score++;
+            } else {
+                feedback.textContent = 'Correct spelling: ' + correctWord;
+                feedback.style.color = '#DC2626';
+            }
+
+            wordHasBeenChecked = true;
+
+            checkBtn.style.display = 'none';
+            nextBtn.style.display = 'inline-block';
+        }
+
+        function nextWord() {
+            currentWordIndex++;
+            if (currentWordIndex < words.length) {
+                loadWordCard(currentWordIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        function loadWordCard(index) {
+            wordDisplay.textContent = words[index];
+            wordDisplay.style.visibility = 'visible';
+
+            wordInput.value = '';
+            wordInput.style.display = 'none';
+            wordInput.disabled = false;
+
+            feedback.textContent = '';
+            wordHasBeenChecked = false;
+
+            coverBtn.style.display = 'inline-block';
+            checkBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+
+        function showResults() {
+            cardTask.classList.remove('active');
+            cardResults.classList.add('active');
+
+            const percentage = Math.round((score / words.length) * 100);
+            scoreText.textContent = 'Teisingai parašyti žodžiai: ' + score + ' iš ' + words.length;
+            scorePercentage.textContent = percentage + '%';
+            scorePercentage.style.color = percentage >= 70 ? '#16A34A' : '#DC2626';
+
+            answersTableBody.innerHTML = '';
+            words.forEach((word, index) => {
+                const tr = document.createElement('tr');
+                const user = userAnswers[index] !== undefined ? userAnswers[index] : '';
+                const isCorrect = user.trim().toLowerCase() === word.toLowerCase();
+
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${word}</td>
+                    <td class="${isCorrect ? 'correct' : 'incorrect'}">${user || '—'}</td>
+                `;
+                answersTableBody.appendChild(tr);
+            });
+
+            sendResultToSheet('EN0503 Spelling Practice: Look–Cover–Write–Check (Natural Disasters)', percentage);
+        }
+
+        function restartQuiz() {
+            currentWordIndex = 0;
+            score = 0;
+            userAnswers.length = 0;
+
+            cardResults.classList.remove('active');
+            cardTask.classList.add('active');
+
+            loadWordCard(0);
+        }
+
+        // Paleidimas
+        loadWordCard(0);
+    </script>
+</body>
+</html>
