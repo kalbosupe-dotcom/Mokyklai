@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linksniavimas - Neveikiamieji dalyviai</title>
+    <title>Linksniavimas - Pasirinkimai</title>
     <style>
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
@@ -62,6 +62,23 @@
             gap: 10px;
             flex-grow: 1;
         }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
 
         #main-container {
             width: 100%;
@@ -113,7 +130,7 @@
         }
 
         #cases-column {
-            width: 58%;
+            width: 52%;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -132,7 +149,7 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: #0D3B66;
-            width: 55%;
+            width: 50%;
             line-height: 1.4;
             white-space: nowrap;
         }
@@ -145,7 +162,7 @@
         }
 
         .drop-zone {
-            width: 45%;
+            width: 50%;
             min-height: 42px;
             background-color: #E8F4F8;
             border: 2px dashed #7CB3E9;
@@ -172,7 +189,7 @@
         }
 
         #words-column {
-            width: 35%;
+            width: 42%;
             padding: 10px;
             background-color: #E8F4F8;
             border-radius: 15px;
@@ -346,6 +363,7 @@
             <a href="#" class="back-btn">⬅️ Grįžti</a>
             <div class="student-info">
                 <span id="student-name">Mokinys</span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
             </div>
         </div>
 
@@ -702,6 +720,8 @@
 
             const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
             totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} – ${totalPercentage}%`;
+
+            sendResultToSheet('L0080 Linksniavimas - Neveikiamieji dalyviai (I)', totalPercentage);
         }
 
         function restartGame() {
@@ -731,6 +751,50 @@
 
         resetBtn.addEventListener('click', resetCard);
         restartBtn.addEventListener('click', restartGame);
+
+        // --- Vardo keitimas ---
+        function changeName() {
+            const newName = prompt('Įveskite savo vardą:', localStorage.getItem('studentName') || '');
+            if (newName && newName.trim() !== '') {
+                localStorage.setItem('studentName', newName.trim());
+                document.getElementById('student-name').textContent = newName.trim();
+            }
+        }
+
+        // --- Google Sheets integracija ---
+        function sendResultToSheet(taskName, percentage) {
+            const studentName = localStorage.getItem('studentName') || 'Mokinys';
+            const timestamp = new Date().toLocaleString('lt-LT');
+            
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: percentage,
+                timestamp: timestamp
+            };
+
+            // Čia reikia įdėti Google Apps Script URL
+            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+            
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'no-cors'
+            }).catch(error => console.log('Klaida siunčiant duomenis:', error));
+        }
+
+        // --- Pradinis vardo užkrovimas ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('studentName');
+            if (!savedName || savedName === 'Mokinys') {
+                changeName();
+            } else {
+                document.getElementById('student-name').textContent = savedName;
+            }
+        });
 
         createCard(currentCardIndex);
     </script>
