@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linksniavimas - Neveikiamieji dalyviai</title>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        #main-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 18px 22px 24px;
+            box-sizing: border-box;
+            border: 3px solid #4A90E2;
+        }
+
+        #card-header {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        #card-header h1 {
+            font-size: 1.7rem;
+            color: #0D3B66;
+            margin: 0;
+        }
+        
+        #card-progress {
+            font-size: 1rem;
+            color: #1A4D7A;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .instructions {
+            font-size: 0.95rem;
+            color: #1A4D7A;
+            margin-bottom: 10px;
+        }
+        .instructions p {
+            margin: 2px 0;
+        }
+
+        #card {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        #cases-column {
+            width: 58%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .case-row {
+            display: flex;
+            align-items: center;
+            border: 2px solid #7CB3E9;
+            border-radius: 10px;
+            padding: 8px 10px;
+            background-color: #ffffff;
+        }
+
+        .case-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0D3B66;
+            width: 55%;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        
+        .case-name span {
+            font-weight: normal;
+            font-size: 0.95rem;
+            color: #4A90E2;
+            margin-left: 5px;
+        }
+
+        .drop-zone {
+            width: 45%;
+            min-height: 42px;
+            background-color: #E8F4F8;
+            border: 2px dashed #7CB3E9;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .drop-zone.hovered {
+            background-color: #D4E9F7;
+            border-color: #4A90E2;
+        }
+
+        .drop-zone.correct {
+            background-color: #C8E6C9;
+            border-color: #4CAF50;
+        }
+
+        .drop-zone.incorrect {
+            background-color: #FFCDD2;
+            border-color: #F44336;
+        }
+
+        #words-column {
+            width: 35%;
+            padding: 10px;
+            background-color: #E8F4F8;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid #7CB3E9;
+        }
+
+        .draggable-word {
+            font-size: 1.3rem;
+            padding: 8px 14px;
+            background-color: #ffffff;
+            border: 2px solid #4A90E2;
+            border-radius: 10px;
+            cursor: grab;
+            user-select: none;
+            text-align: center;
+            width: 90%;
+            box-shadow: 0 3px 6px rgba(26, 77, 122, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: #1A4D7A;
+            font-weight: bold;
+            touch-action: none;
+        }
+        
+        .draggable-word:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(26, 77, 122, 0.2);
+        }
+        
+        .drop-zone .draggable-word {
+            width: 100%;
+            margin: 0;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            transition: background-color 0.3s, transform 0.1s;
+            font-weight: bold;
+        }
+        
+        .control-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        #prev-btn {
+            background-color: #95C8E8;
+            color: white;
+        }
+        
+        #prev-btn:hover:not(:disabled) {
+            background-color: #7CB3E9;
+        }
+        
+        #action-btn {
+            background-color: #66BB6A;
+            color: white;
+            flex-grow: 1;
+        }
+        
+        #action-btn:hover {
+            background-color: #4CAF50;
+        }
+        
+        #reset-btn {
+            background-color: #FFA726;
+            color: white;
+        }
+        
+        #reset-btn:hover {
+            background-color: #FF9800;
+        }
+
+        #results-container {
+            display: none;
+        }
+
+        #results-container h2 {
+            color: #0D3B66;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        #results-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        #results-list li {
+            background-color: #E8F4F8;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 4px solid #4A90E2;
+            font-size: 1.1rem;
+            color: #1A4D7A;
+        }
+
+        #total-score {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #C8E6C9;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #restart-btn {
+            margin-top: 20px;
+            padding: 14px 28px;
+            font-size: 1.2rem;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+        }
+
+        #restart-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        @media (max-width: 768px) {
+            #card {
+                flex-direction: column;
+            }
+            #cases-column, #words-column {
+                width: 100%;
+            }
+            .case-name {
+                width: 50%;
+            }
+            .drop-zone {
+                width: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="#" class="back-btn">⬅️ Grįžti</a>
+            <div class="student-info">
+                <span id="student-name">Mokinys</span>
+            </div>
+        </div>
+
+        <div id="main-container">
+            <div id="card-header">
+                <h1>Linksniavimas - Pasirinkimai</h1>
+                <p id="card-progress">Kortelė 1 / 4</p>
+            </div>
+
+            <div class="instructions">
+                <p>📌 Nutempk žodžius į tinkamas vietas prie linksnių.</p>
+            </div>
+
+            <div id="card">
+                <div id="cases-column"></div>
+                <div id="words-column"></div>
+            </div>
+
+            <div id="controls">
+                <button id="prev-btn" class="control-btn">⬅️ Atgal</button>
+                <button id="action-btn" class="control-btn">✅ Tikrinti</button>
+                <button id="reset-btn" class="control-btn">🔄 Iš naujo</button>
+            </div>
+
+            <div id="results-container">
+                <h2>🎯 Rezultatai</h2>
+                <ul id="results-list"></ul>
+                <div id="total-score"></div>
+                <button id="restart-btn">🔄 Pradėti iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cases = [
+            { name: 'Vardininkas', question: 'Kas?' },
+            { name: 'Kilmininkas', question: 'Ko?' },
+            { name: 'Naudininkas', question: 'Kam?' },
+            { name: 'Galininkas', question: 'Ką?' },
+            { name: 'Įnagininkas', question: 'Kuo?' },
+            { name: 'Vietininkas', question: 'Kur? Kame?' },
+            { name: 'Šauksmininkas', question: '' }
+        ];
+
+        const cardsData = [
+            {
+                word: 'laikoma knyga',
+                number: 'vienaskaita',
+                forms: [
+                    'laikoma knyga',
+                    'laikomos knygos',
+                    'laikomai knygai',
+                    'laikomą knygą',
+                    'laikoma knyga',
+                    'laikomoje knygoje',
+                    'laikoma knyga'
+                ]
+            },
+            {
+                word: 'laikoma knyga',
+                number: 'daugiskaita',
+                forms: [
+                    'laikomos knygos',
+                    'laikomų knygų',
+                    'laikomoms knygoms',
+                    'laikomas knygas',
+                    'laikomomis knygomis',
+                    'laikomose knygose',
+                    'laikomos knygos'
+                ]
+            },
+            {
+                word: 'nešamas lagaminas',
+                number: 'vienaskaita',
+                forms: [
+                    'nešamas lagaminas',
+                    'nešamo lagamino',
+                    'nešamam lagaminui',
+                    'nešamą lagaminą',
+                    'nešamu lagaminu',
+                    'nešamame lagamine',
+                    'nešamas lagamine'
+                ]
+            },
+            {
+                word: 'nešamas lagaminas',
+                number: 'daugiskaita',
+                forms: [
+                    'nešami lagaminai',
+                    'nešamų lagaminų',
+                    'nešamiems lagaminams',
+                    'nešamus lagaminus',
+                    'nešamais lagaminais',
+                    'nešamuose lagaminuose',
+                    'nešami lagaminai'
+                ]
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let scores = new Array(cardsData.length).fill(null);
+        let isChecked = false;
+
+        const casesColumn = document.getElementById('cases-column');
+        const wordsColumn = document.getElementById('words-column');
+        const prevBtn = document.getElementById('prev-btn');
+        const actionBtn = document.getElementById('action-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const cardProgress = document.getElementById('card-progress');
+        const resultsContainer = document.getElementById('results-container');
+        const resultsList = document.getElementById('results-list');
+        const totalScoreEl = document.getElementById('total-score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        let touchedElement = null;
+        let clone = null;
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function createCard(index) {
+            const card = cardsData[index];
+            isChecked = false;
+            actionBtn.textContent = '✅ Tikrinti';
+
+            casesColumn.innerHTML = '';
+            wordsColumn.innerHTML = '';
+
+            cardProgress.textContent = `Kortelė ${index + 1} / ${cardsData.length} - ${card.word} (${card.number})`;
+
+            cases.forEach((caseObj, caseIndex) => {
+                const caseRow = document.createElement('div');
+                caseRow.className = 'case-row';
+
+                const caseName = document.createElement('div');
+                caseName.className = 'case-name';
+                caseName.innerHTML = `${caseObj.name} <span>${caseObj.question}</span>`;
+
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.dataset.caseIndex = caseIndex;
+
+                caseRow.appendChild(caseName);
+                caseRow.appendChild(dropZone);
+                casesColumn.appendChild(caseRow);
+            });
+
+            const shuffledForms = shuffleArray(card.forms);
+            shuffledForms.forEach((form, idx) => {
+                const wordDiv = document.createElement('div');
+                wordDiv.className = 'draggable-word';
+                wordDiv.draggable = true;
+                wordDiv.id = `word-${idx}`;
+                wordDiv.textContent = form;
+                wordsColumn.appendChild(wordDiv);
+            });
+
+            addDragAndDropListeners();
+            updateNavButtons();
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            touchedElement = e.target;
+            const touch = e.touches[0];
+
+            clone = touchedElement.cloneNode(true);
+            clone.classList.add('draggable-word');
+            clone.style.position = 'fixed';
+            clone.style.pointerEvents = 'none';
+            clone.style.opacity = '0.8';
+            clone.style.zIndex = '1000';
+            clone.style.left = touch.clientX - touchedElement.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - touchedElement.offsetHeight / 2 + 'px';
+            clone.style.width = touchedElement.offsetWidth + 'px';
+            document.body.appendChild(clone);
+
+            touchedElement.style.opacity = '0.3';
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!clone) return;
+            const touch = e.touches[0];
+            clone.style.left = touch.clientX - clone.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - clone.offsetHeight / 2 + 'px';
+
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                    zone.classList.add('hovered');
+                } else {
+                    zone.classList.remove('hovered');
+                }
+            });
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            if (!touchedElement) return;
+            const touch = e.changedTouches[0];
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let dropped = false;
+
+            dropZones.forEach(zone => {
+                const rect = zone.getBoundingClientRect();
+                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+
+                    if (zone.children.length > 0) {
+                        wordsColumn.appendChild(zone.firstElementChild);
+                    }
+                    zone.appendChild(touchedElement);
+                    zone.classList.remove('hovered');
+                    dropped = true;
+                    clearFeedback();
+                }
+            });
+
+            if (!dropped && touchedElement.parentElement.classList.contains('drop-zone')) {
+                wordsColumn.appendChild(touchedElement);
+            }
+
+            touchedElement.style.opacity = '1';
+            if (clone) {
+                document.body.removeChild(clone);
+                clone = null;
+            }
+            touchedElement = null;
+            dropZones.forEach(zone => zone.classList.remove('hovered'));
+        }
+
+        function addDragAndDropListeners() {
+            const draggables = document.querySelectorAll('.draggable-word');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                });
+
+                draggable.addEventListener('touchstart', handleTouchStart, { passive: false });
+                draggable.addEventListener('touchmove', handleTouchMove, { passive: false });
+                draggable.addEventListener('touchend', handleTouchEnd, { passive: false });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('hovered');
+                });
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('hovered');
+                });
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('hovered');
+
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggableElement = document.getElementById(id);
+                    if (zone.children.length > 0) {
+                        wordsColumn.appendChild(zone.firstElementChild);
+                    }
+                    if (draggableElement) {
+                        zone.appendChild(draggableElement);
+                    }
+                    clearFeedback();
+                });
+            });
+        }
+
+        function clearFeedback() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => zone.classList.remove('correct', 'incorrect'));
+        }
+
+        function resetCard() {
+            createCard(currentCardIndex);
+            scores[currentCardIndex] = null;
+        }
+
+        function updateNavButtons() {
+            prevBtn.disabled = currentCardIndex === 0;
+        }
+
+        function checkAnswers() {
+            if (scores[currentCardIndex] !== null) return;
+
+            const card = cardsData[currentCardIndex];
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            dropZones.forEach(zone => {
+                const caseIndex = parseInt(zone.dataset.caseIndex, 10);
+                const correctForm = card.forms[caseIndex];
+
+                zone.classList.remove('correct', 'incorrect');
+
+                const droppedWord = zone.querySelector('.draggable-word');
+                if (droppedWord && droppedWord.textContent === correctForm) {
+                    zone.classList.add('correct');
+                    correctCount++;
+                } else {
+                    zone.classList.add('incorrect');
+                }
+            });
+
+            scores[currentCardIndex] = correctCount;
+            isChecked = true;
+
+            if (currentCardIndex === cardsData.length - 1) {
+                actionBtn.textContent = '🏁 Rezultatai';
+            } else {
+                actionBtn.textContent = '➡️ Toliau';
+            }
+        }
+
+        function goToNextCard() {
+            if (currentCardIndex < cardsData.length - 1) {
+                currentCardIndex++;
+                createCard(currentCardIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('card').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
+            document.getElementById('card-header').style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            resultsList.innerHTML = '';
+            let totalCorrect = 0;
+            const totalPerCard = cases.length;
+            const totalWords = cardsData.length * totalPerCard;
+
+            cardsData.forEach((card, index) => {
+                const score = scores[index] === null ? 0 : scores[index];
+                totalCorrect += score;
+                const percentage = (score / totalPerCard * 100).toFixed(0);
+                const listItem = document.createElement('li');
+                listItem.textContent = `"${card.word}" (${card.number}): ${score}/${totalPerCard} – ${percentage}%`;
+                resultsList.appendChild(listItem);
+            });
+
+            const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
+            totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} – ${totalPercentage}%`;
+        }
+
+        function restartGame() {
+            scores.fill(null);
+            currentCardIndex = 0;
+            resultsContainer.style.display = 'none';
+            document.getElementById('card').style.display = 'flex';
+            document.getElementById('controls').style.display = 'flex';
+            document.getElementById('card-header').style.display = 'flex';
+            createCard(currentCardIndex);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                createCard(currentCardIndex);
+            }
+        });
+
+        actionBtn.addEventListener('click', () => {
+            if (!isChecked) {
+                checkAnswers();
+            } else {
+                goToNextCard();
+            }
+        });
+
+        resetBtn.addEventListener('click', resetCard);
+        restartBtn.addEventListener('click', restartGame);
+
+        createCard(currentCardIndex);
+    </script>
+</body>
+</html>
