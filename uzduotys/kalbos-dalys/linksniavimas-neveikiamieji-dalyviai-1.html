@@ -142,7 +142,7 @@
         }
 
         #cases-column {
-            width: 50%;
+            width: 55%;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -174,7 +174,7 @@
         }
 
         .drop-zone {
-            width: 50%;
+            width: 45%;
             min-height: 42px;
             background-color: #E8F4F8;
             border: 2px dashed #7CB3E9;
@@ -745,7 +745,7 @@
             const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
             totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} – ${totalPercentage}%`;
 
-            sendResultToSheet('Linksniavimas - Pasirinkimai', totalPercentage);
+            sendResultToSheet('L0080 Linksniavimas - Neveikiamieji dalyviai (I)', totalPercentage);
         }
 
         function restartGame() {
@@ -798,7 +798,7 @@
             };
 
             // Čia reikia įdėti Google Apps Script URL
-            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec'';
             
             fetch(scriptURL, {
                 method: 'POST',
