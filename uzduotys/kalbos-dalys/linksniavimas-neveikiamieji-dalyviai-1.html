@@ -95,9 +95,8 @@
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
         #card-header h1 {
@@ -111,6 +110,19 @@
             color: #1A4D7A;
             font-weight: bold;
             margin: 0;
+            white-space: nowrap;
+        }
+
+        #card-subtitle {
+            font-size: 1.3rem;
+            color: #0D3B66;
+            margin: 5px 0 10px 0;
+            font-weight: normal;
+        }
+
+        #card-subtitle .highlight {
+            color: #4A90E2;
+            font-weight: bold;
         }
 
         .instructions {
@@ -375,6 +387,8 @@
                 <p id="card-progress">Kortelė 1 / 4</p>
             </div>
 
+            <div id="card-subtitle"></div>
+
             <div class="instructions">
                 <p>📌 <strong>Nutempk</strong> žodžius į tinkamas vietas prie linksnių.</p>
             </div>
@@ -500,7 +514,15 @@
             casesColumn.innerHTML = '';
             wordsColumn.innerHTML = '';
 
-            cardProgress.textContent = `Kortelė ${index + 1} / ${cardsData.length} - ${card.word} (${card.number})`;
+            // Update card progress (top right corner)
+            cardProgress.textContent = `Kortelė ${index + 1} / ${cardsData.length}`;
+
+            // Update subtitle with highlighted participle
+            const cardSubtitle = document.getElementById('card-subtitle');
+            const words = card.word.split(' ');
+            const participle = words[0]; // First word is the participle
+            const noun = words.slice(1).join(' '); // Rest is the noun
+            cardSubtitle.innerHTML = `<span class="highlight">${participle}</span> ${noun} | ${card.number}`;
 
             cases.forEach((caseObj, caseIndex) => {
                 const caseRow = document.createElement('div');
