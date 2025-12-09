@@ -130,7 +130,7 @@
         }
 
         #cases-column {
-            width: 52%;
+            width: 48%;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -149,7 +149,7 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: #0D3B66;
-            width: 50%;
+            width: 45%;
             line-height: 1.4;
             white-space: nowrap;
         }
@@ -162,7 +162,7 @@
         }
 
         .drop-zone {
-            width: 50%;
+            width: 55%;
             min-height: 42px;
             background-color: #E8F4F8;
             border: 2px dashed #7CB3E9;
@@ -179,17 +179,19 @@
         }
 
         .drop-zone.correct {
-            background-color: #C8E6C9;
+            background-color: #A5D6A7;
             border-color: #4CAF50;
+            border-style: solid;
         }
 
         .drop-zone.incorrect {
-            background-color: #FFCDD2;
+            background-color: #EF9A9A;
             border-color: #F44336;
+            border-style: solid;
         }
 
         #words-column {
-            width: 42%;
+            width: 46%;
             padding: 10px;
             background-color: #E8F4F8;
             border-radius: 15px;
@@ -360,7 +362,7 @@
 <body>
     <div class="page-wrapper">
         <div class="header-container">
-            <a href="#" class="back-btn">⬅️ Grįžti</a>
+            <a href="../../index.html" class="back-btn">⬅️ Grįžti</a>
             <div class="student-info">
                 <span id="student-name">Mokinys</span>
                 <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
@@ -721,7 +723,7 @@
             const totalPercentage = totalWords > 0 ? (totalCorrect / totalWords * 100).toFixed(0) : 0;
             totalScoreEl.textContent = `Bendras rezultatas: ${totalCorrect}/${totalWords} – ${totalPercentage}%`;
 
-            sendResultToSheet('L0080 Linksniavimas - Neveikiamieji dalyviai (I)', totalPercentage);
+            sendResultToSheet('Linksniavimas - Pasirinkimai', totalPercentage);
         }
 
         function restartGame() {
@@ -776,7 +778,7 @@
             // Čia reikia įdėti Google Apps Script URL
             const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
             
-            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+            fetch(scriptURL, {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
