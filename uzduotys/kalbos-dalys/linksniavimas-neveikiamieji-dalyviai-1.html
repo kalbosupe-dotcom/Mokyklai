@@ -522,7 +522,7 @@
             const words = card.word.split(' ');
             const participle = words[0]; // First word is the participle
             const noun = words.slice(1).join(' '); // Rest is the noun
-            cardSubtitle.innerHTML = `<span class="highlight">${participle}</span> <strong>${noun}</strong> (${card.number})`;
+            cardSubtitle.innerHTML = `<span class="highlight">${participle}</span> ${noun} | ${card.number}`;
 
             cases.forEach((caseObj, caseIndex) => {
                 const caseRow = document.createElement('div');
