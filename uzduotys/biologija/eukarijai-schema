@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧬 Eukarijų domenas - Biologija 7 klasė</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            letter-spacing: 0.05em;
+            background-color: #E8F4F8;
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+        
+        .card {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(26, 77, 122, 0.15);
+            padding: 20px;
+            border: 3px solid #4A90E2;
+        }
+        
+        .task-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .task-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 10px;
+        }
+
+        .task-instructions {
+            background-color: #E8F4F8;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #7CB3E9;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #1A4D7A;
+            text-align: center;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .schema-container {
+            flex: 0 0 60%;
+            position: relative;
+        }
+
+        .schema-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .drop-zone {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px dashed #7CB3E9;
+            border-radius: 5px;
+            padding: 5px;
+            min-width: 120px;
+            min-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .drop-zone.drag-over {
+            background-color: rgba(124, 179, 233, 0.3);
+            border-color: #4A90E2;
+            border-style: solid;
+        }
+
+        .drop-zone.filled {
+            background-color: rgba(124, 179, 233, 0.2);
+            border-style: solid;
+            border-color: #4A90E2;
+            font-weight: bold;
+            color: #0D3B66;
+        }
+
+        .drop-zone.correct {
+            background-color: rgba(39, 174, 96, 0.2);
+            border-color: #27ae60;
+            border-style: solid;
+        }
+
+        .drop-zone.incorrect {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+            border-style: solid;
+        }
+
+        /* Pozicijos drop zonų */
+        /* Viršutinė eilutė - 4 karalystės */
+        #drop1 { top: 38%; left: 6%; width: 18%; }
+        #drop2 { top: 38%; left: 27%; width: 18%; }
+        #drop3 { top: 38%; left: 48%; width: 18%; }
+        #drop4 { top: 38%; left: 69%; width: 18%; }
+        
+        /* Vidurinė eilutė - ląstelių tipai */
+        #drop5 { top: 52%; left: 6%; width: 18%; }
+        #drop6 { top: 52%; left: 27%; width: 18%; }
+        #drop7 { top: 52%; left: 48%; width: 18%; }
+        #drop8 { top: 52%; left: 69%; width: 18%; }
+        
+        /* Apatinė eilutė - audinių informacija */
+        #drop9 { top: 74%; left: 27%; width: 18%; }
+        #drop10 { top: 74%; left: 48%; width: 18%; }
+        #drop11 { top: 74%; left: 69%; width: 18%; }
+
+        .words-container {
+            flex: 0 0 35%;
+            background-color: #f9f9f9;
+            border: 2px solid #E8F4F8;
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .words-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .word-item {
+            background-color: white;
+            border: 2px solid #7CB3E9;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 8px 0;
+            cursor: move;
+            font-size: 1rem;
+            color: #1A4D7A;
+            font-weight: 500;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .word-item:hover {
+            background-color: #E8F4F8;
+            border-color: #4A90E2;
+            transform: translateX(5px);
+        }
+
+        .word-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .word-item.used {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #4A90E2;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0D3B66;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #7CB3E9;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4A90E2;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #229954;
+            transform: translateY(-2px);
+        }
+
+        .results-card {
+            display: none;
+        }
+
+        .results-card.active {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .results-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 10px;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .score-percentage {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .score-good {
+            color: #27ae60;
+        }
+
+        .score-bad {
+            color: #e74c3c;
+        }
+
+        .result-details {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .result-item {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .correct-item {
+            background-color: #d4edda;
+            border-left-color: #27ae60;
+        }
+
+        .incorrect-item {
+            background-color: #f8d7da;
+            border-left-color: #e74c3c;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .schema-container,
+            .words-container {
+                flex: 1 1 auto;
+            }
+
+            .words-container {
+                max-height: 400px;
+            }
+
+            .drop-zone {
+                min-width: 100px;
+                min-height: 30px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-row">
+            <a href="https://kalbosupe.com/mokyklai" class="back-btn">⬅️ Grįžti į pradžią</a>
+            <div class="student-info">
+                <div style="font-size: 1.2rem; font-weight: bold; color: #0D3B66;">
+                    🎓 Mokinys: <span id="studentNameDisplay"></span>
+                </div>
+                <button class="change-name-btn" onclick="changeName()">Pakeisti vardą</button>
+            </div>
+        </div>
+
+        <!-- Užduoties kortelė -->
+        <div class="card" id="task-card">
+            <div class="task-header">
+                <div class="task-title">🧬 KETURIŲ EUKARIJŲ DOMENO KARALYSTĖS</div>
+            </div>
+
+            <div class="task-instructions">
+                📝 <strong>Užduotis:</strong> Tempk žodžius iš dešinės į teisingas vietas schemoje! Kai užbaigsi, spausk "Patikrinti".
+            </div>
+
+            <div class="main-content">
+                <div class="schema-container">
+                    <img src="https://github.com/kalbosupe-dotcom/Mokyklai/blob/main/images/EUKARIJAI.png?raw=true" alt="Eukarijų schema" class="schema-image">
+                    
+                    <!-- Drop zonos -->
+                    <!-- Viršutinė eilutė - 4 karalystės -->
+                    <div class="drop-zone" id="drop1" data-correct="Protistai"></div>
+                    <div class="drop-zone" id="drop2" data-correct="Grybai"></div>
+                    <div class="drop-zone" id="drop3" data-correct="Augalai"></div>
+                    <div class="drop-zone" id="drop4" data-correct="Gyvūnai"></div>
+                    
+                    <!-- Vidurinė eilutė - ląstelių tipai -->
+                    <div class="drop-zone" id="drop5" data-correct="Daugelis vienaląsčių"></div>
+                    <div class="drop-zone" id="drop6" data-correct="Vienaląsčiai ir daugialaščiai"></div>
+                    <div class="drop-zone" id="drop7" data-correct="Daugialaščiai"></div>
+                    <div class="drop-zone" id="drop8" data-correct="Daugialaščiai"></div>
+                    
+                    <!-- Apatinė eilutė - audinių informacija -->
+                    <div class="drop-zone" id="drop9" data-correct="Neturi audinių"></div>
+                    <div class="drop-zone" id="drop10" data-correct="Turi audinius, organus"></div>
+                    <div class="drop-zone" id="drop11" data-correct="Turi audinius, organus, organų sistemas"></div>
+                </div>
+
+                <div class="words-container">
+                    <div class="words-title">🏷️ Žodžiai</div>
+                    <div id="words-list">
+                        <!-- Žodžiai bus įkelti JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button btn-secondary" onclick="resetTask()">🔄 Pradėti iš naujo</button>
+                <button class="action-button btn-primary" onclick="checkAnswers()">✅ Patikrinti</button>
+            </div>
+        </div>
+
+        <!-- Rezultatų kortelė -->
+        <div class="card results-card" id="results-card">
+            <div class="results-header">
+                <div class="results-title">🎉 Užduotis baigta!</div>
+            </div>
+
+            <div class="score-display">
+                <div style="font-size: 1.5rem;">Tavo rezultatas:</div>
+                <div id="final-score"></div>
+            </div>
+
+            <div class="result-details" id="result-details"></div>
+
+            <div class="action-buttons">
+                <button class="action-button btn-secondary" onclick="tryAgain()">🔄 Bandyti dar kartą</button>
+                <a href="https://kalbosupe.com/mokyklai" class="action-button btn-success" style="text-decoration: none;">🏠 Grįžti į pradžią</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Sheets URL
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzJeY_d5t2i7x6zyYCmQjLGTF0LG6i9aYxVaLqhQqTkGBE5NkLIYmqN1t9Fvq9jtcYh/exec';
+
+        // Žodžiai užduočiai
+        const words = [
+            'Protistai',
+            'Grybai',
+            'Augalai',
+            'Gyvūnai',
+            'Daugelis vienaląsčių',
+            'Vienaląsčiai ir daugialaščiai',
+            'Daugialaščiai',
+            'Daugialaščiai',
+            'Neturi audinių',
+            'Turi audinius, organus',
+            'Turi audinius, organus, organų sistemas'
+        ];
+
+        let draggedElement = null;
+        let userAnswers = {};
+
+        // Vardų sistema
+        function showNamePrompt() {
+            const studentName = localStorage.getItem('studentName');
+            
+            if (!studentName) {
+                const name = prompt('Įvesk savo vardą:');
+                if (name && name.trim() !== '') {
+                    localStorage.setItem('studentName', name.trim());
+                    return name.trim();
+                } else {
+                    alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+                    return showNamePrompt();
+                }
+            }
+            return studentName;
+        }
+
+        function changeName() {
+            localStorage.removeItem('studentName');
+            const newName = showNamePrompt();
+            alert('Vardas pakeistas į: ' + newName);
+            location.reload();
+        }
+
+        // Google Sheets siuntimas
+        function sendResultToSheet(taskName, score) {
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+            
+            const data = {
+                name: studentName,
+                task: taskName,
+                score: score,
+                timestamp: timestamp
+            };
+            
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
+            });
+        }
+
+        // Žodžių atvaizdavimas
+        function renderWords() {
+            const wordsList = document.getElementById('words-list');
+            wordsList.innerHTML = '';
+
+            words.forEach((word, index) => {
+                const wordItem = document.createElement('div');
+                wordItem.className = 'word-item';
+                wordItem.draggable = true;
+                wordItem.textContent = word;
+                wordItem.id = 'word-' + index;
+
+                wordItem.addEventListener('dragstart', handleDragStart);
+                wordItem.addEventListener('dragend', handleDragEnd);
+
+                wordsList.appendChild(wordItem);
+            });
+        }
+
+        // Drag and Drop funkcijos
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            this.classList.remove('drag-over');
+
+            if (draggedElement !== null) {
+                const dropZoneId = this.id;
+                const wordText = draggedElement.textContent;
+
+                // Jei tempiam iš kitos drop zonos
+                if (draggedElement.classList.contains('drop-zone')) {
+                    // Išsaugome senąjį žodį iš šios zonos
+                    const oldWord = this.textContent;
+                    
+                    // Jei šioje zonoje jau yra žodis, perkeliame jį į seną vietą
+                    if (this.classList.contains('filled') && oldWord) {
+                        draggedElement.textContent = oldWord;
+                        draggedElement.classList.add('filled');
+                        userAnswers[draggedElement.id] = oldWord;
+                    } else {
+                        // Išvalome seną zoną
+                        draggedElement.textContent = '';
+                        draggedElement.classList.remove('filled', 'correct', 'incorrect');
+                        delete userAnswers[draggedElement.id];
+                    }
+
+                    // Įdedame žodį į naują zoną
+                    this.textContent = wordText;
+                    this.classList.add('filled');
+                    userAnswers[dropZoneId] = wordText;
+
+                } else {
+                    // Tempiam iš žodžių sąrašo
+                    // Jei jau yra žodis šioje zonoje, grąžiname jį atgal
+                    if (this.classList.contains('filled')) {
+                        const oldWord = this.textContent;
+                        const oldWordElement = Array.from(document.querySelectorAll('.word-item')).find(
+                            el => el.textContent === oldWord && el.classList.contains('used')
+                        );
+                        if (oldWordElement) {
+                            oldWordElement.classList.remove('used');
+                        }
+                    }
+
+                    // Pažymime žodį kaip panaudotą
+                    draggedElement.classList.add('used');
+
+                    // Įdedame žodį į drop zoną
+                    this.textContent = wordText;
+                    this.classList.add('filled');
+
+                    // Išsaugome atsakymą
+                    userAnswers[dropZoneId] = wordText;
+                }
+            }
+
+            return false;
+        }
+
+        // Inicializuojame drop zonas
+        function initDropZones() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragenter', handleDragEnter);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+                
+                // Pridedame galimybę tempti pačias drop zonas
+                zone.setAttribute('draggable', 'false'); // Pradžioje netempiam
+                
+                // Kai zona turi tekstą, leidžiame ją tempti
+                const observer = new MutationObserver(() => {
+                    if (zone.classList.contains('filled')) {
+                        zone.setAttribute('draggable', 'true');
+                        zone.style.cursor = 'move';
+                    } else {
+                        zone.setAttribute('draggable', 'false');
+                        zone.style.cursor = 'default';
+                    }
+                });
+                
+                observer.observe(zone, { 
+                    attributes: true, 
+                    attributeFilter: ['class'] 
+                });
+                
+                // Drag event listeners drop zonoms
+                zone.addEventListener('dragstart', function(e) {
+                    if (this.classList.contains('filled')) {
+                        draggedElement = this;
+                        this.classList.add('dragging');
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/html', this.innerHTML);
+                    }
+                });
+                
+                zone.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                });
+            });
+        }
+
+        // Atsakymų tikrinimas
+        function checkAnswers() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let allFilled = true;
+            let correctCount = 0;
+            const totalZones = dropZones.length;
+
+            // Tikriname ar visos zonos užpildytos
+            dropZones.forEach(zone => {
+                if (!zone.classList.contains('filled')) {
+                    allFilled = false;
+                }
+            });
+
+            if (!allFilled) {
+                alert('⚠️ Prašome užpildyti visas vietas schemoje!');
+                return;
+            }
+
+            // Tikriname atsakymus
+            dropZones.forEach(zone => {
+                const correctAnswer = zone.getAttribute('data-correct');
+                const userAnswer = zone.textContent;
+
+                if (userAnswer === correctAnswer) {
+                    zone.classList.add('correct');
+                    zone.classList.remove('incorrect');
+                    correctCount++;
+                } else {
+                    zone.classList.add('incorrect');
+                    zone.classList.remove('correct');
+                }
+            });
+
+            // Rodom rezultatus
+            showResults(correctCount, totalZones);
+        }
+
+        // Rezultatų rodymas
+        function showResults(correct, total) {
+            const percentage = Math.round((correct / total) * 100);
+            
+            document.getElementById('task-card').style.display = 'none';
+            document.getElementById('results-card').classList.add('active');
+
+            const scoreClass = percentage >= 70 ? 'score-good' : 'score-bad';
+            document.getElementById('final-score').innerHTML = 
+                '<div>Teisingai: <strong>' + correct + ' / ' + total + '</strong></div>' +
+                '<div class="score-percentage ' + scoreClass + '">' + percentage + '%</div>';
+
+            // Detalūs rezultatai
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let detailsHTML = '<h3 style="color: #0D3B66; margin-bottom: 15px;">Atsakymų peržiūra:</h3>';
+
+            dropZones.forEach((zone, index) => {
+                const correctAnswer = zone.getAttribute('data-correct');
+                const userAnswer = zone.textContent;
+                const isCorrect = userAnswer === correctAnswer;
+                const icon = isCorrect ? '✅' : '❌';
+                const itemClass = isCorrect ? 'correct-item' : 'incorrect-item';
+
+                detailsHTML += '<div class="result-item ' + itemClass + '">' +
+                    icon + ' <strong>Vieta ' + (index + 1) + ':</strong> ' + userAnswer;
+
+                if (!isCorrect) {
+                    detailsHTML += '<div style="margin-top: 5px; font-size: 0.9rem; color: #1A4D7A;">Teisingas atsakymas: <strong>' + correctAnswer + '</strong></div>';
+                }
+
+                detailsHTML += '</div>';
+            });
+
+            document.getElementById('result-details').innerHTML = detailsHTML;
+
+            // Siunčiame rezultatą į Google Sheets
+            sendResultToSheet('B0003 Eukarijų domeno karalystės - sudėliok schemą', percentage);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Pradėti iš naujo
+        function resetTask() {
+            // Išvalome drop zonas
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => {
+                zone.textContent = '';
+                zone.classList.remove('filled', 'correct', 'incorrect');
+            });
+
+            // Grąžiname žodžius
+            const wordItems = document.querySelectorAll('.word-item');
+            wordItems.forEach(item => {
+                item.classList.remove('used');
+            });
+
+            userAnswers = {};
+        }
+
+        // Bandyti dar kartą
+        function tryAgain() {
+            resetTask();
+            document.getElementById('results-card').classList.remove('active');
+            document.getElementById('task-card').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Inicializacija
+        const studentName = showNamePrompt();
+        document.getElementById('studentNameDisplay').textContent = studentName;
+        renderWords();
+        initDropZones();
+    </script>
+</body>
+</html>
