@@ -382,7 +382,7 @@
 <body>
     <div class="page-wrapper">
         <div class="header-row">
-            <a href="/Mokyklai/index.html" class="back-btn">← Grįžti į pradžią</a>
+            <a href="https://kalbosupe.com/mokyklai" class="back-btn">⬅️ Grįžti į pradžią</a>
             <div class="student-info">
                 <div style="font-size: 1.2rem; font-weight: bold; color: #0D3B66;">
                     🎓 Mokinys: <span id="studentNameDisplay"></span>
@@ -542,7 +542,10 @@
             const wordsList = document.getElementById('words-list');
             wordsList.innerHTML = '';
 
-            words.forEach((word, index) => {
+            // Sumaišome žodžius kiekvieną kartą
+            const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+
+            shuffledWords.forEach((word, index) => {
                 const wordItem = document.createElement('div');
                 wordItem.className = 'word-item';
                 wordItem.draggable = true;
