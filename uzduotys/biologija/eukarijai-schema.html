@@ -26,7 +26,7 @@
 
         .page-wrapper {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
         }
 
         .header-row {
@@ -122,8 +122,9 @@
         }
 
         .schema-container {
-            flex: 0 0 60%;
+            flex: 0 0 65%;
             position: relative;
+            padding-left: 140px;
         }
 
         .schema-image {
@@ -177,24 +178,24 @@
 
         /* Pozicijos drop zonų */
         /* Viršutinė eilutė - 4 karalystės */
-        #drop1 { top: 38%; left: 6%; width: 18%; }
-        #drop2 { top: 38%; left: 27%; width: 18%; }
-        #drop3 { top: 38%; left: 48%; width: 18%; }
-        #drop4 { top: 38%; left: 69%; width: 18%; }
+        #drop1 { top: 42%; left: 18%; width: 16%; }
+        #drop2 { top: 42%; left: 36%; width: 16%; }
+        #drop3 { top: 42%; left: 54%; width: 16%; }
+        #drop4 { top: 42%; left: 72%; width: 16%; }
         
         /* Vidurinė eilutė - ląstelių tipai */
-        #drop5 { top: 52%; left: 6%; width: 18%; }
-        #drop6 { top: 52%; left: 27%; width: 18%; }
-        #drop7 { top: 52%; left: 48%; width: 18%; }
-        #drop8 { top: 52%; left: 69%; width: 18%; }
+        #drop5 { top: 56%; left: 18%; width: 16%; }
+        #drop6 { top: 56%; left: 36%; width: 16%; }
+        #drop7 { top: 56%; left: 54%; width: 16%; }
+        #drop8 { top: 56%; left: 72%; width: 16%; }
         
         /* Apatinė eilutė - audinių informacija */
-        #drop9 { top: 74%; left: 27%; width: 18%; }
-        #drop10 { top: 74%; left: 48%; width: 18%; }
-        #drop11 { top: 74%; left: 69%; width: 18%; }
+        #drop9 { top: 78%; left: 36%; width: 16%; }
+        #drop10 { top: 78%; left: 54%; width: 16%; }
+        #drop11 { top: 78%; left: 72%; width: 16%; }
 
         .words-container {
-            flex: 0 0 35%;
+            flex: 0 0 30%;
             background-color: #f9f9f9;
             border: 2px solid #E8F4F8;
             border-radius: 10px;
@@ -403,6 +404,11 @@
             <div class="main-content">
                 <div class="schema-container">
                     <img src="https://github.com/kalbosupe-dotcom/Mokyklai/blob/main/images/EUKARIJAI.png?raw=true" alt="Eukarijų schema" class="schema-image">
+                    
+                    <!-- Užrašai šalia schemos -->
+                    <div style="position: absolute; left: 0%; top: 42%; font-weight: bold; font-size: 0.9rem; color: #0D3B66; writing-mode: horizontal-tb;">Karalystės</div>
+                    <div style="position: absolute; left: 0%; top: 56%; font-weight: bold; font-size: 0.85rem; color: #0D3B66; writing-mode: horizontal-tb; max-width: 120px; line-height: 1.3;">Vienaląsčiai ar daugialaščiai</div>
+                    <div style="position: absolute; left: 0%; top: 78%; font-weight: bold; font-size: 0.9rem; color: #0D3B66; writing-mode: horizontal-tb; max-width: 120px; line-height: 1.3;">Turi ar neturi audinių ir organų</div>
                     
                     <!-- Drop zonos -->
                     <!-- Viršutinė eilutė - 4 karalystės -->
