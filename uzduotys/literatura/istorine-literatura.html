@@ -408,21 +408,20 @@
         }
 
         // ========== GOOGLE SHEETS INTEGRACIJA ==========
-        function sendResultToSheet(taskName, percentage) {
+        function sendResultToSheet(taskName, score) {
             const studentName = document.getElementById('studentName').textContent;
             const timestamp = new Date().toLocaleString('lt-LT');
             
-            // Google Apps Script Web App URL (pakeiskite savo URL)
-            const scriptURL = 'https://script.google.com/home/projects/15eIfgLycWro-z42_fi1c0jYqN8Y2WQ1ZlKUbcAlQ-wvNYIAvplK_seGx/edit';
-            
             const data = {
-                studentName: studentName,
-                taskName: taskName,
-                score: percentage,
+                name: studentName,
+                task: taskName,
+                score: score,
                 timestamp: timestamp
             };
-
-            // Bandymas siųsti į Google Sheets
+            
+            console.log('Siunčiamas rezultatas:', data);
+            
+            // PATAISYTAS URL - naudojamas tas pats kaip vienarūšių užduotyje
             fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
                 method: 'POST',
                 mode: 'no-cors',
@@ -430,17 +429,19 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
-            }).then(() => {
-                console.log('Rezultatas išsiųstas į Google Sheets');
-            }).catch(error => {
-                console.log('Klaida siunčiant rezultatą:', error);
+            })
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatą:', error);
             });
 
             // Taip pat išsaugome lokaliai
-            saveResultLocally(taskName, percentage);
+            saveResultLocally(taskName, score);
         }
 
-        function saveResultLocally(taskName, percentage) {
+        function saveResultLocally(taskName, score) {
             const studentName = document.getElementById('studentName').textContent;
             const timestamp = new Date().toLocaleString('lt-LT');
             
@@ -448,10 +449,11 @@
             results.push({
                 studentName,
                 taskName,
-                score: percentage,
+                score: score,
                 timestamp
             });
             localStorage.setItem('quizResults', JSON.stringify(results));
+            console.log('Rezultatas išsaugotas lokaliai ✅');
         }
 
         // ========== TESTO LOGIKA ==========
