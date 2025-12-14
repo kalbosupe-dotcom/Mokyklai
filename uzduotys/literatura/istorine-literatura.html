@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Istorinė Literatūra - Testas</title>
-    <link rel="stylesheet" href="../../css/style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -389,8 +388,73 @@
         </div>
     </div>
 
-    <script src="../../js/common.js"></script>
     <script>
+        // ========== VARDŲ VALDYMAS ==========
+        function loadStudentName() {
+            const savedName = localStorage.getItem('studentName');
+            if (savedName) {
+                document.getElementById('studentName').textContent = savedName;
+            }
+        }
+
+        function changeName() {
+            const currentName = document.getElementById('studentName').textContent;
+            const newName = prompt('Įveskite savo vardą ir pavardę:', currentName);
+            
+            if (newName && newName.trim() !== '') {
+                document.getElementById('studentName').textContent = newName.trim();
+                localStorage.setItem('studentName', newName.trim());
+            }
+        }
+
+        // ========== GOOGLE SHEETS INTEGRACIJA ==========
+        function sendResultToSheet(taskName, percentage) {
+            const studentName = document.getElementById('studentName').textContent;
+            const timestamp = new Date().toLocaleString('lt-LT');
+            
+            // Google Apps Script Web App URL (pakeiskite savo URL)
+            const scriptURL = 'https://script.google.com/home/projects/15eIfgLycWro-z42_fi1c0jYqN8Y2WQ1ZlKUbcAlQ-wvNYIAvplK_seGx/edit';
+            
+            const data = {
+                studentName: studentName,
+                taskName: taskName,
+                score: percentage,
+                timestamp: timestamp
+            };
+
+            // Bandymas siųsti į Google Sheets
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }).then(() => {
+                console.log('Rezultatas išsiųstas į Google Sheets');
+            }).catch(error => {
+                console.log('Klaida siunčiant rezultatą:', error);
+            });
+
+            // Taip pat išsaugome lokaliai
+            saveResultLocally(taskName, percentage);
+        }
+
+        function saveResultLocally(taskName, percentage) {
+            const studentName = document.getElementById('studentName').textContent;
+            const timestamp = new Date().toLocaleString('lt-LT');
+            
+            const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
+            results.push({
+                studentName,
+                taskName,
+                score: percentage,
+                timestamp
+            });
+            localStorage.setItem('quizResults', JSON.stringify(results));
+        }
+
+        // ========== TESTO LOGIKA ==========
         const questions = [
             {
                 type: 'single',
@@ -553,6 +617,18 @@
             
             document.getElementById('resultsSection').classList.remove('show');
             document.getElementById('questionsContainer').style.display = 'block';
+            
+            // Išvalyti visus atsakymus
+            document.querySelectorAll('.question-card').forEach((card, index) => {
+                card.classList.remove('active');
+                card.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect', 'disabled');
+                });
+                card.querySelector('.feedback').className = 'feedback';
+                card.querySelector('.btn-check').style.display = 'block';
+                card.querySelector('.btn-check').disabled = true;
+                card.querySelector('.btn-next').style.display = 'none';
+            });
             
             init();
             window.scrollTo(0, 0);
