@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Istorinė Literatūra - Testas</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF8DC;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .header-container {
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #7dd3fc;
+            color: #1a5490;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background: #38bdf8;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1a5490;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .student-info {
+            background: #e0f2fe;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .change-name-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #1a5490;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .change-name-btn:hover {
+            background: #0f3a6f;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #1a5490;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .question-card {
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .question-card.active {
+            display: block;
+        }
+
+        .question-title {
+            font-size: 24px;
+            color: #1a5490;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .option {
+            padding: 15px 20px;
+            margin: 10px 0;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.2s;
+            background: #f9f9f9;
+        }
+
+        .option:hover {
+            background: #f0f0f0;
+        }
+
+        .option.selected {
+            background: #1a5490;
+            color: white;
+            border-color: #1a5490;
+        }
+
+        .option.correct {
+            background: #dcfce7;
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+
+        .option.incorrect {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #dcfce7;
+            border: 3px solid #16a34a;
+            color: #16a34a;
+        }
+
+        .feedback.incorrect {
+            background: #fee2e2;
+            border: 3px solid #dc2626;
+            color: #dc2626;
+        }
+
+        .explanation {
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        .btn-check {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-check:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-next {
+            background: #1a5490;
+            color: white;
+        }
+
+        .btn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .results {
+            text-align: center;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            background: #16a34a;
+            color: white;
+            padding: 15px 40px;
+            font-size: 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .restart-btn:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <a href="../../index.html" class="back-button">← Grįžti atgal</a>
+    </div>
+
+    <div class="container">
+        <h1>📚 Istorinė Literatūra - Testas</h1>
+        
+        <div class="student-info">
+            <span>Mokinys: <strong id="studentName">Vardas Pavardė</strong></span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 14.3%"></div>
+        </div>
+
+        <div id="questionsContainer">
+            <!-- Klausimas 1 -->
+            <div id="question-0" class="question-card active">
+                <div class="question-title">1. Kas yra Herkus Mantas?</div>
+                <div class="option" data-option="A" onclick="selectSingle(0, 'A')">A) Lietuvos didysis kunigaikštis</div>
+                <div class="option" data-option="B" onclick="selectSingle(0, 'B')">B) Prūsų karo vadas, vadovavęs sukilimui prieš Kryžiuočių ordiną</div>
+                <div class="option" data-option="C" onclick="selectSingle(0, 'C')">C) Lenkų poetas</div>
+                <div class="option" data-option="D" onclick="selectSingle(0, 'D')">D) Sovietų partizanas</div>
+                
+                <div id="feedback-0" class="feedback"></div>
+                
+                <div class="button-container">
+                    <button id="checkBtn-0" class="btn btn-check" onclick="checkAnswer(0)" disabled>Patikrinti</button>
+                    <button id="nextBtn-0" class="btn btn-next" onclick="nextQuestion()" style="display: none;">Kitas klausimas →</button>
+                </div>
+            </div>
+
+            <!-- Klausimas 2 -->
+            <div id="question-1" class="question-card">
+                <div class="question-title">2. Kuriais metais buvo pastatyta drama "Herkus Mantas"?</div>
+                <div class="option" data-option="A" onclick="selectSingle(1, 'A')">A) XIX amžiuje</div>
+                <div class="option" data-option="B" onclick="selectSingle(1, 'B')">B) 1945 metais</div>
+                <div class="option" data-option="C" onclick="selectSingle(1, 'C')">C) 1957 metais</div>
+                <div class="option" data-option="D" onclick="selectSingle(1, 'D')">D) 1991 metais</div>
+                
+                <div id="feedback-1" class="feedback"></div>
+                
+                <div class="button-container">
+                    <button id="checkBtn-1" class="btn btn-check" onclick="checkAnswer(1)" disabled>Patikrinti</button>
+                    <button id="nextBtn-1" class="btn btn-next" onclick="nextQuestion()" style="display: none;">Kitas klausimas →</button>
+                </div>
+            </div>
+
+            <!-- Klausimas 3 -->
+            <div id="question-2" class="question-card">
+                <div class="question-title">3. Kas yra Gražina?</div>
+                <div class="option" data-option="A" onclick="selectSingle(2, 'A')">A) Tikra istorinė Lietuvos valdovė</div>
+                <div class="option" data-option="B" onclick="selectSingle(2, 'B')">B) Adomo Mickevičiaus poemos heroję, legendinė kovotoja už Lietuvos laisvę</div>
+                <div class="option" data-option="C" onclick="selectSingle(2, 'C')">C) Juozo Grušo dramos veikėja</div>
+                <div class="option" data-option="D" onclick="selectSingle(2, 'D')">D) Etnografė, tyrinėjusi prūsų kultūrą</div>
+                
+                <div id="feedback-2" class="feedback"></div>
+                
+                <div class="button-container">
+                    <button id="checkBtn-2" class="btn btn-check" onclick="checkAnswer(2)" disabled>Patikrinti</button>
+                    <button id="nextBtn-2" class="btn btn-next" onclick="nextQuestion()" style="display: none;">Kitas klausimas →</button>
+                </div>
+            </div>
+
+            <!-- Klausimas 4 -->
+            <div id="question-3" class="question-card">
+                <div class="question-title">4. Kas yra scenarijus?</div>
+                <div class="option" data-option="A" onclick="selectSingle(3, 'A')">A) Istorinis dokumentas apie praeitį</div>
+                <div class="option" data-option="B" onclick="selectSingle(3, 'B')">B) Kino ar televizijos filmo tekstas, pagal kurį bus kuriama</div>
+                <div class="option" data-option="C" onclick="selectSingle(3, 'C')">C) Dramos kūrinio trumpinys</div>
+                <div class="option" data-option="D" onclick="selectSingle(3, 'D')">D) Archeologinis radinys</div>
+                
+                <div id="feedback-3" class="feedback"></div>
+                
+                <div class="button-container">
+                    <button id="checkBtn-3" class="btn btn-check" onclick="checkAnswer(3)" disabled>Patikrinti</button>
+                    <button id="nextBtn-3" class="btn btn-next" onclick="nextQuestion()" style="display: none;">Kitas klausimas →</button>
+                </div>
+            </div>
+
+            <!-- Klausimas 5 -->
+            <div id="question-4" class="question-card">
+                <div class="question-title">5. Kas parašė kino apysaką "Henrikas Montė"?</div>
+                <div class="option" data-option="A" onclick="selectSingle(4, 'A')">A) Juozas Grušas</div>
+                <div class="option" data-option="B" onclick="selectSingle(4, 'B')">B) Adomas Mickevičius</div>
+                <div class="option" data-option="C" onclick="selectSingle(4, 'C')">C) Saulius Šaltenis</div>
+                <div class="option" data-option="D" onclick="selectSingle(4, 'D')">D) Marijonas Giedrys</div>
+                
+                <div id="feedback-4" class="feedback"></div>
+                
+                <div class="button-container">
+                    <button id="checkBtn-4" class="btn btn-check" onclick="checkAnswer(4)" disabled>Patikrinti</button>
+                    <button id="nextBtn-4" class="btn btn-next" onclick="nextQuestion()" style="display: none;">Kitas klausimas →</button>
+                </div>
+            </div>
+
+            <!-- Klausimas 6 -->
+            <div id="question-5" class="question-card">
+                <div class="question-title">6. Kodėl Juozo Grušo dramos "Herkus Mantas" pastatymas 1957 metais buvo laikomas drąsiu poelgiu?</div>
+                <div class="option" data-option="A" onclick="selectSingle(5, 'A')">A) Tai buvo pirmas lietuviškas spektaklis</div>
+                <div class="option" data-option="B" onclick="selectSingle(5, 'B')">B) Lietuvių žiūrovai prūsų kovą už laisvę tapatino su partizaniniu pasipriešinimu sovietų okupacijai</div>
+                <div class="option" data-option="C" onclick="selectSingle(5, 'C')">C) Drama buvo parašyta rusų kalba</div>
+                <div class="option" data-option="D" onclick="selectSingle(5, 'D')">D) Joje dalyvavo daug aktorių</div>
+                
+                <div id="feedback-5" class="feedback"></div>
+                
+                <div class="button-container">
+                    <button id="checkBtn-5" class="btn btn-check" onclick="checkAnswer(5)" disabled>Patikrinti</button>
+                    <button id="nextBtn-5" class="btn btn-next" onclick="nextQuestion()" style="display: none;">Kitas klausimas →</button>
+                </div>
+            </div>
+
+            <!-- Klausimas 7 -->
+            <div id="question-6" class="question-card">
+                <div class="question-title">7. Kas yra ekranizacija?</div>
+                <div class="option" data-option="A" onclick="selectSingle(6, 'A')">A) Istorinių dokumentų rinkimas</div>
+                <div class="option" data-option="B" onclick="selectSingle(6, 'B')">B) Scenarijaus rašymas</div>
+                <div class="option" data-option="C" onclick="selectSingle(6, 'C')">C) Vaidybinio filmo pastatymas remiantis literatūros kūriniu</div>
+                <div class="option" data-option="D" onclick="selectSingle(6, 'D')">D) Archeologinių duomenų analizavimas</div>
+                
+                <div id="feedback-6" class="feedback"></div>
+                
+                <div class="button-container">
+                    <button id="checkBtn-6" class="btn btn-check" onclick="checkAnswer(6)" disabled>Patikrinti</button>
+                    <button id="nextBtn-6" class="btn btn-next" onclick="nextQuestion()" style="display: none;">Baigti testą →</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsSection" class="results">
+            <h2 style="color: #1a5490; font-size: 36px;">Testo rezultatai</h2>
+            <div class="score-display" id="scoreDisplay">0 / 7</div>
+            <p id="scoreMessage" style="font-size: 24px; margin: 20px 0;"></p>
+            <button class="restart-btn" onclick="restartQuiz()">🔄 Bandyti dar kartą</button>
+        </div>
+    </div>
+
+    <script src="../../js/common.js"></script>
+    <script>
+        const questions = [
+            {
+                type: 'single',
+                question: 'Kas yra Herkus Mantas?',
+                correct: 'B',
+                explanation: 'Herkus Mantas buvo prūsų karo vadas, vadovavęs Didžiajam prūsų sukilimui prieš Kryžiuočių ordiną XIII amžiuje.'
+            },
+            {
+                type: 'single',
+                question: 'Kuriais metais buvo pastatyta drama "Herkus Mantas"?',
+                correct: 'C',
+                explanation: 'Juozo Grušo drama "Herkus Mantas" buvo pastatyta 1957 metais, sovietinės okupacijos laikais, ir tai buvo drąsus dramaturgo poelgis.'
+            },
+            {
+                type: 'single',
+                question: 'Kas yra Gražina?',
+                correct: 'B',
+                explanation: 'Gražina yra Adomo Mickevičiaus poemos heroję, legendinė kovotoja už Lietuvos laisvę, kuri, pasak pasakojimų, vietoj savo vyro išvedė karius į mūšį su kryžiuočiais.'
+            },
+            {
+                type: 'single',
+                question: 'Kas yra scenarijus?',
+                correct: 'B',
+                explanation: 'Scenarijus yra kino ar televizijos filmo, serialo ar animacinio filmo tekstas, pagal kurį bus kuriamas filmas.'
+            },
+            {
+                type: 'single',
+                question: 'Kas parašė kino apysaką "Henrikas Montė"?',
+                correct: 'C',
+                explanation: 'Saulius Šaltenis pagal Juozo Grušo dramą sukūrė kino apysaką "Henrikas Montė", o vėliau ir kino scenarijų kartu su režisieriumi Marijonu Giedriu.'
+            },
+            {
+                type: 'single',
+                question: 'Kodėl Juozo Grušo dramos "Herkus Mantas" pastatymas 1957 metais buvo laikomas drąsiu poelgiu?',
+                correct: 'B',
+                explanation: 'Drama buvo drąsus poelgis, nes prūsų kovą už savo laisvę lietuvių žiūrovai tapatino su tuo metu dar nesibaigusiu partizaniniu pasipriešinimu sovietų okupacijai.'
+            },
+            {
+                type: 'single',
+                question: 'Kas yra ekranizacija?',
+                correct: 'C',
+                explanation: 'Ekranizacija yra vaidybinio filmo pastatymas, remiantis literatūros kūriniu. Tai procesas, kai rašytinis kūrinys pritaikomas kino ekranui.'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = {};
+        let checkedAnswers = {};
+        let isChecked = false;
+
+        function init() {
+            loadStudentName();
+            document.getElementById('question-0').classList.add('active');
+            updateProgress();
+        }
+
+        function selectSingle(qIndex, option) {
+            if (isChecked) return;
+            
+            userAnswers[qIndex] = option;
+            
+            const options = document.querySelectorAll(`#question-${qIndex} .option`);
+            options.forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.option === option) {
+                    opt.classList.add('selected');
+                }
+            });
+            
+            updateCheckButton(qIndex);
+        }
+
+        function updateCheckButton(qIndex) {
+            const btn = document.getElementById(`checkBtn-${qIndex}`);
+            const canCheck = userAnswers[qIndex] !== undefined;
+            btn.disabled = !canCheck;
+        }
+
+        function checkAnswer(qIndex) {
+            isChecked = true;
+            const q = questions[qIndex];
+            const userAnswer = userAnswers[qIndex];
+            const isCorrect = userAnswer === q.correct;
+
+            // Spalvinti atsakymus
+            const options = document.querySelectorAll(`#question-${qIndex} .option`);
+            options.forEach(opt => {
+                opt.classList.add('disabled');
+                const optVal = opt.dataset.option;
+                
+                if (optVal === q.correct) {
+                    opt.classList.add('correct');
+                } else if (optVal === userAnswer && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            checkedAnswers[qIndex] = isCorrect;
+
+            // Rodyti feedback
+            const feedback = document.getElementById(`feedback-${qIndex}`);
+            feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.innerHTML = `
+                <strong style="font-size: 22px;">${isCorrect ? '✓ Teisingai!' : '✗ Neteisingai'}</strong>
+                <div class="explanation">${q.explanation}</div>
+            `;
+
+            // Paslėpti check, rodyti next
+            document.getElementById(`checkBtn-${qIndex}`).style.display = 'none';
+            document.getElementById(`nextBtn-${qIndex}`).style.display = 'block';
+        }
+
+        function nextQuestion() {
+            isChecked = false;
+            
+            if (currentQuestion < questions.length - 1) {
+                document.getElementById(`question-${currentQuestion}`).classList.remove('active');
+                currentQuestion++;
+                document.getElementById(`question-${currentQuestion}`).classList.add('active');
+                updateProgress();
+                window.scrollTo(0, 0);
+            } else {
+                showResults();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('show');
+
+            const correctCount = Object.values(checkedAnswers).filter(v => v === true).length;
+            const percentage = Math.round((correctCount / questions.length) * 100);
+
+            document.getElementById('scoreDisplay').textContent = `${correctCount} / ${questions.length}`;
+            document.getElementById('scoreDisplay').style.color = 
+                percentage >= 70 ? '#16a34a' : percentage >= 50 ? '#f59e0b' : '#dc2626';
+
+            let message = '';
+            if (percentage >= 90) message = '🌟 Puikiai! Tu tikrai gerai išmanai istorinę literatūrą!';
+            else if (percentage >= 70) message = '✅ Labai gerai! Tu gerai moki istorinės literatūros temą!';
+            else if (percentage >= 50) message = '👍 Neblogai! Dar pakartok ir būsi ekspertas!';
+            else message = '📚 Pakartok medžiagą ir bandyk dar kartą!';
+
+            document.getElementById('scoreMessage').textContent = message;
+
+            // Siųsti rezultatą į Google Sheets
+            sendResultToSheet('L0001 Istorinė literatūra', percentage);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = {};
+            checkedAnswers = {};
+            isChecked = false;
+            
+            document.getElementById('resultsSection').classList.remove('show');
+            document.getElementById('questionsContainer').style.display = 'block';
+            
+            init();
+            window.scrollTo(0, 0);
+        }
+
+        // Paleisti užduotį
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
