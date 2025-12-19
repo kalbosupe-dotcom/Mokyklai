@@ -17,7 +17,7 @@
 
         .page-wrapper {
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -107,31 +107,30 @@
             text-align: center;
         }
 
-        .text-box {
+        .sentence-card {
             background: #ffffff;
-            border: 3px solid #7CB3E9;
-            border-radius: 15px;
-            padding: 35px;
-            margin: 25px 0;
-            font-size: 1.5rem;
-            line-height: 2.8;
+            border: 2px solid #B8D4E8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 15px 0;
+            font-size: 1.4rem;
+            line-height: 2.2;
             color: #1A4D7A;
-            word-spacing: 8px;
         }
 
         .word {
             display: inline-block;
             white-space: nowrap;
-            margin-right: 8px;
+            margin-right: 6px;
         }
 
         select {
             font-family: 'OpenDyslexic', Arial, sans-serif;
             font-size: 1.3rem;
-            padding: 6px 12px;
-            border: 3px solid #7CB3E9;
-            border-radius: 8px;
-            background-color: #ffffff;
+            padding: 4px 10px;
+            border: 2px solid #D4E6F1;
+            border-radius: 6px;
+            background-color: #F8FBFD;
             color: #0D3B66;
             font-weight: bold;
             cursor: pointer;
@@ -142,8 +141,9 @@
 
         select:focus {
             outline: none;
-            border-color: #4A90E2;
-            box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+            border-color: #7CB3E9;
+            background-color: #ffffff;
+            box-shadow: 0 0 6px rgba(124, 179, 233, 0.3);
         }
 
         select.correct {
@@ -264,16 +264,15 @@
                 font-size: 1.5rem;
             }
             
-            .text-box {
+            .sentence-card {
                 font-size: 1.2rem;
-                padding: 25px;
-                line-height: 2.5;
-                word-spacing: 6px;
+                padding: 20px;
+                line-height: 2;
             }
             
             select {
                 font-size: 1.1rem;
-                padding: 5px 10px;
+                padding: 4px 8px;
             }
         }
     </style>
@@ -296,14 +295,17 @@
             </div>
 
             <div class="instructions">
-                👆<strong>Pasirink</strong> tinkamus dvigarsius iš pateiktų pasirinkimų.
+                <strong>Pasirink tinkamus dvigarsius</strong> iš pateiktų pasirinkimų ir užpildyk sakinius
             </div>
 
-            <div class="text-box" id="textBox">
+            <div class="sentence-card">
                 <span class="word">Rudenį</span>
                 <span class="word">lauk<select id="sel1"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>se</span>
                 <span class="word">r<select id="sel2"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>kame</span>
                 <span class="word">akmenis.</span>
+            </div>
+
+            <div class="sentence-card">
                 <span class="word">Ar</span>
                 <span class="word">žin<select id="sel3"><option value="">___</option><option value="ai">ai</option><option value="ei">ei</option></select>,</span>
                 <span class="word">kiek</span>
@@ -312,18 +314,27 @@
                 <span class="word">yra</span>
                 <span class="word">mūsų</span>
                 <span class="word">d<select id="sel5"><option value="">___</option><option value="er">er</option><option value="ir">ir</option></select>vose?</span>
+            </div>
+
+            <div class="sentence-card">
                 <span class="word">J<select id="sel6"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>di</span>
                 <span class="word">dūmai</span>
                 <span class="word">kyla</span>
-                <span class="word">į</span>
+                <span class="word">i</span>
                 <span class="word">š<select id="sel7"><option value="">___</option><option value="al">al</option><option value="el">el</option></select>tą</span>
-                <span class="word">pad<select id="sel8"><option value="">___</option><option value="un">un</option><option value="an">an</option></select>gę.</span>
+                <span class="word">pad<select id="sel8"><option value="">___</option><option value="un">un</option><option value="an">an</option></select>ge.</span>
+            </div>
+
+            <div class="sentence-card">
                 <span class="word">Per</span>
                 <span class="word">p<select id="sel9"><option value="">___</option><option value="ei">ei</option><option value="ie">ie</option></select>vas</span>
                 <span class="word">l<select id="sel10"><option value="">___</option><option value="in">in</option><option value="en">en</option></select>ksmai</span>
                 <span class="word">vingi<select id="sel11"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>ja</span>
                 <span class="word">mažas</span>
                 <span class="word">upeliukas.</span>
+            </div>
+
+            <div class="sentence-card">
                 <span class="word">Merg<select id="sel12"><option value="">___</option><option value="au">au</option><option value="ai">ai</option></select>tė</span>
                 <span class="word">Aistė</span>
                 <span class="word">ilgai</span>
@@ -331,10 +342,16 @@
                 <span class="word">r<select id="sel14"><option value="">___</option><option value="in">in</option><option value="an">an</option></select>kose</span>
                 <span class="word">k<select id="sel15"><option value="">___</option><option value="ie">ie</option><option value="ei">ei</option></select>stą</span>
                 <span class="word">daiktą.</span>
-                <span class="word">D<select id="sel16"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>gų</span>
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">D<select id="sel16"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>gu</span>
                 <span class="word">d<select id="sel17"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>gė</span>
                 <span class="word">r<select id="sel18"><option value="">___</option><option value="au">au</option><option value="uo">uo</option></select>doni</span>
                 <span class="word">debesys.</span>
+            </div>
+
+            <div class="sentence-card">
                 <span class="word">K<select id="sel19"><option value="">___</option><option value="ei">ei</option><option value="ie">ie</option></select>stai</span>
                 <span class="word">prasidėjo</span>
                 <span class="word">šis<select id="sel20"><option value="">___</option><option value="en">en</option><option value="an">an</option></select>kstyvas</span>
@@ -414,8 +431,8 @@ document.getElementById('studentNameDisplay').textContent = studentName;
 
 // Teisingi atsakymai
 const correctAnswers = {
-    'sel1': 'uo',
-    'sel2': 'en',
+    'sel1': 'o',
+    'sel2': 'an',
     'sel3': 'ai',
     'sel4': 'au',
     'sel5': 'ir',
@@ -427,12 +444,12 @@ const correctAnswers = {
     'sel11': 'uo',
     'sel12': 'ai',
     'sel13': 'ar',
-    'sel14': 'an',
-    'sel15': 'ei',
+    'sel14': 'in',
+    'sel15': 'ie',
     'sel16': 'an',
     'sel17': 'en',
     'sel18': 'au',
-    'sel19': 'ei',
+    'sel19': 'ie',
     'sel20': 'an'
 };
 
