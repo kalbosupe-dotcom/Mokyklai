@@ -111,22 +111,24 @@
             background: #ffffff;
             border: 3px solid #7CB3E9;
             border-radius: 15px;
-            padding: 30px;
+            padding: 35px;
             margin: 25px 0;
-            font-size: 1.4rem;
-            line-height: 2.2;
+            font-size: 1.5rem;
+            line-height: 2.8;
             color: #1A4D7A;
+            word-spacing: 8px;
         }
 
-        .word-part {
-            color: #0D3B66;
-            font-weight: bold;
+        .word {
+            display: inline-block;
+            white-space: nowrap;
+            margin-right: 8px;
         }
 
         select {
             font-family: 'OpenDyslexic', Arial, sans-serif;
-            font-size: 1.2rem;
-            padding: 5px 10px;
+            font-size: 1.3rem;
+            padding: 6px 12px;
             border: 3px solid #7CB3E9;
             border-radius: 8px;
             background-color: #ffffff;
@@ -134,7 +136,8 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            margin: 0 3px;
+            margin: 0 2px;
+            vertical-align: baseline;
         }
 
         select:focus {
@@ -262,14 +265,15 @@
             }
             
             .text-box {
-                font-size: 1.1rem;
-                padding: 20px;
-                line-height: 1.8;
+                font-size: 1.2rem;
+                padding: 25px;
+                line-height: 2.5;
+                word-spacing: 6px;
             }
             
             select {
-                font-size: 1rem;
-                padding: 4px 8px;
+                font-size: 1.1rem;
+                padding: 5px 10px;
             }
         }
     </style>
@@ -296,7 +300,45 @@
             </div>
 
             <div class="text-box" id="textBox">
-                Rudenį lauk<select id="sel1"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>se r<select id="sel2"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>kame akmenis. Ar žin<select id="sel3"><option value="">___</option><option value="ai">ai</option><option value="ei">ei</option></select>, kiek d<select id="sel4"><option value="">___</option><option value="au">au</option><option value="uo">uo</option></select>g jų yra mūsų d<select id="sel5"><option value="">___</option><option value="er">er</option><option value="ir">ir</option></select>vose? J<select id="sel6"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>di dūmai kyla i š<select id="sel7"><option value="">___</option><option value="al">al</option><option value="el">el</option></select>tą pad<select id="sel8"><option value="">___</option><option value="un">un</option><option value="an">an</option></select>ge. Per p<select id="sel9"><option value="">___</option><option value="ei">ei</option><option value="ie">ie</option></select>vas l<select id="sel10"><option value="">___</option><option value="in">in</option><option value="en">en</option></select>ksmai vingi<select id="sel11"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>ja mažas upeliukas. Merg<select id="sel12"><option value="">___</option><option value="au">au</option><option value="ai">ai</option></select>tė Aistė ilgai v<select id="sel13"><option value="">___</option><option value="ar">ar</option><option value="er">er</option></select>tė r<select id="sel14"><option value="">___</option><option value="in">in</option><option value="an">an</option></select>kose k<select id="sel15"><option value="">___</option><option value="ie">ie</option><option value="ei">ei</option></select>stą daiktą. D<select id="sel16"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>gu d<select id="sel17"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>gė r<select id="sel18"><option value="">___</option><option value="au">au</option><option value="uo">uo</option></select>doni debesys. K<select id="sel19"><option value="">___</option><option value="ei">ei</option><option value="ie">ie</option></select>stai prasidėjo šis<select id="sel20"><option value="">___</option><option value="en">en</option><option value="an">an</option></select>kstyvas rytas.
+                <span class="word">Rudenį</span>
+                <span class="word">lauk<select id="sel1"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>se</span>
+                <span class="word">r<select id="sel2"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>kame</span>
+                <span class="word">akmenis.</span>
+                <span class="word">Ar</span>
+                <span class="word">žin<select id="sel3"><option value="">___</option><option value="ai">ai</option><option value="ei">ei</option></select>,</span>
+                <span class="word">kiek</span>
+                <span class="word">d<select id="sel4"><option value="">___</option><option value="au">au</option><option value="uo">uo</option></select>g</span>
+                <span class="word">jų</span>
+                <span class="word">yra</span>
+                <span class="word">mūsų</span>
+                <span class="word">d<select id="sel5"><option value="">___</option><option value="er">er</option><option value="ir">ir</option></select>vose?</span>
+                <span class="word">J<select id="sel6"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>di</span>
+                <span class="word">dūmai</span>
+                <span class="word">kyla</span>
+                <span class="word">į</span>
+                <span class="word">š<select id="sel7"><option value="">___</option><option value="al">al</option><option value="el">el</option></select>tą</span>
+                <span class="word">pad<select id="sel8"><option value="">___</option><option value="un">un</option><option value="an">an</option></select>gę.</span>
+                <span class="word">Per</span>
+                <span class="word">p<select id="sel9"><option value="">___</option><option value="ei">ei</option><option value="ie">ie</option></select>vas</span>
+                <span class="word">l<select id="sel10"><option value="">___</option><option value="in">in</option><option value="en">en</option></select>ksmai</span>
+                <span class="word">vingi<select id="sel11"><option value="">___</option><option value="o">o</option><option value="uo">uo</option></select>ja</span>
+                <span class="word">mažas</span>
+                <span class="word">upeliukas.</span>
+                <span class="word">Merg<select id="sel12"><option value="">___</option><option value="au">au</option><option value="ai">ai</option></select>tė</span>
+                <span class="word">Aistė</span>
+                <span class="word">ilgai</span>
+                <span class="word">v<select id="sel13"><option value="">___</option><option value="ar">ar</option><option value="er">er</option></select>tė</span>
+                <span class="word">r<select id="sel14"><option value="">___</option><option value="in">in</option><option value="an">an</option></select>kose</span>
+                <span class="word">k<select id="sel15"><option value="">___</option><option value="ie">ie</option><option value="ei">ei</option></select>stą</span>
+                <span class="word">daiktą.</span>
+                <span class="word">D<select id="sel16"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>gu</span>
+                <span class="word">d<select id="sel17"><option value="">___</option><option value="an">an</option><option value="en">en</option></select>gė</span>
+                <span class="word">r<select id="sel18"><option value="">___</option><option value="au">au</option><option value="uo">uo</option></select>doni</span>
+                <span class="word">debesys.</span>
+                <span class="word">K<select id="sel19"><option value="">___</option><option value="ei">ei</option><option value="ie">ie</option></select>stai</span>
+                <span class="word">prasidėjo</span>
+                <span class="word">šis<select id="sel20"><option value="">___</option><option value="en">en</option><option value="an">an</option></select>kstyvas</span>
+                <span class="word">rytas.</span>
             </div>
 
             <div class="feedback" id="feedback"></div>
