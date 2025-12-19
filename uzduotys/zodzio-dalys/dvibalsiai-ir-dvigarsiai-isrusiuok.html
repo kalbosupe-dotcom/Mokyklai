@@ -8,7 +8,7 @@
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
             letter-spacing: 0.05em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAEB 100%);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
@@ -121,11 +121,68 @@
             margin: 0;
             padding-left: 25px;
             color: #1A4D7A;
+            list-style: none;
         }
 
         .instructions li {
-            margin: 8px 0;
+            margin: 12px 0;
             line-height: 1.6;
+        }
+
+        .definition-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .color-label {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            border: 2px solid;
+        }
+
+        .label-green {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-color: #66bb6a;
+        }
+
+        .label-orange {
+            background: #fff3e0;
+            color: #e65100;
+            border-color: #ff9800;
+        }
+
+        .examples-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .example-item {
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            border: 2px solid;
+        }
+
+        .example-green {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-color: #66bb6a;
+        }
+
+        .example-orange {
+            background: #fff3e0;
+            color: #e65100;
+            border-color: #ff9800;
         }
 
         .progress-bar {
@@ -244,12 +301,12 @@
         }
 
         .drop-box.dvibalsis {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            border-color: #2196f3;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-color: #66bb6a;
         }
 
         .drop-box.dvibalsis.drag-over {
-            background: linear-gradient(135deg, #2196f3, #1976d2);
+            background: linear-gradient(135deg, #66bb6a, #4caf50);
         }
 
         .drop-box.dvigarsis {
@@ -422,6 +479,11 @@
             .header h1 {
                 font-size: 1.6rem;
             }
+
+            .definition-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
 
         @media (max-width: 600px) {
@@ -464,14 +526,52 @@
         <div class="container">
             <div class="header">
                 <h1>🎯 Dvibalsiai ir dvigarsiai</h1>
-                <p><strong>Išrūšiuok</strong> į dvi grupes: dvibalsius ir dvigarsius</p>
+                <p><strong>Išrūšiuok</strong> į dvi grupes: <span class="color-label label-green">dvibalsius</span> ir <span class="color-label label-orange">dvigarsius</span></p>
             </div>
 
             <div class="instructions">
                 <h3>🧠 Prisiminkime:</h3>
                 <ul>
-                    <li><strong>Dvibalsiai</strong> – du balsiai, tariami vienu ištisiniu garsu: <strong>ai, ei, ui, au, eu, ou, ie, uo</strong></li>
-                    <li><strong>Dvigarsiai</strong> – balsis ir priebalsis (l, m, n, r), tariami vienu ištisiniu garsu: <strong>al, el, il, ul, am, em, im, um, an, en, in, un, ar, er, ir, ur</strong></li>
+                    <li>
+                        <div class="definition-row">
+                            <span class="color-label label-green">Dvibalsiai</span>
+                            <span>– du balsiai, tariami vienu priegaršiu:</span>
+                        </div>
+                        <div class="examples-container">
+                            <span class="example-item example-green">ai</span>
+                            <span class="example-item example-green">ei</span>
+                            <span class="example-item example-green">ui</span>
+                            <span class="example-item example-green">au</span>
+                            <span class="example-item example-green">eu</span>
+                            <span class="example-item example-green">ou</span>
+                            <span class="example-item example-green">ie</span>
+                            <span class="example-item example-green">uo</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="definition-row">
+                            <span class="color-label label-orange">Dvigarsiai</span>
+                            <span>– balsis ir priebalsis (l, m, n, r), tariami vienu priegaršiu:</span>
+                        </div>
+                        <div class="examples-container">
+                            <span class="example-item example-orange">al</span>
+                            <span class="example-item example-orange">el</span>
+                            <span class="example-item example-orange">il</span>
+                            <span class="example-item example-orange">ul</span>
+                            <span class="example-item example-orange">am</span>
+                            <span class="example-item example-orange">em</span>
+                            <span class="example-item example-orange">im</span>
+                            <span class="example-item example-orange">um</span>
+                            <span class="example-item example-orange">an</span>
+                            <span class="example-item example-orange">en</span>
+                            <span class="example-item example-orange">in</span>
+                            <span class="example-item example-orange">un</span>
+                            <span class="example-item example-orange">ar</span>
+                            <span class="example-item example-orange">er</span>
+                            <span class="example-item example-orange">ir</span>
+                            <span class="example-item example-orange">ur</span>
+                        </div>
+                    </li>
                     <li>👆 <strong>Tempk</strong> kiekvieną elementą į tinkamą spalvotą langelį</li>
                 </ul>
             </div>
@@ -494,7 +594,7 @@
 
                 <div class="sorting-boxes">
                     <div class="drop-box dvibalsis" data-type="dvibalsis">
-                        <h3>🔵 DVIBALSIAI</h3>
+                        <h3>🟢 DVIBALSIAI</h3>
                         <div class="description">Du balsiai kartu</div>
                         <div class="dropped-items" id="dvibalsiaiBox"></div>
                     </div>
@@ -906,7 +1006,7 @@ function showResults() {
     `;
     
     resultsDiv.classList.add('show');
-    sendResultToSheet('Dvibalsiai ir dvigarsiai - rūšiavimas', percentage);
+    sendResultToSheet('L0501 Dvibalsiai ir dvigarsiai - rūšiavimas', percentage);
 }
 
 // --- Atnaujinimas ---
