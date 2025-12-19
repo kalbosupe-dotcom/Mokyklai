@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dvibalsiai ir dvigarsiai - Kalbos Upė</title>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 3px solid #4A90E2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #0D3B66;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .header p {
+            color: #1A4D7A;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            background: #E8F4F8;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #7CB3E9;
+        }
+
+        .instructions h3 {
+            color: #0D3B66;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .instructions ul {
+            margin: 0;
+            padding-left: 25px;
+            color: #1A4D7A;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            background: #E8F4F8;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 2px solid #7CB3E9;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .score {
+            background: #E8F4F8;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #4A90E2;
+        }
+
+        .score h3 {
+            color: #0D3B66;
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .score p {
+            color: #1A4D7A;
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .items-pool {
+            background: #E8F4F8;
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid #7CB3E9;
+            min-height: 450px;
+        }
+
+        .items-pool h3 {
+            text-align: center;
+            color: #0D3B66;
+            margin: 0 0 20px 0;
+            font-size: 1.4rem;
+        }
+
+        #itemsContainer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .item {
+            background: white;
+            border: 3px solid #4A90E2;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: grab;
+            transition: all 0.3s ease;
+            user-select: none;
+            color: #0D3B66;
+            box-shadow: 0 3px 8px rgba(26, 77, 122, 0.15);
+        }
+
+        .item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(26, 77, 122, 0.25);
+        }
+
+        .item:active {
+            cursor: grabbing;
+            transform: scale(0.98);
+        }
+
+        .sorting-boxes {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .drop-box {
+            border: 4px dashed #7CB3E9;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            min-height: 200px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .drop-box.drag-over {
+            border-style: solid;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .drop-box.dvibalsis {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-color: #2196f3;
+        }
+
+        .drop-box.dvibalsis.drag-over {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+        }
+
+        .drop-box.dvigarsis {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border-color: #ff9800;
+        }
+
+        .drop-box.dvigarsis.drag-over {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+        }
+
+        .drop-box h3 {
+            font-size: 1.6rem;
+            margin: 0 0 8px 0;
+            color: #0D3B66;
+        }
+
+        .drop-box .description {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            color: #1A4D7A;
+            font-weight: normal;
+        }
+
+        .dropped-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            min-height: 60px;
+            flex-grow: 1;
+            align-content: flex-start;
+        }
+
+        .dropped-item {
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 3px solid transparent;
+            cursor: grab;
+            color: #0D3B66;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dropped-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .dropped-item.correct {
+            border-color: #4caf50;
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .dropped-item.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn.reset {
+            background: linear-gradient(45deg, #FFB84D, #FF9800);
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #c3e6cb;
+        }
+
+        .results {
+            background: #E8F4F8;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            display: none;
+            border: 3px solid #4A90E2;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results h2 {
+            color: #0D3B66;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .results .final-score {
+            font-size: 2.5rem;
+            color: #1A4D7A;
+            margin: 20px 0;
+        }
+
+        .results .encouragement {
+            font-size: 1.3rem;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .game-area {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            #itemsContainer {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #itemsContainer {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .item {
+                font-size: 1.5rem;
+            }
+            
+            .dropped-item {
+                font-size: 1.2rem;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            <div class="student-info">
+                <span style="font-size: 16px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="header">
+                <h1>🎯 Dvibalsiai ir dvigarsiai</h1>
+                <p>Išrūšiuok balsius į dvi grupes: dvibalsius ir dvigarsius</p>
+            </div>
+
+            <div class="instructions">
+                <h3>📚 Prisiminkime:</h3>
+                <ul>
+                    <li><strong>Dvibalsiai</strong> – du balsiai, tariami vienu priegaršiu: <strong>ai, ei, ui, au, eu, ou, ie, uo</strong></li>
+                    <li><strong>Dvigarsiai</strong> – balsis ir pusbalsis (l, m, n, r), tariami vienu priegaršiu: <strong>al, el, il, ul, am, em, im, um, an, en, in, un, ar, er, ir, ur</strong></li>
+                    <li><strong>Tempk</strong> kiekvieną elementą į tinkamą spalvotą langelį</li>
+                </ul>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="score">
+                <h3>📊 Tavo progresas</h3>
+                <p>Surūšiuota: <span id="placedCount">0</span> / <span id="totalItems">24</span> | 
+                Tikslumas: <span id="accuracy">0%</span></p>
+            </div>
+
+            <div class="game-area">
+                <div class="items-pool">
+                    <h3>📝 Balsiniai junginiai</h3>
+                    <div id="itemsContainer"></div>
+                </div>
+
+                <div class="sorting-boxes">
+                    <div class="drop-box dvibalsis" data-type="dvibalsis">
+                        <h3>🔵 DVIBALSIAI</h3>
+                        <div class="description">Du balsiai kartu</div>
+                        <div class="dropped-items" id="dvibalsiaiBox"></div>
+                    </div>
+
+                    <div class="drop-box dvigarsis" data-type="dvigarsis">
+                        <h3>🟠 DVIGARSIAI</h3>
+                        <div class="description">Balsis + pusbalsis (l, m, n, r)</div>
+                        <div class="dropped-items" id="dvigarsiaiBox"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="controls">
+                <button class="btn" onclick="checkAnswers()" id="checkBtn">✅ Patikrinti atsakymus</button>
+                <button class="btn reset" onclick="resetGame()" id="resetBtn">🔄 Pradėti iš naujo</button>
+            </div>
+
+            <div class="results" id="results">
+                <h2>🎉 Užduotis baigta!</h2>
+                <div id="finalScoreContainer"></div>
+                <div id="encouragementContainer"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// --- Vardų valdymas ---
+function showNamePrompt() {
+    const studentName = localStorage.getItem('studentName');
+    if (!studentName) {
+        const name = prompt('Įvesk savo vardą:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('studentName', name.trim());
+            return name.trim();
+        } else {
+            alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+            return showNamePrompt();
+        }
+    }
+    return studentName;
+}
+
+function changeName() {
+    localStorage.removeItem('studentName');
+    const newName = showNamePrompt();
+    alert(`Vardas pakeistas į: ${newName}`);
+    location.reload();
+}
+
+function sendResultToSheet(taskName, score) {
+    const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+    const timestamp = new Date().toLocaleString('lt-LT');
+
+    const data = {
+        name: studentName,
+        task: taskName,
+        score: score,
+        timestamp: timestamp
+    };
+
+    console.log('Siunčiamas rezultatas:', data);
+
+    fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+    })
+    .catch(error => {
+        console.error('Klaida siunčiant rezultatą:', error);
+    });
+}
+
+const studentName = showNamePrompt();
+document.getElementById('studentNameDisplay').textContent = studentName;
+
+// --- Užduoties duomenys ---
+const items = [
+    // Dvibalsiai (8)
+    {text: 'ai', type: 'dvibalsis'},
+    {text: 'ei', type: 'dvibalsis'},
+    {text: 'ui', type: 'dvibalsis'},
+    {text: 'au', type: 'dvibalsis'},
+    {text: 'eu', type: 'dvibalsis'},
+    {text: 'ou', type: 'dvibalsis'},
+    {text: 'ie', type: 'dvibalsis'},
+    {text: 'uo', type: 'dvibalsis'},
+    
+    // Dvigarsiai (16)
+    {text: 'al', type: 'dvigarsis'},
+    {text: 'el', type: 'dvigarsis'},
+    {text: 'il', type: 'dvigarsis'},
+    {text: 'ul', type: 'dvigarsis'},
+    {text: 'am', type: 'dvigarsis'},
+    {text: 'em', type: 'dvigarsis'},
+    {text: 'im', type: 'dvigarsis'},
+    {text: 'um', type: 'dvigarsis'},
+    {text: 'an', type: 'dvigarsis'},
+    {text: 'en', type: 'dvigarsis'},
+    {text: 'in', type: 'dvigarsis'},
+    {text: 'un', type: 'dvigarsis'},
+    {text: 'ar', type: 'dvigarsis'},
+    {text: 'er', type: 'dvigarsis'},
+    {text: 'ir', type: 'dvigarsis'},
+    {text: 'ur', type: 'dvigarsis'}
+];
+
+let draggedElement = null;
+let correctAnswers = 0;
+let checkedAnswers = false;
+let touchElement = null;
+let touchOffset = {x: 0, y: 0};
+let isDragging = false;
+let startPos = {x: 0, y: 0};
+
+// --- Touch valdymas ---
+function handleTouchStart(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    touchElement = e.target;
+    isDragging = false;
+    
+    const touch = e.touches[0];
+    const rect = touchElement.getBoundingClientRect();
+    touchOffset.x = touch.clientX - rect.left;
+    touchOffset.y = touch.clientY - rect.top;
+    startPos.x = touch.clientX;
+    startPos.y = touch.clientY;
+    
+    touchElement.style.transition = 'none';
+    touchElement.style.transform = 'scale(1.1)';
+    touchElement.style.boxShadow = '0 8px 25px rgba(0,0,0,0.3)';
+    
+    document.querySelectorAll('.drop-box').forEach(box => {
+        box.style.borderWidth = '5px';
+    });
+}
+
+function handleTouchMove(e) {
+    if (!touchElement) return;
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const touch = e.touches[0];
+    const moveX = Math.abs(touch.clientX - startPos.x);
+    const moveY = Math.abs(touch.clientY - startPos.y);
+    
+    if (!isDragging && (moveX > 10 || moveY > 10)) {
+        isDragging = true;
+        touchElement.style.position = 'fixed';
+        touchElement.style.zIndex = '1000';
+        touchElement.style.opacity = '0.9';
+        touchElement.style.pointerEvents = 'none';
+    }
+    
+    if (isDragging) {
+        touchElement.style.left = (touch.clientX - touchOffset.x) + 'px';
+        touchElement.style.top = (touch.clientY - touchOffset.y) + 'px';
+        
+        const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+        const dropBox = elementBelow?.closest('.drop-box');
+        
+        document.querySelectorAll('.drop-box').forEach(box => {
+            if (box === dropBox) {
+                box.classList.add('drag-over');
+            } else {
+                box.classList.remove('drag-over');
+            }
+        });
+    }
+}
+
+function handleTouchEnd(e) {
+    if (!touchElement) return;
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const touch = e.changedTouches[0];
+    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    const dropBox = elementBelow?.closest('.drop-box');
+    
+    document.querySelectorAll('.drop-box').forEach(box => {
+        box.style.borderWidth = '4px';
+        box.classList.remove('drag-over');
+    });
+    
+    if (isDragging && dropBox) {
+        const droppedItemsContainer = dropBox.querySelector('.dropped-items');
+        const newDroppedItem = document.createElement('div');
+        newDroppedItem.className = 'dropped-item';
+        newDroppedItem.textContent = touchElement.textContent;
+        newDroppedItem.dataset.type = touchElement.dataset.type;
+        newDroppedItem.dataset.expectedType = dropBox.dataset.type;
+        
+        droppedItemsContainer.appendChild(newDroppedItem);
+        touchElement.remove();
+        
+        setTimeout(() => {
+            addDragToDroppedItems();
+        }, 100);
+        
+        updateScore();
+        updateProgress();
+        
+        if (document.querySelectorAll('.item').length === 0) {
+            showFeedback('Visi elementai surūšiuoti! Dabar patikrinkite atsakymus.', 'success');
+        }
+    } else {
+        touchElement.style.transition = 'all 0.3s ease';
+        touchElement.style.position = '';
+        touchElement.style.zIndex = '';
+        touchElement.style.opacity = '';
+        touchElement.style.transform = '';
+        touchElement.style.left = '';
+        touchElement.style.top = '';
+        touchElement.style.boxShadow = '';
+        touchElement.style.pointerEvents = '';
+        
+        if (isDragging) {
+            touchElement.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                touchElement.style.animation = '';
+                setTimeout(() => {
+                    addDragToDroppedItems();
+                }, 100);
+            }, 500);
+        }
+    }
+    
+    touchElement = null;
+    isDragging = false;
+}
+
+function addDragToDroppedItems() {
+    document.querySelectorAll('.dropped-item').forEach(droppedItem => {
+        droppedItem.removeEventListener('touchstart', handleTouchStart);
+        droppedItem.removeEventListener('touchmove', handleTouchMove);
+        droppedItem.removeEventListener('touchend', handleTouchEnd);
+        
+        droppedItem.draggable = true;
+        droppedItem.style.cursor = 'grab';
+        
+        droppedItem.addEventListener('dragstart', e => {
+            draggedElement = e.target;
+            e.target.style.opacity = '0.5';
+        });
+        
+        droppedItem.addEventListener('dragend', e => {
+            draggedElement = null;
+            e.target.style.opacity = '1';
+        });
+        
+        droppedItem.addEventListener('touchstart', handleTouchStart, {passive: false});
+        droppedItem.addEventListener('touchmove', handleTouchMove, {passive: false});
+        droppedItem.addEventListener('touchend', handleTouchEnd, {passive: false});
+    });
+}
+
+// --- Žaidimo iniciavimas ---
+function initGame() {
+    const container = document.getElementById('itemsContainer');
+    container.innerHTML = '';
+    const shuffledItems = [...items].sort(() => Math.random() - 0.5);
+    
+    shuffledItems.forEach(itemData => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'item';
+        itemElement.textContent = itemData.text;
+        itemElement.draggable = true;
+        itemElement.dataset.type = itemData.type;
+        
+        itemElement.addEventListener('dragstart', e => {
+            draggedElement = e.target;
+            e.target.style.opacity = '0.5';
+        });
+        
+        itemElement.addEventListener('dragend', e => {
+            draggedElement = null;
+            e.target.style.opacity = '1';
+        });
+        
+        itemElement.addEventListener('touchstart', handleTouchStart, {passive: false});
+        itemElement.addEventListener('touchmove', handleTouchMove, {passive: false});
+        itemElement.addEventListener('touchend', handleTouchEnd, {passive: false});
+        
+        container.appendChild(itemElement);
+    });
+    
+    document.querySelectorAll('.drop-box').forEach(box => {
+        box.addEventListener('dragover', e => {
+            e.preventDefault();
+            box.classList.add('drag-over');
+        });
+        
+        box.addEventListener('dragleave', e => {
+            box.classList.remove('drag-over');
+        });
+        
+        box.addEventListener('drop', e => {
+            e.preventDefault();
+            box.classList.remove('drag-over');
+            
+            if (draggedElement) {
+                const dropContainer = e.currentTarget.querySelector('.dropped-items');
+                
+                if (draggedElement.classList.contains('dropped-item')) {
+                    const newDroppedItem = document.createElement('div');
+                    newDroppedItem.className = 'dropped-item';
+                    newDroppedItem.textContent = draggedElement.textContent;
+                    newDroppedItem.dataset.type = draggedElement.dataset.type;
+                    newDroppedItem.dataset.expectedType = e.currentTarget.dataset.type;
+                    dropContainer.appendChild(newDroppedItem);
+                    draggedElement.remove();
+                } else {
+                    const droppedItem = document.createElement('div');
+                    droppedItem.className = 'dropped-item';
+                    droppedItem.textContent = draggedElement.textContent;
+                    droppedItem.dataset.type = draggedElement.dataset.type;
+                    droppedItem.dataset.expectedType = e.currentTarget.dataset.type;
+                    dropContainer.appendChild(droppedItem);
+                    draggedElement.remove();
+                }
+                
+                addDragToDroppedItems();
+                updateScore();
+                updateProgress();
+                
+                if (document.querySelectorAll('.item').length === 0) {
+                    showFeedback('Visi elementai surūšiuoti! Dabar patikrinkite atsakymus.', 'success');
+                }
+            }
+        });
+    });
+    
+    addDragToDroppedItems();
+    updateScore();
+    updateProgress();
+    document.getElementById('totalItems').textContent = items.length;
+}
+
+// --- Atsakymų patikrinimas ---
+function checkAnswers() {
+    if (checkedAnswers) return;
+    
+    const droppedItems = document.querySelectorAll('.dropped-item');
+    correctAnswers = 0;
+    
+    droppedItems.forEach(item => {
+        if (item.dataset.type === item.dataset.expectedType) {
+            item.classList.add('correct');
+            correctAnswers++;
+        } else {
+            item.classList.add('incorrect');
+        }
+    });
+    
+    checkedAnswers = true;
+    updateScore();
+    showResults();
+    document.getElementById('checkBtn').disabled = true;
+}
+
+// --- Rezultatų rodymas ---
+function showResults() {
+    const percentage = Math.round((correctAnswers / items.length) * 100);
+    const resultsDiv = document.getElementById('results');
+    const finalScore = document.getElementById('finalScoreContainer');
+    const encouragement = document.getElementById('encouragementContainer');
+    
+    finalScore.innerHTML = `
+        <div style="font-size: 3rem; margin-bottom: 20px;">🎯</div>
+        <div class="final-score">
+            ${correctAnswers}/${items.length} (${percentage}%)
+        </div>
+    `;
+    
+    let encouragementText = '';
+    let encouragementColor = '';
+    
+    if (percentage === 100) {
+        encouragementText = '🌟 Tobula! Tu puikiai išmokai atskirti dvibalsius ir dvigarsius!';
+        encouragementColor = '#27ae60';
+    } else if (percentage >= 90) {
+        encouragementText = '👍 Labai gerai! Beveik viskas teisingai!';
+        encouragementColor = '#2ecc71';
+    } else if (percentage >= 75) {
+        encouragementText = '😊 Gerai! Dar truputį patreniruok ir bus tobulai!';
+        encouragementColor = '#3498db';
+    } else if (percentage >= 60) {
+        encouragementText = '💪 Neblogai! Pakartok taisykles ir bandyk dar kartą!';
+        encouragementColor = '#f39c12';
+    } else {
+        encouragementText = '📚 Dar reikia pasimokyti. Prisimink: dvibalsiai - du balsiai, dvigarsiai - balsis + l/m/n/r!';
+        encouragementColor = '#e74c3c';
+    }
+    
+    encouragement.innerHTML = `
+        <div class="encouragement" style="background-color: ${encouragementColor}20; border: 3px solid ${encouragementColor}; color: ${encouragementColor};">
+            ${encouragementText}
+        </div>
+    `;
+    
+    resultsDiv.classList.add('show');
+    sendResultToSheet('Dvibalsiai ir dvigarsiai - rūšiavimas', percentage);
+}
+
+// --- Atnaujinimas ---
+function updateScore() {
+    const placedItems = document.querySelectorAll('.dropped-item').length;
+    const accuracy = placedItems > 0 && checkedAnswers ? Math.round((correctAnswers / placedItems) * 100) : 0;
+    document.getElementById('placedCount').textContent = placedItems;
+    document.getElementById('accuracy').textContent = accuracy + '%';
+}
+
+function updateProgress() {
+    const placedItems = document.querySelectorAll('.dropped-item').length;
+    const progress = (placedItems / items.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+}
+
+function showFeedback(message, type) {
+    const feedback = document.getElementById('feedback');
+    feedback.textContent = message;
+    feedback.className = `feedback show ${type}`;
+    setTimeout(() => feedback.classList.remove('show'), 4000);
+}
+
+// --- Žaidimo atstatymas ---
+function resetGame() {
+    document.querySelectorAll('.dropped-items').forEach(box => box.innerHTML = '');
+    correctAnswers = 0;
+    checkedAnswers = false;
+    document.getElementById('checkBtn').disabled = false;
+    document.getElementById('results').classList.remove('show');
+    document.querySelectorAll('.dropped-item').forEach(item => {
+        item.classList.remove('correct', 'incorrect');
+    });
+    initGame();
+}
+
+// --- Paleidimas ---
+document.addEventListener('DOMContentLoaded', initGame);
+</script>
+</body>
+</html>
