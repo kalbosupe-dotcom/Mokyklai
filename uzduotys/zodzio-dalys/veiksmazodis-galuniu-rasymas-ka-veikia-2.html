@@ -25,43 +25,61 @@
             max-width: 1000px;
         }
 
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
         .back-btn {
-            display: inline-block;
-            margin-bottom: 15px;
-            padding: 12px 24px;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
             background-color: #7CB3E9;
             color: white;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 20px;
+            font-size: 16px;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
-        .back-btn:hover { background-color: #4A90E2; }
+
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
 
         .student-info {
             background-color: #ffffff;
-            padding: 18px;
+            padding: 10px 18px;
             border-radius: 10px;
-            margin-bottom: 15px;
             border: 2px solid #4A90E2;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            flex-grow: 1;
         }
+
         .change-name-btn {
             background-color: #4A90E2;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-family: 'OpenDyslexic', Arial, sans-serif;
-            font-size: 16px;
+            font-size: 14px;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
-        .change-name-btn:hover { background-color: #0D3B66; }
+
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
 
         .card {
             width: 100%;
@@ -261,12 +279,14 @@
 </head>
 <body>
     <div class="page-wrapper">
-        <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
-        <div class="student-info">
-            <span style="font-size: 18px; color: #1A4D7A;">
-                Mokinys: <strong id="studentNameDisplay"></strong>
-            </span>
-            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            <div class="student-info">
+                <span style="font-size: 16px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
         </div>
 
         <!-- UŽDUOČIŲ KORTELĖS (bus sugeneruotos dinamiškai) -->
@@ -328,7 +348,7 @@
         function changeName() {
             localStorage.removeItem('studentName');
             const newName = showNamePrompt();
-            alert(`Vardas pakeistas į: \${newName}`);
+            alert(`Vardas pakeistas į: ${newName}`);
             location.reload();
         }
         function sendResultToSheet(taskName, score) {
@@ -356,173 +376,172 @@
             { id: 8, sentence: "Lapas [VERB] nuo medžio.", stem: "krent", correct: "a", full: "krenta" },
             { id: 9, sentence: "Lietus [VERB] į stogą.", stem: "pliaup", correct: "ia", full: "pliaupia" },
             { id: 10, sentence: "Biblioteka [VERB] daug naujų knygų.", stem: "tur", correct: "i", full: "turi" },
-{ id: 11, sentence: "Mokinys [VERB] mokytojos, kada bus pertrauka.", stem: "klaus", correct: "ia", full: "klausia" },
-{ id: 12, sentence: "Paukštis [VERB] medyje.", stem: "švilp", correct: "ia", full: "švilpia" },
-{ id: 13, sentence: "Žmonės [VERB] biure.", stem: "dirb", correct: "a", full: "dirba" },
-{ id: 14, sentence: "Kūdikis linksmai [VERB].", stem: "krykšč", correct: "ia", full: "krykščia" },
-{ id: 15, sentence: "Berniukas [VERB] pagalbos.", stem: "šauk", correct: "ia", full: "šaukia" },
-{ id: 16, sentence: "Sodininkas [VERB] žolę.", stem: "pjaun", correct: "a", full: "pjauna" },
-{ id: 17, sentence: "Kūdikis [VERB] naktimis.", stem: "verk", correct: "ia", full: "verkia" },
-{ id: 18, sentence: "Šuo [VERB] būdoje.", stem: "mieg", correct: "a", full: "miega" },
-{ id: 19, sentence: "Kęstutis [VERB] grindis.", stem: "šluoj", correct: "a", full: "šluoja" },
-{ id: 20, sentence: "Varna [VERB] ant tvoros.", stem: "tup", correct: "i", full: "tupi" }
-];
+            { id: 11, sentence: "Mokinys [VERB] mokytojos, kada bus pertrauka.", stem: "klaus", correct: "ia", full: "klausia" },
+            { id: 12, sentence: "Paukštis [VERB] medyje.", stem: "švilp", correct: "ia", full: "švilpia" },
+            { id: 13, sentence: "Žmonės [VERB] biure.", stem: "dirb", correct: "a", full: "dirba" },
+            { id: 14, sentence: "Kūdikis linksmai [VERB].", stem: "krykšč", correct: "ia", full: "krykščia" },
+            { id: 15, sentence: "Berniukas [VERB] pagalbos.", stem: "šauk", correct: "ia", full: "šaukia" },
+            { id: 16, sentence: "Sodininkas [VERB] žolę.", stem: "pjaun", correct: "a", full: "pjauna" },
+            { id: 17, sentence: "Kūdikis [VERB] naktimis.", stem: "verk", correct: "ia", full: "verkia" },
+            { id: 18, sentence: "Šuo [VERB] būdoje.", stem: "mieg", correct: "a", full: "miega" },
+            { id: 19, sentence: "Kęstutis [VERB] grindis.", stem: "šluoj", correct: "a", full: "šluoja" },
+            { id: 20, sentence: "Varna [VERB] ant tvoros.", stem: "tup", correct: "i", full: "tupi" }
+        ];
 
-let currentTaskIndex = 0;
-let userAnswers = [];
+        let currentTaskIndex = 0;
+        let userAnswers = [];
 
-// --- KORTELIŲ GENERAVIMAS ---
-function generateTaskCards() {
-    const container = document.getElementById('task-cards-container');
-    tasks.forEach((task, index) => {
-        const cardDiv = document.createElement('div');
-        cardDiv.id = `card-task-${task.id}`;
-        cardDiv.className = 'card' + (index === 0 ? ' active' : '');
+        // --- KORTELIŲ GENERAVIMAS ---
+        function generateTaskCards() {
+            const container = document.getElementById('task-cards-container');
+            tasks.forEach((task, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.id = `card-task-${task.id}`;
+                cardDiv.className = 'card' + (index === 0 ? ' active' : '');
 
-        const sentenceWithInput = task.sentence.replace('[VERB]',
-            `<span class="verb-stem">${task.stem}</span><span class="input-box"><input type="text" class="galune-input" id="input-${task.id}" maxlength="4" autocomplete="off"></span>`
-        );
+                const sentenceWithInput = task.sentence.replace('[VERB]',
+                    `<span class="verb-stem">${task.stem}</span><span class="input-box"><input type="text" class="galune-input" id="input-${task.id}" maxlength="4" autocomplete="off"></span>`
+                );
 
-        cardDiv.innerHTML = `
-            <div class="task-header">
-                <div class="task-title">✍️ Įrašyk teisingą galūnę</div>
-                <div class="task-progress">${index + 1} / ${tasks.length}</div>
-            </div>
-            <div class="sentence-box">
-                ${sentenceWithInput}
-            </div>
-            <div class="feedback-message" id="feedback-${task.id}"></div>
-            <div class="button-container">
-                <button onclick="checkAnswer(${task.id})" class="action-button btn-primary" id="check-btn-${task.id}">✅ Patikrinti</button>
-            </div>
-        `;
-        container.appendChild(cardDiv);
-    });
-}
+                cardDiv.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-title">✍️ Įrašyk teisingą galūnę</div>
+                        <div class="task-progress">${index + 1} / ${tasks.length}</div>
+                    </div>
+                    <div class="sentence-box">
+                        ${sentenceWithInput}
+                    </div>
+                    <div class="feedback-message" id="feedback-${task.id}"></div>
+                    <div class="button-container">
+                        <button onclick="checkAnswer(${task.id})" class="action-button btn-primary" id="check-btn-${task.id}">✅ Patikrinti</button>
+                    </div>
+                `;
+                container.appendChild(cardDiv);
+            });
+        }
 
-// --- KORTELIŲ RODYMAS ---
-function showCard(cardId) {
-    document.querySelectorAll('.card').forEach(card => {
-        card.classList.remove('active');
-    });
-    document.getElementById(cardId).classList.add('active');
+        // --- KORTELIŲ RODYMAS ---
+        function showCard(cardId) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(cardId).classList.add('active');
 
-    // Fokusuoti į input lauką
-    if (cardId.startsWith('card-task-')) {
-        const taskId = parseInt(cardId.split('-')[2]);
-        setTimeout(() => {
-            const input = document.getElementById(`input-${taskId}`);
-            if (input) input.focus();
-        }, 100);
-    }
-}
-
-// --- ATSAKYMO TIKRINIMAS ---
-function checkAnswer(taskId) {
-    const task = tasks.find(t => t.id === taskId);
-    const input = document.getElementById(`input-${taskId}`);
-    const feedback = document.getElementById(`feedback-${taskId}`);
-    const checkBtn = document.getElementById(`check-btn-${taskId}`);
-
-    const userAnswer = input.value.trim();
-    const isCorrect = userAnswer === task.correct;
-
-    // Išsaugoti atsakymą
-    userAnswers[taskId - 1] = {
-        taskId: taskId,
-        sentence: task.sentence.replace('[VERB]', task.full),
-        userAnswer: userAnswer,
-        correctAnswer: task.correct,
-        isCorrect: isCorrect
-    };
-
-    // Rodyti feedback
-    if (isCorrect) {
-        input.classList.add('correct');
-        input.classList.remove('incorrect');
-        feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
-    } else {
-        input.classList.add('incorrect');
-        input.classList.remove('correct');
-        feedback.innerHTML = `❌ <span class="feedback-incorrect">Neteisinga. Teisingas atsakymas: <strong>${task.correct}</strong></span>`;
-    }
-
-    // Išjungti input ir pakeisti mygtuką
-    input.disabled = true;
-    checkBtn.style.display = 'none';
-
-    const buttonContainer = document.getElementById(`card-task-${taskId}`).querySelector('.button-container');
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'action-button btn-secondary';
-
-    if (taskId < tasks.length) {
-        nextBtn.textContent = '➡️ Toliau';
-        nextBtn.onclick = () => showCard(`card-task-${taskId + 1}`);
-    } else {
-        nextBtn.textContent = '🏁 Rezultatai';
-        nextBtn.onclick = () => showResults();
-    }
-    buttonContainer.appendChild(nextBtn);
-}
-
-// --- REZULTATŲ RODYMAS ---
-function showResults() {
-    showCard('card-results');
-
-    const resultDetails = document.getElementById('result-details');
-    const totalScoreEl = document.getElementById('total-score');
-
-    let correctCount = 0;
-    let detailsHTML = '';
-
-    userAnswers.forEach((answer, index) => {
-        if (answer && answer.isCorrect) correctCount++;
-
-        const itemClass = answer && answer.isCorrect ? 'correct-item' : 'incorrect-item';
-        const icon = answer && answer.isCorrect ? '✅' : '❌';
-        const statusText = answer && answer.isCorrect
-            ? `<span style="color: #27ae60;">Teisingai</span>`
-            : `<span style="color: #e74c3c;">Neteisingai (turėjo būti: <strong>${answer ? answer.correctAnswer : ''}</strong>)</span>`;
-
-        detailsHTML += `
-            <div class="result-item ${itemClass}">
-                ${icon} <strong>Užduotis ${index + 1}:</strong> ${statusText}
-            </div>
-        `;
-    });
-
-    resultDetails.innerHTML = detailsHTML;
-
-    const totalTasks = tasks.length;
-    const percentage = Math.round((correctCount / totalTasks) * 100);
-    const scoreClass = percentage >= 70 ? 'score-good' : 'score-bad';
-
-    totalScoreEl.innerHTML = `
-        <div>Teisingai atsakyta: <strong>${correctCount} / ${totalTasks}</strong></div>
-        <div class="score-percentage ${scoreClass}">${percentage}%</div>
-    `;
-
-    // Siųsti rezultatus į Google Sheets
-    sendResultToSheet('L0404 Veiksmažodžio galūnė (Ką veikia?) | Įrašyti', percentage);
-}
-
-// --- ENTER KLAVIŠO PALAIKYMAS ---
-document.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        const activeCard = document.querySelector('.card.active');
-        if (activeCard && activeCard.id.startsWith('card-task-')) {
-            const taskId = parseInt(activeCard.id.split('-')[2]);
-            const checkBtn = document.getElementById(`check-btn-${taskId}`);
-            if (checkBtn && checkBtn.style.display !== 'none') {
-                checkAnswer(taskId);
+            // Fokusuoti į input lauką
+            if (cardId.startsWith('card-task-')) {
+                const taskId = parseInt(cardId.split('-')[2]);
+                setTimeout(() => {
+                    const input = document.getElementById(`input-${taskId}`);
+                    if (input) input.focus();
+                }, 100);
             }
         }
-    }
-});
 
-// --- INICIALIZACIJA ---
-generateTaskCards();
-</script>
+        // --- ATSAKYMO TIKRINIMAS ---
+        function checkAnswer(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            const input = document.getElementById(`input-${taskId}`);
+            const feedback = document.getElementById(`feedback-${taskId}`);
+            const checkBtn = document.getElementById(`check-btn-${taskId}`);
+
+            const userAnswer = input.value.trim();
+            const isCorrect = userAnswer === task.correct;
+
+            // Išsaugoti atsakymą
+            userAnswers[taskId - 1] = {
+                taskId: taskId,
+                sentence: task.sentence.replace('[VERB]', task.full),
+                userAnswer: userAnswer,
+                correctAnswer: task.correct,
+                isCorrect: isCorrect
+            };
+
+            // Rodyti feedback
+            if (isCorrect) {
+                input.classList.add('correct');
+                input.classList.remove('incorrect');
+                feedback.innerHTML = '✅ <span class="feedback-correct">Teisingai!</span>';
+            } else {
+                input.classList.add('incorrect');
+                input.classList.remove('correct');
+                feedback.innerHTML = `❌ <span class="feedback-incorrect">Neteisinga. Teisingas atsakymas: <strong>${task.correct}</strong></span>`;
+            }
+
+            // Išjungti input ir pakeisti mygtuką
+            input.disabled = true;
+            checkBtn.style.display = 'none';
+
+            const buttonContainer = document.getElementById(`card-task-${taskId}`).querySelector('.button-container');
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'action-button btn-secondary';
+
+            if (taskId < tasks.length) {
+                nextBtn.textContent = '➡️ Toliau';
+                nextBtn.onclick = () => showCard(`card-task-${taskId + 1}`);
+            } else {
+                nextBtn.textContent = '🏁 Rezultatai';
+                nextBtn.onclick = () => showResults();
+            }
+            buttonContainer.appendChild(nextBtn);
+        }
+
+        // --- REZULTATŲ RODYMAS ---
+        function showResults() {
+            showCard('card-results');
+
+            const resultDetails = document.getElementById('result-details');
+            const totalScoreEl = document.getElementById('total-score');
+
+            let correctCount = 0;
+            let detailsHTML = '';
+
+            userAnswers.forEach((answer, index) => {
+                if (answer && answer.isCorrect) correctCount++;
+
+                const itemClass = answer && answer.isCorrect ? 'correct-item' : 'incorrect-item';
+                const icon = answer && answer.isCorrect ? '✅' : '❌';
+                const statusText = answer && answer.isCorrect
+                    ? `<span style="color: #27ae60;">Teisingai</span>`
+                    : `<span style="color: #e74c3c;">Neteisingai (turėjo būti: <strong>${answer ? answer.correctAnswer : ''}</strong>)</span>`;
+
+                detailsHTML += `
+                    <div class="result-item ${itemClass}">
+                        ${icon} <strong>Užduotis ${index + 1}:</strong> ${statusText}
+                    </div>
+                `;
+            });
+
+            resultDetails.innerHTML = detailsHTML;
+
+            const totalTasks = tasks.length;
+            const percentage = Math.round((correctCount / totalTasks) * 100);
+            const scoreClass = percentage >= 70 ? 'score-good' : 'score-bad';
+
+            totalScoreEl.innerHTML = `
+                <div>Teisingai atsakyta: <strong>${correctCount} / ${totalTasks}</strong></div>
+                <div class="score-percentage ${scoreClass}">${percentage}%</div>
+            `;
+
+            // Siųsti rezultatus į Google Sheets
+            sendResultToSheet('L0404 Veiksmažodžio galūnė (Ką veikia?) | Įrašyti', percentage);
+        }
+
+        // --- ENTER KLAVIŠO PALAIKYMAS ---
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const activeCard = document.querySelector('.card.active');
+                if (activeCard && activeCard.id.startsWith('card-task-')) {
+                    const taskId = parseInt(activeCard.id.split('-')[2]);
+                    const checkBtn = document.getElementById(`check-btn-${taskId}`);
+                    if (checkBtn && checkBtn.style.display !== 'none') {
+                        checkAnswer(taskId);
+                    }
+                }
+            }
+        });
+
+        // --- INICIALIZACIJA ---
+        generateTaskCards();
+    </script>
 </body>
 </html>
-
