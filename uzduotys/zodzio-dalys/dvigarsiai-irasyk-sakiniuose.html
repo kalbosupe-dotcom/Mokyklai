@@ -121,40 +121,43 @@
         .word {
             display: inline-block;
             white-space: nowrap;
-            margin-right: 13px;
+            margin-right: 6px;
         }
 
         select {
             font-family: 'OpenDyslexic', Arial, sans-serif;
             font-size: 1.3rem;
-            padding: 4px 10px;
-            border: 2px solid #D4E6F1;
-            border-radius: 6px;
-            background-color: #F8FBFD;
+            padding: 2px 6px;
+            border: none;
+            border-bottom: 2px solid #B8D4E8;
+            border-radius: 0;
+            background-color: transparent;
             color: #0D3B66;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            margin: 0 2px;
+            margin: 0;
             vertical-align: baseline;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
 
         select:focus {
             outline: none;
-            border-color: #7CB3E9;
-            background-color: #ffffff;
-            box-shadow: 0 0 6px rgba(124, 179, 233, 0.3);
+            border-bottom-color: #4A90E2;
+            background-color: rgba(248, 251, 253, 0.5);
         }
 
         select.correct {
-            border-color: #27ae60;
-            background-color: #d4edda;
+            border-bottom-color: #27ae60;
+            background-color: rgba(212, 237, 218, 0.3);
             color: #155724;
         }
 
         select.incorrect {
-            border-color: #e74c3c;
-            background-color: #f8d7da;
+            border-bottom-color: #e74c3c;
+            background-color: rgba(248, 215, 218, 0.3);
             color: #721c24;
         }
 
@@ -272,7 +275,7 @@
             
             select {
                 font-size: 1.1rem;
-                padding: 4px 8px;
+                padding: 2px 5px;
             }
         }
     </style>
@@ -291,11 +294,11 @@
 
         <div class="container">
             <div class="header">
-                <h1>Dvigarsiai - Įrašyk tinkamą</h1>
+                <h1>🍎 Dvigarsiai - Įrašyk tinkamą</h1>
             </div>
 
             <div class="instructions">
-                👆<strong>Pasirink</strong> tinkamus dvigarsius iš pateiktų pasirinkimų.
+                <strong>Pasirink tinkamus dvigarsius</strong> iš pateiktų pasirinkimų ir užpildyk sakinius
             </div>
 
             <div class="sentence-card">
@@ -320,9 +323,9 @@
                 <span class="word">J<select id="sel6"><option value=""></option><option value="o">o</option><option value="uo">uo</option></select>di</span>
                 <span class="word">dūmai</span>
                 <span class="word">kyla</span>
-                <span class="word">į</span>
+                <span class="word">i</span>
                 <span class="word">š<select id="sel7"><option value=""></option><option value="al">al</option><option value="el">el</option></select>tą</span>
-                <span class="word">pad<select id="sel8"><option value=""></option><option value="un">un</option><option value="an">an</option></select>gę.</span>
+                <span class="word">pad<select id="sel8"><option value=""></option><option value="un">un</option><option value="an">an</option></select>ge.</span>
             </div>
 
             <div class="sentence-card">
@@ -345,7 +348,7 @@
             </div>
 
             <div class="sentence-card">
-                <span class="word">D<select id="sel16"><option value=""></option><option value="an">an</option><option value="en">en</option></select>gų</span>
+                <span class="word">D<select id="sel16"><option value=""></option><option value="an">an</option><option value="en">en</option></select>gu</span>
                 <span class="word">d<select id="sel17"><option value=""></option><option value="an">an</option><option value="en">en</option></select>gė</span>
                 <span class="word">r<select id="sel18"><option value=""></option><option value="au">au</option><option value="uo">uo</option></select>doni</span>
                 <span class="word">debesys.</span>
@@ -354,7 +357,7 @@
             <div class="sentence-card">
                 <span class="word">K<select id="sel19"><option value=""></option><option value="ei">ei</option><option value="ie">ie</option></select>stai</span>
                 <span class="word">prasidėjo</span>
-                <span class="word">šis    <select id="sel20"><option value=""></option><option value="en">en</option><option value="an">an</option></select>kstyvas</span>
+                <span class="word">šis<select id="sel20"><option value=""></option><option value="en">en</option><option value="an">an</option></select>kstyvas</span>
                 <span class="word">rytas.</span>
             </div>
 
@@ -431,8 +434,8 @@ document.getElementById('studentNameDisplay').textContent = studentName;
 
 // Teisingi atsakymai
 const correctAnswers = {
-    'sel1': 'uo',
-    'sel2': 'en',
+    'sel1': 'o',
+    'sel2': 'an',
     'sel3': 'ai',
     'sel4': 'au',
     'sel5': 'ir',
@@ -444,12 +447,12 @@ const correctAnswers = {
     'sel11': 'uo',
     'sel12': 'ai',
     'sel13': 'ar',
-    'sel14': 'an',
-    'sel15': 'ei',
+    'sel14': 'in',
+    'sel15': 'ie',
     'sel16': 'an',
     'sel17': 'en',
     'sel18': 'au',
-    'sel19': 'ei',
+    'sel19': 'ie',
     'sel20': 'an'
 };
 
