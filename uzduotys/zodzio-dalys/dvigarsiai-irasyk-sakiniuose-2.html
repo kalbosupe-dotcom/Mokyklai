@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dvigarsiai - Mesopotamija</title>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAEB 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 3px solid #4A90E2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #0D3B66;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .instructions {
+            background: #E8F4F8;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #7CB3E9;
+            font-size: 1.1rem;
+            color: #1A4D7A;
+            text-align: center;
+        }
+
+        .sentence-card {
+            background: #ffffff;
+            border: 2px solid #B8D4E8;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 15px 0;
+            font-size: 1.4rem;
+            line-height: 2.2;
+            color: #1A4D7A;
+        }
+
+        .word {
+            display: inline-block;
+            white-space: nowrap;
+            margin-right: 6px;
+        }
+
+        select {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 1.3rem;
+            padding: 2px 6px;
+            border: none;
+            border-bottom: 2px solid #B8D4E8;
+            border-radius: 0;
+            background-color: transparent;
+            color: #0D3B66;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0;
+            vertical-align: baseline;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select:focus {
+            outline: none;
+            border-bottom-color: #4A90E2;
+            background-color: rgba(248, 251, 253, 0.5);
+        }
+
+        select.correct {
+            border-bottom-color: #27ae60;
+            background-color: rgba(212, 237, 218, 0.3);
+            color: #155724;
+        }
+
+        select.incorrect {
+            border-bottom-color: #e74c3c;
+            background-color: rgba(248, 215, 218, 0.3);
+            color: #721c24;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn.reset {
+            background: linear-gradient(45deg, #FFB84D, #FF9800);
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #c3e6cb;
+        }
+
+        .feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 3px solid #f5c6cb;
+        }
+
+        .results {
+            background: #E8F4F8;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            display: none;
+            border: 3px solid #4A90E2;
+            margin-top: 20px;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results h2 {
+            color: #0D3B66;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .results .final-score {
+            font-size: 2.5rem;
+            color: #1A4D7A;
+            margin: 20px 0;
+        }
+
+        .results .encouragement {
+            font-size: 1.3rem;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .sentence-card {
+                font-size: 1.2rem;
+                padding: 20px;
+                line-height: 2;
+            }
+            
+            select {
+                font-size: 1.1rem;
+                padding: 2px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            <div class="student-info">
+                <span style="font-size: 16px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="header">
+                <h1>🏛️ Dvigarsiai - Mesopotamija</h1>
+            </div>
+
+            <div class="instructions">
+                <strong>Pasirink tinkamus dvigarsius</strong> ir sužinok daugiau apie senovės Mesopotamiją
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">Mesopotamija</span>
+                <span class="word">buvo</span>
+                <span class="word">žemė</span>
+                <span class="word">t<select id="sel1"><option value=""></option><option value="ar">ar</option><option value="er">er</option></select>p</span>
+                <span class="word">dviej<select id="sel2"><option value=""></option><option value="ei">ei</option><option value="ie">ie</option></select>ų</span>
+                <span class="word">upių</span>
+                <span class="word">-</span>
+                <span class="word">Tigro</span>
+                <span class="word">ir</span>
+                <span class="word">Eufrato.</span>
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">Šumerų</span>
+                <span class="word">m<select id="sel3"><option value=""></option><option value="ie">ie</option><option value="ei">ei</option></select>stas</span>
+                <span class="word">Urukas</span>
+                <span class="word">laikomas</span>
+                <span class="word">v<select id="sel4"><option value=""></option><option value="ie">ie</option><option value="ei">ei</option></select>nu</span>
+                <span class="word">iš</span>
+                <span class="word">seni<select id="sel5"><option value=""></option><option value="au">au</option><option value="eu">eu</option></select>sių</span>
+                <span class="word">žinomų</span>
+                <span class="word">m<select id="sel6"><option value=""></option><option value="ie">ie</option><option value="ei">ei</option></select>stų</span>
+                <span class="word">pas<select id="sel7"><option value=""></option><option value="au">au</option><option value="uo">uo</option></select>lyje.</span>
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">Šumerai</span>
+                <span class="word">statė</span>
+                <span class="word">zikuratus</span>
+                <span class="word">–</span>
+                <span class="word">laiptuotąsias</span>
+                <span class="word">šv<select id="sel8"><option value=""></option><option value="en">en</option><option value="an">an</option></select>tyklas,</span>
+                <span class="word">simbolizavusias</span>
+                <span class="word">t<select id="sel9"><option value=""></option><option value="il">il</option><option value="el">el</option></select>tą</span>
+                <span class="word">t<select id="sel10"><option value=""></option><option value="ar">ar</option><option value="er">er</option></select>p</span>
+                <span class="word">žemės</span>
+                <span class="word">ir</span>
+                <span class="word">d<select id="sel11"><option value=""></option><option value="ie">ie</option><option value="ei">ei</option></select>vų.</span>
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">Šumerai</span>
+                <span class="word">p<select id="sel12"><option value=""></option><option value="ir">ir</option><option value="er">er</option></select>mieji</span>
+                <span class="word">išrado</span>
+                <span class="word">raštą,</span>
+                <span class="word">vadinamą</span>
+                <span class="word">d<select id="sel13"><option value=""></option><option value="an">an</option><option value="en">en</option></select>tiraščiu.</span>
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">Gilgamešo</span>
+                <span class="word">epas</span>
+                <span class="word">yra</span>
+                <span class="word">seni<select id="sel14"><option value=""></option><option value="au">au</option><option value="eu">eu</option></select>sias</span>
+                <span class="word">pas<select id="sel15"><option value=""></option><option value="au">au</option><option value="uo">uo</option></select>lyje</span>
+                <span class="word">literatūros</span>
+                <span class="word">kūrinys.</span>
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">Šumer<select id="sel16"><option value=""></option><option value="ai">ai</option><option value="ei">ei</option></select></span>
+                <span class="word">išrado</span>
+                <span class="word">ratą</span>
+                <span class="word">ir</span>
+                <span class="word"><select id="sel17"><option value=""></option><option value="ar">ar</option><option value="ir">ir</option></select>klą</span>
+                <span class="word">žemės</span>
+                <span class="word">d<select id="sel18"><option value=""></option><option value="ir">ir</option><option value="er">er</option></select>bimui.</span>
+            </div>
+
+            <div class="sentence-card">
+                <span class="word">Mesopotamijos</span>
+                <span class="word">d<select id="sel19"><option value=""></option><option value="er">er</option><option value="ir">ir</option></select>lingu<select id="sel20"><option value=""></option><option value="o">o</option><option value="uo">uo</option></select>se</span>
+                <span class="word">l<select id="sel21"><option value=""></option><option value="au">au</option><option value="eu">eu</option></select>ku<select id="sel22"><option value=""></option><option value="o">o</option><option value="uo">uo</option></select>se</span>
+                <span class="word"><select id="sel23"><option value=""></option><option value="au">au</option><option value="eu">eu</option></select>go</span>
+                <span class="word">kv<select id="sel24"><option value=""></option><option value="ie">ie</option><option value="ei">ei</option></select>čiai</span>
+                <span class="word">ir</span>
+                <span class="word">m<select id="sel25"><option value=""></option><option value="ie">ie</option><option value="ei">ei</option></select>žiai.</span>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="controls">
+                <button class="btn" onclick="checkAnswers()" id="checkBtn">✅ Patikrinti atsakymus</button>
+                <button class="btn reset" onclick="resetExercise()" id="resetBtn">🔄 Pradėti iš naujo</button>
+            </div>
+
+            <div class="results" id="results">
+                <h2>🎉 Užduotis baigta!</h2>
+                <div id="finalScoreContainer"></div>
+                <div id="encouragementContainer"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// --- Vardų valdymas ---
+function showNamePrompt() {
+    const studentName = localStorage.getItem('studentName');
+    if (!studentName) {
+        const name = prompt('Įvesk savo vardą:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('studentName', name.trim());
+            return name.trim();
+        } else {
+            alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+            return showNamePrompt();
+        }
+    }
+    return studentName;
+}
+
+function changeName() {
+    localStorage.removeItem('studentName');
+    const newName = showNamePrompt();
+    alert(`Vardas pakeistas į: ${newName}`);
+    location.reload();
+}
+
+function sendResultToSheet(taskName, score) {
+    const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+    const timestamp = new Date().toLocaleString('lt-LT');
+
+    const data = {
+        name: studentName,
+        task: taskName,
+        score: score,
+        timestamp: timestamp
+    };
+
+    console.log('Siunčiamas rezultatas:', data);
+
+    fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
+    })
+    .catch(error => {
+        console.error('Klaida siunčiant rezultatą:', error);
+    });
+}
+
+const studentName = showNamePrompt();
+document.getElementById('studentNameDisplay').textContent = studentName;
+
+// Teisingi atsakymai
+const correctAnswers = {
+    'sel1': 'ar',
+    'sel2': 'ie',
+    'sel3': 'ie',
+    'sel4': 'ie',
+    'sel5': 'au',
+    'sel6': 'ie',
+    'sel7': 'au',
+    'sel8': 'en',
+    'sel9': 'il',
+    'sel10': 'ar',
+    'sel11': 'ie',
+    'sel12': 'ir',
+    'sel13': 'an',
+    'sel14': 'au',
+    'sel15': 'au',
+    'sel16': 'ai',
+    'sel17': 'ar',
+    'sel18': 'ir',
+    'sel19': 'er',
+    'sel20': 'o',
+    'sel21': 'au',
+    'sel22': 'o',
+    'sel23': 'au',
+    'sel24': 'ie',
+    'sel25': 'ie'
+};
+
+let checkedAnswers = false;
+
+function checkAnswers() {
+    if (checkedAnswers) return;
+    
+    let correctCount = 0;
+    const totalQuestions = Object.keys(correctAnswers).length;
+    
+    // Patikriname kiekvieną atsakymą
+    Object.keys(correctAnswers).forEach(selectId => {
+        const select = document.getElementById(selectId);
+        const userAnswer = select.value;
+        const correctAnswer = correctAnswers[selectId];
+        
+        if (userAnswer === correctAnswer) {
+            select.classList.add('correct');
+            select.classList.remove('incorrect');
+            correctCount++;
+        } else {
+            select.classList.add('incorrect');
+            select.classList.remove('correct');
+        }
+        
+        // Išjungiame pasirinkimą
+        select.disabled = true;
+    });
+    
+    checkedAnswers = true;
+    
+    // Rodome rezultatus
+    showResults(correctCount, totalQuestions);
+    
+    document.getElementById('checkBtn').disabled = true;
+}
+
+function showResults(correctCount, totalQuestions) {
+    const percentage = Math.round((correctCount / totalQuestions) * 100);
+    const resultsDiv = document.getElementById('results');
+    const finalScore = document.getElementById('finalScoreContainer');
+    const encouragement = document.getElementById('encouragementContainer');
+    
+    finalScore.innerHTML = `
+        <div style="font-size: 3rem; margin-bottom: 20px;">🎯</div>
+        <div class="final-score">
+            ${correctCount}/${totalQuestions} (${percentage}%)
+        </div>
+    `;
+    
+    let encouragementText = '';
+    let encouragementColor = '';
+    
+    if (percentage === 100) {
+        encouragementText = '🌟 Tobula! Tu puikiai išmokai dvigarsius ir sužinojai apie Mesopotamiją!';
+        encouragementColor = '#27ae60';
+    } else if (percentage >= 90) {
+        encouragementText = '👍 Labai gerai! Beveik viskas teisingai!';
+        encouragementColor = '#2ecc71';
+    } else if (percentage >= 75) {
+        encouragementText = '😊 Gerai! Dar truputį patreniruok ir bus tobulai!';
+        encouragementColor = '#3498db';
+    } else if (percentage >= 60) {
+        encouragementText = '💪 Neblogai! Pakartok taisykles ir bandyk dar kartą!';
+        encouragementColor = '#f39c12';
+    } else {
+        encouragementText = '📚 Dar reikia pasimokyti. Prisimink: dvigarsiai - balsis + l/m/n/r!';
+        encouragementColor = '#e74c3c';
+    }
+    
+    encouragement.innerHTML = `
+        <div class="encouragement" style="background-color: ${encouragementColor}20; border: 3px solid ${encouragementColor}; color: ${encouragementColor};">
+            ${encouragementText}
+        </div>
+    `;
+    
+    resultsDiv.classList.add('show');
+    sendResultToSheet('L0503 Dvigarsiai - Mesopotamija', percentage);
+}
+
+function resetExercise() {
+    // Atstatome visus pasirinkimus
+    Object.keys(correctAnswers).forEach(selectId => {
+        const select = document.getElementById(selectId);
+        select.value = '';
+        select.classList.remove('correct', 'incorrect');
+        select.disabled = false;
+    });
+    
+    // Paslepiam rezultatus
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('feedback').classList.remove('show');
+    
+    // Įjungiame mygtuką
+    document.getElementById('checkBtn').disabled = false;
+    
+    checkedAnswers = false;
+}
+</script>
+</body>
+</html>
