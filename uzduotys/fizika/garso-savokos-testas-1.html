@@ -1081,18 +1081,13 @@
                 correctAnswer: 'Visi teisingi susieti'
             });
 
-            // Q2-Q12 - Paprasti atsakymai
+            // Q2-Q5, Q7-Q12 - Paprasti atsakymai
             for (let i = 2; i <= 12; i++) {
+                if (i === 6) continue; // Praleisti Q6, jį tikrinsime atskirai
+                
                 let isCorrect = false;
                 let studentAnswer = document.getElementById(`q${i}_answer`).value;
-                
-                if (i === 6) {
-                    // Drag & Drop
-                    const q6Answer = JSON.parse(studentAnswer || '{}');
-                    isCorrect = JSON.stringify(q6Answer) === JSON.stringify(correctAnswers.q6);
-                } else {
-                    isCorrect = studentAnswer === correctAnswers[`q${i}`];
-                }
+                isCorrect = studentAnswer === correctAnswers[`q${i}`];
                 
                 if (isCorrect) score++;
                 
@@ -1100,10 +1095,27 @@
                     question: `Klausimas ${i}`,
                     correct: isCorrect,
                     answer: studentAnswer,
-                    correctAnswer: typeof correctAnswers[`q${i}`] === 'object' ? 
-                        JSON.stringify(correctAnswers[`q${i}`]) : correctAnswers[`q${i}`]
+                    correctAnswer: correctAnswers[`q${i}`]
                 });
             }
+
+            // Q6 - Drag & Drop (specialus tikrinimas)
+            const q6Answer = JSON.parse(document.getElementById('q6_answer').value || '{}');
+            let q6Correct = true;
+            for (let key in correctAnswers.q6) {
+                if (q6Answer[key] !== correctAnswers.q6[key]) {
+                    q6Correct = false;
+                    break;
+                }
+            }
+            if (q6Correct && Object.keys(q6Answer).length === 3) score++;
+            
+            details.splice(5, 0, {
+                question: 'Klausimas 6: Bangų grafikas',
+                correct: q6Correct && Object.keys(q6Answer).length === 3,
+                answer: JSON.stringify(q6Answer),
+                correctAnswer: JSON.stringify(correctAnswers.q6)
+            });
 
             // Rodyti rezultatus
             displayResults(score, details);
@@ -1140,23 +1152,26 @@
         function sendToGoogleSheets(score, details) {
             const scriptURL = 'https://script.google.com/macros/s/AKfycbymSZ3ILvque7yH79ao57ThRYW88l0u_SeKWU8HdHVavUrKeyWB3TuaVy_qgJ6q8RXs/exec';
             
-            const formData = new FormData();
-            formData.append('studentName', studentName);
-            formData.append('testId', 'F0008');
-            formData.append('testName', 'Garso sąvokos - Testas 1');
-            formData.append('score', score);
-            formData.append('totalQuestions', 12);
-            formData.append('percentage', ((score / 12) * 100).toFixed(1));
-            formData.append('timestamp', new Date().toLocaleString('lt-LT'));
-            formData.append('details', JSON.stringify(details));
+            const data = {
+                name: studentName,
+                task: 'F0008: Garso sąvokos - Testas 1',
+                score: ((score / 12) * 100).toFixed(1),
+                timestamp: new Date().toLocaleString('lt-LT'),
+                sendToTeacher: false
+            };
 
-            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+            console.log('Siunčiami duomenys:', data);
+
+            fetch(scriptURL, {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             })
             .then(response => response.json())
-            .then(data => {
-                console.log('Rezultatai išsiųsti:', data);
+            .then(result => {
+                console.log('Rezultatai sėkmingai išsiųsti:', result);
             })
             .catch(error => {
                 console.error('Klaida siunčiant rezultatus:', error);
