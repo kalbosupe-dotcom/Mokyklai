@@ -169,12 +169,12 @@
         }
 
         .matching-item.selected {
-            background: #667eea;
+            background: #a5b4fc;
             color: white;
-            border-color: #667eea;
+            border-color: #a5b4fc;
         }
 
-        /* Spalvos skirtingoms poroms */
+        /* Spalvos skirtingoms poroms - ryškesnės spalvos */
         .matching-item.matched-1 {
             background: #667eea;
             color: white;
@@ -182,21 +182,21 @@
         }
 
         .matching-item.matched-2 {
-            background: #28a745;
+            background: #10b981;
             color: white;
-            border-color: #28a745;
+            border-color: #10b981;
         }
 
         .matching-item.matched-3 {
-            background: #ff6b6b;
+            background: #f59e0b;
             color: white;
-            border-color: #ff6b6b;
+            border-color: #f59e0b;
         }
 
         .matching-item.matched-4 {
-            background: #ffa500;
+            background: #ec4899;
             color: white;
-            border-color: #ffa500;
+            border-color: #ec4899;
         }
 
         /* Pasirinkimo variantai */
@@ -256,49 +256,34 @@
         }
 
         /* Drag and drop */
-        .drag-drop-container {
+        .graph-container {
+            margin: 20px 0;
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .large-graph {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .drop-labels-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
-        .graph-side {
-            text-align: center;
-        }
-
-        .graph-side img {
-            max-width: 100%;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .labels-side {
+        .drop-zones-column,
+        .draggable-labels-column {
             display: flex;
             flex-direction: column;
             gap: 15px;
-        }
-
-        .draggable-label {
-            background: #667eea;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: move;
-            font-weight: 600;
-            font-size: 1.05em;
-            transition: all 0.3s;
-        }
-
-        .draggable-label:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .draggable-label.dragging {
-            opacity: 0.5;
         }
 
         .drop-zone {
@@ -306,25 +291,69 @@
             border: 3px dashed #667eea;
             border-radius: 8px;
             padding: 20px;
-            margin: 10px 0;
-            min-height: 60px;
+            min-height: 70px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
             font-weight: 600;
             color: #667eea;
             transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .drop-zone strong {
+            font-size: 1.3em;
+            min-width: 30px;
+        }
+
+        .drop-zone .drop-content {
+            flex: 1;
+            text-align: center;
         }
 
         .drop-zone.drag-over {
             background: #f0f4ff;
             border-color: #764ba2;
+            transform: scale(1.02);
         }
 
         .drop-zone.filled {
             background: #667eea;
             color: white;
             border-style: solid;
+        }
+
+        .drop-zone.filled .drop-content {
+            font-weight: 700;
+        }
+
+        .draggable-label {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: move;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .draggable-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .draggable-label.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        @media (max-width: 768px) {
+            .drop-labels-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Submit mygtukas */
@@ -417,7 +446,7 @@
 
         @media (max-width: 768px) {
             .matching-container,
-            .drag-drop-container {
+            .drop-labels-container {
                 grid-template-columns: 1fr;
             }
 
@@ -576,20 +605,27 @@
                 <div class="question-text">
                     Pažvelk į garso bangos grafiką. Nutempk tinkamus pavadinimus prie numerių:
                 </div>
-                <div class="drag-drop-container">
-                    <div class="graph-side">
-                        <img src="../../images/garso-bangu-savybes-ilgis-periodas-amplitude.png" alt="Garso bangos grafikas">
-                        <div class="drop-zone" data-answer="Amplitudė (A)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                            1: <span class="drop-content"></span>
+                
+                <!-- Paveiksliukas viršuje -->
+                <div class="graph-container">
+                    <img src="../../images/garso-bangu-savybes-ilgis-periodas-amplitude.png" alt="Garso bangos grafikas" class="large-graph">
+                </div>
+                
+                <!-- Drop zonos ir žymės apačioje -->
+                <div class="drop-labels-container">
+                    <div class="drop-zones-column">
+                        <div class="drop-zone" data-answer="Bangos ilgis (λ)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                            <strong>1:</strong> <span class="drop-content">Tempk čia</span>
                         </div>
                         <div class="drop-zone" data-answer="Periodas (T)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                            2: <span class="drop-content"></span>
+                            <strong>2:</strong> <span class="drop-content">Tempk čia</span>
                         </div>
-                        <div class="drop-zone" data-answer="Bangos ilgis (λ)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                            3: <span class="drop-content"></span>
+                        <div class="drop-zone" data-answer="Amplitudė (A)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                            <strong>3:</strong> <span class="drop-content">Tempk čia</span>
                         </div>
                     </div>
-                    <div class="labels-side">
+                    
+                    <div class="draggable-labels-column">
                         <div class="draggable-label" draggable="true" ondragstart="drag(event)" id="label_amplitude">
                             Amplitudė (A)
                         </div>
@@ -736,7 +772,7 @@
             q3: 'kietosiomis,skysčiais,dujomis',
             q4: 'Teisingai',
             q5: 'hercais (Hz)',
-            q6: { 1: 'Amplitudė (A)', 2: 'Periodas (T)', 3: 'Bangos ilgis (λ)' },
+            q6: { 1: 'Bangos ilgis (λ)', 2: 'Periodas (T)', 3: 'Amplitudė (A)' },
             q7: 'virpesių,sekundę',
             q8: 'T = 1/f',
             q9: 'Teisingai',
@@ -754,10 +790,96 @@
             }
             
             studentName = nameInput;
+            // Išsaugoti vardą localStorage
+            localStorage.setItem('studentName', studentName);
+            
             document.getElementById('studentNameDisplay').textContent = studentName;
             document.getElementById('nameInputSection').classList.add('hidden');
             document.getElementById('studentInfo').classList.remove('hidden');
             document.getElementById('testContent').classList.remove('hidden');
+        }
+
+        // Patikrinti ar yra išsaugotas vardas
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedName = localStorage.getItem('studentName');
+            if (savedName) {
+                document.getElementById('studentNameInput').value = savedName;
+            }
+            
+            // Sumaišyti atsakymus
+            shuffleAnswers();
+        });
+
+        // Funkcija atsakymų sumaišymui
+        function shuffleAnswers() {
+            // Sumaišyti sutampymo užduotį (Q1)
+            shuffleMatchingQuestion();
+            
+            // Sumaišyti pasirinkimo klausimus
+            shuffleOptions('q2');
+            shuffleOptions('q5');
+            shuffleOptions('q8');
+            shuffleOptions('q10');
+            shuffleOptions('q12');
+            
+            // Sumaišyti drag & drop žymes
+            shuffleDraggableLabels();
+        }
+
+        // Sumaišyti sutampymo klausimą
+        function shuffleMatchingQuestion() {
+            const leftContainer = document.querySelector('.matching-left');
+            const rightContainer = document.querySelector('.matching-right');
+            
+            const leftItems = Array.from(leftContainer.children);
+            const rightItems = Array.from(rightContainer.children);
+            
+            // Sumaišyti
+            shuffleArray(leftItems);
+            shuffleArray(rightItems);
+            
+            // Išvalyti ir pridėti atgal
+            leftContainer.innerHTML = '';
+            rightContainer.innerHTML = '';
+            
+            leftItems.forEach(item => leftContainer.appendChild(item));
+            rightItems.forEach(item => rightContainer.appendChild(item));
+        }
+
+        // Sumaišyti pasirinkimo klausimų atsakymus
+        function shuffleOptions(questionId) {
+            const question = document.getElementById(questionId + '_answer');
+            if (!question) return;
+            
+            const optionsContainer = question.parentElement.querySelector('.options');
+            if (!optionsContainer) return;
+            
+            const options = Array.from(optionsContainer.children);
+            shuffleArray(options);
+            
+            optionsContainer.innerHTML = '';
+            options.forEach(option => optionsContainer.appendChild(option));
+        }
+
+        // Sumaišyti drag & drop žymes
+        function shuffleDraggableLabels() {
+            const labelsContainer = document.querySelector('.draggable-labels-column');
+            if (!labelsContainer) return;
+            
+            const labels = Array.from(labelsContainer.children);
+            shuffleArray(labels);
+            
+            labelsContainer.innerHTML = '';
+            labels.forEach(label => labelsContainer.appendChild(label));
+        }
+
+        // Fisher-Yates shuffle algoritmas
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         }
 
         // Sutampymo užduotis - termino pasirinkimas
@@ -1016,7 +1138,7 @@
 
         // Siųsti į Google Sheets
         function sendToGoogleSheets(score, details) {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwBaL4dZX8y0VzTrOlhKRQ6lxZRTx1p7zx1jkYbMO51wPfNR0I57K0iAf4FDFoZQj1s/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbymSZ3ILvque7yH79ao57ThRYW88l0u_SeKWU8HdHVavUrKeyWB3TuaVy_qgJ6q8RXs/exec';
             
             const formData = new FormData();
             formData.append('studentName', studentName);
@@ -1028,7 +1150,7 @@
             formData.append('timestamp', new Date().toLocaleString('lt-LT'));
             formData.append('details', JSON.stringify(details));
 
-            fetch(scriptURL, {
+            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
                 method: 'POST',
                 body: formData
             })
