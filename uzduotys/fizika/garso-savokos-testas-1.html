@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garso sąvokos - Testas 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .student-info {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .student-name-display {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .back-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .name-input-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .name-input-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .name-input-section input {
+            padding: 12px 20px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .name-input-section button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .name-input-section button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .question-text {
+            font-size: 1.15em;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Sutampymo užduotis */
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .matching-left, .matching-right {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .matching-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.05em;
+        }
+
+        .matching-item:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .matching-item.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Pasirinkimo variantai */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .option {
+            background: white;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.05em;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Tuščios vietos */
+        .fill-blank {
+            margin: 20px 0;
+            font-size: 1.1em;
+            line-height: 2;
+        }
+
+        .fill-blank select {
+            padding: 8px 15px;
+            font-size: 1em;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            margin: 0 5px;
+            min-width: 150px;
+        }
+
+        .blank-input {
+            padding: 8px 15px;
+            font-size: 1em;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            min-width: 120px;
+            margin: 0 5px;
+        }
+
+        /* Drag and drop */
+        .drag-drop-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .graph-side {
+            text-align: center;
+        }
+
+        .graph-side img {
+            max-width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .labels-side {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .draggable-label {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: move;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: all 0.3s;
+        }
+
+        .draggable-label:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .draggable-label.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zone {
+            background: white;
+            border: 3px dashed #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s;
+        }
+
+        .drop-zone.drag-over {
+            background: #f0f4ff;
+            border-color: #764ba2;
+        }
+
+        .drop-zone.filled {
+            background: #667eea;
+            color: white;
+            border-style: solid;
+        }
+
+        /* Submit mygtukas */
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Rezultatų langas */
+        .results {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .results h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .results-details {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .result-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .result-item.correct {
+            border-left: 5px solid #28a745;
+        }
+
+        .result-item.incorrect {
+            border-left: 5px solid #dc3545;
+        }
+
+        .restart-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .restart-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .matching-container,
+            .drag-drop-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .student-info {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Garso sąvokos - Testas 1</h1>
+            <p>Pagrindinės sąvokos apie garsą</p>
+        </div>
+
+        <!-- Vardo įvedimo sekcija -->
+        <div id="nameInputSection" class="name-input-section">
+            <h2>Prieš pradedant testą, įvesk savo vardą:</h2>
+            <input type="text" id="studentNameInput" placeholder="Įvesk savo vardą ir pavardę" />
+            <br>
+            <button onclick="startTest()">Pradėti testą</button>
+        </div>
+
+        <!-- Mokinio informacija -->
+        <div id="studentInfo" class="student-info hidden">
+            <div class="student-name-display">
+                Mokinys: <span id="studentNameDisplay"></span>
+            </div>
+            <button class="back-button" onclick="window.location.href='../../index.html'">
+                ← Grįžti į pradžią
+            </button>
+        </div>
+
+        <!-- Testo turinys -->
+        <div id="testContent" class="content hidden">
+            
+            <!-- 1 klausimas: Sutampymas - Sąvokos su apibrėžimais -->
+            <div class="question">
+                <h3>1 klausimas</h3>
+                <div class="question-text">Susieti sąvokas su jų apibrėžimais:</div>
+                
+                <div class="matching-container">
+                    <div class="matching-left">
+                        <div class="matching-item" data-term="garsas" onclick="selectTerm(this, 1)">
+                            <strong>GARSAS</strong>
+                        </div>
+                        <div class="matching-item" data-term="akustika" onclick="selectTerm(this, 1)">
+                            <strong>AKUSTIKA</strong>
+                        </div>
+                        <div class="matching-item" data-term="daznis" onclick="selectTerm(this, 1)">
+                            <strong>DAŽNIS (f)</strong>
+                        </div>
+                        <div class="matching-item" data-term="periodas" onclick="selectTerm(this, 1)">
+                            <strong>PERIODAS (T)</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="matching-right">
+                        <div class="matching-item" data-definition="garsas" onclick="selectDefinition(this, 1)">
+                            Virpesiai, sklindantys kietosiomis medžiagomis, skysčiais arba dujomis
+                        </div>
+                        <div class="matching-item" data-definition="akustika" onclick="selectDefinition(this, 1)">
+                            Fizikinė garsų prigimtį nagrinėjanti fizikos mokslo šaka
+                        </div>
+                        <div class="matching-item" data-definition="daznis" onclick="selectDefinition(this, 1)">
+                            Parodo, kiek virpesių įvyksta per 1 sekundę
+                        </div>
+                        <div class="matching-item" data-definition="periodas" onclick="selectDefinition(this, 1)">
+                            Parodo, kiek laiko trunka vienas virpesys
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="q1_answer" />
+            </div>
+
+            <!-- 2 klausimas: Pasirinkimas - Garso sklinda -->
+            <div class="question">
+                <h3>2 klausimas</h3>
+                <div class="question-text">
+                    Užpildyk: "Virpantys kūnai yra garso _____"
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, 2, 'šaltiniai')">šaltiniai</div>
+                    <div class="option" onclick="selectOption(this, 2, 'bangos')">bangos</div>
+                    <div class="option" onclick="selectOption(this, 2, 'dažniai')">dažniai</div>
+                </div>
+                <input type="hidden" id="q2_answer" />
+            </div>
+
+            <!-- 3 klausimas: Tuščios vietos - Garso sklidimas -->
+            <div class="question">
+                <h3>3 klausimas</h3>
+                <div class="question-text">Užpildyk sakinį:</div>
+                <div class="fill-blank">
+                    Garsas sklinda 
+                    <select id="q3_1" onchange="updateFillBlank(3)">
+                        <option value="">-- pasirink --</option>
+                        <option value="kietosiomis">kietosiomis</option>
+                        <option value="skysčiais">skysčiais</option>
+                        <option value="dujomis">dujomis</option>
+                    </select>
+                    medžiagomis,
+                    <select id="q3_2" onchange="updateFillBlank(3)">
+                        <option value="">-- pasirink --</option>
+                        <option value="kietosiomis">kietosiomis</option>
+                        <option value="skysčiais">skysčiais</option>
+                        <option value="dujomis">dujomis</option>
+                    </select>
+                    arba
+                    <select id="q3_3" onchange="updateFillBlank(3)">
+                        <option value="">-- pasirink --</option>
+                        <option value="kietosiomis">kietosiomis</option>
+                        <option value="skysčiais">skysčiais</option>
+                        <option value="dujomis">dujomis</option>
+                    </select>
+                </div>
+                <input type="hidden" id="q3_answer" />
+            </div>
+
+            <!-- 4 klausimas: Teisingai/Neteisingai - Garsas vakuume -->
+            <div class="question">
+                <h3>4 klausimas</h3>
+                <div class="question-text">
+                    Teiginys: "Garsas NESKLINDA vakuume"
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, 4, 'Teisingai')">✓ Teisingai</div>
+                    <div class="option" onclick="selectOption(this, 4, 'Neteisingai')">✗ Neteisingai</div>
+                </div>
+                <input type="hidden" id="q4_answer" />
+            </div>
+
+            <!-- 5 klausimas: Pasirinkimas - Dažnio matavimo vienetas -->
+            <div class="question">
+                <h3>5 klausimas</h3>
+                <div class="question-text">
+                    Dažnis matuojamas:
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, 5, 'hercais (Hz)')">hercais (Hz)</div>
+                    <div class="option" onclick="selectOption(this, 5, 'metrais (m)')">metrais (m)</div>
+                    <div class="option" onclick="selectOption(this, 5, 'sekundėmis (s)')">sekundėmis (s)</div>
+                </div>
+                <input type="hidden" id="q5_answer" />
+            </div>
+
+            <!-- 6 klausimas: Drag & Drop - Bangų grafikas -->
+            <div class="question">
+                <h3>6 klausimas</h3>
+                <div class="question-text">
+                    Pažvelk į garso bangos grafiką. Nutempk tinkamus pavadinimus prie numerių:
+                </div>
+                <div class="drag-drop-container">
+                    <div class="graph-side">
+                        <img src="../../images/garso-bangu-savybes-ilgis-periodas-amplitude.png" alt="Garso bangos grafikas">
+                        <div class="drop-zone" data-answer="Amplitudė (A)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                            1: <span class="drop-content"></span>
+                        </div>
+                        <div class="drop-zone" data-answer="Periodas (T)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                            2: <span class="drop-content"></span>
+                        </div>
+                        <div class="drop-zone" data-answer="Bangos ilgis (λ)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                            3: <span class="drop-content"></span>
+                        </div>
+                    </div>
+                    <div class="labels-side">
+                        <div class="draggable-label" draggable="true" ondragstart="drag(event)" id="label_amplitude">
+                            Amplitudė (A)
+                        </div>
+                        <div class="draggable-label" draggable="true" ondragstart="drag(event)" id="label_period">
+                            Periodas (T)
+                        </div>
+                        <div class="draggable-label" draggable="true" ondragstart="drag(event)" id="label_wavelength">
+                            Bangos ilgis (λ)
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="q6_answer" />
+            </div>
+
+            <!-- 7 klausimas: Tuščios vietos - Dažnio apibrėžimas -->
+            <div class="question">
+                <h3>7 klausimas</h3>
+                <div class="question-text">Užpildyk sakinį:</div>
+                <div class="fill-blank">
+                    Dažnis parodo kiek
+                    <select id="q7_1" onchange="updateFillBlank(7)">
+                        <option value="">-- pasirink --</option>
+                        <option value="virpesių">virpesių</option>
+                        <option value="metrų">metrų</option>
+                        <option value="amplitudžių">amplitudžių</option>
+                    </select>
+                    įvyksta per 1
+                    <select id="q7_2" onchange="updateFillBlank(7)">
+                        <option value="">-- pasirink --</option>
+                        <option value="sekundę">sekundę</option>
+                        <option value="minutę">minutę</option>
+                        <option value="valandą">valandą</option>
+                    </select>
+                </div>
+                <input type="hidden" id="q7_answer" />
+            </div>
+
+            <!-- 8 klausimas: Pasirinkimas - Periodo formulė -->
+            <div class="question">
+                <h3>8 klausimas</h3>
+                <div class="question-text">
+                    Kuri formulė skaičiuoja periodą?
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, 8, 'T = 1/f')">T = 1/f</div>
+                    <div class="option" onclick="selectOption(this, 8, 'f = 1/T')">f = 1/T</div>
+                    <div class="option" onclick="selectOption(this, 8, 'v = s/t')">v = s/t</div>
+                </div>
+                <input type="hidden" id="q8_answer" />
+            </div>
+
+            <!-- 9 klausimas: Teisingai/Neteisingai - Dažnis ir aukštumas -->
+            <div class="question">
+                <h3>9 klausimas</h3>
+                <div class="question-text">
+                    Teiginys: "Kuo dažnis didesnis, tuo garsas aukštesnis"
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, 9, 'Teisingai')">✓ Teisingai</div>
+                    <div class="option" onclick="selectOption(this, 9, 'Neteisingai')">✗ Neteisingai</div>
+                </div>
+                <input type="hidden" id="q9_answer" />
+            </div>
+
+            <!-- 10 klausimas: Pasirinkimas - Bangos ilgio matavimas -->
+            <div class="question">
+                <h3>10 klausimas</h3>
+                <div class="question-text">
+                    Bangos ilgis (λ) matuojamas:
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, 10, 'metrais (m)')">metrais (m)</div>
+                    <div class="option" onclick="selectOption(this, 10, 'hercais (Hz)')">hercais (Hz)</div>
+                    <div class="option" onclick="selectOption(this, 10, 'sekundėmis (s)')">sekundėmis (s)</div>
+                </div>
+                <input type="hidden" id="q10_answer" />
+            </div>
+
+            <!-- 11 klausimas: Tuščios vietos - Bangos ilgis ir garsas -->
+            <div class="question">
+                <h3>11 klausimas</h3>
+                <div class="question-text">Užpildyk sakinį:</div>
+                <div class="fill-blank">
+                    Ilgesnis bangos ilgis reiškia
+                    <select id="q11_1" onchange="updateFillBlank(11)">
+                        <option value="">-- pasirink --</option>
+                        <option value="žemesnį">žemesnį</option>
+                        <option value="aukštesnį">aukštesnį</option>
+                        <option value="stipresnį">stipresnį</option>
+                    </select>
+                    garsą
+                </div>
+                <input type="hidden" id="q11_answer" />
+            </div>
+
+            <!-- 12 klausimas: Skaičiavimas - Dažnio radimas -->
+            <div class="question">
+                <h3>12 klausimas</h3>
+                <div class="question-text">
+                    Jei garso bangos periodas yra 0,5 sekundės, koks yra jos dažnis?<br>
+                    <em>(Naudok formulę: f = 1/T)</em>
+                </div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this, 12, '2 Hz')">2 Hz</div>
+                    <div class="option" onclick="selectOption(this, 12, '0,5 Hz')">0,5 Hz</div>
+                    <div class="option" onclick="selectOption(this, 12, '1 Hz')">1 Hz</div>
+                    <div class="option" onclick="selectOption(this, 12, '5 Hz')">5 Hz</div>
+                </div>
+                <input type="hidden" id="q12_answer" />
+            </div>
+
+            <!-- Submit mygtukas -->
+            <div class="submit-section">
+                <button class="submit-btn" onclick="submitTest()">Pateikti atsakymus</button>
+            </div>
+        </div>
+
+        <!-- Rezultatų sekcija -->
+        <div id="resultsSection" class="content hidden">
+            <div class="results">
+                <h2>Testo rezultatai</h2>
+                <div class="score" id="finalScore"></div>
+                <div id="resultsDetails" class="results-details"></div>
+                <button class="restart-btn" onclick="restartTest()">Bandyti iš naujo</button>
+                <button class="back-button" onclick="window.location.href='../../index.html'" style="margin-left: 10px;">
+                    Grįžti į pradžią
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Globalūs kintamieji
+        let studentName = '';
+        let selectedTerm = null;
+        let selectedDefinition = null;
+        let matchingAnswers = {};
+
+        // Teisingi atsakymai
+        const correctAnswers = {
+            q1: { garsas: 'garsas', akustika: 'akustika', daznis: 'daznis', periodas: 'periodas' },
+            q2: 'šaltiniai',
+            q3: 'kietosiomis,skysčiais,dujomis',
+            q4: 'Teisingai',
+            q5: 'hercais (Hz)',
+            q6: { 1: 'Amplitudė (A)', 2: 'Periodas (T)', 3: 'Bangos ilgis (λ)' },
+            q7: 'virpesių,sekundę',
+            q8: 'T = 1/f',
+            q9: 'Teisingai',
+            q10: 'metrais (m)',
+            q11: 'žemesnį',
+            q12: '2 Hz'
+        };
+
+        // Pradėti testą
+        function startTest() {
+            const nameInput = document.getElementById('studentNameInput').value.trim();
+            if (nameInput === '') {
+                alert('Prašome įvesti vardą!');
+                return;
+            }
+            
+            studentName = nameInput;
+            document.getElementById('studentNameDisplay').textContent = studentName;
+            document.getElementById('nameInputSection').classList.add('hidden');
+            document.getElementById('studentInfo').classList.remove('hidden');
+            document.getElementById('testContent').classList.remove('hidden');
+        }
+
+        // Sutampymo užduotis - termino pasirinkimas
+        function selectTerm(element, questionNum) {
+            // Panaikinti ankstesnį pasirinkimą
+            document.querySelectorAll(`[data-term]`).forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            selectedTerm = element.getAttribute('data-term');
+            element.classList.add('selected');
+            
+            // Jei abu pasirinkti, sujungti
+            if (selectedDefinition) {
+                matchAnswer(questionNum);
+            }
+        }
+
+        // Sutampymo užduotis - apibrėžimo pasirinkimas
+        function selectDefinition(element, questionNum) {
+            // Panaikinti ankstesnį pasirinkimą
+            document.querySelectorAll(`[data-definition]`).forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            selectedDefinition = element.getAttribute('data-definition');
+            element.classList.add('selected');
+            
+            // Jei abu pasirinkti, sujungti
+            if (selectedTerm) {
+                matchAnswer(questionNum);
+            }
+        }
+
+        // Sujungti atsakymą
+        function matchAnswer(questionNum) {
+            matchingAnswers[selectedTerm] = selectedDefinition;
+            
+            // Išsaugoti atsakymą
+            document.getElementById(`q${questionNum}_answer`).value = JSON.stringify(matchingAnswers);
+            
+            // Atžymėti abu
+            selectedTerm = null;
+            selectedDefinition = null;
+            document.querySelectorAll('.matching-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+        }
+
+        // Pasirinkimo variantas
+        function selectOption(element, questionNum, value) {
+            // Panaikinti ankstesnį pasirinkimą
+            element.parentElement.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            document.getElementById(`q${questionNum}_answer`).value = value;
+        }
+
+        // Tuščios vietos užpildymas
+        function updateFillBlank(questionNum) {
+            if (questionNum === 3) {
+                const val1 = document.getElementById('q3_1').value;
+                const val2 = document.getElementById('q3_2').value;
+                const val3 = document.getElementById('q3_3').value;
+                document.getElementById('q3_answer').value = `${val1},${val2},${val3}`;
+            } else if (questionNum === 7) {
+                const val1 = document.getElementById('q7_1').value;
+                const val2 = document.getElementById('q7_2').value;
+                document.getElementById('q7_answer').value = `${val1},${val2}`;
+            } else if (questionNum === 11) {
+                const val1 = document.getElementById('q11_1').value;
+                document.getElementById('q11_answer').value = val1;
+            }
+        }
+
+        // Drag and Drop funkcijos
+        let draggedElement = null;
+
+        function drag(event) {
+            draggedElement = event.target;
+            event.target.classList.add('dragging');
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+            event.target.closest('.drop-zone').classList.add('drag-over');
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const dropZone = event.target.closest('.drop-zone');
+            dropZone.classList.remove('drag-over');
+            
+            if (draggedElement) {
+                const labelText = draggedElement.textContent;
+                const dropContent = dropZone.querySelector('.drop-content');
+                dropContent.textContent = labelText;
+                dropZone.classList.add('filled');
+                
+                // Paslėpti nutempimą elementą
+                draggedElement.style.opacity = '0.3';
+                draggedElement.setAttribute('draggable', 'false');
+                
+                // Išsaugoti atsakymą
+                updateDragDropAnswer();
+            }
+            
+            draggedElement.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        function updateDragDropAnswer() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const answers = {};
+            dropZones.forEach((zone, index) => {
+                const content = zone.querySelector('.drop-content').textContent;
+                if (content) {
+                    answers[index + 1] = content;
+                }
+            });
+            document.getElementById('q6_answer').value = JSON.stringify(answers);
+        }
+
+        // Pateikti testą
+        function submitTest() {
+            // Patikrinti ar visi klausimai atsakyti
+            let allAnswered = true;
+            for (let i = 1; i <= 12; i++) {
+                const answer = document.getElementById(`q${i}_answer`).value;
+                if (!answer || answer === '') {
+                    allAnswered = false;
+                    break;
+                }
+            }
+
+            if (!allAnswered) {
+                alert('Prašome atsakyti į visus klausimus!');
+                return;
+            }
+
+            // Skaičiuoti rezultatus
+            calculateResults();
+        }
+
+        // Skaičiuoti rezultatus
+        function calculateResults() {
+            let score = 0;
+            let details = [];
+
+            // Q1 - Sutampymas
+            const q1Answer = JSON.parse(document.getElementById('q1_answer').value || '{}');
+            let q1Correct = 0;
+            Object.keys(correctAnswers.q1).forEach(key => {
+                if (q1Answer[key] === correctAnswers.q1[key]) q1Correct++;
+            });
+            if (q1Correct === 4) score++;
+            details.push({
+                question: 'Klausimas 1: Sąvokų sutampymas',
+                correct: q1Correct === 4,
+                answer: 'Susieti 4 sąvokas',
+                correctAnswer: 'Visi teisingi susieti'
+            });
+
+            // Q2-Q12 - Paprasti atsakymai
+            for (let i = 2; i <= 12; i++) {
+                let isCorrect = false;
+                let studentAnswer = document.getElementById(`q${i}_answer`).value;
+                
+                if (i === 6) {
+                    // Drag & Drop
+                    const q6Answer = JSON.parse(studentAnswer || '{}');
+                    isCorrect = JSON.stringify(q6Answer) === JSON.stringify(correctAnswers.q6);
+                } else {
+                    isCorrect = studentAnswer === correctAnswers[`q${i}`];
+                }
+                
+                if (isCorrect) score++;
+                
+                details.push({
+                    question: `Klausimas ${i}`,
+                    correct: isCorrect,
+                    answer: studentAnswer,
+                    correctAnswer: typeof correctAnswers[`q${i}`] === 'object' ? 
+                        JSON.stringify(correctAnswers[`q${i}`]) : correctAnswers[`q${i}`]
+                });
+            }
+
+            // Rodyti rezultatus
+            displayResults(score, details);
+            
+            // Siųsti į Google Sheets
+            sendToGoogleSheets(score, details);
+        }
+
+        // Rodyti rezultatus
+        function displayResults(score, details) {
+            const percentage = ((score / 12) * 100).toFixed(1);
+            
+            document.getElementById('finalScore').textContent = `${score} iš 12 (${percentage}%)`;
+            
+            let detailsHTML = '';
+            details.forEach((detail, index) => {
+                const className = detail.correct ? 'correct' : 'incorrect';
+                const icon = detail.correct ? '✓' : '✗';
+                detailsHTML += `
+                    <div class="result-item ${className}">
+                        <strong>${icon} ${detail.question}</strong><br>
+                        ${!detail.correct ? `Tavo atsakymas: ${detail.answer}<br>Teisingas: ${detail.correctAnswer}` : 'Teisingai!'}
+                    </div>
+                `;
+            });
+            
+            document.getElementById('resultsDetails').innerHTML = detailsHTML;
+            
+            document.getElementById('testContent').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+        }
+
+        // Siųsti į Google Sheets
+        function sendToGoogleSheets(score, details) {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwBaL4dZX8y0VzTrOlhKRQ6lxZRTx1p7zx1jkYbMO51wPfNR0I57K0iAf4FDFoZQj1s/exec';
+            
+            const formData = new FormData();
+            formData.append('studentName', studentName);
+            formData.append('testId', 'F0008');
+            formData.append('testName', 'Garso sąvokos - Testas 1');
+            formData.append('score', score);
+            formData.append('totalQuestions', 12);
+            formData.append('percentage', ((score / 12) * 100).toFixed(1));
+            formData.append('timestamp', new Date().toLocaleString('lt-LT'));
+            formData.append('details', JSON.stringify(details));
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Rezultatai išsiųsti:', data);
+            })
+            .catch(error => {
+                console.error('Klaida siunčiant rezultatus:', error);
+            });
+        }
+
+        // Bandyti iš naujo
+        function restartTest() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
