@@ -1158,14 +1158,14 @@
 
             fetch(scriptURL, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
-            .then(result => {
-                console.log('Rezultatai sėkmingai išsiųsti:', result);
+            .then(() => {
+                console.log('Rezultatas sėkmingai išsiųstas į Google Sheets! ✅');
             })
             .catch(error => {
                 console.error('Klaida siunčiant rezultatus:', error);
