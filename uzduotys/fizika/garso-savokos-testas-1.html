@@ -599,11 +599,11 @@
                 <input type="hidden" id="q5_answer" />
             </div>
 
-            <!-- 6 klausimas: Drag & Drop - Bangų grafikas -->
+            <!-- 6 klausimas: Pasirinkimas su grafiku - Bangų elementai -->
             <div class="question">
                 <h3>6 klausimas</h3>
                 <div class="question-text">
-                    Pažvelk į garso bangos grafiką. Nutempk tinkamus pavadinimus prie numerių:
+                    Pažvelk į garso bangos grafiką ir atsakyk:
                 </div>
                 
                 <!-- Paveiksliukas viršuje -->
@@ -611,30 +611,36 @@
                     <img src="../../images/garso-bangu-savybes-ilgis-periodas-amplitude.png" alt="Garso bangos grafikas" class="large-graph">
                 </div>
                 
-                <!-- Drop zonos ir žymės apačioje -->
-                <div class="drop-labels-container">
-                    <div class="drop-zones-column">
-                        <div class="drop-zone" data-answer="Bangos ilgis (λ)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                            <strong>1:</strong> <span class="drop-content">Tempk čia</span>
-                        </div>
-                        <div class="drop-zone" data-answer="Periodas (T)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                            <strong>2:</strong> <span class="drop-content">Tempk čia</span>
-                        </div>
-                        <div class="drop-zone" data-answer="Amplitudė (A)" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                            <strong>3:</strong> <span class="drop-content">Tempk čia</span>
-                        </div>
+                <!-- Klausimai su pasirinkimais -->
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #7CB3E9;">
+                        <strong style="display: block; margin-bottom: 10px; font-size: 1.1em;">Numeris 1 rodo:</strong>
+                        <select id="q6_1" onchange="updateQ6Answer()" style="width: 100%; padding: 10px; font-size: 1em; border: 2px solid #667eea; border-radius: 6px; background: white;">
+                            <option value="">-- pasirink --</option>
+                            <option value="Bangos ilgis">Bangos ilgį (λ)</option>
+                            <option value="Periodas">Periodą (T)</option>
+                            <option value="Amplitudė">Amplitudę (A)</option>
+                        </select>
                     </div>
                     
-                    <div class="draggable-labels-column">
-                        <div class="draggable-label" draggable="true" ondragstart="drag(event)" id="label_wavelength">
-                            Bangos ilgis (λ)
-                        </div>
-                        <div class="draggable-label" draggable="true" ondragstart="drag(event)" id="label_period">
-                            Periodas (T)
-                        </div>
-                        <div class="draggable-label" draggable="true" ondragstart="drag(event)" id="label_amplitude">
-                            Amplitudė (A)
-                        </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #7CB3E9;">
+                        <strong style="display: block; margin-bottom: 10px; font-size: 1.1em;">Numeris 2 rodo:</strong>
+                        <select id="q6_2" onchange="updateQ6Answer()" style="width: 100%; padding: 10px; font-size: 1em; border: 2px solid #667eea; border-radius: 6px; background: white;">
+                            <option value="">-- pasirink --</option>
+                            <option value="Bangos ilgis">Bangos ilgį (λ)</option>
+                            <option value="Periodas">Periodą (T)</option>
+                            <option value="Amplitudė">Amplitudę (A)</option>
+                        </select>
+                    </div>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #7CB3E9;">
+                        <strong style="display: block; margin-bottom: 10px; font-size: 1.1em;">Numeris 3 rodo:</strong>
+                        <select id="q6_3" onchange="updateQ6Answer()" style="width: 100%; padding: 10px; font-size: 1em; border: 2px solid #667eea; border-radius: 6px; background: white;">
+                            <option value="">-- pasirink --</option>
+                            <option value="Bangos ilgis">Bangos ilgį (λ)</option>
+                            <option value="Periodas">Periodą (T)</option>
+                            <option value="Amplitudė">Amplitudę (A)</option>
+                        </select>
                     </div>
                 </div>
                 <input type="hidden" id="q6_answer" />
@@ -772,7 +778,7 @@
             q3: 'kietosiomis,skysčiais,dujomis',
             q4: 'Teisingai',
             q5: 'hercais (Hz)',
-            q6: { 1: 'Bangos ilgis (λ)', 2: 'Periodas (T)', 3: 'Amplitudė (A)' },
+            q6: 'Bangos ilgis,Periodas,Amplitudė',
             q7: 'virpesių,sekundę',
             q8: 'T = 1/f',
             q9: 'Teisingai',
@@ -993,6 +999,14 @@
             }
         }
 
+        // 6 klausimo atnaujinimas
+        function updateQ6Answer() {
+            const val1 = document.getElementById('q6_1').value;
+            const val2 = document.getElementById('q6_2').value;
+            const val3 = document.getElementById('q6_3').value;
+            document.getElementById('q6_answer').value = `${val1},${val2},${val3}`;
+        }
+
         // Drag and Drop funkcijos
         let draggedElement = null;
 
@@ -1081,10 +1095,8 @@
                 correctAnswer: 'Visi teisingi susieti'
             });
 
-            // Q2-Q5, Q7-Q12 - Paprasti atsakymai
+            // Q2-Q12 - Paprasti atsakymai (įskaitant Q6)
             for (let i = 2; i <= 12; i++) {
-                if (i === 6) continue; // Praleisti Q6, jį tikrinsime atskirai
-                
                 let isCorrect = false;
                 let studentAnswer = document.getElementById(`q${i}_answer`).value;
                 isCorrect = studentAnswer === correctAnswers[`q${i}`];
@@ -1098,24 +1110,6 @@
                     correctAnswer: correctAnswers[`q${i}`]
                 });
             }
-
-            // Q6 - Drag & Drop (specialus tikrinimas)
-            const q6Answer = JSON.parse(document.getElementById('q6_answer').value || '{}');
-            let q6Correct = true;
-            for (let key in correctAnswers.q6) {
-                if (q6Answer[key] !== correctAnswers.q6[key]) {
-                    q6Correct = false;
-                    break;
-                }
-            }
-            if (q6Correct && Object.keys(q6Answer).length === 3) score++;
-            
-            details.splice(5, 0, {
-                question: 'Klausimas 6: Bangų grafikas',
-                correct: q6Correct && Object.keys(q6Answer).length === 3,
-                answer: JSON.stringify(q6Answer),
-                correctAnswer: JSON.stringify(correctAnswers.q6)
-            });
 
             // Rodyti rezultatus
             displayResults(score, details);
@@ -1150,7 +1144,7 @@
 
         // Siųsti į Google Sheets
         function sendToGoogleSheets(score, details) {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbymSZ3ILvque7yH79ao57ThRYW88l0u_SeKWU8HdHVavUrKeyWB3TuaVy_qgJ6q8RXs/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec';
             
             const data = {
                 name: studentName,
@@ -1162,7 +1156,7 @@
 
             console.log('Siunčiami duomenys:', data);
 
-            fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+            fetch(scriptURL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
