@@ -803,6 +803,11 @@
             document.getElementById('nameInputSection').classList.add('hidden');
             document.getElementById('studentInfo').classList.remove('hidden');
             document.getElementById('testContent').classList.remove('hidden');
+            
+            // Sumaišyti atsakymus po 100ms, kad DOM spėtų atsinaujinti
+            setTimeout(() => {
+                shuffleAnswers();
+            }, 100);
         }
 
         // Patikrinti ar yra išsaugotas vardas
@@ -811,25 +816,29 @@
             if (savedName) {
                 document.getElementById('studentNameInput').value = savedName;
             }
-            
-            // Sumaišyti atsakymus
-            shuffleAnswers();
         });
 
         // Funkcija atsakymų sumaišymui
         function shuffleAnswers() {
-            // Sumaišyti sutampymo užduotį (Q1)
-            shuffleMatchingQuestion();
+            console.log('Sumaišome atsakymus...');
             
-            // Sumaišyti pasirinkimo klausimus
-            shuffleOptions('q2');
-            shuffleOptions('q5');
-            shuffleOptions('q8');
-            shuffleOptions('q10');
-            shuffleOptions('q12');
+            // Sumaišyti sutampymo užduotį (Q1) - tik jei egzistuoja
+            const leftContainer = document.querySelector('.matching-left');
+            const rightContainer = document.querySelector('.matching-right');
+            if (leftContainer && rightContainer) {
+                shuffleMatchingQuestion();
+            }
             
-            // Sumaišyti drag & drop žymes
-            shuffleDraggableLabels();
+            // Sumaišyti pasirinkimo klausimus - tik jei egzistuoja
+            ['q2', 'q5', 'q8', 'q10', 'q12'].forEach(qId => {
+                const optionsContainer = document.querySelector(`#${qId}_answer`)?.parentElement?.querySelector('.options');
+                if (optionsContainer) {
+                    const options = Array.from(optionsContainer.children);
+                    shuffleArray(options);
+                    optionsContainer.innerHTML = '';
+                    options.forEach(option => optionsContainer.appendChild(option));
+                }
+            });
         }
 
         // Sumaišyti sutampymo klausimą
