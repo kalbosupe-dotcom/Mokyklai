@@ -174,6 +174,31 @@
             border-color: #667eea;
         }
 
+        /* Spalvos skirtingoms poroms */
+        .matching-item.matched-1 {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .matching-item.matched-2 {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .matching-item.matched-3 {
+            background: #ff6b6b;
+            color: white;
+            border-color: #ff6b6b;
+        }
+
+        .matching-item.matched-4 {
+            background: #ffa500;
+            color: white;
+            border-color: #ffa500;
+        }
+
         /* Pasirinkimo variantai */
         .options {
             display: flex;
@@ -702,6 +727,7 @@
         let selectedTerm = null;
         let selectedDefinition = null;
         let matchingAnswers = {};
+        let matchCounter = 0; // Skaičiuoja kiek porų jau sujungta
 
         // Teisingi atsakymai
         const correctAnswers = {
@@ -736,9 +762,22 @@
 
         // Sutampymo užduotis - termino pasirinkimas
         function selectTerm(element, questionNum) {
+            // Jei jau sujungtas, neleisti pažymėti
+            if (element.classList.contains('matched-1') || 
+                element.classList.contains('matched-2') || 
+                element.classList.contains('matched-3') || 
+                element.classList.contains('matched-4')) {
+                return;
+            }
+            
             // Panaikinti ankstesnį pasirinkimą
             document.querySelectorAll(`[data-term]`).forEach(item => {
-                item.classList.remove('selected');
+                if (!item.classList.contains('matched-1') && 
+                    !item.classList.contains('matched-2') && 
+                    !item.classList.contains('matched-3') && 
+                    !item.classList.contains('matched-4')) {
+                    item.classList.remove('selected');
+                }
             });
             
             selectedTerm = element.getAttribute('data-term');
@@ -752,9 +791,22 @@
 
         // Sutampymo užduotis - apibrėžimo pasirinkimas
         function selectDefinition(element, questionNum) {
+            // Jei jau sujungtas, neleisti pažymėti
+            if (element.classList.contains('matched-1') || 
+                element.classList.contains('matched-2') || 
+                element.classList.contains('matched-3') || 
+                element.classList.contains('matched-4')) {
+                return;
+            }
+            
             // Panaikinti ankstesnį pasirinkimą
             document.querySelectorAll(`[data-definition]`).forEach(item => {
-                item.classList.remove('selected');
+                if (!item.classList.contains('matched-1') && 
+                    !item.classList.contains('matched-2') && 
+                    !item.classList.contains('matched-3') && 
+                    !item.classList.contains('matched-4')) {
+                    item.classList.remove('selected');
+                }
             });
             
             selectedDefinition = element.getAttribute('data-definition');
@@ -769,6 +821,19 @@
         // Sujungti atsakymą
         function matchAnswer(questionNum) {
             matchingAnswers[selectedTerm] = selectedDefinition;
+            matchCounter++; // Padidinti porų skaičių
+            
+            // Rasti abu elementus ir nuspalvinti ta pačia spalva
+            const termElement = document.querySelector(`[data-term="${selectedTerm}"]`);
+            const defElement = document.querySelector(`[data-definition="${selectedDefinition}"]`);
+            
+            const colorClass = `matched-${matchCounter}`;
+            
+            termElement.classList.remove('selected');
+            termElement.classList.add(colorClass);
+            
+            defElement.classList.remove('selected');
+            defElement.classList.add(colorClass);
             
             // Išsaugoti atsakymą
             document.getElementById(`q${questionNum}_answer`).value = JSON.stringify(matchingAnswers);
@@ -776,9 +841,6 @@
             // Atžymėti abu
             selectedTerm = null;
             selectedDefinition = null;
-            document.querySelectorAll('.matching-item').forEach(item => {
-                item.classList.remove('selected');
-            });
         }
 
         // Pasirinkimo variantas
