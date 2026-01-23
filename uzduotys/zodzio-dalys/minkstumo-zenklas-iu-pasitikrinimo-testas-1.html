@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testas: Minkštumo ženklas -iu-</title>
+    <style>
+        body {
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAEB 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #7CB3E9;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .back-btn:hover {
+            background-color: #4A90E2;
+        }
+        
+        .student-info {
+            background-color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #4A90E2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .change-name-btn {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .change-name-btn:hover {
+            background-color: #0D3B66;
+        }
+
+        .email-section {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .email-section label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        #teacherEmailInput {
+            display: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 2px solid #93c5fd;
+            min-width: 220px;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border: 3px solid #4A90E2;
+            display: none;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #0D3B66;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .header .subtitle {
+            color: #4A90E2;
+            font-size: 1.3rem;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 25px 0 15px 0;
+        }
+
+        .question {
+            background: #F8FBFD;
+            border: 2px solid #B8D4E8;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            color: #4A90E2;
+            font-weight: bold;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            color: #1A4D7A;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .sentence-box {
+            background: #E3F2FD;
+            border: 2px solid #4A90E2;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 12px 0;
+            color: #0D3B66;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .clickable-text {
+            background: #FFF9E6;
+            border: 2px solid #FFB84D;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 12px 0;
+            color: #0D3B66;
+            font-size: 1.3rem;
+            line-height: 2;
+            cursor: default;
+        }
+
+        .word-clickable {
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: inline-block;
+        }
+
+        .word-clickable:hover {
+            background-color: #FFE5B4;
+        }
+
+        .word-clickable.selected {
+            background-color: #FFB84D;
+            color: white;
+            font-weight: bold;
+        }
+
+        .selected-words-box {
+            background: #E8F4F8;
+            border: 2px solid #4A90E2;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .selected-words-box h4 {
+            margin: 0 0 10px 0;
+            color: #0D3B66;
+            font-size: 1.2rem;
+        }
+
+        .selected-word-item {
+            display: inline-block;
+            background: #FFB84D;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin: 5px;
+            font-weight: bold;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .remove-word {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .remove-word:hover {
+            color: #ff0000;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .option:hover {
+            background-color: #E8F4F8;
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            font-size: 1.2rem;
+            flex: 1;
+        }
+
+        .text-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            font-size: 1.1rem;
+            border: 2px solid #B8D4E8;
+            border-radius: 8px;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            margin-top: 10px;
+        }
+
+        .inline-input {
+            width: 60px;
+            padding: 4px 8px;
+            font-size: 1.3rem;
+            border: none;
+            border-bottom: 3px solid #4A90E2;
+            background-color: #FFF9E6;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            text-align: center;
+            font-weight: bold;
+            color: #0D3B66;
+        }
+
+        .inline-input:focus {
+            outline: none;
+            border-bottom-color: #FFB84D;
+            background-color: #ffffff;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 6px rgba(74, 144, 226, 0.3);
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4A90E2, #0D3B66);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .results-header h2 {
+            color: #0D3B66;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .score-display {
+            background: #E8F4F8;
+            border: 3px solid #4A90E2;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1A4D7A;
+            margin: 10px 0;
+        }
+
+        .score-percentage {
+            font-size: 2rem;
+            margin-top: 10px;
+        }
+
+        .encouragement {
+            font-size: 1.3rem;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .answers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        .answers-table th {
+            background: linear-gradient(135deg, #4A90E2, #0D3B66);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border: 2px solid #0D3B66;
+        }
+
+        .answers-table td {
+            padding: 10px 12px;
+            border: 1px solid #B8D4E8;
+        }
+
+        .answers-table tr:nth-child(even) {
+            background-color: #F8FBFD;
+        }
+
+        .correct-answer {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .incorrect-answer {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .user-answer-correct {
+            background-color: #d4edda !important;
+        }
+
+        .user-answer-incorrect {
+            background-color: #f8d7da !important;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .text-input {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header-container">
+            <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+            <div class="student-info">
+                <span style="font-size: 16px; color: #1A4D7A;">
+                    Mokinys: <strong id="studentNameDisplay"></strong>
+                </span>
+                <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+            </div>
+        </div>
+
+        <div class="email-section">
+            <label>
+                <input type="checkbox" id="sendToTeacherCheckbox">
+                <span>Siųsti rezultatus mokytojai</span>
+            </label>
+            <input type="email" id="teacherEmailInput" placeholder="Mokytojo el. paštas">
+        </div>
+
+        <!-- TESTO PUSLAPIS -->
+        <div id="testContainer" class="container active">
+            <div class="header">
+                <h1>📝 Testas: Minkštumo ženklas -iu-</h1>
+                <div class="subtitle">(Įvertinimas)</div>
+            </div>
+
+            <!-- DALIS 1 -->
+            <div class="section-title">DALIS 1: Pasirink teisingai parašytą žodį (5 klausimai)</div>
+
+            <div class="question">
+                <div class="question-number">1.</div>
+                <div class="question-text">Pasirink teisingai parašytą žodį:</div>
+                <div class="option">
+                    <input type="radio" id="q1a" name="q1" value="lūdnas">
+                    <label for="q1a">lūdnas</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1b" name="q1" value="liūdnas">
+                    <label for="q1b">liūdnas</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">2.</div>
+                <div class="question-text">Pasirink teisingai parašytą žodį:</div>
+                <div class="option">
+                    <input type="radio" id="q2a" name="q2" value="peliukas">
+                    <label for="q2a">peliukas</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2b" name="q2" value="pelukas">
+                    <label for="q2b">pelukas</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">3.</div>
+                <div class="question-text">Pasirink teisingai parašytą žodį:</div>
+                <div class="option">
+                    <input type="radio" id="q3a" name="q3" value="lūtas">
+                    <label for="q3a">lūtas</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3b" name="q3" value="liūtas">
+                    <label for="q3b">liūtas</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">4.</div>
+                <div class="question-text">Pasirink teisingai parašytą žodį:</div>
+                <div class="option">
+                    <input type="radio" id="q4a" name="q4" value="biuras">
+                    <label for="q4a">biuras</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4b" name="q4" value="buras">
+                    <label for="q4b">buras</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">5.</div>
+                <div class="question-text">Pasirink teisingai parašytą žodį:</div>
+                <div class="option">
+                    <input type="radio" id="q5a" name="q5" value="šnūras">
+                    <label for="q5a">šnūras</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5b" name="q5" value="šniūras">
+                    <label for="q5b">šniūras</label>
+                </div>
+            </div>
+
+            <!-- DALIS 2 -->
+            <div class="section-title">DALIS 2: Įrašyk trūkstamas raides -u- arba -iu- (5 klausimai)</div>
+
+            <div class="question">
+                <div class="question-number">6.</div>
+                <div class="question-text">Įrašyk trūkstamas raides: <strong>s<input type="text" class="inline-input" id="q6" placeholder="___" maxlength="2">nta</strong></div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">7.</div>
+                <div class="question-text">Įrašyk trūkstamas raides: <strong>autob<input type="text" class="inline-input" id="q7" placeholder="___" maxlength="2">sas</strong></div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">8.</div>
+                <div class="question-text">Įrašyk trūkstamas raides: <strong>kel<input type="text" class="inline-input" id="q8" placeholder="___" maxlength="3">kas</strong></div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">9.</div>
+                <div class="question-text">Įrašyk trūkstamas raides: <strong>s<input type="text" class="inline-input" id="q9" placeholder="___" maxlength="3">žetas</strong></div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">10.</div>
+                <div class="question-text">Įrašyk trūkstamas raides: <strong>d<input type="text" class="inline-input" id="q10" placeholder="___" maxlength="2">rys</strong></div>
+            </div>
+
+            <!-- DALIS 3 -->
+            <div class="section-title">DALIS 3: Rask klaidą sakinyje (3 klausimai)</div>
+
+            <div class="question">
+                <div class="question-number">11.</div>
+                <div class="question-text">Kuriame žodyje yra klaida?</div>
+                <div class="sentence-box">"Vaikai linksmai siūbavosi ir džūgavo parke."</div>
+                <div class="option">
+                    <input type="radio" id="q11a" name="q11" value="siūbavosi">
+                    <label for="q11a">siūbavosi</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q11b" name="q11" value="džūgavo">
+                    <label for="q11b">džūgavo</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q11c" name="q11" value="nėra klaidų">
+                    <label for="q11c">nėra klaidų</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">12.</div>
+                <div class="question-text">Kuriame žodyje yra klaida?</div>
+                <div class="sentence-box">"Mergaitė liūdnai žūrėjo pro langą."</div>
+                <div class="option">
+                    <input type="radio" id="q12a" name="q12" value="liūdnai">
+                    <label for="q12a">liūdnai</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q12b" name="q12" value="žūrėjo">
+                    <label for="q12b">žūrėjo</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q12c" name="q12" value="nėra klaidų">
+                    <label for="q12c">nėra klaidų</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">13.</div>
+                <div class="question-text">Kuriame žodyje yra klaida?</div>
+                <div class="sentence-box">"Kurjeris atvežė suntą."</div>
+                <div class="option">
+                    <input type="radio" id="q13a" name="q13" value="Kurjeris">
+                    <label for="q13a">Kurjeris</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q13b" name="q13" value="suntą">
+                    <label for="q13b">suntą</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q13c" name="q13" value="nėra klaidų">
+                    <label for="q13c">nėra klaidų</label>
+                </div>
+            </div>
+
+            <!-- DALIS 4 -->
+            <div class="section-title">DALIS 4: Rask VISAS klaidas tekste (1 klausimas = 7 taškai)</div>
+
+            <div class="question">
+                <div class="question-number">14.</div>
+                <div class="question-text">Pažymėk pelyte <strong>7 neteisingai</strong> parašytus žodžius šiame tekste:</div>
+                <div class="clickable-text" id="clickableText"></div>
+                <div class="selected-words-box">
+                    <h4>Pažymėti žodžiai (turi būti 7):</h4>
+                    <div id="selectedWordsContainer"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="submitTest()" id="submitBtn">✅ Baigti testą</button>
+            </div>
+        </div>
+
+        <!-- REZULTATŲ PUSLAPIS -->
+        <div id="resultsContainer" class="container">
+            <div class="results-header">
+                <h2>🎉 Testo rezultatai</h2>
+            </div>
+
+            <div class="score-display">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🎯</div>
+                <div class="score-number" id="scoreNumber"></div>
+                <div class="score-percentage" id="scorePercentage"></div>
+            </div>
+
+            <div id="encouragementContainer"></div>
+
+            <h3 style="color: #0D3B66; margin-top: 30px;">📊 Išsamus atsakymų sąrašas:</h3>
+            <table class="answers-table">
+                <thead>
+                    <tr>
+                        <th>Nr.</th>
+                        <th>Klausimas</th>
+                        <th>Tavo atsakymas</th>
+                        <th>Teisingas atsakymas</th>
+                        <th>Rezultatas</th>
+                    </tr>
+                </thead>
+                <tbody id="answersTableBody"></tbody>
+            </table>
+
+            <div class="controls">
+                <button class="btn" onclick="restartTest()">🔄 Pradėti testą iš naujo</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+// --- Vardų valdymas ---
+function showNamePrompt() {
+    const studentName = localStorage.getItem('studentName');
+    if (!studentName) {
+        const name = prompt('Įvesk savo vardą:');
+        if (name && name.trim() !== '') {
+            localStorage.setItem('studentName', name.trim());
+            return name.trim();
+        } else {
+            alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+            return showNamePrompt();
+        }
+    }
+    return studentName;
+}
+
+function changeName() {
+    localStorage.removeItem('studentName');
+    const newName = showNamePrompt();
+    alert(`Vardas pakeistas į: ${newName}`);
+    location.reload();
+}
+
+const studentName = showNamePrompt();
+document.getElementById('studentNameDisplay').textContent = studentName;
+
+// Email checkbox
+const sendToTeacherCheckbox = document.getElementById('sendToTeacherCheckbox');
+const teacherEmailInput = document.getElementById('teacherEmailInput');
+
+sendToTeacherCheckbox.addEventListener('change', () => {
+    if (sendToTeacherCheckbox.checked) {
+        teacherEmailInput.style.display = 'block';
+        teacherEmailInput.focus();
+    } else {
+        teacherEmailInput.style.display = 'none';
+        teacherEmailInput.value = '';
+    }
+});
+
+// --- Klausimas 14: Teksto pažymėjimas ---
+const textContent = "Lūdnas bernukas sėdėjo ant suoluko ir žūrėjo į debesis. Jis lūdėjo, nes draugas išvažiavo. Staiga atbėgo šunukas ir ėmė džugiai šokinėti aplinkui. Berniukas nusišypsojo.";
+const words = textContent.split(/\s+/);
+const selectedWords = [];
+
+const clickableTextEl = document.getElementById('clickableText');
+const selectedWordsContainer = document.getElementById('selectedWordsContainer');
+
+// Sukuriame spaudinėjamus žodžius
+words.forEach((word, index) => {
+    const span = document.createElement('span');
+    span.className = 'word-clickable';
+    span.textContent = word;
+    span.dataset.index = index;
+    span.dataset.word = word;
+    
+    span.addEventListener('click', function() {
+        toggleWordSelection(this);
+    });
+    
+    clickableTextEl.appendChild(span);
+    
+    // Pridedame tarpą tarp žodžių
+    if (index < words.length - 1) {
+        clickableTextEl.appendChild(document.createTextNode(' '));
+    }
+});
+
+function toggleWordSelection(element) {
+    const word = element.dataset.word;
+    const index = parseInt(element.dataset.index);
+    
+    if (element.classList.contains('selected')) {
+        // Pašaliname žodį
+        element.classList.remove('selected');
+        const wordIndex = selectedWords.findIndex(w => w.index === index);
+        if (wordIndex > -1) {
+            selectedWords.splice(wordIndex, 1);
+        }
+    } else {
+        // Pridedame žodį (maksimaliai 7)
+        if (selectedWords.length < 7) {
+            element.classList.add('selected');
+            selectedWords.push({ word: word, index: index });
+        } else {
+            alert('Jau pasirinkote 7 žodžius! Norėdami pažymėti kitą, pirmiau atžymėkite vieną iš jau pasirinktų.');
+        }
+    }
+    
+    updateSelectedWordsDisplay();
+}
+
+function updateSelectedWordsDisplay() {
+    selectedWordsContainer.innerHTML = '';
+    
+    if (selectedWords.length === 0) {
+        selectedWordsContainer.innerHTML = '<em style="color: #999;">Dar nepasirinkta nė vieno žodžio...</em>';
+        return;
+    }
+    
+    selectedWords.sort((a, b) => a.index - b.index).forEach(item => {
+        const wordItem = document.createElement('span');
+        wordItem.className = 'selected-word-item';
+        wordItem.innerHTML = `${item.word} <span class="remove-word" onclick="removeWord(${item.index})">✕</span>`;
+        selectedWordsContainer.appendChild(wordItem);
+    });
+}
+
+function removeWord(index) {
+    const wordIndex = selectedWords.findIndex(w => w.index === index);
+    if (wordIndex > -1) {
+        selectedWords.splice(wordIndex, 1);
+    }
+    
+    // Atžymime žodį tekste
+    const wordEl = document.querySelector(`.word-clickable[data-index="${index}"]`);
+    if (wordEl) {
+        wordEl.classList.remove('selected');
+    }
+    
+    updateSelectedWordsDisplay();
+}
+
+updateSelectedWordsDisplay();
+
+// Teisingi atsakymai
+const correctAnswers = {
+    q1: 'liūdnas',
+    q2: 'peliukas',
+    q3: 'liūtas',
+    q4: 'biuras',
+    q5: 'šniūras',
+    q6: 'iu',
+    q7: 'u',
+    q8: 'iu',
+    q9: 'iu',
+    q10: 'u',
+    q11: 'džūgavo',
+    q12: 'žūrėjo',
+    q13: 'suntą',
+    q14: ['lūdnas', 'bernukas', 'suoluko', 'žūrėjo', 'lūdėjo', 'šunukas', 'džugiai']
+};
+
+const questionDescriptions = [
+    'Pasirink: lūdnas / liūdnas',
+    'Pasirink: peliukas / pelukas',
+    'Pasirink: lūtas / liūtas',
+    'Pasirink: biuras / buras',
+    'Pasirink: šnūras / šniūras',
+    'Įrašyk: s___nta',
+    'Įrašyk: autob___sas',
+    'Įrašyk: kel___kas',
+    'Įrašyk: s___žetas',
+    'Įrašyk: d___rys',
+    'Rask klaidą: "Vaikai linksmai siūbavosi ir džūgavo parke."',
+    'Rask klaidą: "Mergaitė liūdnai žūrėjo pro langą."',
+    'Rask klaidą: "Kurjeris atvežė suntą."',
+    'Rask 7 klaidas tekste'
+];
+
+function submitTest() {
+    // Surenkame atsakymus
+    const userAnswers = {};
+    
+    // Q1-Q5, Q11-Q13 (radio buttons)
+    ['q1', 'q2', 'q3', 'q4', 'q5', 'q11', 'q12', 'q13'].forEach(q => {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        userAnswers[q] = selected ? selected.value : '';
+    });
+    
+    // Q6-Q10 (text inputs)
+    ['q6', 'q7', 'q8', 'q9', 'q10'].forEach(q => {
+        userAnswers[q] = document.getElementById(q).value.trim().toLowerCase();
+    });
+    
+    // Q14 (pažymėti žodžiai)
+    userAnswers.q14 = selectedWords.map(w => w.word);
+    
+    // Skaičiuojame balus
+    let score = 0;
+    const totalPoints = 20; // 13 klausimų po 1 tašką + 14-as klausimas 7 taškai
+    const results = [];
+    
+    // Q1-Q13 (po 1 tašką)
+    ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13'].forEach((q, index) => {
+        const isCorrect = userAnswers[q] === correctAnswers[q];
+        if (isCorrect) score++;
+        results.push({
+            question: index + 1,
+            description: questionDescriptions[index],
+            userAnswer: userAnswers[q] || '(neįrašyta)',
+            correctAnswer: correctAnswers[q],
+            isCorrect: isCorrect
+        });
+    });
+    
+    // Q14 - 7 taškai
+    const q14Correct = correctAnswers.q14;
+    let q14Score = 0;
+    
+    // Normalizuojame žodžius - pašaliname skyrybos ženklus ir konvertuojame į mažąsias
+    const normalizeWord = (word) => {
+        return word.toLowerCase().replace(/[.,!?;:]/g, '');
+    };
+    
+    const normalizedCorrect = q14Correct.map(w => normalizeWord(w));
+    const normalizedUser = userAnswers.q14.map(w => normalizeWord(w));
+    
+    // Skaičiuojame teisingus atsakymus
+    normalizedCorrect.forEach(word => {
+        if (normalizedUser.includes(word)) {
+            q14Score++;
+        }
+    });
+    
+    // Atimame už neteisingus pasirinkimus
+    normalizedUser.forEach(word => {
+        if (!normalizedCorrect.includes(word)) {
+            q14Score--;
+        }
+    });
+    
+    q14Score = Math.max(0, q14Score); // Neleisti neigiamų balų
+    score += q14Score;
+    
+    results.push({
+        question: 14,
+        description: questionDescriptions[13],
+        userAnswer: userAnswers.q14.length > 0 ? userAnswers.q14.join(', ') : '(nepasirinkta)',
+        correctAnswer: q14Correct.join(', '),
+        isCorrect: q14Score === 7,
+        partialScore: `${q14Score}/7`
+    });
+    
+    // Rodome rezultatus
+    showResults(score, totalPoints, results, userAnswers);
+}
+
+function showResults(score, totalPoints, results, userAnswers) {
+    document.getElementById('testContainer').classList.remove('active');
+    document.getElementById('resultsContainer').classList.add('active');
+    
+    const percentage = Math.round((score / totalPoints) * 100);
+    
+    document.getElementById('scoreNumber').textContent = `${score} / ${totalPoints} taškų`;
+    document.getElementById('scorePercentage').textContent = `${percentage}%`;
+    
+    // Padrąsinimas
+    let encouragementText = '';
+    let encouragementColor = '';
+    
+    if (percentage >= 90) {
+        encouragementText = '🌟 Puiku! Tu puikiai išmokai minkštumo ženklą -iu-!';
+        encouragementColor = '#27ae60';
+    } else if (percentage >= 75) {
+        encouragementText = '👍 Labai gerai! Dar truputėlis ir bus tobulai!';
+        encouragementColor = '#2ecc71';
+    } else if (percentage >= 60) {
+        encouragementText = '😊 Gerai! Pakartok taisykles ir patreniruok dar kartą!';
+        encouragementColor = '#3498db';
+    } else if (percentage >= 45) {
+        encouragementText = '💪 Patenkinamai. Reikia daugiau praktikos!';
+        encouragementColor = '#f39c12';
+    } else {
+        encouragementText = '📚 Dar reikia pasimokyti. Prisimink taisyklę: minkštumo ženklas -iu-!';
+        encouragementColor = '#e74c3c';
+    }
+    
+    document.getElementById('encouragementContainer').innerHTML = `
+        <div class="encouragement" style="background-color: ${encouragementColor}20; border: 3px solid ${encouragementColor}; color: ${encouragementColor};">
+            ${encouragementText}
+        </div>
+    `;
+    
+    // Lentelė su atsakymais
+    const tbody = document.getElementById('answersTableBody');
+    tbody.innerHTML = '';
+    
+    results.forEach(result => {
+        const tr = document.createElement('tr');
+        tr.className = result.isCorrect ? 'user-answer-correct' : 'user-answer-incorrect';
+        
+        let resultText = result.isCorrect ? '✓ Teisingai' : '✗ Neteisingai';
+        if (result.partialScore) {
+            resultText = result.partialScore;
+        }
+        
+        tr.innerHTML = `
+            <td>${result.question}</td>
+            <td>${result.description}</td>
+            <td>${result.userAnswer}</td>
+            <td class="correct-answer">${result.correctAnswer}</td>
+            <td class="${result.isCorrect ? 'correct-answer' : 'incorrect-answer'}">
+                ${resultText}
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+    
+    // Siunčiame rezultatus
+    sendResultToSheet(score, totalPoints, percentage, results, userAnswers);
+    
+    // Scroll į viršų
+    window.scrollTo(0, 0);
+}
+
+function sendResultToSheet(score, totalPoints, percentage, results, userAnswers) {
+    const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+    const timestamp = new Date().toLocaleString('lt-LT');
+    const teacherEmail = teacherEmailInput.value.trim();
+    
+    // Formuojame detalią ataskaitą
+    const detailedResults = results.map(r => {
+        let resultMark = r.isCorrect ? '✓' : '✗';
+        if (r.partialScore) {
+            resultMark = r.partialScore;
+        }
+        return `K${r.question}: ${resultMark} | Tavo: "${r.userAnswer}" | Teisingas: "${r.correctAnswer}"`;
+    }).join('\n');
+    
+    const data = {
+        name: studentName,
+        task: 'L0700 Testas: Minkštumo ženklas -iu-',
+        score: percentage,
+        timestamp: timestamp,
+        teacherEmail: teacherEmail,
+        sendToTeacher: !!teacherEmail,
+        detailedScore: `${score}/${totalPoints}`,
+        detailedResults: detailedResults
+    };
+    
+    console.log('Siunčiami rezultatai:', data);
+    
+    fetch('https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6APl7i3lOOn9YlWH/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        console.log('Rezultatas sėkmingai išsiųstas! ✅');
+    })
+    .catch(error => {
+        console.error('Klaida siunčiant rezultatą:', error);
+    });
+}
+
+function restartTest() {
+    // Išvalome visus atsakymus
+    document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+    document.querySelectorAll('.text-input').forEach(input => input.value = '');
+    
+    // Išvalome pažymėtus žodžius
+    selectedWords.length = 0;
+    document.querySelectorAll('.word-clickable').forEach(el => el.classList.remove('selected'));
+    updateSelectedWordsDisplay();
+    
+    // Grįžtame į testą
+    document.getElementById('resultsContainer').classList.remove('active');
+    document.getElementById('testContainer').classList.add('active');
+    
+    // Scroll į viršų
+    window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
