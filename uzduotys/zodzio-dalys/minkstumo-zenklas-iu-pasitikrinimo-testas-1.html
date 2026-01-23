@@ -279,23 +279,41 @@
             margin-top: 10px;
         }
 
-        .inline-input {
-            width: 60px;
-            padding: 4px 8px;
-            font-size: 1.3rem;
-            border: none;
-            border-bottom: 3px solid #4A90E2;
-            background-color: #FFF9E6;
+        .inline-select {
             font-family: 'OpenDyslexic', Arial, sans-serif;
-            text-align: center;
-            font-weight: bold;
+            font-size: 1.4rem;
+            padding: 2px 6px;
+            border: none;
+            border-bottom: 2px solid #B8D4E8;
+            border-radius: 0;
+            background-color: transparent;
             color: #0D3B66;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0;
+            vertical-align: baseline;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
 
-        .inline-input:focus {
+        .inline-select:focus {
             outline: none;
-            border-bottom-color: #FFB84D;
-            background-color: #ffffff;
+            border-bottom-color: #4A90E2;
+            background-color: rgba(248, 251, 253, 0.5);
+        }
+
+        .inline-select.correct {
+            border-bottom-color: #27ae60;
+            background-color: rgba(212, 237, 218, 0.3);
+            color: #155724;
+        }
+
+        .inline-select.incorrect {
+            border-bottom-color: #e74c3c;
+            background-color: rgba(248, 215, 218, 0.3);
+            color: #721c24;
         }
 
         .text-input:focus {
@@ -530,31 +548,31 @@
             </div>
 
             <!-- DALIS 2 -->
-            <div class="section-title">DALIS 2: Įrašyk trūkstamas raides -u- arba -iu- (5 klausimai)</div>
+            <div class="section-title">DALIS 2: Pasirink trūkstamas raides -u- arba -iu- (5 klausimai)</div>
 
             <div class="question">
                 <div class="question-number">6.</div>
-                <div class="question-text">Įrašyk trūkstamas raides: <strong>s<input type="text" class="inline-input" id="q6" placeholder="___" maxlength="2">nta</strong></div>
+                <div class="question-text">Pasirink tinkamas raides: <strong>s<select class="inline-select" id="q6"><option value=""></option><option value="iu">iu</option><option value="u">u</option></select>nta</strong></div>
             </div>
 
             <div class="question">
                 <div class="question-number">7.</div>
-                <div class="question-text">Įrašyk trūkstamas raides: <strong>autob<input type="text" class="inline-input" id="q7" placeholder="___" maxlength="2">sas</strong></div>
+                <div class="question-text">Pasirink tinkamas raides: <strong>autob<select class="inline-select" id="q7"><option value=""></option><option value="u">u</option><option value="iu">iu</option></select>sas</strong></div>
             </div>
 
             <div class="question">
                 <div class="question-number">8.</div>
-                <div class="question-text">Įrašyk trūkstamas raides: <strong>kel<input type="text" class="inline-input" id="q8" placeholder="___" maxlength="3">kas</strong></div>
+                <div class="question-text">Pasirink tinkamas raides: <strong>kel<select class="inline-select" id="q8"><option value=""></option><option value="iu">iu</option><option value="u">u</option></select>kas</strong></div>
             </div>
 
             <div class="question">
                 <div class="question-number">9.</div>
-                <div class="question-text">Įrašyk trūkstamas raides: <strong>s<input type="text" class="inline-input" id="q9" placeholder="___" maxlength="3">žetas</strong></div>
+                <div class="question-text">Pasirink tinkamas raides: <strong>s<select class="inline-select" id="q9"><option value=""></option><option value="iu">iu</option><option value="u">u</option></select>žetas</strong></div>
             </div>
 
             <div class="question">
                 <div class="question-number">10.</div>
-                <div class="question-text">Įrašyk trūkstamas raides: <strong>d<input type="text" class="inline-input" id="q10" placeholder="___" maxlength="2">rys</strong></div>
+                <div class="question-text">Pasirink tinkamas raides: <strong>d<select class="inline-select" id="q10"><option value=""></option><option value="u">u</option><option value="iu">iu</option></select>rys</strong></div>
             </div>
 
             <!-- DALIS 3 -->
@@ -837,9 +855,10 @@ function submitTest() {
         userAnswers[q] = selected ? selected.value : '';
     });
     
-    // Q6-Q10 (text inputs)
+    // Q6-Q10 (inline select dropdowns)
     ['q6', 'q7', 'q8', 'q9', 'q10'].forEach(q => {
-        userAnswers[q] = document.getElementById(q).value.trim().toLowerCase();
+        const select = document.getElementById(q);
+        userAnswers[q] = select.value;
     });
     
     // Q14 (pažymėti žodžiai)
@@ -854,6 +873,19 @@ function submitTest() {
     ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13'].forEach((q, index) => {
         const isCorrect = userAnswers[q] === correctAnswers[q];
         if (isCorrect) score++;
+        
+        // Pridedame vizualų feedback Q6-Q10 select'ams
+        if (q >= 'q6' && q <= 'q10') {
+            const select = document.getElementById(q);
+            if (isCorrect) {
+                select.classList.add('correct');
+                select.classList.remove('incorrect');
+            } else {
+                select.classList.add('incorrect');
+                select.classList.remove('correct');
+            }
+        }
+        
         results.push({
             question: index + 1,
             description: questionDescriptions[index],
@@ -989,7 +1021,7 @@ function sendResultToSheet(score, totalPoints, percentage, results, userAnswers)
     
     const data = {
         name: studentName,
-        task: 'L0550 Testas: Minkštumo ženklas -iu-',
+        task: 'L0700 Testas: Minkštumo ženklas -iu-',
         score: percentage,
         timestamp: timestamp,
         teacherEmail: teacherEmail,
@@ -1019,7 +1051,13 @@ function sendResultToSheet(score, totalPoints, percentage, results, userAnswers)
 function restartTest() {
     // Išvalome visus atsakymus
     document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
-    document.querySelectorAll('.text-input').forEach(input => input.value = '');
+    
+    // Išvalome select'us Q6-Q10
+    ['q6', 'q7', 'q8', 'q9', 'q10'].forEach(id => {
+        const select = document.getElementById(id);
+        select.value = '';
+        select.classList.remove('correct', 'incorrect');
+    });
     
     // Išvalome pažymėtus žodžius
     selectedWords.length = 0;
