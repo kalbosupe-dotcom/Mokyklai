@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geografija 7kl - Geografinės zonos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* DI-friendly stilius */
+        @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAEB 100%);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+        }
+        
+        .header-container {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .back-btn {
+            background: white;
+            color: #4CAF50;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #f0f0f0;
+            transform: translateX(-5px);
+        }
+        
+        .student-info {
+            color: white;
+            font-size: 18px;
+        }
+        
+        .student-info button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid white;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .student-info button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .navigation button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .navigation button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .navigation button:active {
+            transform: translateY(0);
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #2E7D32;
+            font-size: 32px;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #388E3C;
+            font-size: 26px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            color: #43A047;
+            font-size: 22px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        strong {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        
+        .blokas {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 6px solid #2196F3;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .mnemotechnika {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 5px solid #FFA726;
+            font-style: italic;
+        }
+        
+        .klausimas {
+            background: #F5F5F5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #9C27B0;
+        }
+        
+        .klausimas h4 {
+            color: #7B1FA2;
+            margin-bottom: 10px;
+        }
+        
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            letter-spacing: 0.03em;
+        }
+        
+        .answer-input:focus {
+            outline: none;
+            border-color: #9C27B0;
+        }
+        
+        .test-question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 2px solid #E0E0E0;
+        }
+        
+        .test-question label {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #F5F5F5;
+        }
+        
+        .test-question label:hover {
+            background: #E8F5E9;
+        }
+        
+        .test-question input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.3);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            border-left: 6px solid #4CAF50;
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        .flashcard {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s;
+            transform-style: preserve-3d;
+        }
+        
+        .flashcard:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .flashcard.flipped .card-front {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard.flipped .card-back {
+            transform: rotateY(0);
+        }
+        
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .card-back {
+            transform: rotateY(-180deg);
+            position: absolute;
+        }
+        
+        .flashcard-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+        
+        .svarbu {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 6px solid #F44336;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            h1 { font-size: 24px; }
+            h2 { font-size: 20px; }
+            body { font-size: 16px; }
+            .navigation { flex-direction: column; }
+            .header-container { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header-container">
+        <a href="/Mokyklai/" class="back-btn">← Grįžti į pradžią</a>
+        <div class="student-info">
+            Mokinys: <strong id="studentNameDisplay">...</strong>
+            <button onclick="changeName()">Keisti vardą</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- NAVIGACIJA -->
+        <div class="navigation">
+            <button onclick="showSection('santrauka')">📚 Santrauka</button>
+            <button onclick="showSection('klausimai')">❓ Klausimai</button>
+            <button onclick="showSection('testas')">✍️ Testas</button>
+            <button onclick="showSection('flashcards')">🗂️ Flash kortelės</button>
+        </div>
+
+        <!-- SEKCIJA 1: SANTRAUKA -->
+        <div id="santrauka" class="section active">
+            <h1>🌍 GEOGRAFINĖS ZONOS</h1>
+            
+            <div class="blokas">
+                <h3>BLOKAS 1: Kas yra geografinė zona?</h3>
+                <p><strong>Geografinė zona</strong> (gamtinė zona) – tai teritorija su savita augalija ir gyvūnija.</p>
+                <p>Zoną lemia <strong>klimatas</strong> (šiluma ir drėgmė).</p>
+                <p>Pagrindinį vaidmenį vaidina <strong>augalai</strong> – todėl zonos vadinamos augalų pavadinimais.</p>
+                <div class="mnemotechnika">
+                    💡 <strong>Įsivaizduok:</strong> Žemė kaip tortas su sluoksniais – kiekvienas sluoksnis turi savo augalus ir gyvūnus!
+                </div>
+                <p><strong>Pagrindinė mintis:</strong> Geografinė zona = vieta su tam tikrais augalais, gyvūnais ir klimatu.</p>
+            </div>
+
+            <div class="blokas">
+                <h3>BLOKAS 2: Kas yra vegetacija?</h3>
+                <p><strong>Vegetacija</strong> – tai augalo augimas.</p>
+                <p><strong>Vegetacinis laikotarpis</strong> – laikas nuo sėklų pasėjimo iki augalo subrendimo.</p>
+                <p>⭐ <strong>Pavyzdžiai:</strong></p>
+                <ul style="margin-left: 30px;">
+                    <li>Bulvės auga 70-120 dienų</li>
+                    <li>Apelsinai – 100-130 dienų</li>
+                    <li>Arbūzas – 180-360 dienų</li>
+                </ul>
+                <div class="mnemotechnika">
+                    💡 <strong>Įsivaizduok:</strong> Vegetacija = augalo "gyvenimo kalendorius" nuo gimimo iki subrendimo.
+                </div>
+            </div>
+
+            <div class="blokas">
+                <h3>BLOKAS 3: Kaip zonos keičiasi Žemėje?</h3>
+                <p>Zonos keičiasi <strong>dėsningai:</strong></p>
+                <ul style="margin-left: 30px;">
+                    <li>Nuo pusiaujo link ašigalių (vis šalčiau)</li>
+                    <li>Nuo vandenynų link žemynų gilumos (vis sausiau)</li>
+                </ul>
+                <p>Ties pusiąju vegetacija trunka <strong>visus metus</strong>.</p>
+                <p>Link ašigalių vegetacijos laikas <strong>trumpėja</strong>.</p>
+                <div class="mnemotechnika">
+                    💡 <strong>Įsivaizduok:</strong> Kaip kopėčios – kuo aukščiau (link ašigalių), tuo šalčiau ir trumpesnis augimo laikas.
+                </div>
+            </div>
+
+            <div class="blokas">
+                <h3>BLOKAS 4: Geografinių zonų komponentai</h3>
+                <p>Kiekviena zona turi:</p>
+                <ol style="margin-left: 30px;">
+                    <li><strong>Klimato tipą</strong> (šiluma, krituliai)</li>
+                    <li><strong>Reljefą</strong> (kalnai, lyguma)</li>
+                    <li><strong>Vandens telkinius</strong> (upės, ežerai)</li>
+                    <li><strong>Dirvožemį</strong></li>
+                    <li><strong>Augaliją ir gyvūniją</strong> ⭐ (svarbiausias!)</li>
+                </ol>
+                <div class="mnemotechnika">
+                    💡 <strong>Įsivaizduok:</strong> Zona kaip receptas – reikia 5 ingredientų, kad gautųsi skanus gamtos "patiekalas"!
+                </div>
+            </div>
+
+            <div class="blokas">
+                <h3>BLOKAS 5: Žmogaus įtaka zonoms</h3>
+                <p>Žmonės <strong>keičia</strong> gamtines zonas:</p>
+                <ul style="margin-left: 30px;">
+                    <li>Dirba laukus</li>
+                    <li>Tiesia kelius</li>
+                    <li>Stato miestus</li>
+                    <li>Kerta miškas</li>
+                </ul>
+                <p><strong>Daugiausia pakitusi zona:</strong> Stepė</p>
+                <p><strong>Mažiausiai pakitusios zonos:</strong> Dykuma ir tundra</p>
+                <div class="mnemotechnika">
+                    💡 <strong>Įsivaizduok:</strong> Žmogus kaip dizaineris – pertvarko gamtos "kambarį" pagal savo poreikius.
+                </div>
+            </div>
+
+            <div class="blokas">
+                <h3>BLOKAS 6: Vertikalusis zoniškumas</h3>
+                <p><strong>Vertikalusis zoniškumas</strong> – gamtos sąlygų kaita kalnuose kylant aukštyn.</p>
+                <p>Kalnuose zonos keičiasi <strong>aukštyn:</strong></p>
+                <ol style="margin-left: 30px;">
+                    <li>Priekalnės (žemdirbystė, vynuogynai)</li>
+                    <li>Lapuočių miškai</li>
+                    <li>Mišrieji miškai</li>
+                    <li>Spygliuočių miškai</li>
+                    <li>Alpinės pievos</li>
+                    <li>Sniego ir ledo zona (virš 3-4 km)</li>
+                </ol>
+                <div class="mnemotechnika">
+                    💡 <strong>Įsivaizduok:</strong> Keliauti kalnu aukštyn = keliauti nuo pietų iki šiaurės, bet per vieną dieną!
+                </div>
+            </div>
+
+            <div class="svarbu">
+                <h3>⭐ EUROPOS 5 PAGRINDINĖS ZONOS:</h3>
+                <ol style="margin-left: 30px; font-size: 20px;">
+                    <li><strong>TUNDRA</strong> – kerpės, samanos, šiauriniai elniai</li>
+                    <li><strong>TAIGA</strong> – eglės, pušys, lokiai, briedžiai</li>
+                    <li><strong>MIŠRIEJI IR PLAČIALAPIŲ MIŠKAI</strong> – ąžuolai, stirnos, voverės</li>
+                    <li><strong>STEPĖ</strong> – žolės, šokliai, ereliai</li>
+                    <li><strong>KIETALAPIŲ MIŠKAI</strong> – alyviniai ąžuolai, ropliai</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- SEKCIJA 2: KLAUSIMAI -->
+        <div id="klausimai" class="section">
+            <h1>❓ Teksto suvokimo klausimai</h1>
+            <p style="background: #E3F2FD; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <strong>Instrukcija:</strong> Atsakyk į klausimus savo žodžiais. Rašyk atsakymus į laukelius. Galima naudotis santrauka!
+            </p>
+
+            <div class="klausimas">
+                <h4>1. Kas yra geografinė zona?</h4>
+                <p style="color: #666; font-size: 14px;">Atsakymo pavyzdys gali būti 1-2 sakiniai</p>
+                <textarea class="answer-input" rows="3" placeholder="Rašyk čia savo atsakymą..."></textarea>
+            </div>
+
+            <div class="klausimas">
+                <h4>2. Kas yra vegetacinis laikotarpis?</h4>
+                <p style="color: #666; font-size: 14px;">Ieškoti BLOKE 2</p>
+                <textarea class="answer-input" rows="3" placeholder="Rašyk čia savo atsakymą..."></textarea>
+            </div>
+
+            <div class="klausimas">
+                <h4>3. Kaip zonos keičiasi keliaujant nuo pusiaujo link ašigalių?</h4>
+                <p style="color: #666; font-size: 14px;">Ieškoti BLOKE 3</p>
+                <textarea class="answer-input" rows="3" placeholder="Rašyk čia savo atsakymą..."></textarea>
+            </div>
+
+            <div class="klausiman">
+                <h4>4. Kokie yra 5 pagrindiniai geografinės zonos komponentai?</h4>
+                <p style="color: #666; font-size: 14px;">Ieškoti BLOKE 4</p>
+                <textarea class="answer-input" rows="4" placeholder="Rašyk čia savo atsakymą..."></textarea>
+            </div>
+
+            <div class="klausimas">
+                <h4>5. Kodėl tundra ir dykuma yra mažiausiai pakeistos žmogaus?</h4>
+                <p style="color: #666; font-size: 14px;">Ieškoti BLOKE 5</p>
+                <textarea class="answer-input" rows="3" placeholder="Rašyk čia savo atsakymą..."></textarea>
+            </div>
+
+            <div class="klausimas">
+                <h4>6. Kas yra vertikalusis zoniškumas?</h4>
+                <p style="color: #666; font-size: 14px;">Ieškoti BLOKE 6</p>
+                <textarea class="answer-input" rows="3" placeholder="Rašyk čia savo atsakymą..."></textarea>
+            </div>
+
+            <div class="klausimas">
+                <h4>7. Išvardyk Europos 5 pagrindines geografines zonas nuo šiaurės į pietus.</h4>
+                <p style="color: #666; font-size: 14px;">Pasižiūrėk į raudoną lentelę santraukoje</p>
+                <textarea class="answer-input" rows="4" placeholder="Rašyk čia savo atsakymą..."></textarea>
+            </div>
+
+            <div style="background: #FFF9C4; padding: 20px; border-radius: 10px; margin-top: 30px;">
+                <p style="text-align: center; font-size: 18px;">
+                    ✅ Kai užbaigsi, galėsi pasitikrinti atsakymus su mokytoju arba<br>
+                    peržiūrėti santrauką dar kartą!
+                </p>
+            </div>
+        </div>
+
+        <!-- SEKCIJA 3: TESTAS -->
+        <div id="testas" class="section">
+            <h1>✍️ Žinių testas</h1>
+            <p style="background: #E3F2FD; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <strong>Instrukcija:</strong> Pažymėk VIENĄ teisingą atsakymą kiekvienam klausimui. Pabaigoje paspausk "Patikrinti atsakymus".
+            </p>
+
+            <form id="testForm">
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">1. Kas yra geografinė zona?</p>
+                    <label><input type="radio" name="q1" value="a"> Tik augalų rūšys tam tikroje teritorijoje</label>
+                    <label><input type="radio" name="q1" value="b"> Teritorija su savita augalija ir gyvūnija, kurią lemia klimatas</label>
+                    <label><input type="radio" name="q1" value="c"> Tik klimato tipas</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">2. Kiek dienų trunka bulvių vegetacinis laikotarpis?</p>
+                    <label><input type="radio" name="q2" value="a"> 70-120 dienų</label>
+                    <label><input type="radio" name="q2" value="b"> 180-360 dienų</label>
+                    <label><input type="radio" name="q2" value="c"> 30-50 dienų</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">3. Kaip keičiasi geografinės zonos nuo pusiaujo link ašigalių?</p>
+                    <label><input type="radio" name="q3" value="a"> Visai nesikeičia</label>
+                    <label><input type="radio" name="q3" value="b"> Keičiasi dėsningai – vegetacijos laikas trumpėja</label>
+                    <label><input type="radio" name="q3" value="c"> Keičiasi atsitiktinai</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">4. Koks yra svarbiausias geografinės zonos komponentas?</p>
+                    <label><input type="radio" name="q4" value="a"> Reljefas</label>
+                    <label><input type="radio" name="q4" value="b"> Vandens telkiniai</label>
+                    <label><input type="radio" name="q4" value="c"> Augalija ir gyvūnija</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">5. Kas yra vertikalusis zoniškumas?</p>
+                    <label><input type="radio" name="q5" value="a"> Zonų kaita kalnuose kylant aukštyn</label>
+                    <label><input type="radio" name="q5" value="b"> Zonų kaita nuo pusiaujo iki ašigalių</label>
+                    <label><input type="radio" name="q5" value="c"> Zonų kaita nuo rytų iki vakarų</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">6. Kiek pagrindinių geografinių zonų yra Europoje?</p>
+                    <label><input type="radio" name="q6" value="a"> 3 zonos</label>
+                    <label><input type="radio" name="q6" value="b"> 5 zonos</label>
+                    <label><input type="radio" name="q6" value="c"> 7 zonos</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">7. Kokioje zonoje auga kerpės ir samanos?</p>
+                    <label><input type="radio" name="q7" value="a"> Taigoje</label>
+                    <label><input type="radio" name="q7" value="b"> Tundroje</label>
+                    <label><input type="radio" name="q7" value="c"> Stepėje</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">8. Kokioje zonoje gyvena lokiai ir briedžiai?</p>
+                    <label><input type="radio" name="q8" value="a"> Tundroje</label>
+                    <label><input type="radio" name="q8" value="b"> Taigoje</label>
+                    <label><input type="radio" name="q8" value="c"> Stepėje</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">9. Kokia zona yra daugiausia pakeista žmogaus?</p>
+                    <label><input type="radio" name="q9" value="a"> Tundra</label>
+                    <label><input type="radio" name="q9" value="b"> Stepė</label>
+                    <label><input type="radio" name="q9" value="c"> Dykuma</label>
+                </div>
+
+                <div class="test-question">
+                    <p style="font-weight: bold; font-size: 18px; margin-bottom: 15px;">10. Kur Europoje yra kietalapių miškai?</p>
+                    <label><input type="radio" name="q10" value="a"> Šiaurėje (Norvegija, Švedija)</label>
+                    <label><input type="radio" name="q10" value="b"> Viduryje (Vokietija, Lenkija)</label>
+                    <label><input type="radio" name="q10" value="c"> Pietuose (Ispanija, Italija, Graikija)</label>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="button" class="btn" onclick="checkTest()">Patikrinti atsakymus</button>
+                </div>
+            </form>
+
+            <div id="testResult" style="display: none;"></div>
+        </div>
+
+        <!-- SEKCIJA 4: FLASH KORTELĖS -->
+        <div id="flashcards" class="section">
+            <h1>🗂️ Atminties kortelės</h1>
+            <p style="background: #E3F2FD; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <strong>Instrukcija:</strong> Spustelėk ant kortelės, kad pamatytum atsakymą. Naudok mygtukus žemiau, kad keistum korteles.
+            </p>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <span style="font-size: 20px; font-weight: bold;">Kortelė <span id="cardNumber">1</span> iš 15</span>
+            </div>
+
+            <div id="flashcardContainer" class="flashcard" onclick="flipCard()">
+                <div class="card-front">
+                    <p style="font-size: 24px; font-weight: bold;" id="cardQuestion">Kas yra geografinė zona?</p>
+                    <p style="margin-top: 20px; color: #666;">Spustelėk, kad pamatytum atsakymą</p>
+                </div>
+                <div class="card-back">
+                    <p style="font-size: 20px;" id="cardAnswer">Teritorija su savita augalija ir gyvūnija, kurią lemia klimatas</p>
+                    <p style="margin-top: 15px; color: #FFA726; font-style: italic;" id="cardHint">💡 Kaip tortas su sluoksniais!</p>
+                </div>
+            </div>
+
+            <div class="flashcard-controls">
+                <button class="btn" onclick="previousCard()" style="background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);">← Ankstesnė</button>
+                <button class="btn" onclick="nextCard()">Kita →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // VARDŲ VALDYMAS
+        window.onload = function() {
+            showNamePrompt();
+        };
+
+        function showNamePrompt() {
+            let name = localStorage.getItem('studentName');
+            if (!name) {
+                name = prompt('Įvesk savo vardą:');
+                if (name) {
+                    localStorage.setItem('studentName', name);
+                }
+            }
+            document.getElementById('studentNameDisplay').textContent = name || 'Mokinys';
+        }
+
+        function changeName() {
+            const name = prompt('Įvesk naują vardą:');
+            if (name) {
+                localStorage.setItem('studentName', name);
+                document.getElementById('studentNameDisplay').textContent = name;
+            }
+        }
+
+        // NAVIGACIJA
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // TESTO TIKRINIMAS
+        function checkTest() {
+            const answers = {
+                q1: 'b', q2: 'a', q3: 'b', q4: 'c', q5: 'a',
+                q6: 'b', q7: 'b', q8: 'b', q9: 'b', q10: 'c'
+            };
+            
+            let score = 0;
+            let totalQuestions = 10;
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            let message = '';
+            let emoji = '';
+            
+            if (score >= 9) {
+                message = 'PUIKIAI! Tu puikiai išmokai temą!';
+                emoji = '🌟🌟🌟';
+            } else if (score >= 7) {
+                message = 'GERAI! Tu gerai supranti temą!';
+                emoji = '✓✓';
+            } else if (score >= 5) {
+                message = 'NEBLOGAI! Dar pasikartok temą.';
+                emoji = '📚';
+            } else {
+                message = 'Reikia pakartoti temą. Skaityk santrauką dar kartą!';
+                emoji = '💪';
+            }
+            
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.innerHTML = `
+                <div class="result-box">
+                    <p style="font-size: 48px; margin: 20px 0;">${emoji}</p>
+                    <p style="font-size: 28px; font-weight: bold; margin: 15px 0;">${score} iš ${totalQuestions} teisingų</p>
+                    <p style="font-size: 24px; margin: 15px 0;">${percentage}%</p>
+                    <p style="font-size: 22px; margin: 20px 0;">${message}</p>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+            
+            // Siųsti rezultatus į Google Sheets
+            sendResultToSheet(score, totalQuestions, percentage);
+            
+            // Scroll į rezultatus
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // GOOGLE SHEETS INTEGRACIJA
+        function sendResultToSheet(score, totalPoints, percentage) {
+            const SHEET_URL = 'https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6APl7i3lOOn9YlWH/exec';
+            const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+            const timestamp = new Date().toLocaleString('lt-LT');
+            
+            fetch(SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: studentName,
+                    task: 'Geografija 7kl - Geografinės zonos',
+                    score: percentage,
+                    details: `${score}/${totalPoints} teisingų`,
+                    timestamp: timestamp
+                })
+            }).catch(err => console.log('Rezultatai išsiųsti'));
+        }
+
+        // FLASH KORTELĖS
+        let currentCard = 0;
+        let isFlipped = false;
+        
+        const flashcards = [
+            {
+                question: "Kas yra geografinė zona?",
+                answer: "Teritorija su savita augalija ir gyvūnija, kurią lemia klimatas",
+                hint: "💡 Kaip tortas su sluoksniais!"
+            },
+            {
+                question: "Kas yra vegetacija?",
+                answer: "Augalo augimas, priklausantis nuo šilumos kiekio",
+                hint: "💡 Augalo gyvenimo procesas"
+            },
+            {
+                question: "Kas yra vegetacinis laikotarpis?",
+                answer: "Laikas nuo sėklų pasėjimo iki augalo subrendimo",
+                hint: "💡 Augalo 'gyvenimo kalendorius'"
+            },
+            {
+                question: "Kiek dienų auga bulvės?",
+                answer: "70-120 dienų",
+                hint: "💡 Apie 3-4 mėnesius"
+            },
+            {
+                question: "Kaip zonos keičiasi nuo pusiaujo?",
+                answer: "Keičiasi dėsningai link ašigalių – vegetacijos laikas trumpėja",
+                hint: "💡 Kaip kopėčios – kuo aukščiau, tuo šalčiau"
+            },
+            {
+                question: "Kas yra vertikalusis zoniškumas?",
+                answer: "Gamtos sąlygų kaita kalnuose kylant aukštyn",
+                hint: "💡 Keliauti kalnu = keliauti nuo pietų iki šiaurės"
+            },
+            {
+                question: "Kiek yra pagrindinių Europos zonų?",
+                answer: "5 zonos: tundra, taiga, miškai, stepė, kietalapiai miškai",
+                hint: "💡 Nuo šalčiausios iki šilčiausios"
+            },
+            {
+                question: "Kokia zona yra šiauriausia Europoje?",
+                answer: "Tundra su kerpėmis ir samanomis",
+                hint: "💡 Šaldytuvas su samana!"
+            },
+            {
+                question: "Kas gyvena tundroje?",
+                answer: "Šiauriniai elniai, baltieji kiškiai, baltosios pelėdos",
+                hint: "💡 Gyvūnai prisitaikę prie šalčio"
+            },
+            {
+                question: "Kokioje zonoje auga eglės ir pušys?",
+                answer: "Taigoje (spygliuočių miškuose)",
+                hint: "💡 Žalias spygliuočių kilimas"
+            },
+            {
+                question: "Kas gyvena taigoje?",
+                answer: "Lokiai, briedžiai, vilkai, lūšys",
+                hint: "💡 Dideli miškų gyvūnai"
+            },
+            {
+                question: "Kokioje zonoje gyvename mes, Lietuvoje?",
+                answer: "Mišrių ir plačialapių miškų zonoje",
+                hint: "💡 Ąžuolai, pušys, stirnos, voverės"
+            },
+            {
+                question: "Kas auga stepėje?",
+                answer: "Įvairios žolės, beveik nėra medžių",
+                hint: "💡 Begalinis žolės kilimas"
+            },
+            {
+                question: "Kur yra kietalapių miškai?",
+                answer: "Pietų Europoje – Ispanija, Italija, Graikija",
+                hint: "💡 Atostogų zona su alyvmedžiais!"
+            },
+            {
+                question: "Kokia zona daugiausia pakeista žmogaus?",
+                answer: "Stepė – dirba laukus, stato miestus",
+                hint: "💡 Žmogus kaip dizaineris pertvarko gamtą"
+            }
+        ];
+
+        function updateCard() {
+            const card = flashcards[currentCard];
+            document.getElementById('cardQuestion').textContent = card.question;
+            document.getElementById('cardAnswer').textContent = card.answer;
+            document.getElementById('cardHint').textContent = card.hint;
+            document.getElementById('cardNumber').textContent = currentCard + 1;
+            
+            if (isFlipped) {
+                flipCard();
+            }
+        }
+
+        function flipCard() {
+            const card = document.getElementById('flashcardContainer');
+            card.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            if (currentCard < flashcards.length - 1) {
+                currentCard++;
+                updateCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentCard > 0) {
+                currentCard--;
+                updateCard();
+            }
+        }
+    </script>
+</body>
+</html>
