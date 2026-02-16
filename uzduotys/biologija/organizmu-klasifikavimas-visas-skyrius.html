@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biologijos Kontrolinis - Mokymosi Kortelės</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 200px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .card.flipped .front {
+            display: none;
+        }
+        
+        .card.flipped .back {
+            display: block;
+        }
+        
+        .card .back {
+            display: none;
+        }
+        
+        .card-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .card-content ul {
+            margin-left: 20px;
+        }
+        
+        .card-content li {
+            margin: 8px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .tip-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .warning-box {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .emoji {
+            font-size: 1.5em;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .virus-diagram {
+            background: white;
+            border: 3px solid #dc3545;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .virus-part {
+            display: inline-block;
+            margin: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧬 Organizmų Klasifikavimas ir Virusai</h1>
+        
+        <div class="highlight-box">
+            <strong>⚡ PATARIMAS:</strong> Spausk ant kortelių, kad jas apverstum! Taip išmoksi svarbiausias sąvokas.
+        </div>
+        
+        <!-- Trys domenai -->
+        <div class="section">
+            <div class="section-title">🌍 <strong>3</strong> DOMENAI</div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🦠</div>
+                        <div class="card-title">BAKTERIJOS</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum daugiau!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">BAKTERIJOS</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>✅ Vienaląsčiai</li>
+                                <li>❌ Neturi branduolio</li>
+                                <li>🔵 Žiedinė chromosoma</li>
+                                <li>🏃 Gali judėti (žiuželiai)</li>
+                                <li>⚡ Dauginasi greitai</li>
+                            </ul>
+                            <strong>Pvz:</strong> jogurto bakterijos, puvimo bakterijos
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🌋</div>
+                        <div class="card-title">ARCHĖJOS</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum daugiau!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ARCHĖJOS</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>✅ Vienaląsčiai</li>
+                                <li>❌ Neturi branduolio</li>
+                                <li>🔵 Žiedinė chromosoma</li>
+                                <li>🔥 Išgyvena 90°C!</li>
+                                <li>🌊 Sūriame vandenyje</li>
+                            </ul>
+                            <strong>Pvz:</strong> karštos versmės, Negyvojoji jūra
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🧬</div>
+                        <div class="card-title">EUKARIJAI</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum daugiau!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">EUKARIJAI</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>✅ TURI branduolį!</li>
+                                <li>✅ TURI organeles!</li>
+                                <li>🧬 Chromosomose DNR</li>
+                                <li>👥 Viena/daugialąsčiai</li>
+                                <li>🏗️ Turi organus</li>
+                            </ul>
+                            <strong>Pvz:</strong> amebos, grybai, augalai, gyvūnai
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Eukarijų karalystės -->
+        <div class="section">
+            <div class="section-title">👑 <strong>4</strong> EUKARIJŲ KARALYSTĖS</div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🦠</div>
+                        <div class="card-title">PROTISTAI</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum daugiau!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">PROTISTŲ KARALYSTĖ</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>Viena/paprasti daugialąsčiai</li>
+                                <li>❌ Neturi audinių</li>
+                                <li>❌ Neturi organų</li>
+                                <li>Judrūs / nejudrūs</li>
+                            </ul>
+                            <strong>Pvz:</strong> ameba, dumbliai
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🍄</div>
+                        <div class="card-title">GRYBAI</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum daugiau!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">GRYBŲ KARALYSTĖ</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>Viena/paprasti daugialąsčiai</li>
+                                <li>❌ Neturi audinių</li>
+                                <li>❌ Neturi organų</li>
+                                <li>🛑 NEJUDRŪS</li>
+                                <li>Minta aplinkos medžiagomis</li>
+                            </ul>
+                            <strong>Pvz:</strong> mielės, baravykai
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🌱</div>
+                        <div class="card-title">AUGALAI</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum daugiau!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">AUGALŲ KARALYSTĖ</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>✅ Daugialąsčiai</li>
+                                <li>✅ Turi audinius</li>
+                                <li>✅ Turi organus</li>
+                                <li>🛑 NEJUDRŪS</li>
+                                <li>☀️ FOTOSINTEZĖ</li>
+                            </ul>
+                            <strong>Pvz:</strong> medžiai, gėlės, žolės
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🦁</div>
+                        <div class="card-title">GYVŪNAI</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum daugiau!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">GYVŪNŲ KARALYSTĖ</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>✅ Daugialąsčiai</li>
+                                <li>✅ Turi audinius</li>
+                                <li>✅ Turi organus</li>
+                                <li>✅ Turi organų sistemas</li>
+                                <li>🏃 JUDRŪS</li>
+                            </ul>
+                            <strong>Pvz:</strong> žmonės, šunys, žuvys
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Taksonominiai rangai -->
+        <div class="section">
+            <div class="section-title">📈 TAKSONOMINIAI RANGAI</div>
+            
+            <div class="tip-box">
+                <strong>💡 ATMINK:</strong> Kuo aukštesnis rangas, tuo DAUGIAU organizmų jis apima!
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 20px 0;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">🌱 AUGALAI (nuo mažiausio):</h3>
+                <div style="font-size: 1.3em; text-align: center; line-height: 2;">
+                    <strong style="color: #28a745;">RŪŠIS</strong> → 
+                    GENTIS → 
+                    ŠEIMA → 
+                    <strong>EILĖ</strong> → 
+                    KLASĖ → 
+                    <strong>SKYRIUS</strong> → 
+                    KARALYSTĖ → 
+                    <strong style="color: #dc3545;">DOMENAS</strong>
+                </div>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 20px 0;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">🦁 GYVŪNAI (nuo mažiausio):</h3>
+                <div style="font-size: 1.3em; text-align: center; line-height: 2;">
+                    <strong style="color: #28a745;">RŪŠIS</strong> → 
+                    GENTIS → 
+                    ŠEIMA → 
+                    <strong>BŪRYS</strong> → 
+                    KLASĖ → 
+                    <strong>TIPAS</strong> → 
+                    KARALYSTĖ → 
+                    <strong style="color: #dc3545;">DOMENAS</strong>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bakterijų rūšys -->
+        <div class="section">
+            <div class="section-title">🦠 BAKTERIJŲ SVARBA</div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🍂</div>
+                        <div class="card-title">PUVIMO BAKTERIJOS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>KĄ DARO:</strong>
+                            <ul>
+                                <li>Skaido nuokritas</li>
+                                <li>Valo nuotekas</li>
+                                <li>Perdirbą kompostą</li>
+                                <li>⚠️ Gadina maistą</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🥛</div>
+                        <div class="card-title">RŪGIMO BAKTERIJOS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>GAMINA:</strong>
+                            <ul>
+                                <li>Jogurtą</li>
+                                <li>Varškę, sūrį</li>
+                                <li>Kefyrą</li>
+                                <li>Raugintus agurkus</li>
+                                <li>Raugintus kopūstus</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">💚</div>
+                        <div class="card-title">MELSVABAKTERĖS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>LABAI SVARBIOS:</strong>
+                            <ul>
+                                <li>☀️ Vykdo fotosintezę</li>
+                                <li>💨 Gamina DEGUONĮ!</li>
+                                <li>🌍 Pirmieji deguonį pagaminusieji</li>
+                                <li>🔵 Melsvai žalios spalvos</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🌿</div>
+                        <div class="card-title">AZOTĄ FIKSUOJANČIOS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>KĄ DARO:</strong>
+                            <ul>
+                                <li>Gyvena augalų šaknyse</li>
+                                <li>Paverčia oro azotą</li>
+                                <li>Padeda augalams augti</li>
+                                <li>⚠️ Negyvena drėgnoje dirvoje</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🦠</div>
+                        <div class="card-title">GEROSIOS ŽARNYNO</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>PADEDA:</strong>
+                            <ul>
+                                <li>Gyvena storojoje žarnoje</li>
+                                <li>Gamina vitaminus</li>
+                                <li>Saugo nuo ligų</li>
+                                <li>Skaidyti celiuliozę</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🦠</div>
+                        <div class="card-title">PARAZITINĖS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>⚠️ SUKELIA LIGAS:</strong>
+                            <ul>
+                                <li>Tuberkuliozę</li>
+                                <li>Anginą</li>
+                                <li>Salmoneliozę</li>
+                                <li>Meningitą</li>
+                                <li>💊 Gydoma antibiotikais</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VIRUSAI - perkelta čia -->
+        <div class="section">
+            <div class="section-title">🦠 VIRUSAI - NELĄSTELINĖ GYVYBĖS FORMA</div>
+            
+            <div class="warning-box">
+                <strong>⚠️ SVARBU:</strong> Virusai NĖRA gyvieji organizmai! Jie yra gyvybės forma, kuri gali daugintis TIK gyvų organizmų ląstelėse.
+            </div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🦠</div>
+                        <div class="card-title">KAS YRA VIRUSAS?</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk, kad sužinotum!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">VIRUSO SANDARA</div>
+                        <div class="card-content">
+                            <ul>
+                                <li>📦 <strong>Apvalkalas</strong> - saugo virusą</li>
+                                <li>🧬 <strong>Paveldimoji informacija</strong> viduje</li>
+                                <li>⚡ 10-300 nm dydžio</li>
+                                <li>❌ NETURI ląstelės</li>
+                                <li>❌ NETURI organelių</li>
+                                <li>❌ Patys NESIDAUGINA</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🚫</div>
+                        <div class="card-title">KODĖL NE GYVŪNAS?</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">VIRUSAI NEGYVIEJI</div>
+                        <div class="card-content">
+                            <strong>Virusai NETURI:</strong>
+                            <ul>
+                                <li>❌ Kvėpavimo</li>
+                                <li>❌ Mitybos</li>
+                                <li>❌ Reakcijos į dirgiklius</li>
+                                <li>❌ Savarankiško judėjimo</li>
+                                <li>❌ Savarankiško dauginimosi</li>
+                            </ul>
+                            <strong style="color: #dc3545;">Todėl - NELĄSTELINĖ GYVYBĖS FORMA!</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🔄</div>
+                        <div class="card-title">KAIP DAUGINASI?</div>
+                        <div class="card-content" style="text-align: center; color: #999;">Spausk!</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">DAUGINIMASIS LĄSTELĖJE</div>
+                        <div class="card-content">
+                            <strong>Žingsniai:</strong>
+                            <ol style="margin-left: 20px;">
+                                <li>Patenka į gyvą ląstelę</li>
+                                <li>Naudoja ląstelės medžiagas</li>
+                                <li>Naudoja ląstelės energiją</li>
+                                <li>Kopijuoja savo informaciją</li>
+                                <li>Gamina naujus apvalkalus</li>
+                                <li>Išeina nauji virusai</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Virusų įtaka organizmams -->
+        <div class="section">
+            <div class="section-title">⚠️ VIRUSŲ SUKELIAMOS LIGOS</div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🌾</div>
+                        <div class="card-title">AUGALŲ LIGOS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>PAVYZDŽIAI:</strong>
+                            <ul>
+                                <li>🌾 50+ rūšių kviečių virusų</li>
+                                <li>🥔 Bulvių ligos (-15-20% derliaus)</li>
+                                <li>🌷 Tulpių margligė (balti dryžiai)</li>
+                            </ul>
+                            <strong style="color: #dc3545;">⚠️ Sunku atskirti nuo maisto medžiagų trūkumo!</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🐕</div>
+                        <div class="card-title">GYVŪNŲ LIGOS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>PAVYZDŽIAI:</strong>
+                            <ul>
+                                <li>🦠 Pasiutligė (nervų sistemos)</li>
+                                <li>🐄 Galvijų ligos</li>
+                                <li>🐔 Paukščių gripas</li>
+                            </ul>
+                            <strong>Kiekvienas virusas dauginasi tik tam tikro audinio ląstelėse!</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🤒</div>
+                        <div class="card-title">ŽMOGAUS LIGOS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>DAŽNOS:</strong>
+                            <ul>
+                                <li>🤧 Gripas, peršalimas</li>
+                                <li>😷 COVID-19 (koronavirusas)</li>
+                                <li>🩸 ŽIV / AIDS (kraujo ląstelės)</li>
+                                <li>🤢 Tymų, vėjaraupių virusai</li>
+                                <li>💉 Poliomielitas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Kaip plinta virusai -->
+        <div class="section">
+            <div class="section-title">🌊 KAIP PLINTA VIRUSAI?</div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">💨</div>
+                        <div class="card-title">ORO LAŠELINIU BŪDU</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>KAIP VYKSTA:</strong>
+                            <ul>
+                                <li>🤧 Kosulys, čiaudulys</li>
+                                <li>💬 Kalbėjimas</li>
+                                <li>⏰ Ore išlieka nuo kelių min. iki keliasdešimt val.</li>
+                                <li>🌬️ Gali nuskristi labai toli</li>
+                            </ul>
+                            <strong>Pvz:</strong> gripas, COVID-19
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">💧</div>
+                        <div class="card-title">PER SKYSČIUS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>PER:</strong>
+                            <ul>
+                                <li>🩸 Kraują</li>
+                                <li>💧 Seiles</li>
+                                <li>💉 Švirkštus</li>
+                                <li>🤱 Motiną → kūdikį</li>
+                            </ul>
+                            <strong>Pvz:</strong> ŽIV, hepatitas
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🐛</div>
+                        <div class="card-title">PER VABZDŽIUS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>PERNEŠĖJAI:</strong>
+                            <ul>
+                                <li>🦟 Uodai</li>
+                                <li>🕷️ Erkės</li>
+                                <li>🪰 Musės</li>
+                            </ul>
+                            <strong>Pvz:</strong> Erkinis encefalitas
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Kaip apsisaugoti -->
+        <div class="section">
+            <div class="section-title">🛡️ KAIP APSISAUGOTI NUO VIRUSŲ?</div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">💉</div>
+                        <div class="card-title">SKIEPAI</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>APSAUGO NUO:</strong>
+                            <ul>
+                                <li>🤒 Gripo</li>
+                                <li>😷 COVID-19</li>
+                                <li>🦟 Erkinio encefalito</li>
+                                <li>🐕 Pasiutligės</li>
+                                <li>🤢 Tymų, vėjaraupių</li>
+                                <li>💉 Poliomielito</li>
+                            </ul>
+                            <strong style="color: #28a745;">✅ Padeda išvengti ar palengvina ligą!</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">💪</div>
+                        <div class="card-title">STIPRINTI ORGANIZMĄ</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>KAIP:</strong>
+                            <ul>
+                                <li>🥗 Sveikai maitintis</li>
+                                <li>🌳 Daug laiko gryname ore</li>
+                                <li>🏃 Fizinė veikla</li>
+                                <li>😴 Pakankamai miegoti</li>
+                                <li>🚭 Vengti žalingų įpročių</li>
+                                <li>🧼 Higiena</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">😷</div>
+                        <div class="card-title">HIGIENOS PRIEMONĖS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>KAS PADEDA:</strong>
+                            <ul>
+                                <li>😷 Kaukės (oro lašeliniams)</li>
+                                <li>🧼 Rankų plovimas</li>
+                                <li>🏠 Vėdinimas</li>
+                                <li>↔️ Atstumas nuo sergančių</li>
+                                <li>🧹 Paviršių valymas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Naudingi virusai -->
+        <div class="section">
+            <div class="section-title">✅ AR VIRUSAI GALI BŪTI NAUDINGI?</div>
+            
+            <div class="tip-box">
+                <strong>💡 TAIP!</strong> Ne visi virusai blogi. Kai kurie virusai gali būti ir naudingi.
+            </div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🦠</div>
+                        <div class="card-title">NAIKINA BAKTERIJAS</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>BAKTERIOFAGAI:</strong>
+                            <ul>
+                                <li>Naikina pavojingas bakterijas</li>
+                                <li>Reguliuoja bakterijų kiekį gamtoje</li>
+                                <li>🔬 Gali būti naudojami medicinoje</li>
+                                <li>Ateityje - bakterijų ligų gydymas?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-icon">🔄</div>
+                        <div class="card-title">VIRUSAI KINTA</div>
+                    </div>
+                    <div class="back">
+                        <div class="card-content">
+                            <strong>KODĖL KINTA:</strong>
+                            <ul>
+                                <li>Prisitaiko prie aplinkos</li>
+                                <li>Keičia paveldimąją informaciją</li>
+                                <li>⚠️ Gali tapti pavojingesni</li>
+                                <li>⚠️ Gali plisti greičiau</li>
+                            </ul>
+                            <strong>Pvz:</strong> Koronavirusas - nuo gyvūnų → žmonėms (2019 m.)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Palyginimų lentelė su virusais -->
+        <div class="section">
+            <div class="section-title">📊 PAGRINDINIAI SKIRTUMAI (su virusais)</div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>POŽYMIS</th>
+                        <th>VIRUSAI</th>
+                        <th>BAKTERIJOS</th>
+                        <th>ARCHĖJOS</th>
+                        <th>EUKARIJAI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ląstelė</strong></td>
+                        <td style="background: #f8d7da;">❌ NĖRA ląstelės</td>
+                        <td>✅ Vienaląsčiai</td>
+                        <td>✅ Vienaląsčiai</td>
+                        <td>✅ Viena/daug</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Branduolys</strong></td>
+                        <td style="background: #f8d7da;">❌ NĖRA</td>
+                        <td>❌ NĖRA</td>
+                        <td>❌ NĖRA</td>
+                        <td>✅ YRA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dauginimasis</strong></td>
+                        <td style="background: #f8d7da;">❌ TIK gyvoje ląstelėje</td>
+                        <td>✅ Savarankiškai</td>
+                        <td>✅ Savarankiškai</td>
+                        <td>✅ Savarankiškai</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dydis</strong></td>
+                        <td style="background: #f8d7da;">10-300 nm (mažiausi)</td>
+                        <td>1-10 μm</td>
+                        <td>1-10 μm</td>
+                        <td>10-100 μm</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gyvenimo sąlygos</strong></td>
+                        <td style="background: #f8d7da;">TIK gyvose ląstelėse</td>
+                        <td>Įvairios</td>
+                        <td>🔥 Ekstremalios</td>
+                        <td>Įvairios</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gyvybės požymiai</strong></td>
+                        <td style="background: #f8d7da;">❌ Neturi</td>
+                        <td>✅ Turi visus</td>
+                        <td>✅ Turi visus</td>
+                        <td>✅ Turi visus</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pavyzdžiai</strong></td>
+                        <td style="background: #f8d7da;">Gripas, COVID-19</td>
+                        <td>Jogurto bakterijos</td>
+                        <td>Karštos versmės</td>
+                        <td>Augalai, gyvūnai</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Testiniai klausimai (papildyta virusais) -->
+        <div class="section">
+            <div class="section-title">🧠 PASITIKRINK (su virusais)</div>
+            
+            <div class="card-container">
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 1</div>
+                        <div class="card-content">
+                            Kokie trys domenai egzistuoja?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            1. Bakterijų domenas<br>
+                            2. Archėjų domenas<br>
+                            3. Eukarijų domenas<br><br>
+                            <em>⚠️ Virusai NĖRA domenas - jie neląstelinė gyvybės forma!</em>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 2</div>
+                        <div class="card-content">
+                            Kas yra žemiausias taksonominis rangas?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            <strong>RŪŠIS</strong> - žemiausias taksonominis rangas
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 3</div>
+                        <div class="card-content">
+                            Kuo skiriasi bakterijos nuo eukarijų?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            Bakterijos:<br>
+                            ❌ NETURI branduolio<br>
+                            ❌ NETURI organelių<br><br>
+                            Eukarijai:<br>
+                            ✅ TURI branduolį<br>
+                            ✅ TURI organeles
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 4</div>
+                        <div class="card-content">
+                            Kodėl bakterijos taip greitai plinta?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            Bakterijos dauginasi dalydamosi pusiau kas 10-20 minučių! Palankiomis sąlygomis viena bakterija per dieną gali palikti milijonus palikuonių.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 5</div>
+                        <div class="card-content">
+                            Kokios 4 karalystės sudaro eukarijų domeną?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            1. Protistų karalystė 🦠<br>
+                            2. Grybų karalystė 🍄<br>
+                            3. Augalų karalystė 🌱<br>
+                            4. Gyvūnų karalystė 🦁
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 6</div>
+                        <div class="card-content">
+                            Kodėl svarbios melsvabakterės?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            Jos vykdo fotosintezę ir gamina DEGUONĮ 💨, be kurio mes negalėtume gyventi! Jos buvo pirmieji organizmai Žemėje, pradėję gaminti deguonį.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 7</div>
+                        <div class="card-content">
+                            Kodėl virusai nelaikomi gyvaisiais organizmais?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            Virusai NETURI:<br>
+                            ❌ Ląstelės<br>
+                            ❌ Kvėpavimo<br>
+                            ❌ Mitybos<br>
+                            ❌ Reakcijos į dirgiklius<br>
+                            ❌ Savarankiško dauginimosi<br><br>
+                            Todėl - <strong>neląstelinė gyvybės forma!</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 8</div>
+                        <div class="card-content">
+                            Kaip virusai dauginasi?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            Virusai dauginasi TIK gyvoje ląstelėje:<br>
+                            1️⃣ Patenka į ląstelę<br>
+                            2️⃣ Naudoja ląstelės medžiagas ir energiją<br>
+                            3️⃣ Kopijuoja savo paveldimąją informaciją<br>
+                            4️⃣ Gamina naujus apvalkalus<br>
+                            5️⃣ Išeina nauji virusai
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 9</div>
+                        <div class="card-content">
+                            Kaip apsisaugoti nuo virusų?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            💉 <strong>Skiepai</strong> (gripas, COVID-19, erkinis encefalitas)<br>
+                            💪 <strong>Stiprinti organizmą</strong> (mityba, sportas, miegas)<br>
+                            🧼 <strong>Higiena</strong> (rankų plovimas, kaukės, vėdinimas)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 10</div>
+                        <div class="card-content">
+                            Ar virusai gali būti naudingi?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            <strong>TAIP!</strong><br>
+                            ✅ Bakteriofagai naikina pavojingas bakterijas<br>
+                            ✅ Reguliuoja bakterijų kiekį gamtoje<br>
+                            ✅ Ateityje - gal gydys bakterijų ligas?
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 11</div>
+                        <div class="card-content">
+                            Kokias ligas sukelia virusai žmonėms?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            <strong>DAŽNIAUSIOS:</strong><br>
+                            🤧 Gripas, peršalimas<br>
+                            😷 COVID-19 (koronavirusas)<br>
+                            🩸 ŽIV / AIDS<br>
+                            🤢 Tymai, vėjaraupiai<br>
+                            💉 Poliomielitas<br>
+                            🐕 Pasiutligė
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="this.classList.toggle('flipped')">
+                    <div class="front">
+                        <div class="card-title">KLAUSIMAS 12</div>
+                        <div class="card-content">
+                            Kaip virusai plinta tarp žmonių?
+                        </div>
+                    </div>
+                    <div class="back">
+                        <div class="card-title">ATSAKYMAS</div>
+                        <div class="card-content">
+                            <strong>3 PAGRINDINIAI BŪDAI:</strong><br>
+                            💨 <strong>Oro lašeliniu būdu</strong> - kosulys, čiaudulys (gripas, COVID-19)<br>
+                            💧 <strong>Per skysčius</strong> - kraują, seiles, švirkštus (ŽIV, hepatitas)<br>
+                            🐛 <strong>Per vabzdžius</strong> - erkės, uodai (erkinis encefalitas)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button onclick="flipAll()">🔄 Apversti visas korteles</button>
+            <button onclick="resetAll()">↺ Atstatyti visas korteles</button>
+        </div>
+        
+        <div class="highlight-box" style="margin-top: 30px;">
+            <h3 style="color: #856404; margin-bottom: 10px;">🎯 PASKUTINIAI PATARIMAI:</h3>
+            <ul style="font-size: 1.1em;">
+                <li>Pakartok korteles kelis kartus</li>
+                <li>Pabandyk paaiškinti kitiems savo žodžiais</li>
+                <li>Peržiūrėk minčių žemėlapį</li>
+                <li>Užsirašyk svarbiausias sąvokas</li>
+                <li>Pasitikrink save testiniais klausimais</li>
+                <li><strong>⚠️ Ypač atkreipk dėmesį į virusų skirtumus nuo bakterijų ir eukarijų!</strong></li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function flipAll() {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.add('flipped');
+            });
+        }
+        
+        function resetAll() {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('flipped');
+            });
+        }
+    </script>
+</body>
+</html>
