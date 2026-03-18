@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz | Discovery and Invention</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        :root {
+            --bg:        #EEF4FB;
+            --surface:   #FFFFFF;
+            --border:    #C3D9F5;
+            --accent:    #2563EB;
+            --accent-lt: #DBEAFE;
+            --green:     #16A34A;
+            --green-lt:  #DCFCE7;
+            --red:       #DC2626;
+            --red-lt:    #FEE2E2;
+            --text:      #1E293B;
+            --muted:     #64748B;
+            --radius:    14px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'OpenDyslexic', 'Nunito', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            letter-spacing: 0.04em;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        /* ── HEADER ── */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 11px 22px;
+            background: #93c5fd;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 700;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .back-btn:hover { background: #7CB3E9; }
+
+        .student-info {
+            background: var(--surface);
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-grow: 1;
+            flex-wrap: wrap;
+        }
+
+        .student-info span { font-size: 17px; color: #1A4D7A; }
+
+        .change-name-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+        .change-name-btn:hover { background: #1D4ED8; }
+
+        /* ── TEACHER EMAIL ── */
+        .teacher-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            font-size: 15px;
+        }
+        .teacher-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .teacher-row input[type="email"] {
+            display: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #93c5fd;
+            min-width: 220px;
+            font-family: inherit;
+            font-size: 15px;
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            border: 3px solid var(--accent);
+            box-shadow: 0 8px 28px rgba(37,99,235,0.10);
+            padding: 28px 24px;
+            display: none;
+        }
+        .card.active { display: block; }
+
+        /* ── TOPIC BADGE ── */
+        .topic-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #34D399, #059669);
+            color: #fff;
+            font-size: 0.88rem;
+            font-weight: 800;
+            padding: 3px 16px;
+            border-radius: 20px;
+            letter-spacing: 0.07em;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 1.55rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        /* ── PROGRESS ── */
+        .progress-label {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+        .progress-bar-wrapper {
+            background: #DBEAFE;
+            border-radius: 10px;
+            height: 13px;
+            margin-bottom: 22px;
+            overflow: hidden;
+            border: 1px solid #93c5fd;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #34D399, #2563EB);
+            border-radius: 10px;
+            transition: width 0.45s ease;
+        }
+
+        /* ── QUESTION BOX ── */
+        .question-box {
+            background: #F0F7FF;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            margin-bottom: 22px;
+        }
+
+        .question-label {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0D3B66;
+            line-height: 1.6;
+        }
+
+        /* ── CHOICES ── */
+        .choices-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2.5px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            font-family: inherit;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text);
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.18s, background 0.18s, transform 0.12s;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .choice-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            background: var(--accent-lt);
+            transform: translateY(-2px);
+        }
+
+        .choice-btn .choice-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-lt);
+            color: var(--accent);
+            font-weight: 900;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            transition: background 0.18s, color 0.18s;
+        }
+
+        .choice-btn.correct {
+            border-color: var(--green);
+            background: var(--green-lt);
+            color: var(--green);
+        }
+        .choice-btn.correct .choice-letter {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .choice-btn.wrong {
+            border-color: var(--red);
+            background: var(--red-lt);
+            color: var(--red);
+        }
+        .choice-btn.wrong .choice-letter {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .choice-btn:disabled { cursor: not-allowed; transform: none; }
+
+        /* ── EXPLANATION BOX ── */
+        .explanation-box {
+            display: none;
+            background: #FFFBEB;
+            border: 2px solid #FCD34D;
+            border-radius: var(--radius);
+            padding: 14px 18px;
+            font-size: 1rem;
+            color: #92400E;
+            margin-top: 14px;
+            line-height: 1.7;
+        }
+        .explanation-box.visible { display: block; }
+        .explanation-box strong { color: #78350F; }
+
+        /* ── NEXT BTN ── */
+        .next-btn {
+            display: none;
+            margin: 18px auto 0;
+            padding: 12px 34px;
+            background: linear-gradient(135deg, #FBBF24, #F59E0B);
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #1F2937;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .next-btn.visible {
+            display: block;
+        }
+        .next-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+        /* ── RESULTS ── */
+        .results-title {
+            text-align: center;
+            color: #0D3B66;
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 20px;
+            background: #E8F4F8;
+            border-radius: 12px;
+            border: 3px solid #4ECDC4;
+            margin-bottom: 20px;
+        }
+        .score-display .score-num {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1A4D7A;
+        }
+        .score-pct {
+            font-size: 2.6rem;
+            font-weight: 900;
+            margin-top: 6px;
+        }
+        .score-emoji { font-size: 1.9rem; margin-top: 6px; }
+
+        .answers-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.97rem;
+            margin-bottom: 14px;
+        }
+        .answers-table th, .answers-table td {
+            border: 1px solid #BFDBFE;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        .answers-table th {
+            background: #DBEAFE;
+            color: #1D4ED8;
+            font-weight: 800;
+        }
+        .answers-table td.ok  { background: var(--green-lt); color: #166534; font-weight: 700; }
+        .answers-table td.bad { background: var(--red-lt);   color: #B91C1C; font-weight: 700; }
+
+        .send-status {
+            text-align: center;
+            font-size: 0.93rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+            min-height: 1.4em;
+        }
+
+        .restart-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #60A5FA, #2563EB);
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .restart-btn:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <div class="header-container">
+        <a href="https://kalbosupe-dotcom.github.io/Mokyklai/uzduotys/anglu/" class="back-btn">← Grįžti į pradžią</a>
+        <div class="student-info">
+            <span>Mokinys: <strong id="studentNameDisplay"></strong></span>
+            <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+        </div>
+    </div>
+
+    <!-- TEACHER EMAIL -->
+    <div class="teacher-row">
+        <label>
+            <input type="checkbox" id="sendToTeacherCheckbox">
+            <span>Siųsti rezultatus mokytojai (-ui)</span>
+        </label>
+        <input type="email" id="teacherEmailInput" placeholder="Mokytojo el. paštas">
+    </div>
+
+    <!-- QUIZ CARD -->
+    <div id="card-quiz" class="card active">
+        <div style="text-align:center">
+            <span class="topic-badge">🔬 Discovery &amp; Invention</span>
+        </div>
+        <h2 class="card-title">Vocabulary Quiz</h2>
+
+        <div class="progress-label" id="progressLabel">Question 1 of 9</div>
+        <div class="progress-bar-wrapper">
+            <div class="progress-bar-fill" id="progressBar" style="width:11%"></div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-label">❓ Choose the correct word</div>
+            <div class="question-text" id="questionText"></div>
+        </div>
+
+        <div class="choices-grid" id="choicesGrid"></div>
+
+        <div class="explanation-box" id="explanationBox"></div>
+
+        <button class="next-btn" id="nextBtn">Next ⏭</button>
+    </div>
+
+    <!-- RESULTS CARD -->
+    <div id="card-results" class="card">
+        <h2 class="results-title">🎉 Quiz Results</h2>
+        <div class="score-display">
+            <div class="score-num" id="scoreNum"></div>
+            <div class="score-pct" id="scorePct"></div>
+            <div class="score-emoji" id="scoreEmoji"></div>
+        </div>
+
+        <table class="answers-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Word</th>
+                    <th>Your answer</th>
+                    <th>✔ / ✘</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTbody"></tbody>
+        </table>
+
+        <div class="send-status" id="sendStatus"></div>
+        <button class="restart-btn" onclick="restartQuiz()">🔄 Pradėti iš naujo</button>
+    </div>
+
+</div><!-- /.page-wrapper -->
+
+<script>
+// ══════════════════════════════════════════════════════
+//  QUESTIONS DATA
+// ══════════════════════════════════════════════════════
+const allQuestions = [
+    {
+        word: 'discover',
+        question: 'Which word means to find or learn about something that already exists but was not known before?',
+        explanation: '🔍 <strong>discover</strong> = to find something for the first time. E.g. Scientists <em>discovered</em> a new planet.'
+    },
+    {
+        word: 'invent',
+        question: 'Which word means to create something completely new that has never existed before?',
+        explanation: '💡 <strong>invent</strong> = to make something new. E.g. Edison <em>invented</em> the light bulb.'
+    },
+    {
+        word: 'create',
+        question: 'Which word means to make or produce something new, using imagination or skill?',
+        explanation: '🎨 <strong>create</strong> = to make something using skill or imagination. E.g. She <em>created</em> a beautiful painting.'
+    },
+    {
+        word: 'imagine',
+        question: 'Which word means to form a picture or idea in your mind of something that does not yet exist?',
+        explanation: '💭 <strong>imagine</strong> = to think of something in your mind. E.g. Can you <em>imagine</em> a world without smartphones?'
+    },
+    {
+        word: 'design',
+        question: 'Which word means to plan and draw something before making it?',
+        explanation: '📐 <strong>design</strong> = to plan and make a drawing of something. E.g. An architect <em>designed</em> the new bridge.'
+    },
+    {
+        word: 'adapt',
+        question: 'Which word means to change something so that it works better in a new situation?',
+        explanation: '🔧 <strong>adapt</strong> = to change to fit a new purpose or situation. E.g. Animals <em>adapt</em> to survive in cold weather.'
+    },
+    {
+        word: 'explore',
+        question: 'Which word means to travel through or investigate a place or idea carefully to learn more about it?',
+        explanation: '🗺 <strong>explore</strong> = to travel and investigate new places or ideas. E.g. Astronauts <em>explore</em> space.'
+    },
+    {
+        word: 'test',
+        question: 'Which word means to try something out to check if it works or to find out information?',
+        explanation: '🧪 <strong>test</strong> = to check something by trying it. E.g. Engineers <em>test</em> a bridge before opening it.'
+    },
+    {
+        word: 'experiment',
+        question: 'Which word means to do a scientific procedure to find out or prove something?',
+        explanation: '⚗️ <strong>experiment</strong> = to do a scientific test to discover something. E.g. They <em>experimented</em> with different materials.'
+    }
+];
+
+const ALL_WORDS = allQuestions.map(q => q.word);
+
+// ══════════════════════════════════════════════════════
+//  NAME HANDLING
+// ══════════════════════════════════════════════════════
+function showNamePrompt() {
+    let name = localStorage.getItem('studentName');
+    if (!name || !name.trim()) {
+        name = prompt('Įvesk savo vardą:');
+        if (name && name.trim()) {
+            localStorage.setItem('studentName', name.trim());
+            return name.trim();
+        } else {
+            alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+            return showNamePrompt();
+        }
+    }
+    return name;
+}
+
+function changeName() {
+    localStorage.removeItem('studentName');
+    const n = showNamePrompt();
+    alert('Vardas pakeistas į: ' + n);
+    location.reload();
+}
+
+// ══════════════════════════════════════════════════════
+//  TEACHER EMAIL
+// ══════════════════════════════════════════════════════
+const sendCheckbox     = document.getElementById('sendToTeacherCheckbox');
+const teacherEmailInput = document.getElementById('teacherEmailInput');
+
+sendCheckbox.addEventListener('change', () => {
+    teacherEmailInput.style.display = sendCheckbox.checked ? 'block' : 'none';
+    if (sendCheckbox.checked) teacherEmailInput.focus();
+    else teacherEmailInput.value = '';
+});
+
+// ══════════════════════════════════════════════════════
+//  GOOGLE SHEETS
+// ══════════════════════════════════════════════════════
+function sendResultToSheet(percentage) {
+    const name  = localStorage.getItem('studentName') || 'Nežinomas';
+    const email = teacherEmailInput.value.trim();
+    const data  = {
+        name,
+        task:          'EN Vocabulary Quiz: Discovery and Invention',
+        score:         percentage,
+        timestamp:     new Date().toLocaleString('lt-LT'),
+        teacherEmail:  email,
+        sendToTeacher: !!email
+    };
+
+    document.getElementById('sendStatus').textContent = '⏳ Siunčiama...';
+
+    fetch('https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6APl7i3lOOn9YlWH/exec', {
+        method: 'POST',
+        mode:   'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body:   JSON.stringify(data)
+    })
+    .then(() => { document.getElementById('sendStatus').textContent = '✅ Rezultatai išsiųsti!'; })
+    .catch(() => { document.getElementById('sendStatus').textContent = '⚠️ Nepavyko išsiųsti rezultatų.'; });
+}
+
+// ══════════════════════════════════════════════════════
+//  QUIZ STATE
+// ══════════════════════════════════════════════════════
+let questions   = [];
+let currentIdx  = 0;
+let score       = 0;
+const userAnswers = [];   // { word, chosen, correct }
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function getDistractors(correctWord) {
+    const pool = ALL_WORDS.filter(w => w !== correctWord);
+    return shuffle(pool).slice(0, 2);
+}
+
+function buildQuestions() {
+    return shuffle(allQuestions).map(q => {
+        const distractors = getDistractors(q.word);
+        const choices = shuffle([q.word, ...distractors]);
+        return { ...q, choices };
+    });
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════════
+const LETTERS = ['A', 'B', 'C'];
+
+function renderQuestion() {
+    const total = questions.length;
+    const num   = currentIdx + 1;
+    const pct   = Math.round((num / total) * 100);
+
+    document.getElementById('progressLabel').textContent = `Question ${num} of ${total}`;
+    document.getElementById('progressBar').style.width   = pct + '%';
+    document.getElementById('questionText').textContent  = questions[currentIdx].question;
+
+    const grid = document.getElementById('choicesGrid');
+    grid.innerHTML = '';
+    questions[currentIdx].choices.forEach((word, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = `<span class="choice-letter">${LETTERS[i]}</span>${word}`;
+        btn.addEventListener('click', () => handleAnswer(word, btn));
+        grid.appendChild(btn);
+    });
+
+    document.getElementById('explanationBox').className = 'explanation-box';
+    document.getElementById('explanationBox').innerHTML = '';
+    document.getElementById('nextBtn').className = 'next-btn';
+}
+
+function handleAnswer(chosen, clickedBtn) {
+    const q       = questions[currentIdx];
+    const correct = chosen === q.word;
+    if (correct) score++;
+
+    userAnswers.push({ word: q.word, chosen, correct });
+
+    // Colour all buttons
+    document.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.disabled = true;
+        const btnWord = btn.textContent.replace(/^[ABC]/, '').trim();
+        if (btnWord === q.word) {
+            btn.classList.add('correct');
+        } else if (btn === clickedBtn && !correct) {
+            btn.classList.add('wrong');
+        }
+    });
+
+    // Explanation
+    const expBox = document.getElementById('explanationBox');
+    expBox.innerHTML = q.explanation;
+    expBox.className = 'explanation-box visible';
+
+    // Next button
+    const nextBtn = document.getElementById('nextBtn');
+    nextBtn.className = 'next-btn visible';
+    if (currentIdx + 1 >= questions.length) {
+        nextBtn.textContent = '📊 See Results';
+    } else {
+        nextBtn.textContent = 'Next ⏭';
+    }
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+    currentIdx++;
+    if (currentIdx < questions.length) {
+        renderQuestion();
+    } else {
+        showResults();
+    }
+});
+
+// ══════════════════════════════════════════════════════
+//  RESULTS
+// ══════════════════════════════════════════════════════
+function showResults() {
+    document.getElementById('card-quiz').classList.remove('active');
+    document.getElementById('card-results').classList.add('active');
+
+    const total = questions.length;
+    const pct   = Math.round((score / total) * 100);
+
+    document.getElementById('scoreNum').textContent   = `Correct answers: ${score} of ${total}`;
+    const scorePctEl = document.getElementById('scorePct');
+    scorePctEl.textContent = pct + '%';
+    scorePctEl.style.color = pct >= 70 ? 'var(--green)' : 'var(--red)';
+
+    const emoji = document.getElementById('scoreEmoji');
+    if      (pct === 100) emoji.textContent = '🏆 Excellent!';
+    else if (pct >= 80)   emoji.textContent = '🌟 Very good!';
+    else if (pct >= 70)   emoji.textContent = '👍 Good!';
+    else if (pct >= 50)   emoji.textContent = '💪 Keep trying!';
+    else                   emoji.textContent = '📚 Study more!';
+
+    const tbody = document.getElementById('resultsTbody');
+    tbody.innerHTML = '';
+    userAnswers.forEach((a, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${i + 1}</td>
+            <td><strong>${a.word}</strong></td>
+            <td>${a.chosen}</td>
+            <td class="${a.correct ? 'ok' : 'bad'}">${a.correct ? '✔' : '✘ ' + a.word}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    sendResultToSheet(pct);
+}
+
+// ══════════════════════════════════════════════════════
+//  RESTART
+// ══════════════════════════════════════════════════════
+function restartQuiz() {
+    currentIdx = 0;
+    score = 0;
+    userAnswers.length = 0;
+    document.getElementById('sendStatus').textContent = '';
+    document.getElementById('card-results').classList.remove('active');
+    document.getElementById('card-quiz').classList.add('active');
+    questions = buildQuestions();
+    renderQuestion();
+}
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+const studentName = showNamePrompt();
+document.getElementById('studentNameDisplay').textContent = studentName;
+
+questions = buildQuestions();
+renderQuestion();
+</script>
+</body>
+</html>
