@@ -874,7 +874,23 @@
         searchInput.addEventListener('input', filterTasks); // NAUJAS klausytojas paieškai
         resetButton.addEventListener('click', resetFilters);
 
+        // URL parametrų nuskaitymas (leidžia atsidaryti su iš anksto pritaikytais filtrais,
+        // pvz. index.html?dalykas=fizika&klase=8 arba index.html?klase=8)
+        function applyUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const dalykasParam = params.get('dalykas');
+            const klaseParam = params.get('klase');
+
+            if (dalykasParam && [...dalykasSelect.options].some(o => o.value === dalykasParam)) {
+                dalykasSelect.value = dalykasParam;
+            }
+            if (klaseParam && [...klaseSelect.options].some(o => o.value === klaseParam)) {
+                klaseSelect.value = klaseParam;
+            }
+        }
+
         // Pradinis paleidimas
+        applyUrlParams();
         filterTasks();
     </script>
 </body>
