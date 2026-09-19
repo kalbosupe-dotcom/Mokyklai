@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elektrostatika - Kalbos Upė</title>
+<style>
+  :root{
+    --bg1:#FFF9E6; --bg2:#FFFAEB;
+    --blue:#5C7E97; --blue-bg:#EEF3F6;
+    --red:#d32f2f;
+    --yellow-bg:#FFF9C4; --yellow-border:#FFA726;
+    --green:#2E7D32; --green-bg:#EFF9EF; --green-border:#66BB6A;
+    --purple:#7B1FA2; --purple-bg:#F6EEFB; --purple-border:#AB47BC;
+    --ink:#2b2b2b; --muted:#8a8a8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Aptos','Verdana','Tahoma',Arial,sans-serif;
+    letter-spacing:0.03em;
+    background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
+    line-height:1.8;
+    font-size:17px;
+    color:var(--ink);
+    margin:0;
+    padding:0;
+  }
+  .container{max-width:880px;margin:0 auto;padding:18px 18px 60px;}
+
+  /* --- Viršutinė juosta: grįžimo mygtukai + mokinio vardas --- */
+  .site-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:18px 0 6px;
+  }
+  .back-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    padding:9px 16px;
+    background:#fff;
+    border:2px solid var(--blue);
+    color:var(--blue);
+    text-decoration:none;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:0.85rem;
+    white-space:nowrap;
+    transition:background-color .2s, color .2s;
+  }
+  .back-btn:hover{background:var(--blue);color:#fff;}
+  .student-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#fff;
+    border:2px solid var(--blue);
+    border-radius:20px;
+    padding:8px 8px 8px 16px;
+    font-size:0.95rem;
+    flex-wrap:wrap;
+  }
+  .student-info strong{color:var(--blue);}
+  .change-name-btn{
+    font-family:inherit;
+    font-size:0.85rem;
+    font-weight:bold;
+    padding:7px 14px;
+    border-radius:16px;
+    border:none;
+    background:var(--blue);
+    color:#fff;
+    cursor:pointer;
+  }
+  .change-name-btn:hover{opacity:0.88;}
+  @media (max-width:560px){
+    .site-header{flex-direction:column;align-items:stretch;}
+    .back-buttons{justify-content:center;}
+    .student-info{justify-content:center;}
+  }
+
+  header.page-head{
+    text-align:center;
+    padding:28px 16px 20px;
+  }
+  header.page-head h1{
+    font-size:2rem;
+    margin:0 0 6px;
+    color:var(--blue);
+  }
+  header.page-head p{
+    margin:0;
+    color:var(--muted);
+    font-size:1.05rem;
+  }
+  nav.toc{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    margin:20px 0 30px;
+  }
+  nav.toc a{
+    background:#fff;
+    border:2px solid var(--blue);
+    color:var(--blue);
+    text-decoration:none;
+    padding:8px 14px;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:0.92rem;
+    white-space:nowrap;
+  }
+  nav.toc a.optional{
+    border-color:var(--purple);
+    color:var(--purple);
+  }
+  section.tema{
+    background:#fff;
+    border-radius:16px;
+    padding:22px 24px 26px;
+    margin:0 0 28px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    scroll-margin-top:20px;
+  }
+  section.tema.optional{
+    border:2px dashed var(--purple-border);
+  }
+  .tema-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .tema-num{
+    background:var(--blue);
+    color:#fff;
+    font-weight:bold;
+    padding:5px 12px;
+    border-radius:10px;
+    font-size:0.95rem;
+    white-space:nowrap;
+  }
+  section.tema.optional .tema-num{background:var(--purple);}
+  .tema-head h2{
+    margin:0;
+    font-size:1.35rem;
+    color:var(--ink);
+  }
+  .badge-optional{
+    background:var(--purple-bg);
+    color:var(--purple);
+    border:1px solid var(--purple-border);
+    padding:3px 10px;
+    border-radius:12px;
+    font-size:0.8rem;
+    font-weight:bold;
+  }
+  .savokos{
+    margin:10px 0 18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .savokos span{
+    background:var(--blue-bg);
+    color:var(--blue);
+    border:1px solid var(--blue);
+    padding:3px 10px;
+    border-radius:12px;
+    font-size:0.85rem;
+  }
+  .blokas{
+    background:var(--blue-bg);
+    border-left:5px solid var(--blue);
+    border-radius:8px;
+    padding:14px 18px;
+    margin:14px 0;
+  }
+  .blokas h3{
+    margin:0 0 6px;
+    font-size:1.05rem;
+    color:var(--blue);
+  }
+  .blokas p{margin:0 0 8px;}
+  .blokas p:last-child{margin-bottom:0;}
+  .blokas ul, .blokas ol{margin:6px 0;padding-left:22px;}
+  .blokas li{margin-bottom:4px;}
+  strong{
+    color:var(--red);
+    font-weight:bold;
+    font-style:normal;
+  }
+  em{font-style:normal;}
+  .mnemotechnika{
+    background:var(--yellow-bg);
+    border-left:4px solid var(--yellow-border);
+    border-radius:8px;
+    padding:12px 16px;
+    margin:12px 0;
+    font-size:0.98rem;
+  }
+  .mnemotechnika .label{font-weight:bold;color:#B26A00;}
+  .formule-box{
+    background:var(--green-bg);
+    border:1.5px solid var(--green-border);
+    border-radius:8px;
+    padding:14px 18px;
+    margin:12px 0;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px 28px;
+  }
+  .formule-compact{flex:0 0 auto;}
+  .formule{
+    white-space:nowrap;
+    font-family:'Cambria Math','Times New Roman',serif;
+    font-size:1.25rem;
+    font-style:normal;
+    color:var(--green);
+    font-weight:bold;
+  }
+  .formule var{font-style:normal;}
+  .anotacija{
+    color:var(--muted);
+    font-size:0.78em;
+    font-style:normal;
+    font-weight:normal;
+    vertical-align:sub;
+  }
+  .vienetas{
+    display:block;
+    margin-top:4px;
+    font-size:0.88rem;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  /* Išplėstinė formulė — kiekvienas dydis su paaiškinimu skliaustuose */
+  .formule-full{
+    flex:1 1 220px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    gap:4px 8px;
+    padding-left:16px;
+    border-left:1.5px dashed var(--green-border);
+    font-family:'Cambria Math','Times New Roman',serif;
+    font-size:1.02rem;
+    font-style:normal;
+    color:var(--ink);
+  }
+  .formule-full .var-term{
+    white-space:nowrap;
+    font-style:normal;
+  }
+  .formule-full .anot2{
+    color:var(--muted);
+    font-size:0.76em;
+    font-style:normal;
+    font-weight:normal;
+  }
+  .formule-full .op{
+    color:var(--muted);
+    font-weight:normal;
+  }
+  @media (max-width:600px){
+    .formule-full{
+      border-left:none;
+      padding-left:0;
+      padding-top:8px;
+      border-top:1.5px dashed var(--green-border);
+      flex-basis:100%;
+    }
+  }
+  table.apibendrinimas{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    font-size:0.95rem;
+  }
+  table.apibendrinimas th, table.apibendrinimas td{
+    border:1px solid #ddd;
+    padding:10px 12px;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.apibendrinimas th{
+    background:var(--blue);
+    color:#fff;
+  }
+  table.apibendrinimas tr:nth-child(even){background:#F7FBFF;}
+  .rule-list{
+    background:#fff;
+    border:1.5px dashed var(--blue);
+    border-radius:8px;
+    padding:12px 16px;
+    margin:12px 0;
+  }
+  .rule-list p{margin:4px 0;}
+  footer.end{
+    text-align:center;
+    color:var(--muted);
+    font-size:0.85rem;
+    margin-top:20px;
+  }
+  @media (max-width:480px){
+    header.page-head h1{font-size:1.5rem;}
+    section.tema{padding:16px 14px 18px;}
+    .formule{font-size:1.05rem;}
+  }
+
+  /* --- Sekcijų perjungimas --- */
+  .section{display:none;}
+  .section.active{display:block;}
+
+  nav.main-nav{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin:0 0 24px;
+    flex-wrap:wrap;
+  }
+  nav.main-nav button{
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:bold;
+    padding:10px 20px;
+    border-radius:24px;
+    border:2px solid var(--blue);
+    background:#fff;
+    color:var(--blue);
+    cursor:pointer;
+  }
+  nav.main-nav button.active{
+    background:var(--blue);
+    color:#fff;
+  }
+
+  /* --- Testas --- */
+  .quiz-card{
+    background:#fff;
+    border-radius:16px;
+    padding:24px 24px 28px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  }
+  .quiz-progress{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+    font-size:0.92rem;
+    color:var(--muted);
+    font-weight:bold;
+  }
+  .quiz-bar{
+    background:var(--blue-bg);
+    border-radius:8px;
+    height:10px;
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .quiz-bar-fill{
+    background:var(--blue);
+    height:100%;
+    border-radius:8px;
+    transition:width .3s ease;
+  }
+  .quiz-question{
+    font-size:1.15rem;
+    font-weight:bold;
+    margin:0 0 18px;
+    color:var(--ink);
+  }
+  .quiz-options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .quiz-opt{
+    font-family:inherit;
+    text-align:left;
+    font-size:1rem;
+    padding:13px 16px;
+    border-radius:10px;
+    border:2px solid #e0e0e0;
+    background:#fafafa;
+    cursor:pointer;
+    color:var(--ink);
+    line-height:1.5;
+  }
+  .quiz-opt:hover:not(:disabled){
+    border-color:var(--blue);
+    background:var(--blue-bg);
+  }
+  .quiz-opt:disabled{cursor:default;}
+  .quiz-opt.correct{
+    border-color:var(--green-border);
+    background:var(--green-bg);
+    color:var(--green);
+    font-weight:bold;
+  }
+  .quiz-opt.incorrect{
+    border-color:var(--yellow-border);
+    background:var(--yellow-bg);
+    color:#8a5a00;
+  }
+  .quiz-feedback{
+    margin-top:16px;
+    padding:12px 16px;
+    border-radius:8px;
+    font-weight:bold;
+    display:none;
+  }
+  .quiz-feedback.show{display:block;}
+  .quiz-feedback.ok{background:var(--green-bg);color:var(--green);}
+  .quiz-feedback.try{background:var(--yellow-bg);color:#8a5a00;}
+  .quiz-next{
+    margin-top:20px;
+    display:none;
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:bold;
+    padding:11px 24px;
+    border-radius:24px;
+    border:none;
+    background:var(--blue);
+    color:#fff;
+    cursor:pointer;
+  }
+  .quiz-next.show{display:inline-block;}
+  .quiz-results{text-align:center;}
+  .quiz-results .emoji{font-size:3rem;margin-bottom:6px;}
+  .quiz-results .score{font-size:1.8rem;font-weight:bold;color:var(--blue);margin:6px 0;}
+  .quiz-results .msg{font-size:1.15rem;font-weight:bold;margin-bottom:20px;}
+  .quiz-restart{
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:bold;
+    padding:11px 24px;
+    border-radius:24px;
+    border:2px solid var(--blue);
+    background:#fff;
+    color:var(--blue);
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="site-header">
+    <div class="back-buttons">
+      <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+      <a href="../../index.html?klase=8" class="back-btn">← Grįžti į visas 8 klasės užduotis</a>
+      <a href="../../index.html?dalykas=fizika&klase=8" class="back-btn">← Grįžti į visas 8 klasės fizikos užduotis</a>
+    </div>
+    <div class="student-info">
+      <span>Mokinys: <strong id="studentNameDisplay"></strong></span>
+      <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+    </div>
+  </div>
+
+  <header class="page-head">
+    <h1>⚡ Elektrostatika</h1>
+    <p>8 klasės fizika · 1 skyrius</p>
+  </header>
+
+  <nav class="main-nav">
+    <button id="btn-santrauka" class="active" onclick="showSection('santrauka')">📚 Santrauka</button>
+    <button id="btn-testas" onclick="showSection('testas')">✍️ Testas (1.1 tema)</button>
+  </nav>
+
+  <!-- ========================= SEKCIJA: SANTRAUKA ========================= -->
+  <div id="santrauka" class="section active">
+
+  <nav class="toc">
+    <a href="#t1">1.1 Įelektrinimas</a>
+    <a href="#t2">1.2 Sąveika</a>
+    <a href="#t3">1.3 Elektrinis laukas</a>
+    <a href="#t4" class="optional">1.4 Potencialas ★</a>
+    <a href="#t5">1.5 Kondensatorius</a>
+    <a href="#t6">1.6 Kondensatoriai</a>
+    <a href="#t7">1.7 Apibendrinimas</a>
+  </nav>
+
+  <!-- TEMA 1.1 -->
+  <section class="tema" id="t1">
+    <div class="tema-head">
+      <span class="tema-num">1.1</span>
+      <h2>Kūnų įelektrinimas. Elektros krūvio tvermė</h2>
+    </div>
+    <div class="savokos">
+      <span>elektrostatika</span><span>elektros krūvis</span><span>statinis krūvis</span>
+      <span>laisvieji elektronai</span><span>laidininkai</span><span>dielektrikai</span><span>izoliatoriai</span>
+    </div>
+
+    <div class="blokas">
+      <h3>Kas yra elektros krūvis</h3>
+      <p><strong>Elektrostatika</strong> — fizikos dalis, tirianti <strong>nejudančius</strong> elektros krūvius.
+      <strong>Elektros krūvis</strong> (žymimas <strong>q</strong>) — kūnų savybė, dėl kurios jie sąveikauja tarpusavyje.
+      Mažiausią neigiamą krūvį turi <strong>elektronas</strong>, mažiausią teigiamą — <strong>protonas</strong>.</p>
+    </div>
+
+    <div class="blokas">
+      <h3>Laidininkai ir izoliatoriai</h3>
+      <ul>
+        <li><strong>Laidininkai</strong> — daug <strong>laisvųjų elektronų</strong> (metalai, žmogaus kūnas, žemė). Gerai praleidžia elektros srovę.</li>
+        <li><strong>Dielektrikai (izoliatoriai)</strong> — labai mažai laisvųjų elektronų (stiklas, guma, plastikas, popierius, šilkas). Srovės nepraleidžia.</li>
+        <li><strong>Puslaidininkiai</strong> — tarpinė padėtis tarp laidininkų ir izoliatorių.</li>
+      </ul>
+    </div>
+
+    <div class="blokas">
+      <h3>Kaip įelektrinti kūną — 3 būdai</h3>
+      <ol>
+        <li><strong>Trinant</strong> — trinami du dielektrikai. Elektronai pereina iš vieno kūno į kitą: vienas įsielektrina <strong>neigiamai</strong>, kitas — <strong>teigiamai</strong>.</li>
+        <li><strong>Liečiant</strong> — įelektrintu kūnu paliečiamas neįelektrintas laidininkas; dalis krūvio pereina jam.</li>
+        <li><strong>Neliečiant</strong> — įelektrintas kūnas tik priartinamas; kaimyniniai kūnai persiskirsto krūviais.</li>
+      </ol>
+    </div>
+
+    <div class="mnemotechnika">
+      <span class="label">💡 Įsidėmėk:</span> trinant kūnus <strong>nauji krūviai nesukuriami</strong> — elektronai tik pereina iš vieno kūno į kitą, kaip žaidėjai persikelia iš vienos komandos į kitą.
+    </div>
+
+    <div class="blokas">
+      <h3>Elektros krūvio tvermės dėsnis</h3>
+      <p>Uždaroje sistemoje bendras krūvis nekinta:</p>
+      <div class="formule-box">
+        <div class="formule-compact">
+          <div class="formule">q<var class="anotacija">1</var> + q<var class="anotacija">2</var> + q<var class="anotacija">3</var> + … + q<var class="anotacija">n</var> = const</div>
+        </div>
+        <div class="formule-full">
+          <span class="var-term">q₁<span class="anot2"> (1-o kūno krūvis)</span></span>
+          <span class="op">+</span>
+          <span class="var-term">q₂<span class="anot2"> (2-o kūno krūvis)</span></span>
+          <span class="op">+</span>
+          <span class="var-term">q₃<span class="anot2"> (3-io kūno krūvis)</span></span>
+          <span class="op">+ … +</span>
+          <span class="var-term">qₙ<span class="anot2"> (n-tojo kūno krūvis)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">const<span class="anot2"> (nekintantis dydis)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blokas">
+      <h3>Nauda ir žala</h3>
+      <p>Įsielektrinimas gali <strong>trukdyti</strong> (avarijos pilant degalus, lėktuvuose) arba <strong>padėti</strong> (pirštų atspaudų paieška, dūmų filtrai gamyklose).</p>
+    </div>
+  </section>
+
+  <!-- TEMA 1.2 -->
+  <section class="tema" id="t2">
+    <div class="tema-head">
+      <span class="tema-num">1.2</span>
+      <h2>Įelektrintų kūnų sąveika</h2>
+    </div>
+    <div class="savokos">
+      <span>elektrostatinė jėga</span><span>kulonas</span><span>vienavardžiai krūviai</span>
+      <span>įvairiavardžiai krūviai</span><span>elektroskopas</span>
+    </div>
+
+    <div class="blokas">
+      <h3>Pagrindinė taisyklė</h3>
+      <ul>
+        <li><strong>Vienavardžiai krūviai</strong> (abu + arba abu −) — <strong>stumia</strong> vienas kitą.</li>
+        <li><strong>Įvairiavardžiai krūviai</strong> (+ ir −) — <strong>traukia</strong> vienas kitą.</li>
+      </ul>
+    </div>
+
+    <div class="blokas">
+      <h3>Elektroskopas</h3>
+      <p>Prietaisas, kuriuo nustatoma, ar kūnas <strong>įelektrintas</strong>. Paliestos folijos juostelės įgyja vienodą krūvį ir <strong>prasiskleidžia</strong>, nes stumia viena kitą.</p>
+    </div>
+
+    <div class="blokas">
+      <h3>Kulonas (C) — krūvio matavimo vienetas</h3>
+      <div class="formule-box">
+        <div class="formule-compact">
+          <div class="formule">1 C = 6,25 · 10<var class="anotacija">18</var> e</div>
+          <span class="vienetas">labai didelis krūvis</span>
+        </div>
+        <div class="formule-full">
+          <span class="var-term">1 C<span class="anot2"> (kulonas — matavimo vienetas)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">6,25 · 10¹⁸ e<span class="anot2"> (elementariųjų krūvių, t. y. elektronų ar protonų, skaičius)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blokas">
+      <h3>Nuo ko priklauso sąveikos jėga</h3>
+      <p>Tai nustatė <strong>Š. O. de Kulonas</strong>:</p>
+      <ol>
+        <li>Nuo <strong>krūvio dydžio</strong> — kuo didesnis krūvis, tuo stipresnė sąveika.</li>
+        <li>Nuo <strong>atstumo</strong> — padidinus atstumą 2 kartus, jėga sumažėja <strong>4 kartus</strong>.</li>
+        <li>Nuo <strong>terpės</strong> — pvz., žibale ar alyvoje sąveika silpnesnė nei ore.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- TEMA 1.3 -->
+  <section class="tema" id="t3">
+    <div class="tema-head">
+      <span class="tema-num">1.3</span>
+      <h2>Elektrinis laukas</h2>
+    </div>
+    <div class="savokos">
+      <span>artiveika</span><span>toliveika</span><span>elektrinis laukas</span>
+      <span>jėgų linijos</span><span>elektrinio lauko stipris</span>
+    </div>
+
+    <div class="blokas">
+      <h3>Kaip sąveikauja kūnai per atstumą</h3>
+      <ul>
+        <li><strong>Toliveikos teorija</strong> — kūnai veikia vienas kitą tiesiogiai per tuštumą (paneigta).</li>
+        <li><strong>Artiveikos teorija</strong> — sąveiką perduoda tarpininkas, <strong>elektrinis laukas</strong> (pasiūlė M. Faradėjus).</li>
+      </ul>
+    </div>
+
+    <div class="blokas">
+      <h3>Elektrinio lauko savybės</h3>
+      <ol>
+        <li>Veikia jame esančius krūvius <strong>elektrostatine jėga</strong>.</li>
+        <li>Yra <strong>stipriausias arti kūno</strong>, o tolstant — silpnėja.</li>
+      </ol>
+    </div>
+
+    <div class="blokas">
+      <h3>Jėgų linijos</h3>
+      <p>Vaizduoja lauką erdvėje: <strong>išeina</strong> iš teigiamo krūvio, <strong>sueina</strong> į neigiamą krūvį. Linijos niekada nesikerta.</p>
+    </div>
+
+    <div class="blokas">
+      <h3>Elektrinio lauko stipris (E)</h3>
+      <p>Jėginė lauko charakteristika:</p>
+      <div class="formule-box">
+        <div class="formule-compact">
+          <div class="formule">E = F / q</div>
+          <span class="vienetas">matavimo vienetas — N/C</span>
+        </div>
+        <div class="formule-full">
+          <span class="var-term">E<span class="anot2"> (elektrinio lauko stipris)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">F<span class="anot2"> (jėga)</span></span>
+          <span class="op">/</span>
+          <span class="var-term">q<span class="anot2"> (krūvis)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mnemotechnika">
+      <span class="label">💡 Palyginimas:</span> įsivaizduok <strong>šunį</strong>, saugantį kiemą (tai — krūvis ir laukas). Kuo piktesnis šuo, tuo <strong>stipresnis laukas</strong> ir didesnis pavojus katinui, kai jis arčiau.
+    </div>
+  </section>
+
+  <!-- TEMA 1.4 (optional) -->
+  <section class="tema optional" id="t4">
+    <div class="tema-head">
+      <span class="tema-num">1.4</span>
+      <h2>Elektrinio lauko potencialas</h2>
+      <span class="badge-optional">★ Neprivaloma — besidomintiems</span>
+    </div>
+    <div class="savokos">
+      <span>potencinė energija</span><span>elektrinio lauko potencialas</span>
+    </div>
+
+    <div class="rule-list">
+      <p>Ši tema sudėtingesnė — <strong>galima praleisti</strong>, jei norima susikoncentruoti tik prie pagrindų.</p>
+    </div>
+
+    <div class="blokas">
+      <h3>Potencinė energija (Ep)</h3>
+      <p>Energija, kurią turi <strong>pakeltas</strong> ar <strong>deformuotas</strong> kūnas:</p>
+      <div class="formule-box">
+        <div class="formule-compact">
+          <div class="formule">E<var class="anotacija">p</var> = m·g·h</div>
+        </div>
+        <div class="formule-full">
+          <span class="var-term">E<sub>p</sub><span class="anot2"> (potencinė energija)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">m<span class="anot2"> (masė)</span></span>
+          <span class="op">·</span>
+          <span class="var-term">g<span class="anot2"> (laisvojo kritimo pagreitis)</span></span>
+          <span class="op">·</span>
+          <span class="var-term">h<span class="anot2"> (aukštis)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blokas">
+      <h3>Elektros krūvio potencinė energija (W)</h3>
+      <div class="formule-box">
+        <div class="formule-compact">
+          <div class="formule">W = q·E·d</div>
+          <span class="vienetas">matuojama džauliais (J)</span>
+        </div>
+        <div class="formule-full">
+          <span class="var-term">W<span class="anot2"> (krūvio potencinė energija)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">q<span class="anot2"> (krūvis)</span></span>
+          <span class="op">·</span>
+          <span class="var-term">E<span class="anot2"> (lauko stipris)</span></span>
+          <span class="op">·</span>
+          <span class="var-term">d<span class="anot2"> (atstumas)</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blokas">
+      <h3>Elektrinio lauko potencialas (φ)</h3>
+      <p>Energinė lauko charakteristika:</p>
+      <div class="formule-box">
+        <div class="formule-compact">
+          <div class="formule">φ = W / q = E·d</div>
+          <span class="vienetas">matuojama voltais (V)</span>
+        </div>
+        <div class="formule-full">
+          <span class="var-term">φ<span class="anot2"> (elektrinio lauko potencialas)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">W<span class="anot2"> (potencinė energija)</span></span>
+          <span class="op">/</span>
+          <span class="var-term">q<span class="anot2"> (krūvis)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">E<span class="anot2"> (lauko stipris)</span></span>
+          <span class="op">·</span>
+          <span class="var-term">d<span class="anot2"> (atstumas)</span></span>
+        </div>
+      </div>
+      <p>Potencialas <strong>mažėja</strong> tolstant nuo teigiamo krūvio ir <strong>didėja</strong> tolstant nuo neigiamo.</p>
+    </div>
+  </section>
+
+  <!-- TEMA 1.5 -->
+  <section class="tema" id="t5">
+    <div class="tema-head">
+      <span class="tema-num">1.5</span>
+      <h2>Kondensatorius. Elektrinė talpa</h2>
+    </div>
+    <div class="savokos">
+      <span>kondensatorius</span><span>elektrinė talpa</span><span>faradas</span><span>kondensatoriaus pažaida</span>
+    </div>
+
+    <div class="blokas">
+      <h3>Kas yra kondensatorius</h3>
+      <p>Prietaisas, <strong>kaupiantis elektros krūvį</strong>. Paprasčiausią sudaro dvi metalinės plokštės, atskirtos <strong>dielektriku</strong> (pvz., oru).</p>
+    </div>
+
+    <div class="blokas">
+      <h3>Įkrovimas ir iškrovimas</h3>
+      <ul>
+        <li><strong>Įkraunant</strong> (prijungus prie baterijos) viena plokštė įsielektrina teigiamai, kita — neigiamai.</li>
+        <li><strong>Iškraunant</strong> (prijungus prie lemputės) elektronai teka per grandinę, plokštės neutralizuojasi, lemputė užgęsta.</li>
+      </ul>
+    </div>
+
+    <div class="blokas">
+      <h3>Elektrinė talpa (C)</h3>
+      <p>Kondensatoriaus gebėjimas kaupti krūvį:</p>
+      <div class="formule-box">
+        <div class="formule-compact">
+          <div class="formule">C = q / U</div>
+          <span class="vienetas">matavimo vienetas — faradas (F)</span>
+        </div>
+        <div class="formule-full">
+          <span class="var-term">C<span class="anot2"> (elektrinė talpa)</span></span>
+          <span class="op">=</span>
+          <span class="var-term">q<span class="anot2"> (krūvis)</span></span>
+          <span class="op">/</span>
+          <span class="var-term">U<span class="anot2"> (įtampa)</span></span>
+        </div>
+      </div>
+      <p>Praktikoje naudojami mažesni vienetai: <strong>μF, nF, pF</strong>.</p>
+    </div>
+
+    <div class="blokas">
+      <h3>Nuo ko priklauso talpa</h3>
+      <ol>
+        <li>Kuo <strong>didesnis atstumas</strong> tarp plokščių (d) — tuo <strong>mažesnė</strong> talpa.</li>
+        <li>Kuo <strong>mažesnis plokščių sanklotos plotas</strong> (S) — tuo <strong>mažesnė</strong> talpa.</li>
+        <li><strong>Dielektrikas</strong> tarp plokščių talpą <strong>padidina</strong>.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- TEMA 1.6 -->
+  <section class="tema" id="t6">
+    <div class="tema-head">
+      <span class="tema-num">1.6</span>
+      <h2>Kondensatoriai technikoje ir gamtoje</h2>
+    </div>
+    <div class="savokos">
+      <span>pastoviosios talpos kondensatorius</span><span>kintamosios talpos kondensatorius</span>
+    </div>
+
+    <div class="blokas">
+      <h3>Trumpai</h3>
+      <ul>
+        <li>Pirmasis kondensatorius — <strong>Leideno stiklinė</strong> (1745 m., Olandija).</li>
+        <li>Kondensatoriai skirstomi pagal <strong>dielektriką</strong> (popieriniai, keraminiai, žėručio ir kt.) ir pagal talpos kitimą: <strong>pastovios</strong> ir <strong>kintamos</strong> talpos (naudojami radijo imtuvuose, klaviatūrose).</li>
+        <li><strong>Gamtinis kondensatorius</strong> — Žemė ir jonosfera (tarp jų ~400 000 V įtampa).</li>
+        <li><strong>Žaibas</strong> — gamtinio kondensatoriaus <strong>pažaida</strong>: krūvis iš debesies per orą "nuteka" į Žemę.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TEMA 1.7 -->
+  <section class="tema" id="t7">
+    <div class="tema-head">
+      <span class="tema-num">1.7</span>
+      <h2>Skyriaus apibendrinimas</h2>
+    </div>
+    <table class="apibendrinimas">
+      <tr><th>Sąvoka</th><th>Paaiškinimas</th></tr>
+      <tr><td><strong>Elektrostatika</strong></td><td>nejudančių krūvių savybių ir sąveikos tyrimas</td></tr>
+      <tr><td><strong>Elektros krūvis (q)</strong></td><td>kūnų savybė, lemianti jų sąveiką</td></tr>
+      <tr><td><strong>Krūvio tvermės dėsnis</strong></td><td>uždaroje sistemoje bendras krūvis nekinta</td></tr>
+      <tr><td><strong>Laidininkai / izoliatoriai</strong></td><td>gerai / blogai praleidžia elektros srovę</td></tr>
+      <tr><td><strong>Sąveika</strong></td><td>vienavardžiai stumia, įvairiavardžiai traukia</td></tr>
+      <tr><td><strong>Elektrinis laukas</strong></td><td>nematoma materija aplink krūvį, perduodanti sąveiką</td></tr>
+      <tr><td><strong>E = F/q</strong></td><td>elektrinio lauko stipris (N/C)</td></tr>
+      <tr><td><strong>Kondensatorius</strong></td><td>prietaisas krūviui kaupti</td></tr>
+      <tr><td><strong>C = q/U</strong></td><td>elektrinė talpa (F)</td></tr>
+    </table>
+  </section>
+
+  <footer class="end">Fizika 8 kl. · 1 skyrius · Elektrostatika</footer>
+
+  </div>
+  <!-- ======================= /SEKCIJA: SANTRAUKA ========================= -->
+
+
+  <!-- ========================= SEKCIJA: TESTAS ========================= -->
+  <div id="testas" class="section">
+    <div class="quiz-card">
+
+      <div id="quiz-question-view">
+        <div class="quiz-progress">
+          <span id="quiz-progress-text">Klausimas 1 / 10</span>
+          <span id="quiz-score-text">Taškai: 0</span>
+        </div>
+        <div class="quiz-bar"><div class="quiz-bar-fill" id="quiz-bar-fill" style="width:10%"></div></div>
+
+        <p class="quiz-question" id="quiz-question-text"></p>
+        <div class="quiz-options" id="quiz-options"></div>
+
+        <div class="quiz-feedback" id="quiz-feedback"></div>
+        <button class="quiz-next" id="quiz-next-btn" onclick="nextQuestion()">Toliau →</button>
+      </div>
+
+      <div id="quiz-results-view" class="quiz-results" style="display:none;">
+        <div class="emoji" id="quiz-results-emoji">🌟</div>
+        <div class="score" id="quiz-results-score">10 / 10</div>
+        <div class="msg" id="quiz-results-msg">Puikiai!</div>
+        <button class="quiz-restart" onclick="restartQuiz()">🔁 Bandyti dar kartą</button>
+      </div>
+
+    </div>
+  </div>
+  <!-- ======================= /SEKCIJA: TESTAS ========================= -->
+
+</div>
+
+<script>
+  // ---------- Mokinio vardo valdymas ----------
+  function showNamePrompt(){
+    const savedName = localStorage.getItem('studentName');
+    if (!savedName){
+      const name = prompt('Įvesk savo vardą:');
+      if (name && name.trim() !== ''){
+        localStorage.setItem('studentName', name.trim());
+        return name.trim();
+      } else {
+        alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+        return showNamePrompt();
+      }
+    }
+    return savedName;
+  }
+  function changeName(){
+    localStorage.removeItem('studentName');
+    const newName = showNamePrompt();
+    alert(`Vardas pakeistas į: ${newName}`);
+    location.reload();
+  }
+  const studentName = showNamePrompt();
+  document.getElementById('studentNameDisplay').textContent = studentName;
+
+  // ---------- Sekcijų perjungimas ----------
+  function showSection(id){
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('btn-santrauka').classList.toggle('active', id === 'santrauka');
+    document.getElementById('btn-testas').classList.toggle('active', id === 'testas');
+  }
+
+  // ---------- Testo duomenys: 1.1 tema ----------
+  const quizData = [
+    {
+      q: "Kas yra elektros krūvis?",
+      options: [
+        "Kūnų savybė, lemianti jų sąveiką su kitais kūnais",
+        "Šviesos rūšis",
+        "Kūno judėjimo greitis"
+      ],
+      correct: 0
+    },
+    {
+      q: "Kokia raide žymimas elektros krūvis?",
+      options: ["E", "q", "F"],
+      correct: 1
+    },
+    {
+      q: "Kuri dalelė turi neigiamąjį elektros krūvį?",
+      options: ["Protonas", "Neutronas", "Elektronas"],
+      correct: 2
+    },
+    {
+      q: "Kaip vadinamos medžiagos, turinčios daug laisvųjų elektronų ir gerai praleidžiančios elektros srovę?",
+      options: ["Laidininkai", "Izoliatoriai", "Dielektrikai"],
+      correct: 0
+    },
+    {
+      q: "Kuri iš šių medžiagų yra izoliatorius (dielektrikas)?",
+      options: ["Metalas", "Stiklas", "Žmogaus kūnas"],
+      correct: 1
+    },
+    {
+      q: "Kaip vadinamas įelektrinimo būdas, kai du dielektrikai trinami vienas į kitą?",
+      options: ["Liečiant", "Trinant", "Neliečiant (indukcija)"],
+      correct: 1
+    },
+    {
+      q: "Trinant plastikinę liniuotę į medžiagos skiautę, elektronai pereina iš medžiagos į liniuotę. Kaip įsielektrina liniuotė?",
+      options: ["Teigiamai", "Neigiamai", "Lieka neutrali"],
+      correct: 1
+    },
+    {
+      q: "Kaip vadinamas dėsnis, teigiantis, kad uždaroje sistemoje bendras elektros krūvis nekinta?",
+      options: ["Kulono dėsnis", "Elektros krūvio tvermės dėsnis", "Energijos tvermės dėsnis"],
+      correct: 1
+    },
+    {
+      q: "Ką reiškia užrašas q₁ + q₂ + … + qₙ = const?",
+      options: [
+        "Krūviai uždaroje sistemoje visada didėja",
+        "Bendra krūvių suma uždaroje sistemoje išlieka pastovi",
+        "Visi kūnai visada elektriškai neutralūs"
+      ],
+      correct: 1
+    },
+    {
+      q: "Kodėl kūnų įsielektrinimas gali būti naudingas praktikoje?",
+      options: [
+        "Nes jis visada sukelia avarijas",
+        "Nes juo pagrįsti, pvz., dūmų filtrai ir pirštų atspaudų paieška",
+        "Nes technikoje jis niekada nenaudojamas"
+      ],
+      correct: 1
+    }
+  ];
+
+  let currentQ = 0;
+  let score = 0;
+  let answered = false;
+
+  function renderQuestion(){
+    answered = false;
+    const item = quizData[currentQ];
+    document.getElementById('quiz-progress-text').textContent = `Klausimas ${currentQ + 1} / ${quizData.length}`;
+    document.getElementById('quiz-score-text').textContent = `Taškai: ${score}`;
+    document.getElementById('quiz-bar-fill').style.width = `${((currentQ) / quizData.length) * 100}%`;
+    document.getElementById('quiz-question-text').textContent = item.q;
+
+    const optsWrap = document.getElementById('quiz-options');
+    optsWrap.innerHTML = '';
+    item.options.forEach((optText, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt';
+      btn.textContent = optText;
+      btn.onclick = () => selectAnswer(i, btn);
+      optsWrap.appendChild(btn);
+    });
+
+    const feedback = document.getElementById('quiz-feedback');
+    feedback.className = 'quiz-feedback';
+    feedback.textContent = '';
+    document.getElementById('quiz-next-btn').classList.remove('show');
+  }
+
+  const tryAgainMsgs = ["Dar kartą pabandyk kitą kartą — beveik! 💪", "Geras bandymas! Pažiūrėk, koks atsakymas teisingas. 🙂", "Neblogai pamėginta! Štai teisingas atsakymas:"];
+  const okMsgs = ["Puiku! ✅", "Taip yra! 🌟", "Tiksliai! 👏"];
+
+  function selectAnswer(i, btnEl){
+    if (answered) return;
+    answered = true;
+    const item = quizData[currentQ];
+    const allBtns = document.querySelectorAll('#quiz-options .quiz-opt');
+    allBtns.forEach(b => b.disabled = true);
+
+    const feedback = document.getElementById('quiz-feedback');
+
+    if (i === item.correct){
+      btnEl.classList.add('correct');
+      score++;
+      feedback.className = 'quiz-feedback show ok';
+      feedback.textContent = okMsgs[Math.floor(Math.random() * okMsgs.length)];
+    } else {
+      btnEl.classList.add('incorrect');
+      allBtns[item.correct].classList.add('correct');
+      feedback.className = 'quiz-feedback show try';
+      feedback.textContent = tryAgainMsgs[Math.floor(Math.random() * tryAgainMsgs.length)];
+    }
+
+    document.getElementById('quiz-score-text').textContent = `Taškai: ${score}`;
+    const nextBtn = document.getElementById('quiz-next-btn');
+    nextBtn.textContent = (currentQ === quizData.length - 1) ? 'Baigti testą ✓' : 'Toliau →';
+    nextBtn.classList.add('show');
+  }
+
+  function nextQuestion(){
+    currentQ++;
+    if (currentQ < quizData.length){
+      renderQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function showResults(){
+    document.getElementById('quiz-bar-fill').style.width = '100%';
+    document.getElementById('quiz-question-view').style.display = 'none';
+    document.getElementById('quiz-results-view').style.display = 'block';
+
+    const total = quizData.length;
+    document.getElementById('quiz-results-score').textContent = `${score} / ${total}`;
+
+    let emoji, msg;
+    if (score >= 9){ emoji = '🌟'; msg = 'PUIKIAI!'; }
+    else if (score >= 7){ emoji = '✅'; msg = 'GERAI!'; }
+    else if (score >= 5){ emoji = '🙂'; msg = 'NEBLOGAI — dar pasikartok'; }
+    else { emoji = '💪'; msg = 'Reikia pakartoti temą — pabandyk dar kartą!'; }
+
+    document.getElementById('quiz-results-emoji').textContent = emoji;
+    document.getElementById('quiz-results-msg').textContent = msg;
+  }
+
+  function restartQuiz(){
+    currentQ = 0;
+    score = 0;
+    document.getElementById('quiz-question-view').style.display = 'block';
+    document.getElementById('quiz-results-view').style.display = 'none';
+    renderQuestion();
+  }
+
+  // Pirmo klausimo atvaizdavimas iš karto (testo sekcija paruošta, net jei nematoma)
+  renderQuestion();
+</script>
+</body>
+</html>
