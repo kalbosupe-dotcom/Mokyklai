@@ -942,6 +942,18 @@
   const studentName = showNamePrompt();
   document.getElementById('studentNameDisplay').textContent = studentName;
 
+  // ---------- Rezultato siuntimas į Google Sheets ----------
+  function sendResultToSheet(taskName, scorePercentage) {
+    const studentName = localStorage.getItem('studentName') || 'Nežinomas';
+    const timestamp = new Date().toLocaleString('lt-LT');
+    const data = { name: studentName, task: taskName, score: scorePercentage, timestamp: timestamp };
+    fetch('https://script.google.com/macros/s/AKfycbzhXP3hJ6NBLOld6Gbg-tlN-Tk8BPoxx32tx9j-iKCJChVyeOpZiDyGu9g2cm6Vl0uf/exec', {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  }
+
   // ---------- Sekcijų perjungimas (Santrauka / Testai) ----------
   function showSection(id){
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1130,6 +1142,8 @@
 
     document.getElementById('quiz-results-emoji').textContent = emoji;
     document.getElementById('quiz-results-msg').textContent = msg;
+
+    sendResultToSheet(`F0020 Elektrostatika – ${quizTitles[currentSetKey]}`, Math.round(pct * 100));
   }
 
   function restartQuiz(){
