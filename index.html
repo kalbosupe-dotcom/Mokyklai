@@ -1,1094 +1,801 @@
 <!DOCTYPE html>
 <html lang="lt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalbos Upė | Užduočių bankas</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalbos Upė | Užduočių bankas</title>
+<style>
+:root{
+  --fonas:#F7FBFE; --pavirsius:#ffffff; --tekstas:#1A4D7A; --tamsus:#0D3B66;
+  --melyna:#4A90E2; --sviesi:#7CB3E9; --labai-sviesi:#E8F4F8; --remas:#D4E9F7;
+  --raudona:#FF6B6B;
+  --sup-visiems:#4ade80; --sup-disleksija:#60a5fa; --sup-disgrafija:#a78bfa;
+  --sup-diskalkulija:#fb923c; --sup-demesio:#fbbf24; --sup-kalbos:#f87171;
+  --sup-autizmas:#a16207; --sup-mokymosi:#9ca3af;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'OpenDyslexic',Arial,sans-serif;background:var(--fonas);color:var(--tekstas);
+  line-height:1.7;font-size:17px;letter-spacing:.02em}
+
+/* ANTRAŠTĖ */
+header{background:var(--labai-sviesi);padding:18px 0;box-shadow:0 2px 5px rgba(0,0,0,.08)}
+header h1{font-size:21px;color:var(--tamsus);text-align:center;max-width:1400px;margin:0 auto;padding:0 20px}
+
+.apvalkalas{max-width:1400px;margin:0 auto;padding:20px}
+
+/* IŠDĖSTYMAS */
+.isdestymas{display:grid;grid-template-columns:290px 1fr;gap:24px;align-items:start}
+
+/* ŠONINĖ JUOSTA */
+.sonine{background:var(--pavirsius);border:2px solid var(--remas);border-radius:14px;
+  padding:18px;position:sticky;top:20px;max-height:calc(100vh - 40px);overflow-y:auto}
+.grupe{margin-bottom:22px}
+.grupe:last-of-type{margin-bottom:12px}
+.grupe h2{font-size:16px;color:var(--tamsus);margin-bottom:10px;padding-bottom:6px;
+  border-bottom:2px solid var(--remas)}
+.paieska{width:100%;padding:10px;border:2px solid var(--sviesi);border-radius:8px;
+  font-family:inherit;font-size:15px;background:var(--labai-sviesi);color:var(--tekstas)}
+.paieska:focus{outline:none;border-color:var(--melyna);background:#fff}
+
+.pasirinkimas{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:7px;
+  cursor:pointer;transition:background .15s;font-size:15px}
+.pasirinkimas:hover{background:var(--labai-sviesi)}
+.pasirinkimas input{width:17px;height:17px;cursor:pointer;flex-shrink:0;accent-color:var(--melyna)}
+.pasirinkimas .vardas{flex:1;line-height:1.35}
+.pasirinkimas .kiek{background:var(--labai-sviesi);color:var(--tamsus);border-radius:11px;
+  padding:1px 8px;font-size:13px;font-weight:bold;flex-shrink:0}
+.pasirinkimas.tuscias{opacity:.4}
+.pasirinkimas.tuscias input{cursor:not-allowed}
+
+.rutulys{width:14px;height:14px;border-radius:50%;flex-shrink:0;border:1px solid rgba(0,0,0,.12)}
+.sup-visiems{background:var(--sup-visiems)} .sup-disleksija{background:var(--sup-disleksija)}
+.sup-disgrafija{background:var(--sup-disgrafija)} .sup-diskalkulija{background:var(--sup-diskalkulija)}
+.sup-demesio{background:var(--sup-demesio)} .sup-kalbos{background:var(--sup-kalbos)}
+.sup-autizmas{background:var(--sup-autizmas)} .sup-mokymosi{background:var(--sup-mokymosi)}
+
+.valyti{width:100%;padding:10px;background:var(--raudona);color:#fff;border:none;
+  border-radius:8px;font-family:inherit;font-size:15px;font-weight:bold;cursor:pointer;
+  transition:background .2s}
+.valyti:hover{background:#d9534f}
+.valyti:disabled{background:var(--remas);color:#8aa;cursor:default}
+
+/* VIRŠUTINĖ JUOSTA */
+.virsus{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:var(--pavirsius);
+  border:2px solid var(--remas);border-radius:12px}
+.kiek-rasta{font-weight:bold;color:var(--tamsus);font-size:16px}
+.veiksmai{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mygtukas{padding:9px 16px;border:none;border-radius:8px;font-family:inherit;font-size:15px;
+  font-weight:bold;cursor:pointer;transition:all .2s;background:var(--melyna);color:#fff}
+.mygtukas:hover:not(:disabled){background:var(--tamsus)}
+.mygtukas:disabled{background:var(--remas);color:#8aa;cursor:default}
+.mygtukas.antrinis{background:var(--pavirsius);color:var(--melyna);border:2px solid var(--melyna)}
+.mygtukas.antrinis:hover:not(:disabled){background:var(--labai-sviesi)}
+
+.rinkimo-juosta{display:none;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;
+  padding:12px 16px;background:#FFF9E6;border:2px solid #FFB84D;border-radius:12px}
+.rinkimo-juosta.rodyti{display:flex}
+.rinkimo-juosta .info{font-weight:bold;color:#8a5a00;flex:1;min-width:180px}
+
+/* KORTELĖS */
+.tinklelis{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.kortele{position:relative;display:flex;flex-direction:column;background:var(--pavirsius);
+  border:3px solid var(--sviesi);border-radius:12px;padding:16px;transition:all .2s}
+.kortele:hover{border-color:var(--melyna);box-shadow:0 6px 15px rgba(26,77,122,.15)}
+.kortele.pazymeta{border-color:#FFB84D;background:#FFFDF7}
+
+.kortele-virsus{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:10px;margin-bottom:8px}
+.zymos{display:flex;gap:6px;flex-wrap:wrap}
+.zyma{background:var(--labai-sviesi);color:var(--tamsus);border:1px solid var(--remas);
+  border-radius:6px;padding:2px 8px;font-size:13px;cursor:pointer;font-family:inherit;
+  transition:all .15s}
+.zyma:hover{background:var(--melyna);color:#fff;border-color:var(--melyna)}
+.zyma.aktyvi{background:var(--melyna);color:#fff;border-color:var(--melyna)}
+.id{font-size:12px;color:#8fb5d8;white-space:nowrap;padding-top:3px}
+
+.kortele h3{font-size:18px;color:var(--tamsus);line-height:1.35;margin-bottom:6px}
+.kortele h3 a{color:inherit;text-decoration:none}
+.kortele h3 a:hover{text-decoration:underline}
+.aprasymas{font-size:14px;color:#5a7a95;flex-grow:1;margin-bottom:12px;line-height:1.5}
+
+.kortele-apacia{display:flex;justify-content:space-between;align-items:center;gap:10px;
+  border-top:1px dashed var(--remas);padding-top:10px}
+.rutuliukai{display:flex;gap:5px}
+.atidaryti{background:var(--melyna);color:#fff;text-decoration:none;padding:7px 14px;
+  border-radius:7px;font-size:14px;font-weight:bold;white-space:nowrap;transition:background .2s}
+.atidaryti:hover{background:var(--tamsus)}
+
+.rinkti{position:absolute;top:12px;right:12px;width:20px;height:20px;cursor:pointer;
+  accent-color:#FFB84D;display:none}
+.rinkimas-ijungtas .rinkti{display:block}
+.rinkimas-ijungtas .id{display:none}
+
+.nerasta{grid-column:1/-1;text-align:center;padding:50px 20px;color:#7a9ab5}
+.nerasta strong{display:block;font-size:19px;color:var(--tamsus);margin-bottom:8px}
+
+/* MODALAS */
+.uzdanga{display:none;position:fixed;inset:0;background:rgba(13,59,102,.55);z-index:100;
+  align-items:center;justify-content:center;padding:20px}
+.uzdanga.rodyti{display:flex}
+.modalas{background:#fff;border-radius:16px;padding:26px;max-width:520px;width:100%;
+  max-height:90vh;overflow-y:auto}
+.modalas h2{color:var(--tamsus);font-size:21px;margin-bottom:12px}
+.modalas p{font-size:15px;margin-bottom:14px}
+.nuoroda-laukas{width:100%;padding:11px;border:2px solid var(--sviesi);border-radius:8px;
+  font-family:monospace;font-size:13px;margin-bottom:14px;background:var(--labai-sviesi)}
+.modalo-mygtukai{display:flex;gap:10px;flex-wrap:wrap}
+.modalo-mygtukai .mygtukas{flex:1;min-width:130px}
+.grupes-sarasas{background:var(--labai-sviesi);border-radius:8px;padding:12px;margin-bottom:14px;
+  font-size:14px;max-height:180px;overflow-y:auto}
+.grupes-sarasas li{margin-left:18px;margin-bottom:4px}
+
+footer{text-align:center;padding:24px 20px;margin-top:40px;border-top:1px solid var(--sviesi);
+  font-size:15px;color:#5a7a95}
+
+.sonine-jungiklis{display:none;width:100%;margin-bottom:14px}
+
+@media(max-width:900px){
+  .isdestymas{grid-template-columns:1fr}
+  .sonine{position:static;max-height:none}
+  .sonine.suskleista{display:none}
+  .sonine-jungiklis{display:block}
+}
+@media(max-width:600px){
+  body{font-size:16px}
+  .tinklelis{grid-template-columns:1fr}
+  header h1{font-size:18px}
+}
+</style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <h1>Interaktyvios užduotys • pritaikyta mokiniams, turintiems mokymosi ypatumų • tinka visiems</h1>
+
+<header><h1>Interaktyvios užduotys • pritaikyta mokiniams, turintiems mokymosi ypatumų • tinka visiems</h1></header>
+
+<div class="apvalkalas">
+
+  <button class="mygtukas antrinis sonine-jungiklis" id="joSonine">☰ Filtrai</button>
+
+  <div class="isdestymas">
+
+    <aside class="sonine" id="sonine">
+      <div class="grupe">
+        <h2>Paieška</h2>
+        <input type="search" id="joPaieska" class="paieska" placeholder="Pvz.: linksniavimas, ląstelė">
+      </div>
+      <div class="grupe"><h2>Dalykas</h2><div id="joDalykas"></div></div>
+      <div class="grupe"><h2>Klasė</h2><div id="joKlase"></div></div>
+      <div class="grupe"><h2>Tema</h2><div id="joTema"></div></div>
+      <div class="grupe"><h2>Pritaikyta</h2><div id="joSup"></div></div>
+      <button class="valyti" id="joValyti">Išvalyti filtrus</button>
+    </aside>
+
+    <main>
+      <div class="virsus">
+        <span class="kiek-rasta" id="joKiek">Kraunama…</span>
+        <div class="veiksmai" id="joVeiksmai">
+          <button class="mygtukas antrinis" id="joRinkti">Sudaryti užduočių rinkinį</button>
         </div>
-    </header>
+      </div>
 
-    <main class="container main-content">
-        <section class="intro">
-            <p>Pasirinkite kriterijus, kad rastumėte tinkančias užduotis.</p>
-        </section>
-        
-        <div class="filter-controls">
-            
-            <div class="filter-group full-width">
-                <label for="search-input">Paieška pagal raktinį žodį:</label>
-                <input type="text" id="search-input" class="filter-select" placeholder="Įveskite raktinį žodį (pvz., linksniavimas, ląstelė, veiksmažodis)">
-            </div>
-            
-            <div class="filter-group">
-                <label for="dalykas-select">Dalykas:</label>
-                <select id="dalykas-select" class="filter-select">
-                    <option value="visi">Visi dalykai</option>
-                    <option value="lietuvių">Lietuvių kalba</option>
-                    <option value="anglu">Anglų kalba</option>
-                    <option value="matematika">Matematika</option>
-                    <option value="biologija">Biologija</option>
-                    <option value="fizika">Fizika</option>
-                    <option value="geografija">Geografija</option>
-                    <option value="istorija">Istorija</option>
-                    <option value="finansinis">Finansinis raštingumas</option>
-                </select>
-            </div>
+      <div class="rinkimo-juosta" id="joJuosta">
+        <span class="info" id="joJuostaInfo">Pažymėkite užduotis, kurias norite sudėti į rinkinį.</span>
+        <button class="mygtukas" id="joKurti" disabled>Sukurti nuorodą</button>
+        <button class="mygtukas antrinis" id="joAtsaukti">Atšaukti</button>
+      </div>
 
-            <div class="filter-group">
-                <label for="klase-select">Klasė:</label>
-                <select id="klase-select" class="filter-select">
-                    <option value="visos">Visos klasės</option>
-                    <option value="3">3 klasė</option>
-                    <option value="4">4 klasė</option>
-                    <option value="5">5 klasė</option>
-                    <option value="6">6 klasė</option>
-                    <option value="7">7 klasė</option>
-                    <option value="8">8 klasė</option>
-                    <option value="9">9 klasė</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="sup-select">Pritaikymas SUP:</label>
-                <select id="sup-select" class="filter-select">
-                    <option value="visi">Visi pritaikymai</option>
-                    <option value="disleksija">Disleksija</option>
-                    <option value="disgrafija">Disgrafija</option>
-                    <option value="kalbos">Kalbos sutrikimas</option>
-                    <option value="demesio">Dėmesio sutrikimas</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="results-info">
-            <span id="result-count">0 užduočių rasta.</span>
-            <button class="reset-filters">Išvalyti filtrus</button>
-        </div>
-
-        <div class="task-grid" id="task-grid">
-            <p class="no-results-msg">Pasirinkite filtrus aukščiau, kad pamatytumėte užduotis.</p>
-        </div>
+      <div class="tinklelis" id="joTinklelis"></div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Kalbos Upė.</p>
+  </div>
+</div>
+
+<footer><p>&copy; 2025 Kalbos Upė.</p></footer>
+
+<div class="uzdanga" id="joUzdanga">
+  <div class="modalas">
+    <h2>Užduočių rinkinys paruoštas</h2>
+    <p>Nusiųskite šią nuorodą mokiniui — jis matys tik pasirinktas užduotis.</p>
+    <div class="grupes-sarasas"><ul id="joGrupesSarasas"></ul></div>
+    <input type="text" class="nuoroda-laukas" id="joNuoroda" readonly>
+    <div class="modalo-mygtukai">
+      <button class="mygtukas" id="joKopijuoti">Kopijuoti nuorodą</button>
+      <button class="mygtukas antrinis" id="joUzdaryti">Uždaryti</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   KALBOS UPĖ — užduočių bankas
+   --------------------------------------------------------------------------
+   Užduočių sąrašas (UZDUOTYS) kol kas yra šiame faile.
+   Ateityje jis persikels į atskirą failą, o čia liks tik logika.
+
+   Laukai:
+     id       – unikalus kodas (L0001, F0002, EN0501…)
+     title    – pavadinimas
+     description – trumpas aprašymas
+     url      – kelias iki užduoties (arba išorinė nuoroda)
+     dalykas  – raktas iš DALYKAI sąrašo žemiau
+     klases   – masyvas, pvz. [3] arba [3,4]
+     tema     – temos pavadinimas
+     sup      – masyvas raktų iš SUP sąrašo žemiau
+     status   – 'paruosta' (rodoma) arba 'ruosiama' (nerodoma)
+   ========================================================================== */
+
+const DALYKAI = {
+  'lietuvių':   'Lietuvių kalba',
+  'anglu':      'Anglų kalba',
+  'matematika': 'Matematika',
+  'biologija':  'Biologija',
+  'fizika':     'Fizika',
+  'geografija': 'Geografija',
+  'istorija':   'Istorija',
+  'finansinis': 'Finansinis raštingumas'
+};
+
+const SUP = {
+  'visiems':      'Visiems',
+  'disleksija':   'Disleksija',
+  'disgrafija':   'Disgrafija',
+  'diskalkulija': 'Diskalkulija',
+  'demesio':      'Dėmesio sutrikimas',
+  'kalbos':       'Kalbos sutrikimas',
+  'autizmas':     'Autizmas',
+  'mokymosi':     'Mokymosi sunkumai'
+};
+
+/* --- UŽDUOTYS --- */
+const UZDUOTYS = [
+  { id: "L0001", title: "Kalbos dalys: Atpažink", description: "Daiktavardis, Būdvardis, Veiksmažodis",
+    url: "uzduotys/kalbos-dalys/kalbos-dalys-atpazink-kuri-d-b-v.html",
+    dalykas: "lietuvių", klases: [3], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0002", title: "Kalbos dalys: Atpažink", description: "Daiktavardis, Būdvardis, Veiksmažodis, Prieveiksmis",
+    url: "uzduotys/kalbos-dalys/kalbos-dalys-atpazink-kuri-d-b-v-p.html",
+    dalykas: "lietuvių", klases: [5], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0003", title: "Kalbos dalys: Išrūšiuok", description: "Daiktavardis, Būdvardis, Veiksmažodis",
+    url: "uzduotys/kalbos-dalys/kalbos-dalys-isrusiuok-kalbos-dalis-d-b-v.html",
+    dalykas: "lietuvių", klases: [3], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0004", title: "Linksniavimas: Daiktavardžiai", description: "Sudėk daiktavardžius tinkama tvarka prie linksnių: stalas, knyga, pieštukas, saulė, namas.",
+    url: "uzduotys/kalbos-dalys/linksniavimas-sudek-zodzius-tinkama-tvarka-prie-linksniu-1.html",
+    dalykas: "lietuvių", klases: [3], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0005", title: "Linksniavimas: Daiktavardžiai", description: "Parink linksniui tinkamą daiktavardį: katė, zylė, morka, knyga, dangus, miestas, kėdė, koja, muilas, mįslė, lenta, pienas, žmogus, draugas.",
+    url: "uzduotys/kalbos-dalys/linksniavimas-parink-linksniui-daiktavardi-1.html",
+    dalykas: "lietuvių", klases: [3], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0006", title: "Linksniavimas: Daiktavardžiai", description: "Parink linksnį daiktavardžiui sakinyje.",
+    url: "uzduotys/kalbos-dalys/linksniavimas-parink-linksni-daiktavardziui-sakinyje-1.html",
+    dalykas: "lietuvių", klases: [4], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0007", title: "Daiktavardis: nurodyk giminę, skaičių, linksnį", description: "ąžuolas, pjuvena, mįslė, šaknis, jautis, pjesė, ąsotis, pjūvis, Kęstutis, stalas",
+    url: "uzduotys/kalbos-dalys/daiktavardis-nurodyk-gimine-skaicius-linksnis-1.html",
+    dalykas: "lietuvių", klases: [5], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0050", title: "Dalyvis, padalyvis, pusdalyvis | Atpažink (I)", description: "15 žodžių (po 5)",
+    url: "uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-atpazink.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0051", title: "Dalyvis, padalyvis, pusdalyvis | Atpažink (II)", description: "15 žodžių (po 5)",
+    url: "uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-atpazink-2.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0052", title: "Dalyvio junginiai | Dalyvis + Daiktavardis", description: "Nurodyk giminę, skaičių ir linksnį (8 sakiniai)",
+    url: "uzduotys/kalbos-dalys/dalyvis-ir-daiktavardis-nurodyk-gim-sk-lnk.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0055", title: "Dalyvis, padalyvis, pusdalyvis | Pažymėk sakinyje", description: "10 sakinių",
+    url: "uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-pazymek-sakinyje-1.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0070", title: "Veikiamieji ir neveikiamieji dalyviai", description: "Atskirk veikiamuosius ir neveikiamuosius dalyvius bei nustatyk jų giminę, skaičių ir linksnį",
+    url: "uzduotys/kalbos-dalys/dalyvis-veikiamasis-neveikiamasis-atskirk.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "ruosiama" },
+  { id: "L0071", title: "Veikiamieji dalyviai | surask tekste", description: "Tekste surask veikiamuosius dalyvius bei nustatyk iš kurio laiko veiksmažodžio formos sudarytas šis dalyvis",
+    url: "uzduotys/kalbos-dalys/dalyvis-veikiamasis-rask-tekste-nustatyk-laika.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0080", title: "Neveikiamieji dalyviai | Linksniavimas", description: "Išlinksniuok neveikiamuosius dalyvius | laikoma knyga, nešamas lagaminas",
+    url: "uzduotys/kalbos-dalys/linksniavimas-neveikiamieji-dalyviai-1.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0101", title: "Asmenavimas | Esamasis laikas | Sudėk tinkama tvarka", description: "Žodžiai: žaisti",
+    url: "uzduotys/kalbos-dalys/asmenavimas-esamasis-sudek-tinkama-tvarka-1.html",
+    dalykas: "lietuvių", klases: [3], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0110", title: "Asmenavimas | esamasis, būtasis kartinis ir dažninins bei būsimasis laikai", description: "Žodžio ŽAISTI asmenavimas",
+    url: "uzduotys/kalbos-dalys/asmenavimas-esm-but-butd-bus-zaisti.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0150", title: "Veiksmažodžių nuosakos", description: "5 veiksmažodžiai - parink tinkamas (drag&drop)",
+    url: "uzduotys/kalbos-dalys/veiksmazodziu-nuosakos-1.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos dalys",
+    sup: ["disleksija", "disgrafija"], status: "ruosiama" },
+  { id: "L0201", title: "Vienarūšės sakinio dalys | Pažymėk sakinyje (1)", description: "Sakiniuose pažymėk vienarūšes sakinio dalis",
+    url: "uzduotys/sakinio-dalys/vienaruses-pazymek-sakinyje-1.html",
+    dalykas: "lietuvių", klases: [5], tema: "Sakinio dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0202", title: "Vienarūšės sakinio dalys | Pažymėk sakinyje (2)", description: "Sakiniuose pažymėk vienarūšes sakinio dalis",
+    url: "uzduotys/sakinio-dalys/vienaruses-pazymek-sakinyje-2.html",
+    dalykas: "lietuvių", klases: [6], tema: "Sakinio dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0203", title: "Vienarūšės sakinio dalys | Sudėk trūkstamus kablelius", description: "Vėjai | 10 sakinių",
+    url: "uzduotys/sakinio-dalys/vienaruses-sudek-trukstamus-kablelius-vejai.html",
+    dalykas: "lietuvių", klases: [7], tema: "Sakinio dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0211", title: "Veiksnys ir Tarinys: pažymėk sakinyje", description: "Lietuvių mitas apie Pasaulio sukūrimą",
+    url: "uzduotys/sakinio-dalys/veiksnys-tarinys-pazymek-sakinyje-1.html",
+    dalykas: "lietuvių", klases: [7], tema: "Sakinio dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0212", title: "Veiksnys ir Tarinys: pažymėk sakinyje", description: "Graikų mitas apie Pasaulio sukūrimą",
+    url: "uzduotys/sakinio-dalys/veiksnys-tarinys-pazymek-sakinyje-2.html",
+    dalykas: "lietuvių", klases: [7], tema: "Sakinio dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0401", title: "Veiksmažodis: galūnių rašymas | Ką veikia?", description: "Parink tinkamą veiksmažodžio galūnę",
+    url: "uzduotys/zodzio-dalys/veiksmazodis-galuniu-rasymas-ka-veikia.html",
+    dalykas: "lietuvių", klases: [3], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0402", title: "Skiemenavimas: Įvairūs žodžiai", description: "Nesudėtingi žodžiai su 2-3 skiemenimis.",
+    url: "uzduotys/zodzio-dalys/skiemenavimas-ivairus-zodziai.html",
+    dalykas: "lietuvių", klases: [3], tema: "Žodžio dalys",
+    sup: ["disleksija", "kalbos"], status: "paruosta" },
+  { id: "L0403", title: "Skiemenavimas: Ląstelės sandaros žodžiai", description: "Išmok ląstelės sandaros žodžius (vakuolė, mitochondrija...).",
+    url: "uzduotys/zodzio-dalys/skiemenavimas-biologija-lastele.html",
+    dalykas: "lietuvių", klases: [6], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "L0404", title: "Veiksmažodis: galūnių rašymas | Ką veikia?", description: "Įrašyk tinkamą veiksmažodžio galūnę",
+    url: "uzduotys/zodzio-dalys/veiksmazodis-galuniu-rasymas-ka-veikia-2.html",
+    dalykas: "lietuvių", klases: [4], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0451", title: "Žiūrėk - Uždenk - Rašyk - Tikrink | Įsimintinos rašybos žodžiai", description: "ąžuolas, mįslė, ąsotis, sąsiuvinis, drąsa",
+    url: "uzduotys/zodzio-dalys/ziurek-uzdenk-rasyk-tikrink-1.html",
+    dalykas: "lietuvių", klases: [4], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0501", title: "Dvibalsiai ir dvigarsiai", description: "Išrūšiuok",
+    url: "uzduotys/zodzio-dalys/dvibalsiai-ir-dvigarsiai-isrusiuok.html",
+    dalykas: "lietuvių", klases: [3], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0502", title: "Dvibalsiai ir dvigarsiai", description: "Įrašyk sakiniuose",
+    url: "uzduotys/zodzio-dalys/dvigarsiai-irasyk-sakiniuose.html",
+    dalykas: "lietuvių", klases: [7], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0503", title: "Dvibalsiai ir dvigarsiai", description: "Įrašyk sakiniuose | Mesopotamija",
+    url: "uzduotys/zodzio-dalys/dvigarsiai-irasyk-sakiniuose-mesopotamija.html",
+    dalykas: "lietuvių", klases: [7], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0550", title: "Minkštumo ženklas | -iu-", description: "Pasitikrinamasis testas",
+    url: "uzduotys/zodzio-dalys/minkstumo-zenklas-iu-pasitikrinimo-testas-1.html",
+    dalykas: "lietuvių", klases: [3], tema: "Žodžio dalys",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0601", title: "Sinonimai ir Antonimai", description: "Parink tinkamą sinonimą arba antonimą duotam žodžiui",
+    url: "uzduotys/kalbos-vystymas/sinonimai-antonimai.html",
+    dalykas: "lietuvių", klases: [5], tema: "Kalbos vystymas",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0602", title: "Sinonimai | Rask porą tekste", description: "Tekstas apie Mindaugo karūnavimą",
+    url: "uzduotys/kalbos-vystymas/sinonimai-mindaugo-karunavimas.html",
+    dalykas: "lietuvių", klases: [7], tema: "Kalbos vystymas",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0801", title: "Fonologinis suvokimas | Rask trūkstamą skiemenį", description: "Žodžiai: trečianis, lodija, kenė, kunugaris, pusserė, delis, lesyklė, vardis",
+    url: "uzduotys/fonologinis-suvokimas/rask-trukstama-skiemeni.html",
+    dalykas: "lietuvių", klases: [6], tema: "Fonologinis suvokimas",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "L0901", title: "Istorinė literatūra", description: "Testas | 7 klausimai",
+    url: "uzduotys/literatura/istorine-literatura.html",
+    dalykas: "lietuvių", klases: [7], tema: "Literatūra",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "B0001", title: "Mejozė ir Mitozė", description: "Priskirk sąvybes.",
+    url: "uzduotys/biologija/mejoze-mitoze.html",
+    dalykas: "biologija", klases: [7], tema: "Ląstelė",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "B0002", title: "Genai ir paveldimumas", description: "Atsakyk į klausimus.",
+    url: "uzduotys/biologija/dnr-struktura.html",
+    dalykas: "biologija", klases: [7], tema: "Genai",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "B0003", title: "Eukarijai | 4 karalystės", description: "Sudėliok schemą pagal požymius",
+    url: "uzduotys/biologija/eukarijai-schema.html",
+    dalykas: "biologija", klases: [7], tema: "Organizmų klasifikavimas",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "B0004", title: "Organizmų klasifikavimas", description: "Temos kartojimo medžiaga: 3 domenai, 4 eukarijų karalystės ir virusai",
+    url: "uzduotys/biologija/organizmu-klasifikavimas-visas-skyrius.html",
+    dalykas: "biologija", klases: [7], tema: "Organizmų klasifikavimas",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0001", title: "Garso bangų sąvybės", description: "Mokykis: garso sąvybės (bangos ilgis, greitis, dažnis ir periodas)",
+    url: "uzduotys/fizika/garso-savybes.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0002", title: "Garso bangos ilgis, greitis, dažnis ir periodas", description: "Išspręsk 10 uždavinių.",
+    url: "uzduotys/fizika/garso-bangos-10-uzdaviniu.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0003", title: "Garso bangos | dažnis, amplitudė ir garsumas", description: "📝 TESTAS #1: Garso bangų parametrų sąsajos | 16 trumpų klausimų",
+    url: "uzduotys/fizika/garso-bangos-sasajos-daznis-amplitude-garsumas-t1.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0004", title: "Garso bangos | ilgis, dažnis ir periodas", description: "📝 TESTAS #2: Garso bangų parametrų sąsajos | 16 trumpų klausimų",
+    url: "uzduotys/fizika/garso-bangu-sasajos-ilgis-daznis-periodas-t2.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0005", title: "Garso bangos ilgis, greitis, dažnis, amplitudė ir periodas", description: "📝 TESTAS #3: Garso bangos: faktai, palyginimas, formulės | 34 trumpi klausimai",
+    url: "uzduotys/fizika/garso-bangos-faktai-testas2-34-klausimai.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "ruosiama" },
+  { id: "F0007", title: "Garso bangos ilgis, greitis, dažnis, amplitudė ir periodas", description: "Išspręsk 6 uždavinius",
+    url: "uzduotys/fizika/garso-bangos-6-uzdaviniai.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "ruosiama" },
+  { id: "F0008", title: "Garso bangos | Sąvokos", description: "Pasikartojimo testas Nr.1",
+    url: "uzduotys/fizika/garso-bangos-pasikartojimas-testas-1.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0009", title: "Garso bangos | Sąvokos", description: "Pasikartojimo testas Nr.2",
+    url: "uzduotys/fizika/garso-bangos-pasikartojimas-testas-2.html",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0013", title: "📺 Garso bangos", description: "▶️ YouTube video",
+    url: "https://www.youtube.com/watch?v=9u1PjsBfrmg",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0014", title: "📺 Garso bangos | bangos ilgis, dažnis ir amplitudė", description: "▶️ YouTube video",
+    url: "https://www.youtube.com/watch?v=TsQL-sXZOLc",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0015", title: "📺 Garso bangos | Aidas", description: "▶️ YouTube video apie aidą",
+    url: "https://youtu.be/xQJ1JCpmS2I?si=EGj36NuQ7DsS5GfE",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0016", title: "📺 Garso bangos | Doplerio efektas", description: "▶️ YouTube video apie aidą",
+    url: "https://www.youtube.com/watch?v=h4OnBYrbCjY",
+    dalykas: "fizika", klases: [7], tema: "Garso bangos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "F0020", title: "Elektrostatika", description: "Temos santrauka ir 7 testai",
+    url: "uzduotys/fizika/elektrostatika-santrauka-testai.html",
+    dalykas: "fizika", klases: [8], tema: "Elektrostatika",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "EN0001", title: "Nouns to Pronouns", description: "Replace nouns with the correct pronouns",
+    url: "uzduotys/anglu/nouns-to-pronouns.html",
+    dalykas: "anglu", klases: [7], tema: "Pronouns",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "EN0101", title: "Reading comprehension | Green Lake Park", description: "Complete the sentences using words from the text",
+    url: "uzduotys/anglu/reading-comprehension-green-lake-park.html",
+    dalykas: "anglu", klases: [7], tema: "Reading comprehension",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "EN0201", title: "Comparatives and Superlatives (I)", description: "Comparatives and Superlatives",
+    url: "uzduotys/anglu/comparatives-superlatives.html",
+    dalykas: "anglu", klases: [7], tema: "Comparatives and Superlatives",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "EN0202", title: "Comparatives and Superlatives (II)", description: "Comparatives and Superlatives",
+    url: "uzduotys/anglu/comparatives-superlatives-2.html",
+    dalykas: "anglu", klases: [7], tema: "Comparatives and Superlatives",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "EN0501", title: "Look, Cover, Write, Check (I)", description: "because, friend, which, there, people",
+    url: "uzduotys/anglu/look-cover-write-check.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "EN0502", title: "Look, Cover, Write, Check (II)", description: "which, there, where, here, what, who, when, then, how",
+    url: "uzduotys/anglu/look-cover-write-check-2.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "EN0503", title: "Look, Cover, Write, Check | Natural Disasters", description: "volcano, tornado, flood, wildfire, hurricane, drought, earthquake",
+    url: "uzduotys/anglu/look-cover-write-check-3-disaster.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "EN0504", title: "Look, Cover, Write, Check | Discovery and Invention", description: "discover, invent, create, imagine, design, adapt, explore, test, experiment, technology",
+    url: "uzduotys/anglu/look-cover-write-check-4-discovery-and-invention.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "EN0505", title: "Quiz | Discovery and Invention", description: "discover, invent, create, imagine, design, adapt, explore, test, experiment, technology",
+    url: "uzduotys/anglu/quiz-discovery-and-invent.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "EN0701", title: "Irregular verbs (I)", description: "go, see, take, write, speak, get, make, take, come, write",
+    url: "uzduotys/anglu/irregular-verbs-1.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "EN0702", title: "Irregular verbs (II)", description: "speak, eat, drink, give, find, think, know, feel, leave, meet",
+    url: "uzduotys/anglu/irregular-verbs-2.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "EN0703", title: "Irregular verbs (III)", description: "begin, bring, buy, build, choose, drive, read, run, sleep, sit",
+    url: "uzduotys/anglu/irregular-verbs-3.html",
+    dalykas: "anglu", klases: [7], tema: "Visual and Structural Grammar Approach",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "G0001", title: "Europa | 15 klausimų testas", description: "Atlik testą ir pasikartok vadovėlio medžiagą prieš atsiskaitymą",
+    url: "uzduotys/geografija/Europa-testas.html",
+    dalykas: "geografija", klases: [7], tema: "Europa",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "G0002", title: "Geografinės zonos", description: "Atlik užduotis ir pasikartok vadovėlio medžiagą prieš atsiskaitymą",
+    url: "uzduotys/geografija/geografines-zonos.html",
+    dalykas: "geografija", klases: [7], tema: "Europa",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "ruosiama" },
+  { id: "I0001", title: "Judaizmo istorija", description: "▶️ Išklausyk pasakojimą su 📺 video medžiaga. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/",
+    url: "https://drive.google.com/file/d/12YRarerDezs63C1gq1K5FAtaMRAJU2Eh/view?usp=sharing",
+    dalykas: "istorija", klases: [7], tema: "Žydai",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "I0002", title: "Judaizmo ištakos ir radikali monoteizmo idėja", description: "▶️ Išklausyk pasakojimą. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/",
+    url: "https://drive.google.com/file/d/1XNPPZCw2lNDw4gxAFjJ9Us4LSJ3vZc0Q/view?usp=sharing",
+    dalykas: "istorija", klases: [7], tema: "Žydai",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "I0006", title: "Sparta ir Atėnai", description: "▶️ Išklausyk pasakojimą su 📺 video medžiaga. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/",
+    url: "https://drive.google.com/file/d/1v3kklAe7kfXRKGiXAV9VbCf-QCSwDW1P/view?usp=sharing",
+    dalykas: "istorija", klases: [7], tema: "Senovės Graikija",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "I0007", title: "Spartos karinė mašina ir Atėnų demokratija", description: "▶️ Išklausyk pasakojimą. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/",
+    url: "https://drive.google.com/file/d/1bIYap9GUmkccny5girKgVpez2S1pE1Nv/view?usp=sharing",
+    dalykas: "istorija", klases: [7], tema: "Senovės Graikija",
+    sup: ["disleksija", "disgrafija", "kalbos"], status: "paruosta" },
+  { id: "FR0001", title: "GPM • VSD • PSD • VMI • SODRA", description: "Testas | 12 klausimų",
+    url: "uzduotys/finansinis-rastingumas/gpm-vsd-psd-vmi-sodra.html",
+    dalykas: "finansinis", klases: [8], tema: "Mokesčiai ir institucijos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" },
+  { id: "FR0002", title: "Tiesioginiai ir netiesioginiai mokesčiai", description: "Testas | PVM • akcizai | 12 klausimų",
+    url: "uzduotys/finansinis-rastingumas/tiesioginiai_netiesioginiai_mokesciai.html",
+    dalykas: "finansinis", klases: [8], tema: "Mokesčiai ir institucijos",
+    sup: ["disleksija", "disgrafija"], status: "paruosta" }
+];
+/* --- UŽDUOČIŲ PABAIGA --- */
+
+
+/* ========================= LOGIKA ========================= */
+
+const RAKTAS = 'kalbosupe_filtrai';
+const rodomos = UZDUOTYS.filter(u => u.status !== 'ruosiama');
+
+let filtrai = { dalykas: [], klase: [], tema: [], sup: [], paieska: '' };
+let rinkimas = false;
+const pazymetos = new Set();
+
+const $ = id => document.getElementById(id);
+
+/* --- filtrų išsaugojimas --- */
+function issaugoti() {
+  try { sessionStorage.setItem(RAKTAS, JSON.stringify(filtrai)); } catch (e) {}
+}
+function atkurti() {
+  try {
+    const t = sessionStorage.getItem(RAKTAS);
+    if (t) filtrai = Object.assign(filtrai, JSON.parse(t));
+  } catch (e) {}
+}
+
+/* --- ar užduotis praeina filtrus (galima praleisti vieną kategoriją) --- */
+function tinka(u, praleisti) {
+  if (praleisti !== 'dalykas' && filtrai.dalykas.length && !filtrai.dalykas.includes(u.dalykas)) return false;
+  if (praleisti !== 'klase'   && filtrai.klase.length   && !u.klases.some(k => filtrai.klase.includes(String(k)))) return false;
+  if (praleisti !== 'tema'    && filtrai.tema.length    && !filtrai.tema.includes(u.tema)) return false;
+  if (praleisti !== 'sup'     && filtrai.sup.length     && !u.sup.some(s => filtrai.sup.includes(s))) return false;
+
+  const p = filtrai.paieska.trim().toLowerCase();
+  if (p) {
+    const laukas = (u.title + ' ' + u.description + ' ' + u.tema + ' ' + u.id).toLowerCase();
+    if (!p.split(/\s+/).every(z => laukas.includes(z))) return false;
+  }
+  return true;
+}
+
+function rezultatai() { return rodomos.filter(u => tinka(u, null)); }
+
+/* --- šoninės juostos filtrai --- */
+function pieskFiltrus() {
+  // Dalykas
+  const dalykai = [...new Set(rodomos.map(u => u.dalykas))]
+    .sort((a, b) => (DALYKAI[a] || a).localeCompare(DALYKAI[b] || b, 'lt'));
+  $('joDalykas').innerHTML = dalykai.map(d => eilute('dalykas', d, DALYKAI[d] || d,
+    rodomos.filter(u => u.dalykas === d && tinka(u, 'dalykas')).length)).join('');
+
+  // Klasė
+  const klases = [...new Set(rodomos.flatMap(u => u.klases))].sort((a, b) => a - b);
+  $('joKlase').innerHTML = klases.map(k => eilute('klase', String(k), k + ' klasė',
+    rodomos.filter(u => u.klases.includes(k) && tinka(u, 'klase')).length)).join('');
+
+  // Tema
+  const temos = [...new Set(rodomos.map(u => u.tema))].sort((a, b) => a.localeCompare(b, 'lt'));
+  $('joTema').innerHTML = temos.map(t => ({
+      t, n: rodomos.filter(u => u.tema === t && tinka(u, 'tema')).length
+    }))
+    .filter(x => x.n > 0 || filtrai.tema.includes(x.t))   // tuščių temų nerodome
+    .map(x => eilute('tema', x.t, x.t, x.n)).join('');
+
+  // SUP — rodome tik tuos, kurie realiai naudojami
+  const supai = Object.keys(SUP).filter(s => rodomos.some(u => u.sup.includes(s)));
+  $('joSup').innerHTML = supai.map(s => eilute('sup', s, SUP[s],
+    rodomos.filter(u => u.sup.includes(s) && tinka(u, 'sup')).length, s)).join('');
+
+  $('joValyti').disabled = !arYraFiltru();
+}
+
+function eilute(kategorija, reiksme, vardas, kiek, supRaktas) {
+  const pazymeta = filtrai[kategorija].includes(reiksme);
+  const tuscia = kiek === 0 && !pazymeta;
+  const rutulys = supRaktas ? `<span class="rutulys sup-${supRaktas}"></span>` : '';
+  return `<label class="pasirinkimas${tuscia ? ' tuscias' : ''}">
+      <input type="checkbox" data-kategorija="${kategorija}" value="${esc(reiksme)}"
+             ${pazymeta ? 'checked' : ''} ${tuscia ? 'disabled' : ''}>
+      ${rutulys}<span class="vardas">${esc(vardas)}</span><span class="kiek">${kiek}</span>
+    </label>`;
+}
+
+function arYraFiltru() {
+  return filtrai.dalykas.length || filtrai.klase.length ||
+         filtrai.tema.length || filtrai.sup.length || filtrai.paieska.trim();
+}
+
+function esc(t) {
+  return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* --- korteles --- */
+function pieskKorteles(sarasas, grupesRezimas) {
+  const t = $('joTinklelis');
+
+  if (!sarasas.length) {
+    t.innerHTML = `<div class="nerasta"><strong>Užduočių nerasta</strong>
+      Pabandykite atsisakyti dalies filtrų arba pakeisti paieškos žodį.</div>`;
+    return;
+  }
+
+  t.innerHTML = sarasas.map(u => {
+    const isorine = /^https?:/.test(u.url);
+    const klases = u.klases.map(k => `<button class="zyma${filtrai.klase.includes(String(k)) ? ' aktyvi' : ''}"
+        data-kategorija="klase" data-reiksme="${k}">${k} kl.</button>`).join('');
+    const rutuliukai = u.sup.map(s =>
+      `<span class="rutulys sup-${s}" title="${esc(SUP[s] || s)}"></span>`).join('');
+
+    return `<article class="kortele${pazymetos.has(u.id) ? ' pazymeta' : ''}" data-id="${u.id}">
+      <input type="checkbox" class="rinkti" ${pazymetos.has(u.id) ? 'checked' : ''}
+             aria-label="Įtraukti į rinkinį">
+      <div class="kortele-virsus">
+        <div class="zymos">
+          <button class="zyma${filtrai.dalykas.includes(u.dalykas) ? ' aktyvi' : ''}"
+                  data-kategorija="dalykas" data-reiksme="${esc(u.dalykas)}">${esc(DALYKAI[u.dalykas] || u.dalykas)}</button>
+          ${klases}
+          <button class="zyma${filtrai.tema.includes(u.tema) ? ' aktyvi' : ''}"
+                  data-kategorija="tema" data-reiksme="${esc(u.tema)}">${esc(u.tema)}</button>
         </div>
-    </footer>
-    
-    <script>
-        // --- UŽDUOČIŲ DUOMENŲ BAZĖ (SU TEMA LAUKU) ---
-        const taskDatabase = [
-            {
-                id: 'L0001',
-                title: 'Kalbos dalys: Atpažink',
-                description: 'Daiktavardis, Būdvardis, Veiksmažodis',
-                url: 'uzduotys/kalbos-dalys/kalbos-dalys-atpazink-kuri-d-b-v.html',
-                dalykas: 'lietuvių',
-                klase: 3, 
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0002',
-                title: 'Kalbos dalys: Atpažink',
-                description: 'Daiktavardis, Būdvardis, Veiksmažodis, Prieveiksmis',
-                url: 'uzduotys/kalbos-dalys/kalbos-dalys-atpazink-kuri-d-b-v-p.html',
-                dalykas: 'lietuvių',
-                klase: 5, 
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0003',
-                title: 'Kalbos dalys: Išrūšiuok',
-                description: 'Daiktavardis, Būdvardis, Veiksmažodis',
-                url: 'uzduotys/kalbos-dalys/kalbos-dalys-isrusiuok-kalbos-dalis-d-b-v.html',            
-                dalykas: 'lietuvių',
-                klase: 3, 
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0004',
-                title: 'Linksniavimas: Daiktavardžiai',
-                description: 'Sudėk daiktavardžius tinkama tvarka prie linksnių: stalas, knyga, pieštukas, saulė, namas.',
-                url: 'uzduotys/kalbos-dalys/linksniavimas-sudek-zodzius-tinkama-tvarka-prie-linksniu-1.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0005',
-                title: 'Linksniavimas: Daiktavardžiai',
-                description: 'Parink linksniui tinkamą daiktavardį: katė, zylė, morka, knyga, dangus, miestas, kėdė, koja, muilas, mįslė, lenta, pienas, žmogus, draugas.',
-                url: 'uzduotys/kalbos-dalys/linksniavimas-parink-linksniui-daiktavardi-1.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0006',
-                title: 'Linksniavimas: Daiktavardžiai',
-                description: 'Parink linksnį daiktavardžiui sakinyje.',
-                url: 'uzduotys/kalbos-dalys/linksniavimas-parink-linksni-daiktavardziui-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 4,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0007',
-                title: 'Daiktavardis: nurodyk giminę, skaičių, linksnį',
-                description: 'ąžuolas, pjuvena, mįslė, šaknis, jautis, pjesė, ąsotis, pjūvis, Kęstutis, stalas',
-                url: 'uzduotys/kalbos-dalys/daiktavardis-nurodyk-gimine-skaicius-linksnis-1.html',
-                dalykas: 'lietuvių',
-                klase: 5,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0050',
-                title: 'Dalyvis, padalyvis, pusdalyvis | Atpažink (I)',
-                description: '15 žodžių (po 5)',
-                url: 'uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-atpazink.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0051',
-                title: 'Dalyvis, padalyvis, pusdalyvis | Atpažink (II)',
-                description: '15 žodžių (po 5)',
-                url: 'uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-atpazink-2.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0052',
-                title: 'Dalyvio junginiai | Dalyvis + Daiktavardis',
-                description: 'Nurodyk giminę, skaičių ir linksnį (8 sakiniai)',
-                url: 'uzduotys/kalbos-dalys/dalyvis-ir-daiktavardis-nurodyk-gim-sk-lnk.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0055',
-                title: 'Dalyvis, padalyvis, pusdalyvis | Pažymėk sakinyje',
-                description: '10 sakinių',
-                url: 'uzduotys/kalbos-dalys/dalyvis-padalyvis-pusdalyvis-pazymek-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0070',
-                title: '(ruošiama) Veikiamieji ir neveikiamieji dalyviai',
-                description: 'Atskirk veikiamuosius ir neveikiamuosius dalyvius bei nustatyk jų giminę, skaičių ir linksnį',
-                url: 'uzduotys/kalbos-dalys/dalyvis-veikiamasis-neveikiamasis-atskirk.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0071',
-                title: 'Veikiamieji dalyviai | surask tekste',
-                description: 'Tekste surask veikiamuosius dalyvius bei nustatyk iš kurio laiko veiksmažodžio formos sudarytas šis dalyvis',
-                url: 'uzduotys/kalbos-dalys/dalyvis-veikiamasis-rask-tekste-nustatyk-laika.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0080',
-                title: 'Neveikiamieji dalyviai | Linksniavimas',
-                description: 'Išlinksniuok neveikiamuosius dalyvius | laikoma knyga, nešamas lagaminas',
-                url: 'uzduotys/kalbos-dalys/linksniavimas-neveikiamieji-dalyviai-1.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0101',
-                title: 'Asmenavimas | Esamasis laikas | Sudėk tinkama tvarka',
-                description: 'Žodžiai: žaisti',
-                url: 'uzduotys/kalbos-dalys/asmenavimas-esamasis-sudek-tinkama-tvarka-1.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0110',
-                title: 'Asmenavimas | esamasis, būtasis kartinis ir dažninins bei būsimasis laikai',
-                description: 'Žodžio ŽAISTI asmenavimas',
-                url: 'uzduotys/kalbos-dalys/asmenavimas-esm-but-butd-bus-zaisti.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0150',
-                title: '(ruošiama) Veiksmažodžių nuosakos',
-                description: '5 veiksmažodžiai - parink tinkamas (drag&drop)',
-                url: 'uzduotys/kalbos-dalys/veiksmazodziu-nuosakos-1.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Kalbos dalys'
-            },
-            {
-                id: 'L0201',
-                title: 'Vienarūšės sakinio dalys | Pažymėk sakinyje (1)',
-                description: 'Sakiniuose pažymėk vienarūšes sakinio dalis',
-                url: 'uzduotys/sakinio-dalys/vienaruses-pazymek-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 5,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0202',
-                title: 'Vienarūšės sakinio dalys | Pažymėk sakinyje (2)',
-                description: 'Sakiniuose pažymėk vienarūšes sakinio dalis',
-                url: 'uzduotys/sakinio-dalys/vienaruses-pazymek-sakinyje-2.html',
-                dalykas: 'lietuvių',
-                klase: 6,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0203',
-                title: 'Vienarūšės sakinio dalys | Sudėk trūkstamus kablelius',
-                description: 'Vėjai | 10 sakinių',
-                url: 'uzduotys/sakinio-dalys/vienaruses-sudek-trukstamus-kablelius-vejai.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0211',
-                title: 'Veiksnys ir Tarinys: pažymėk sakinyje',
-                description: 'Lietuvių mitas apie Pasaulio sukūrimą',
-                url: 'uzduotys/sakinio-dalys/veiksnys-tarinys-pazymek-sakinyje-1.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0212',
-                title: 'Veiksnys ir Tarinys: pažymėk sakinyje',
-                description: 'Graikų mitas apie Pasaulio sukūrimą',
-                url: 'uzduotys/sakinio-dalys/veiksnys-tarinys-pazymek-sakinyje-2.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Sakinio dalys'
-            },
-            {
-                id: 'L0401',
-                title: 'Veiksmažodis: galūnių rašymas | Ką veikia?',
-                description: 'Parink tinkamą veiksmažodžio galūnę',
-                url: 'uzduotys/zodzio-dalys/veiksmazodis-galuniu-rasymas-ka-veikia.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0402',
-                title: 'Skiemenavimas: Įvairūs žodžiai',
-                description: 'Nesudėtingi žodžiai su 2-3 skiemenimis.',
-                url: 'uzduotys/zodzio-dalys/skiemenavimas-ivairus-zodziai.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },            
-            {
-                id: 'L0403',
-                title: 'Skiemenavimas: Ląstelės sandaros žodžiai',
-                description: 'Išmok ląstelės sandaros žodžius (vakuolė, mitochondrija...).',
-                url: 'uzduotys/zodzio-dalys/skiemenavimas-biologija-lastele.html',
-                dalykas: 'lietuvių',
-                klase: 6,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0404',
-                title: 'Veiksmažodis: galūnių rašymas | Ką veikia?',
-                description: 'Įrašyk tinkamą veiksmažodžio galūnę',
-                url: 'uzduotys/zodzio-dalys/veiksmazodis-galuniu-rasymas-ka-veikia-2.html',
-                dalykas: 'lietuvių',
-                klase: 4,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0451',
-                title: 'Žiūrėk - Uždenk - Rašyk - Tikrink | Įsimintinos rašybos žodžiai',
-                description: 'ąžuolas, mįslė, ąsotis, sąsiuvinis, drąsa',
-                url: 'uzduotys/zodzio-dalys/ziurek-uzdenk-rasyk-tikrink-1.html',
-                dalykas: 'lietuvių',
-                klase: 4,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0501',
-                title: 'Dvibalsiai ir dvigarsiai',
-                description: 'Išrūšiuok',
-                url: 'uzduotys/zodzio-dalys/dvibalsiai-ir-dvigarsiai-isrusiuok.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0502',
-                title: 'Dvibalsiai ir dvigarsiai',
-                description: 'Įrašyk sakiniuose',
-                url: 'uzduotys/zodzio-dalys/dvigarsiai-irasyk-sakiniuose.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0503',
-                title: 'Dvibalsiai ir dvigarsiai',
-                description: 'Įrašyk sakiniuose | Mesopotamija',
-                url: 'uzduotys/zodzio-dalys/dvigarsiai-irasyk-sakiniuose-mesopotamija.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0550',
-                title: 'Minkštumo ženklas | -iu-',
-                description: 'Pasitikrinamasis testas',
-                url: 'uzduotys/zodzio-dalys/minkstumo-zenklas-iu-pasitikrinimo-testas-1.html',
-                dalykas: 'lietuvių',
-                klase: 3,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žodžio dalys'
-            },
-            {
-                id: 'L0601',
-                title: 'Sinonimai ir Antonimai',
-                description: 'Parink tinkamą sinonimą arba antonimą duotam žodžiui',
-                url: 'uzduotys/kalbos-vystymas/sinonimai-antonimai.html',
-                dalykas: 'lietuvių',
-                klase: 5,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Kalbos vystymas'
-            },
-            {
-                id: 'L0602',
-                title: 'Sinonimai | Rask porą tekste',
-                description: 'Tekstas apie Mindaugo karūnavimą',
-                url: 'uzduotys/kalbos-vystymas/sinonimai-mindaugo-karunavimas.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Kalbos vystymas'
-            },
-            {
-                id: 'L0801',
-                title: 'Fonologinis suvokimas | Rask trūkstamą skiemenį',
-                description: 'Žodžiai: trečianis, lodija, kenė, kunugaris, pusserė, delis, lesyklė, vardis',
-                url: 'uzduotys/fonologinis-suvokimas/rask-trukstama-skiemeni.html',
-                dalykas: 'lietuvių',
-                klase: 6,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Fonologinis suvokimas'
-            },
-            {
-                id: 'L0901',
-                title: 'Istorinė literatūra',
-                description: 'Testas | 7 klausimai',
-                url: 'uzduotys/literatura/istorine-literatura.html',
-                dalykas: 'lietuvių',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Literatūra'
-            },           
-            {
-                id: 'B0001',
-                title: 'Mejozė ir Mitozė',
-                description: 'Priskirk sąvybes.',
-                url: 'uzduotys/biologija/mejoze-mitoze.html',
-                dalykas: 'biologija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Ląstelė'
-            },
-            {
-                id: 'B0002',
-                title: 'Genai ir paveldimumas',
-                description: 'Atsakyk į klausimus.',
-                url: 'uzduotys/biologija/dnr-struktura.html',
-                dalykas: 'biologija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Genai'
-            },
-            {
-                id: 'B0003',
-                title: 'Eukarijai | 4 karalystės',
-                description: 'Sudėliok schemą pagal požymius',
-                url: 'uzduotys/biologija/eukarijai-schema.html',
-                dalykas: 'biologija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Organizmų klasifikavimas'
-            },
-            {
-                id: 'B0004',
-                title: 'Organizmų klasifikavimas',
-                description: 'Temos kartojimo medžiaga: 3 domenai, 4 eukarijų karalystės ir virusai',
-                url: 'uzduotys/biologija/organizmu-klasifikavimas-visas-skyrius.html',
-                dalykas: 'biologija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Organizmų klasifikavimas'
-            },
-            {
-                id: 'F0001',
-                title: 'Garso bangų sąvybės',
-                description: 'Mokykis: garso sąvybės (bangos ilgis, greitis, dažnis ir periodas)',
-                url: 'uzduotys/fizika/garso-savybes.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0002',
-                title: 'Garso bangos ilgis, greitis, dažnis ir periodas',
-                description: 'Išspręsk 10 uždavinių.',
-                url: 'uzduotys/fizika/garso-bangos-10-uzdaviniu.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0003',
-                title: 'Garso bangos | dažnis, amplitudė ir garsumas',
-                description: '📝 TESTAS #1: Garso bangų parametrų sąsajos | 16 trumpų klausimų',
-                url: 'uzduotys/fizika/garso-bangos-sasajos-daznis-amplitude-garsumas-t1.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0004',
-                title: 'Garso bangos | ilgis, dažnis ir periodas',
-                description: '📝 TESTAS #2: Garso bangų parametrų sąsajos | 16 trumpų klausimų',
-                url: 'uzduotys/fizika/garso-bangu-sasajos-ilgis-daznis-periodas-t2.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0005',
-                title: 'Garso bangos ilgis, greitis, dažnis, amplitudė ir periodas',
-                description: '📝 (ruošiama) TESTAS #3: Garso bangos: faktai, palyginimas, formulės | 34 trumpi klausimai',
-                url: 'uzduotys/fizika/garso-bangos-faktai-testas2-34-klausimai.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0007',
-                title: 'Garso bangos ilgis, greitis, dažnis, amplitudė ir periodas',
-                description: '(ruošiama) Išspręsk 6 uždavinius',
-                url: 'uzduotys/fizika/garso-bangos-6-uzdaviniai.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0008',
-                title: 'Garso bangos | Sąvokos',
-                description: 'Pasikartojimo testas Nr.1',
-                url: 'uzduotys/fizika/garso-bangos-pasikartojimas-testas-1.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0009',
-                title: 'Garso bangos | Sąvokos',
-                description: 'Pasikartojimo testas Nr.2',
-                url: 'uzduotys/fizika/garso-bangos-pasikartojimas-testas-2.html',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0013',
-                title: '📺 Garso bangos',
-                description: '▶️ YouTube video',
-                url: 'https://www.youtube.com/watch?v=9u1PjsBfrmg',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0014',
-                title: '📺 Garso bangos | bangos ilgis, dažnis ir amplitudė',
-                description: '▶️ YouTube video',
-                url: 'https://www.youtube.com/watch?v=TsQL-sXZOLc',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0015',
-                title: '📺 Garso bangos | Aidas',
-                description: '▶️ YouTube video apie aidą',
-                url: 'https://youtu.be/xQJ1JCpmS2I?si=EGj36NuQ7DsS5GfE',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0016',
-                title: '📺 Garso bangos | Doplerio efektas',
-                description: '▶️ YouTube video apie aidą',
-                url: 'https://www.youtube.com/watch?v=h4OnBYrbCjY',
-                dalykas: 'fizika',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Garso bangos'
-            },
-            {
-                id: 'F0020',
-                title: 'Elektrostatika',
-                description: 'Temos santrauka ir 7 testai',
-                url: 'uzduotys/fizika/elektrostatika-santrauka-testai.html',
-                dalykas: 'fizika',
-                klase: 8,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Elektrostatika'
-            },
-            {
-                id: 'EN0001',
-                title: 'Nouns to Pronouns',
-                description: 'Replace nouns with the correct pronouns',
-                url: 'uzduotys/anglu/nouns-to-pronouns.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Pronouns'
-            },
-            {
-                id: 'EN0101',
-                title: 'Reading comprehension | Green Lake Park',
-                description: 'Complete the sentences using words from the text',
-                url: 'uzduotys/anglu/reading-comprehension-green-lake-park.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Reading comprehension'
-            },
-            {
-                id: 'EN0201',
-                title: 'Comparatives and Superlatives (I)',
-                description: 'Comparatives and Superlatives',
-                url: 'uzduotys/anglu/comparatives-superlatives.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Comparatives and Superlatives'
-            },
-            {
-                id: 'EN0202',
-                title: 'Comparatives and Superlatives (II)',
-                description: 'Comparatives and Superlatives',
-                url: 'uzduotys/anglu/comparatives-superlatives-2.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Comparatives and Superlatives'
-            },
-            {
-                id: 'EN0501',
-                title: 'Look, Cover, Write, Check (I)',
-                description: 'because, friend, which, there, people',
-                url: 'uzduotys/anglu/look-cover-write-check.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0502',
-                title: 'Look, Cover, Write, Check (II)',
-                description: 'which, there, where, here, what, who, when, then, how',
-                url: 'uzduotys/anglu/look-cover-write-check-2.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0503',
-                title: 'Look, Cover, Write, Check | Natural Disasters',
-                description: 'volcano, tornado, flood, wildfire, hurricane, drought, earthquake',
-                url: 'uzduotys/anglu/look-cover-write-check-3-disaster.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0504',
-                title: 'Look, Cover, Write, Check | Discovery and Invention',
-                description: 'discover, invent, create, imagine, design, adapt, explore, test, experiment, technology',
-                url: 'uzduotys/anglu/look-cover-write-check-4-discovery-and-invention.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0505',
-                title: 'Quiz | Discovery and Invention',
-                description: 'discover, invent, create, imagine, design, adapt, explore, test, experiment, technology',
-                url: 'uzduotys/anglu/quiz-discovery-and-invent.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0701',
-                title: 'Irregular verbs (I)',
-                description: 'go, see, take, write, speak, get, make, take, come, write',
-                url: 'uzduotys/anglu/irregular-verbs-1.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0702',
-                title: 'Irregular verbs (II)',
-                description: 'speak, eat, drink, give, find, think, know, feel, leave, meet',
-                url: 'uzduotys/anglu/irregular-verbs-2.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'EN0703',
-                title: 'Irregular verbs (III)',
-                description: 'begin, bring, buy, build, choose, drive, read, run, sleep, sit',
-                url: 'uzduotys/anglu/irregular-verbs-3.html',
-                dalykas: 'anglu',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Visual and Structural Grammar Approach'
-            },
-            {
-                id: 'G0001',
-                title: 'Europa | 15 klausimų testas',
-                description: 'Atlik testą ir pasikartok vadovėlio medžiagą prieš atsiskaitymą',
-                url: 'uzduotys/geografija/Europa-testas.html',
-                dalykas: 'geografija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Europa'
-            },
-            {
-                id: 'G0002',
-                title: '(ruošiama) Geografinės zonos',
-                description: 'Atlik užduotis ir pasikartok vadovėlio medžiagą prieš atsiskaitymą',
-                url: 'uzduotys/geografija/geografines-zonos.html',
-                dalykas: 'geografija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Europa'
-            },
-            {
-                id: 'I0001',
-                title: 'Judaizmo istorija',
-                description: '▶️ Išklausyk pasakojimą su 📺 video medžiaga. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/',
-                url: 'https://drive.google.com/file/d/12YRarerDezs63C1gq1K5FAtaMRAJU2Eh/view?usp=sharing',
-                dalykas: 'istorija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žydai'
-            },
-            {
-                id: 'I0002',
-                title: 'Judaizmo ištakos ir radikali monoteizmo idėja',
-                description: '▶️ Išklausyk pasakojimą. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/',
-                url: 'https://drive.google.com/file/d/1XNPPZCw2lNDw4gxAFjJ9Us4LSJ3vZc0Q/view?usp=sharing',
-                dalykas: 'istorija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Žydai'
-            },
-            {
-                id: 'I0006',
-                title: 'Sparta ir Atėnai',
-                description: '▶️ Išklausyk pasakojimą su 📺 video medžiaga. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/',
-                url: 'https://drive.google.com/file/d/1v3kklAe7kfXRKGiXAV9VbCf-QCSwDW1P/view?usp=sharing',
-                dalykas: 'istorija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Senovės Graikija'
-            },
-            {
-                id: 'I0007',
-                title: 'Spartos karinė mašina ir Atėnų demokratija',
-                description: '▶️ Išklausyk pasakojimą. Medžiaga paruošta naudojant DI - https://notebooklm.google.com/',
-                url: 'https://drive.google.com/file/d/1bIYap9GUmkccny5girKgVpez2S1pE1Nv/view?usp=sharing',
-                dalykas: 'istorija',
-                klase: 7,
-                sup: ['disleksija', 'disgrafija', 'kalbos'],
-                tema: 'Senovės Graikija'
-            },
-            {
-                id: 'FR0001',
-                title: 'GPM • VSD • PSD • VMI • SODRA',
-                description: 'Testas | 12 klausimų',
-                url: 'uzduotys/finansinis-rastingumas/gpm-vsd-psd-vmi-sodra.html',
-                dalykas: 'finansinis',
-                klase: 8,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Mokesčiai ir institucijos'
-            },
-            {
-                id: 'FR0002',
-                title: 'Tiesioginiai ir netiesioginiai mokesčiai',
-                description: 'Testas | PVM • akcizai | 12 klausimų',
-                url: 'uzduotys/finansinis-rastingumas/tiesioginiai_netiesioginiai_mokesciai.html',
-                dalykas: 'finansinis',
-                klase: 8,
-                sup: ['disleksija', 'disgrafija'],
-                tema: 'Mokesčiai ir institucijos'
-            },
-            // PRIDĖKITE ČIA kitas užduotis, nurodydami jų klases, SUP ir BŪTINAI temą!
-        ];
-        // --- FILTRAVIMO LOGIKA ---
+        <span class="id">${esc(u.id)}</span>
+      </div>
+      <h3><a href="${esc(u.url)}"${isorine ? ' target="_blank" rel="noopener"' : ''}>${esc(u.title)}</a></h3>
+      <p class="aprasymas">${esc(u.description)}</p>
+      <div class="kortele-apacia">
+        <div class="rutuliukai">${rutuliukai}</div>
+        <a class="atidaryti" href="${esc(u.url)}"${isorine ? ' target="_blank" rel="noopener"' : ''}>
+          ${isorine ? 'Atidaryti ↗' : 'Atlikti'}</a>
+      </div>
+    </article>`;
+  }).join('');
+}
 
-        const dalykasSelect = document.getElementById('dalykas-select');
-        const klaseSelect = document.getElementById('klase-select');
-        const supSelect = document.getElementById('sup-select');
-        const searchInput = document.getElementById('search-input'); // NAUJAS
-        const taskGrid = document.getElementById('task-grid');
-        const resultCount = document.getElementById('result-count');
-        const resetButton = document.querySelector('.reset-filters');
-        const noResultsMsg = document.querySelector('.no-results-msg');
+/* --- pagrindinis perpiešimas --- */
+function atnaujinti() {
+  const grupe = grupesId();
+  if (grupe) { rodykGrupe(grupe); return; }
 
+  const r = rezultatai();
+  pieskFiltrus();
+  pieskKorteles(r);
+  $('joKiek').textContent = r.length === rodomos.length
+    ? `Visos užduotys: ${r.length}`
+    : `Rasta: ${r.length} iš ${rodomos.length}`;
+  issaugoti();
+}
 
-        function filterTasks() {
-            const selectedDalykas = dalykasSelect.value;
-            const selectedKlase = klaseSelect.value;
-            const selectedSup = supSelect.value;
-            const searchTerm = searchInput.value.toLowerCase().trim(); // NAUJAS: Paieškos tekstas
-            
-            if (noResultsMsg) noResultsMsg.style.display = 'none';
+/* --- užduočių rinkinys per nuorodą --- */
+function grupesId() {
+  const p = new URLSearchParams(location.search).get('rinkinys');
+  return p ? p.split(',').map(s => s.trim()).filter(Boolean) : null;
+}
 
-            const filteredTasks = taskDatabase.filter(task => {
-                const taskKlase = task.klase; 
-                const filterKlase = selectedKlase === 'visos' ? 'visos' : parseInt(selectedKlase);
+function rodykGrupe(idSarasas) {
+  const sarasas = idSarasas.map(id => UZDUOTYS.find(u => u.id === id)).filter(Boolean);
+  $('sonine').style.display = 'none';
+  $('joSonine').style.display = 'none';
+  $('joKiek').textContent = `Užduočių rinkinys: ${sarasas.length}`;
+  $('joVeiksmai').innerHTML =
+    `<a class="mygtukas antrinis" href="${location.pathname}">← Visos užduotys</a>`;
+  pieskKorteles(sarasas, true);
+}
 
-                const dalykasMatch = selectedDalykas === 'visi' || task.dalykas === selectedDalykas;
-                const klaseMatch = selectedKlase === 'visos' || taskKlase === filterKlase;
-                const supMatch = selectedSup === 'visi' || task.sup.includes(selectedSup);
-                
-                // Paieškos sąlyga: Tikriname title, description ir temą
-                const searchMatch = searchTerm === '' || 
-                                    task.title.toLowerCase().includes(searchTerm) ||
-                                    task.description.toLowerCase().includes(searchTerm) ||
-                                    (task.tema && task.tema.toLowerCase().includes(searchTerm)); 
+/* --- įvykiai --- */
+document.addEventListener('change', e => {
+  const c = e.target;
+  if (c.matches('.sonine input[type="checkbox"]')) {
+    const kat = c.dataset.kategorija, r = c.value;
+    if (c.checked) { if (!filtrai[kat].includes(r)) filtrai[kat].push(r); }
+    else filtrai[kat] = filtrai[kat].filter(x => x !== r);
+    atnaujinti();
+  }
+  if (c.matches('.rinkti')) {
+    const id = c.closest('.kortele').dataset.id;
+    c.checked ? pazymetos.add(id) : pazymetos.delete(id);
+    c.closest('.kortele').classList.toggle('pazymeta', c.checked);
+    atnaujinkJuosta();
+  }
+});
 
-                return dalykasMatch && klaseMatch && supMatch && searchMatch;
-            });
+document.addEventListener('click', e => {
+  const z = e.target.closest('.zyma');
+  if (z) {
+    const kat = z.dataset.kategorija, r = z.dataset.reiksme;
+    filtrai[kat] = filtrai[kat].includes(r)
+      ? filtrai[kat].filter(x => x !== r) : [...filtrai[kat], r];
+    atnaujinti();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
 
-            renderTasks(filteredTasks);
-        }
+$('joPaieska').addEventListener('input', e => { filtrai.paieska = e.target.value; atnaujinti(); });
 
-        function renderTasks(tasks) {
-            taskGrid.innerHTML = ''; 
-            
-            if (tasks.length === 0) {
-                taskGrid.innerHTML = '<p class="no-results">Pagal pasirinktus kriterijus užduočių nerasta. Pabandykite keisti filtrus.</p>';
-                taskGrid.style.display = 'grid'; 
-            } else {
-                tasks.forEach(task => {
-                    const taskCard = document.createElement('a');
-                    taskCard.href = task.url;
-                    taskCard.classList.add('task-card-filtered');
-                    
-                    const supBadges = task.sup.map(sup => `<span class="sup-badge sup-${sup}">${sup.charAt(0).toUpperCase() + sup.slice(1)}</span>`).join('');
+$('joValyti').addEventListener('click', () => {
+  filtrai = { dalykas: [], klase: [], tema: [], sup: [], paieska: '' };
+  $('joPaieska').value = '';
+  atnaujinti();
+});
 
-                    taskCard.innerHTML = `
-                        <div class="task-header">
-                            <span class="task-klase">${task.klase} klasė</span>
-                            <span class="task-id">ID: ${task.id}</span>
-                        </div>
-                        <h3 class="task-title">${task.title}</h3>
-                        <p class="task-topic">Tema: ${task.tema}</p> <p class="task-description">${task.description}</p>
-                        <div class="task-footer">
-                            <span class="task-dalykas">${task.dalykas.charAt(0).toUpperCase() + task.dalykas.slice(1)}</span>
-                            <div class="sup-badges">${supBadges}</div>
-                        </div>
-                    `;
-                    taskGrid.appendChild(taskCard);
-                });
-            }
-            
-            resultCount.textContent = `${tasks.length} užduočių rasta.`;
-        }
-        
-        function resetFilters() {
-            dalykasSelect.value = 'visi';
-            klaseSelect.value = 'visos';
-            supSelect.value = 'visi';
-            searchInput.value = ''; // Išvalome paieškos lauką
-            filterTasks(); 
-        }
+$('joSonine').addEventListener('click', () => $('sonine').classList.toggle('suskleista'));
 
-        // Įvykių klausytojai
-        dalykasSelect.addEventListener('change', filterTasks);
-        klaseSelect.addEventListener('change', filterTasks);
-        supSelect.addEventListener('change', filterTasks);
-        searchInput.addEventListener('input', filterTasks); // NAUJAS klausytojas paieškai
-        resetButton.addEventListener('click', resetFilters);
+/* --- rinkinio sudarymas --- */
+$('joRinkti').addEventListener('click', () => {
+  rinkimas = true;
+  document.body.classList.add('rinkimas-ijungtas');
+  $('joJuosta').classList.add('rodyti');
+  $('joRinkti').disabled = true;
+});
 
-        // URL parametrų nuskaitymas (leidžia atsidaryti su iš anksto pritaikytais filtrais,
-        // pvz. index.html?dalykas=fizika&klase=8 arba index.html?klase=8)
-        function applyUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            const dalykasParam = params.get('dalykas');
-            const klaseParam = params.get('klase');
+$('joAtsaukti').addEventListener('click', () => {
+  rinkimas = false;
+  pazymetos.clear();
+  document.body.classList.remove('rinkimas-ijungtas');
+  $('joJuosta').classList.remove('rodyti');
+  $('joRinkti').disabled = false;
+  atnaujinti();
+});
 
-            if (dalykasParam && [...dalykasSelect.options].some(o => o.value === dalykasParam)) {
-                dalykasSelect.value = dalykasParam;
-            }
-            if (klaseParam && [...klaseSelect.options].some(o => o.value === klaseParam)) {
-                klaseSelect.value = klaseParam;
-            }
-        }
+function atnaujinkJuosta() {
+  const n = pazymetos.size;
+  $('joJuostaInfo').textContent = n
+    ? `Pasirinkta užduočių: ${n}`
+    : 'Pažymėkite užduotis, kurias norite sudėti į rinkinį.';
+  $('joKurti').disabled = n === 0;
+}
 
-        // Pradinis paleidimas
-        applyUrlParams();
-        filterTasks();
-    </script>
+$('joKurti').addEventListener('click', () => {
+  const idSarasas = UZDUOTYS.filter(u => pazymetos.has(u.id)).map(u => u.id);
+  const nuoroda = location.origin + location.pathname + '?rinkinys=' + idSarasas.join(',');
+  $('joNuoroda').value = nuoroda;
+  $('joGrupesSarasas').innerHTML = idSarasas
+    .map(id => `<li>${esc(UZDUOTYS.find(u => u.id === id).title)}</li>`).join('');
+  $('joUzdanga').classList.add('rodyti');
+});
+
+$('joKopijuoti').addEventListener('click', async () => {
+  const laukas = $('joNuoroda');
+  try {
+    await navigator.clipboard.writeText(laukas.value);
+    $('joKopijuoti').textContent = 'Nukopijuota ✓';
+  } catch (e) {
+    laukas.select();
+    $('joKopijuoti').textContent = 'Spauskite Ctrl+C';
+  }
+  setTimeout(() => { $('joKopijuoti').textContent = 'Kopijuoti nuorodą'; }, 2500);
+});
+
+$('joUzdaryti').addEventListener('click', () => $('joUzdanga').classList.remove('rodyti'));
+$('joUzdanga').addEventListener('click', e => {
+  if (e.target === $('joUzdanga')) $('joUzdanga').classList.remove('rodyti');
+});
+
+/* --- startas --- */
+if (window.matchMedia('(max-width: 900px)').matches) {
+  $('sonine').classList.add('suskleista');
+}
+atkurti();
+$('joPaieska').value = filtrai.paieska || '';
+atnaujinti();
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
