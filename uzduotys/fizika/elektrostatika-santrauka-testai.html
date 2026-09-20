@@ -346,6 +346,39 @@
     color:#fff;
   }
 
+  /* --- Testų pasirinkimas (potemės) --- */
+  nav.quiz-subnav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    margin:0 0 22px;
+  }
+  .qsub-btn{
+    font-family:inherit;
+    font-size:0.88rem;
+    font-weight:bold;
+    padding:9px 15px;
+    border-radius:20px;
+    border:2px solid var(--blue);
+    background:#fff;
+    color:var(--blue);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .qsub-btn.active{background:var(--blue);color:#fff;}
+  .qsub-btn.optional{border-color:var(--purple);color:var(--purple);}
+  .qsub-btn.optional.active{background:var(--purple);color:#fff;}
+  .qsub-btn.summary{border-color:var(--green-border);color:var(--green);}
+  .qsub-btn.summary.active{background:var(--green);color:#fff;}
+  .quiz-topic-title{
+    text-align:center;
+    font-weight:bold;
+    color:var(--blue);
+    margin:0 0 14px;
+    font-size:1.05rem;
+  }
+
   /* --- Testas --- */
   .quiz-card{
     background:#fff;
@@ -477,7 +510,7 @@
 
   <nav class="main-nav">
     <button id="btn-santrauka" class="active" onclick="showSection('santrauka')">📚 Santrauka</button>
-    <button id="btn-testas" onclick="showSection('testas')">✍️ Testas (1.1 tema)</button>
+    <button id="btn-testas" onclick="showSection('testas')">✍️ Mokomieji testai</button>
   </nav>
 
   <!-- ========================= SEKCIJA: SANTRAUKA ========================= -->
@@ -841,8 +874,20 @@
   <!-- ======================= /SEKCIJA: SANTRAUKA ========================= -->
 
 
-  <!-- ========================= SEKCIJA: TESTAS ========================= -->
+  <!-- ========================= SEKCIJA: TESTAI ========================= -->
   <div id="testas" class="section">
+
+    <nav class="quiz-subnav" id="quiz-subnav">
+      <button class="qsub-btn active" data-key="t1" onclick="loadQuiz('t1')">1.1 Įelektrinimas</button>
+      <button class="qsub-btn" data-key="t2" onclick="loadQuiz('t2')">1.2 Sąveika</button>
+      <button class="qsub-btn" data-key="t3" onclick="loadQuiz('t3')">1.3 El. laukas</button>
+      <button class="qsub-btn optional" data-key="t4" onclick="loadQuiz('t4')">1.4 Potencialas ★</button>
+      <button class="qsub-btn" data-key="t5" onclick="loadQuiz('t5')">1.5 Kondensatorius</button>
+      <button class="qsub-btn summary" data-key="summary" onclick="loadQuiz('summary')">📊 Apibendrinimas</button>
+    </nav>
+
+    <p class="quiz-topic-title" id="quiz-topic-title">1.1 Kūnų įelektrinimas. Elektros krūvio tvermė</p>
+
     <div class="quiz-card">
 
       <div id="quiz-question-view">
@@ -850,7 +895,7 @@
           <span id="quiz-progress-text">Klausimas 1 / 10</span>
           <span id="quiz-score-text">Taškai: 0</span>
         </div>
-        <div class="quiz-bar"><div class="quiz-bar-fill" id="quiz-bar-fill" style="width:10%"></div></div>
+        <div class="quiz-bar"><div class="quiz-bar-fill" id="quiz-bar-fill" style="width:0%"></div></div>
 
         <p class="quiz-question" id="quiz-question-text"></p>
         <div class="quiz-options" id="quiz-options"></div>
@@ -868,7 +913,7 @@
 
     </div>
   </div>
-  <!-- ======================= /SEKCIJA: TESTAS ========================= -->
+  <!-- ======================= /SEKCIJA: TESTAI ========================= -->
 
 </div>
 
@@ -897,7 +942,7 @@
   const studentName = showNamePrompt();
   document.getElementById('studentNameDisplay').textContent = studentName;
 
-  // ---------- Sekcijų perjungimas ----------
+  // ---------- Sekcijų perjungimas (Santrauka / Testai) ----------
   function showSection(id){
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -905,75 +950,105 @@
     document.getElementById('btn-testas').classList.toggle('active', id === 'testas');
   }
 
-  // ---------- Testo duomenys: 1.1 tema ----------
-  const quizData = [
-    {
-      q: "Kas yra elektros krūvis?",
-      options: [
-        "Kūnų savybė, lemianti jų sąveiką su kitais kūnais",
-        "Šviesos rūšis",
-        "Kūno judėjimo greitis"
-      ],
-      correct: 0
-    },
-    {
-      q: "Kokia raide žymimas elektros krūvis?",
-      options: ["E", "q", "F"],
-      correct: 1
-    },
-    {
-      q: "Kuri dalelė turi neigiamąjį elektros krūvį?",
-      options: ["Protonas", "Neutronas", "Elektronas"],
-      correct: 2
-    },
-    {
-      q: "Kaip vadinamos medžiagos, turinčios daug laisvųjų elektronų ir gerai praleidžiančios elektros srovę?",
-      options: ["Laidininkai", "Izoliatoriai", "Dielektrikai"],
-      correct: 0
-    },
-    {
-      q: "Kuri iš šių medžiagų yra izoliatorius (dielektrikas)?",
-      options: ["Metalas", "Stiklas", "Žmogaus kūnas"],
-      correct: 1
-    },
-    {
-      q: "Kaip vadinamas įelektrinimo būdas, kai du dielektrikai trinami vienas į kitą?",
-      options: ["Liečiant", "Trinant", "Neliečiant (indukcija)"],
-      correct: 1
-    },
-    {
-      q: "Trinant plastikinę liniuotę į medžiagos skiautę, elektronai pereina iš medžiagos į liniuotę. Kaip įsielektrina liniuotė?",
-      options: ["Teigiamai", "Neigiamai", "Lieka neutrali"],
-      correct: 1
-    },
-    {
-      q: "Kaip vadinamas dėsnis, teigiantis, kad uždaroje sistemoje bendras elektros krūvis nekinta?",
-      options: ["Kulono dėsnis", "Elektros krūvio tvermės dėsnis", "Energijos tvermės dėsnis"],
-      correct: 1
-    },
-    {
-      q: "Ką reiškia užrašas q₁ + q₂ + … + qₙ = const?",
-      options: [
-        "Krūviai uždaroje sistemoje visada didėja",
-        "Bendra krūvių suma uždaroje sistemoje išlieka pastovi",
-        "Visi kūnai visada elektriškai neutralūs"
-      ],
-      correct: 1
-    },
-    {
-      q: "Kodėl kūnų įsielektrinimas gali būti naudingas praktikoje?",
-      options: [
-        "Nes jis visada sukelia avarijas",
-        "Nes juo pagrįsti, pvz., dūmų filtrai ir pirštų atspaudų paieška",
-        "Nes technikoje jis niekada nenaudojamas"
-      ],
-      correct: 1
-    }
-  ];
+  // ---------- Testų duomenys: mokomieji testai kiekvienai potemei ----------
+  const quizTitles = {
+    t1: '1.1 Kūnų įelektrinimas. Elektros krūvio tvermė',
+    t2: '1.2 Įelektrintų kūnų sąveika',
+    t3: '1.3 Elektrinis laukas',
+    t4: '1.4 Elektrinio lauko potencialas ★ (neprivaloma)',
+    t5: '1.5 Kondensatorius. Elektrinė talpa',
+    summary: '📊 Viso skyriaus apibendrinimas'
+  };
 
+  const quizSets = {
+    t1: [
+      { q: "Kas yra elektros krūvis?", options: ["Kūnų savybė, lemianti jų sąveiką su kitais kūnais", "Šviesos rūšis", "Kūno judėjimo greitis"], correct: 0 },
+      { q: "Kokia raide žymimas elektros krūvis?", options: ["E", "q", "F"], correct: 1 },
+      { q: "Kuri dalelė turi neigiamąjį elektros krūvį?", options: ["Protonas", "Neutronas", "Elektronas"], correct: 2 },
+      { q: "Kaip vadinamos medžiagos, turinčios daug laisvųjų elektronų ir gerai praleidžiančios elektros srovę?", options: ["Laidininkai", "Izoliatoriai", "Dielektrikai"], correct: 0 },
+      { q: "Kuri iš šių medžiagų yra izoliatorius (dielektrikas)?", options: ["Metalas", "Stiklas", "Žmogaus kūnas"], correct: 1 },
+      { q: "Kaip vadinamas įelektrinimo būdas, kai du dielektrikai trinami vienas į kitą?", options: ["Liečiant", "Trinant", "Neliečiant (indukcija)"], correct: 1 },
+      { q: "Trinant plastikinę liniuotę į medžiagos skiautę, elektronai pereina iš medžiagos į liniuotę. Kaip įsielektrina liniuotė?", options: ["Teigiamai", "Neigiamai", "Lieka neutrali"], correct: 1 },
+      { q: "Kaip vadinamas dėsnis, teigiantis, kad uždaroje sistemoje bendras elektros krūvis nekinta?", options: ["Kulono dėsnis", "Elektros krūvio tvermės dėsnis", "Energijos tvermės dėsnis"], correct: 1 },
+      { q: "Ką reiškia užrašas q₁ + q₂ + … + qₙ = const?", options: ["Krūviai uždaroje sistemoje visada didėja", "Bendra krūvių suma uždaroje sistemoje išlieka pastovi", "Visi kūnai visada elektriškai neutralūs"], correct: 1 },
+      { q: "Kodėl kūnų įsielektrinimas gali būti naudingas praktikoje?", options: ["Nes jis visada sukelia avarijas", "Nes juo pagrįsti, pvz., dūmų filtrai ir pirštų atspaudų paieška", "Nes technikoje jis niekada nenaudojamas"], correct: 1 }
+    ],
+    t2: [
+      { q: "Kaip sąveikauja du vienavardžiai krūviai (abu teigiami arba abu neigiami)?", options: ["Stumia viena kitą", "Traukia viena kitą", "Nesąveikauja"], correct: 0 },
+      { q: "Kaip sąveikauja įvairiavardžiai krūviai (vienas teigiamas, kitas neigiamas)?", options: ["Stumia viena kitą", "Traukia viena kitą", "Nesąveikauja"], correct: 1 },
+      { q: "Kam naudojamas elektroskopas?", options: ["Matuoti temperatūrą", "Nustatyti, ar kūnas įelektrintas", "Matuoti atstumą"], correct: 1 },
+      { q: "Kodėl elektroskopo folijos juostelės prasiskleidžia, kai jį paliečia įelektrintas kūnas?", options: ["Jos įgyja vienodą krūvį ir stumia viena kitą", "Jos atvėsta", "Jos pritraukia orą"], correct: 0 },
+      { q: "Kokiu žodžiu vadinamas krūvio matavimo vienetas?", options: ["Voltas", "Kulonas", "Amperas"], correct: 1 },
+      { q: "Kas NĖRA veiksnys, nuo kurio priklauso sąveikos jėga tarp krūvių?", options: ["Krūvio dydis", "Atstumas tarp krūvių", "Kūno spalva"], correct: 2 },
+      { q: "Padidinus atstumą tarp dviejų krūvių 2 kartus, kaip pasikeičia sąveikos jėga?", options: ["Padidėja 2 kartus", "Sumažėja 2 kartus", "Sumažėja 4 kartus"], correct: 2 }
+    ],
+    t3: [
+      { q: "Kokia teorija teigia, kad kūnai sąveikauja tiesiogiai per tuštumą, be jokio tarpininko?", options: ["Artiveikos teorija", "Toliveikos teorija", "Krūvio tvermės teorija"], correct: 1 },
+      { q: "Kas pasiūlė artiveikos teoriją, teigiančią, kad sąveiką perduoda elektrinis laukas?", options: ["I. Niutonas", "M. Faradėjus", "Š. Kulonas"], correct: 1 },
+      { q: "Ką veikia elektrinis laukas?", options: ["Jame esančius krūvius", "Tik metalinius daiktus", "Tik šviesą"], correct: 0 },
+      { q: "Kur elektrinis laukas yra stipriausias?", options: ["Toli nuo kūno", "Arti kūno", "Visur vienodai"], correct: 1 },
+      { q: "Iš kurio krūvio \"išeina\" elektrinio lauko jėgų linijos?", options: ["Iš teigiamo", "Iš neigiamo", "Iš abiejų vienodai"], correct: 0 },
+      { q: "Ar elektrinio lauko jėgų linijos gali kirstis?", options: ["Taip, dažnai", "Ne, niekada", "Tik prie krūvio"], correct: 1 },
+      { q: "Kokia formule apskaičiuojamas elektrinio lauko stipris?", options: ["E = F · q", "E = F / q", "E = q / F"], correct: 1 },
+      { q: "Kokiu vienetu matuojamas elektrinio lauko stipris?", options: ["N/C", "V/m²", "J"], correct: 0 }
+    ],
+    t4: [
+      { q: "Kas yra potencinė energija?", options: ["Energija judančio kūno", "Energija, kurią turi pakeltas ar deformuotas kūnas", "Energija, kuri visada lygi nuliui"], correct: 1 },
+      { q: "Kokia formule skaičiuojama kūno potencinė energija (Ep)?", options: ["Ep = m·g·h", "Ep = m·v", "Ep = F/q"], correct: 0 },
+      { q: "Kokiu simboliu žymimas elektrinio lauko potencialas?", options: ["E", "φ", "C"], correct: 1 },
+      { q: "Kokiu vienetu matuojamas elektrinio lauko potencialas?", options: ["Niutonais (N)", "Voltais (V)", "Kulonais (C)"], correct: 1 },
+      { q: "Kaip kinta elektrinio lauko potencialas tolstant nuo teigiamo krūvio?", options: ["Didėja", "Mažėja", "Nekinta"], correct: 1 },
+      { q: "Kokiu vienetu matuojama krūvio potencinė energija (W)?", options: ["Voltais (V)", "Džauliais (J)", "Kulonais (C)"], correct: 1 }
+    ],
+    t5: [
+      { q: "Kas yra kondensatorius?", options: ["Prietaisas, kaupiantis elektros krūvį", "Prietaisas, matuojantis temperatūrą", "Prietaisas, gaminantis šviesą"], correct: 0 },
+      { q: "Iš ko sudarytas paprasčiausias kondensatorius?", options: ["Iš dviejų magnetų", "Iš dviejų metalinių plokštelių, atskirtų dielektriku", "Iš vieno laido"], correct: 1 },
+      { q: "Kas atsitinka kondensatoriaus plokštelėms, kai jis įkraunamas?", options: ["Abi lieka neutralios", "Viena įsielektrina teigiamai, kita – neigiamai", "Abi įsielektrina vienodai"], correct: 1 },
+      { q: "Kokia formule skaičiuojama kondensatoriaus elektrinė talpa (C)?", options: ["C = q · U", "C = q / U", "C = U / q"], correct: 1 },
+      { q: "Kokiu vienetu matuojama elektrinė talpa?", options: ["Voltu (V)", "Faradu (F)", "Kulonu (C)"], correct: 1 },
+      { q: "Kaip talpa priklauso nuo atstumo tarp plokštelių?", options: ["Didėjant atstumui, talpa didėja", "Didėjant atstumui, talpa mažėja", "Atstumas talpai neturi įtakos"], correct: 1 },
+      { q: "Kaip talpa priklauso nuo plokštelių sanklotos ploto?", options: ["Didėjant plotui, talpa didėja", "Didėjant plotui, talpa mažėja", "Plotas talpai neturi įtakos"], correct: 0 },
+      { q: "Ką kondensatoriaus plokštelių tarpe esantis dielektrikas daro elektrinei talpai?", options: ["Sumažina ją", "Padidina ją", "Neturi jokios įtakos"], correct: 1 }
+    ],
+    summary: [
+      { q: "Ką tiria elektrostatika?", options: ["Judančius krūvius", "Nejudančius krūvius", "Šviesos greitį"], correct: 1 },
+      { q: "Kuri dalelė turi mažiausią teigiamą krūvį?", options: ["Elektronas", "Protonas", "Neutronas"], correct: 1 },
+      { q: "Kuo skiriasi laidininkai nuo izoliatorių?", options: ["Laidininkai turi daug laisvųjų elektronų, izoliatoriai – mažai", "Izoliatoriai turi daug laisvųjų elektronų, laidininkai – mažai", "Jie nesiskiria"], correct: 0 },
+      { q: "Kaip galima įelektrinti kūną?", options: ["Tik trinant", "Trinant, liečiant arba neliečiant", "Tik šildant"], correct: 1 },
+      { q: "Ką teigia elektros krūvio tvermės dėsnis?", options: ["Krūvis uždaroje sistemoje visada didėja", "Bendras krūvis uždaroje sistemoje nekinta", "Krūvis visada lygus nuliui"], correct: 1 },
+      { q: "Kaip sąveikauja vienavardžiai krūviai?", options: ["Traukia", "Stumia", "Nesąveikauja"], correct: 1 },
+      { q: "Nuo ko priklauso sąveikos jėga tarp krūvių?", options: ["Tik nuo krūvio dydžio", "Nuo krūvio dydžio, atstumo ir terpės", "Tik nuo kūno spalvos"], correct: 1 },
+      { q: "Kas pagal artiveikos teoriją perduoda sąveiką tarp krūvių?", options: ["Tuštuma", "Elektrinis laukas", "Garso banga"], correct: 1 },
+      { q: "Iš kurio krūvio išeina elektrinio lauko jėgų linijos?", options: ["Iš neigiamo", "Iš teigiamo", "Jos neišeina, o tik sueina"], correct: 1 },
+      { q: "Kokia formule skaičiuojamas elektrinio lauko stipris?", options: ["E = F/q", "E = q/F", "E = F·q"], correct: 0 },
+      { q: "Kas yra kondensatorius?", options: ["Prietaisas krūviui kaupti", "Prietaisas srovei matuoti", "Prietaisas šviesai gaminti"], correct: 0 },
+      { q: "Kokia formule skaičiuojama kondensatoriaus elektrinė talpa?", options: ["C = q/U", "C = U/q", "C = q·U"], correct: 0 },
+      { q: "Koks buvo pirmasis kondensatorius, sukurtas 1745 metais?", options: ["Faradėjaus ritė", "Leideno stiklinė", "Kulono svarstyklės"], correct: 1 },
+      { q: "Kas gamtoje veikia kaip milžiniškas kondensatorius?", options: ["Vandenynas ir Mėnulis", "Žemė ir jonosfera", "Kalnai ir debesys"], correct: 1 },
+      { q: "Kas yra žaibas fizikiniu požiūriu?", options: ["Garso banga", "Gamtinio kondensatoriaus pažaida (krūvio \"nutekėjimas\")", "Šviesos atspindys"], correct: 1 }
+    ]
+  };
+
+  let currentSetKey = 't1';
+  let quizData = quizSets[currentSetKey];
   let currentQ = 0;
   let score = 0;
   let answered = false;
+
+  function loadQuiz(key){
+    currentSetKey = key;
+    quizData = quizSets[key];
+    currentQ = 0;
+    score = 0;
+    answered = false;
+
+    document.querySelectorAll('.qsub-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
+    document.getElementById('quiz-topic-title').textContent = quizTitles[key];
+    document.getElementById('quiz-question-view').style.display = 'block';
+    document.getElementById('quiz-results-view').style.display = 'none';
+
+    renderQuestion();
+  }
 
   function renderQuestion(){
     answered = false;
@@ -1046,10 +1121,11 @@
     const total = quizData.length;
     document.getElementById('quiz-results-score').textContent = `${score} / ${total}`;
 
+    const pct = total > 0 ? score / total : 0;
     let emoji, msg;
-    if (score >= 9){ emoji = '🌟'; msg = 'PUIKIAI!'; }
-    else if (score >= 7){ emoji = '✅'; msg = 'GERAI!'; }
-    else if (score >= 5){ emoji = '🙂'; msg = 'NEBLOGAI — dar pasikartok'; }
+    if (pct >= 0.9){ emoji = '🌟'; msg = 'PUIKIAI!'; }
+    else if (pct >= 0.7){ emoji = '✅'; msg = 'GERAI!'; }
+    else if (pct >= 0.5){ emoji = '🙂'; msg = 'NEBLOGAI — dar pasikartok'; }
     else { emoji = '💪'; msg = 'Reikia pakartoti temą — pabandyk dar kartą!'; }
 
     document.getElementById('quiz-results-emoji').textContent = emoji;
@@ -1064,7 +1140,7 @@
     renderQuestion();
   }
 
-  // Pirmo klausimo atvaizdavimas iš karto (testo sekcija paruošta, net jei nematoma)
+  // Pirmo testo (1.1) atvaizdavimas iš karto (sekcija paruošta, net jei nematoma)
   renderQuestion();
 </script>
 </body>
