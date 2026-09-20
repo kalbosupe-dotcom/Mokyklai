@@ -1,5 +1,7 @@
 // Google Sheets Web App URL
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbx0xWO2m8cXAwWRN1CGO-WqQ4UAfzGmibwQkV5Lu3XwLpi0dwfQ6APl7i3lOOn9YlWH/exec';
+// Skriptas: "Kalbos Upė – Rezultatai" (kalbosupe@gmail.com)
+// Atnaujinta: 2026-09-20
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwOy1CBkIqVguiL__uFFbiQbxHHpHsT4AQy8paoHH8sRCGYJ4dHQR1ys1_Cgi7VG18h2Q/exec';
 
 // Funkcija vardui įvesti prieš užduotį
 function showNamePrompt() {
