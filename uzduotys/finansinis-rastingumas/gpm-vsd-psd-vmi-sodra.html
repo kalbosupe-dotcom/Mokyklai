@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUIZ 1 – Praeita pamoka</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Verdana,sans-serif;background:#f7f3e8;color:#202020;line-height:1.55;font-size:18px}
+.wrap{max-width:850px;margin:30px auto;padding:20px}
+.card{background:#fffdf7;border:2px solid #d8d1bf;border-radius:18px;padding:28px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+h1{margin-top:0;font-size:30px;text-align:center}
+.subtitle{text-align:center;margin-bottom:22px}
+.progress{font-weight:bold;margin-bottom:12px}
+.bar{height:14px;background:#e8e3d7;border-radius:999px;overflow:hidden;margin-bottom:24px}
+.bar>div{height:100%;background:#3f7f5f;width:0%;transition:width .25s ease}
+.question{font-size:23px;font-weight:bold;margin-bottom:18px}
+.answers{display:grid;gap:12px}
+button.answer{width:100%;text-align:left;padding:15px 16px;font-size:18px;border-radius:12px;border:2px solid #c9c2b1;background:#fff;cursor:pointer}
+button.answer:hover{background:#f1eee5}
+button.answer.correct{background:#dff3e4;border-color:#4f9b63}
+button.answer.wrong{background:#f7dddd;border-color:#b95c5c}
+.explanation{display:none;margin-top:20px;padding:16px;border-radius:12px;background:#f0f4ff;border-left:6px solid #5c75b9}
+.next,.restart{display:none;margin-top:20px;padding:13px 22px;font-size:18px;font-weight:bold;border:0;border-radius:12px;background:#2f6f52;color:white;cursor:pointer}
+.result{display:none;text-align:center}
+.score{font-size:42px;font-weight:bold;margin:15px 0}
+.cheat{margin-top:20px;background:#f3f1ea;padding:18px;border-radius:12px;text-align:left}
+.cheat p{margin:8px 0}
+@media(max-width:600px){body{font-size:17px}.wrap{margin:10px auto;padding:10px}.card{padding:20px}h1{font-size:26px}.question{font-size:21px}}
+</style>
+
+</head>
+<body>
+<div class="wrap"><div class="card">
+<div id="quiz">
+<h1>QUIZ 1 – Praeita pamoka</h1>
+<div class="subtitle">GPM • VSD • PSD • VMI • SODRA</div>
+<div class="progress" id="progressText"></div>
+<div class="bar"><div id="progressBar"></div></div>
+<div class="question" id="question"></div>
+<div class="answers" id="answers"></div>
+<div class="explanation" id="explanation"></div>
+<button class="next" id="nextBtn">Kitas klausimas →</button>
+</div>
+
+<div class="result" id="result">
+<h1>Baigta! 🎉</h1>
+<div class="score" id="score"></div>
+<div id="message"></div>
+<div class="cheat">
+<h2>Trumpa atmintinė</h2>
+<p><b>GPM</b> – gyventojų pajamų mokestis.</p>
+<p><b>PSD</b> – privalomasis sveikatos draudimas.</p>
+<p><b>VSD</b> – valstybinis socialinis draudimas.</p>
+<p><b>VMI</b> – Valstybinė mokesčių inspekcija.</p>
+<p><b>SODRA</b> – valstybinio socialinio draudimo sistema / institucija.</p>
+</div>
+<button class="restart" id="restartBtn">Bandyti dar kartą ↻</button>
+</div>
+</div></div>
+
+<script>
+const questions = [{"q": "1. Ką reiškia GPM?", "a": ["Gyventojų pajamų mokestis", "Gyventojų pirkimo mokestis", "Grynųjų pinigų mokestis", "Gyventojų pensijų mokestis"], "c": 0, "e": "GPM – gyventojų pajamų mokestis."}, {"q": "2. Kuri santrumpa reiškia „Gyventojų pajamų mokestis“?", "a": ["PSD", "GPM", "VMI", "VSD"], "c": 1, "e": "Gyventojų pajamų mokestis trumpinamas GPM."}, {"q": "3. Ką reiškia PSD?", "a": ["Privalomasis sveikatos draudimas", "Pagrindinis socialinis draudimas", "Privatus sveikatos draudimas", "Pajamų skaičiavimo dalis"], "c": 0, "e": "PSD – privalomasis sveikatos draudimas."}, {"q": "4. Kuri santrumpa reiškia „Privalomasis sveikatos draudimas“?", "a": ["VSD", "PSD", "GPM", "SODRA"], "c": 1, "e": "Privalomasis sveikatos draudimas trumpinamas PSD."}, {"q": "5. Ką reiškia VSD?", "a": ["Valstybinis socialinis draudimas", "Valstybinis sveikatos draudimas", "Viešasis socialinis draudimas", "Valstybinis skolų draudimas"], "c": 0, "e": "VSD – valstybinis socialinis draudimas."}, {"q": "6. Kuri santrumpa reiškia „Valstybinis socialinis draudimas“?", "a": ["VMI", "VSD", "PSD", "GPM"], "c": 1, "e": "Valstybinis socialinis draudimas trumpinamas VSD."}, {"q": "7. Ką reiškia VMI?", "a": ["Valstybinė mokesčių inspekcija", "Valstybinė medicinos įstaiga", "Viešoji mokesčių institucija", "Valstybinė mokėjimų inspekcija"], "c": 0, "e": "VMI – Valstybinė mokesčių inspekcija."}, {"q": "8. Kuri santrumpa reiškia „Valstybinė mokesčių inspekcija“?", "a": ["VSD", "SODRA", "VMI", "PSD"], "c": 2, "e": "Valstybinė mokesčių inspekcija trumpinama VMI."}, {"q": "9. Su kuo labiausiai susijusi SODRA?", "a": ["Socialiniu draudimu, pensijomis ir išmokomis", "Prekių kainomis", "Mokyklų finansavimu", "PVM kasose"], "c": 0, "e": "SODRA administruoja valstybinį socialinį draudimą, pensijas ir įvairias socialinio draudimo išmokas."}, {"q": "10. Kuri sąvoka geriausiai tinka santrumpai / pavadinimui SODRA?", "a": ["Valstybinio socialinio draudimo sistema ir institucija", "Valstybinė mokesčių inspekcija", "Pridėtinės vertės mokestis", "Gyventojų pajamų mokestis"], "c": 0, "e": "SODRA susijusi su valstybiniu socialiniu draudimu."}, {"q": "11. Kas administruoja daugumą mokesčių Lietuvoje?", "a": ["VMI", "PSD", "GPM", "VSD"], "c": 0, "e": "VMI administruoja daugelį mokesčių."}, {"q": "12. Kuris iš šių yra mokestis nuo gyventojo pajamų?", "a": ["GPM", "PSD", "VSD", "SODRA"], "c": 0, "e": "GPM yra gyventojų pajamų mokestis."}];
+let current=0,score=0,locked=false;
+const questionEl=document.getElementById("question");
+const answersEl=document.getElementById("answers");
+const explanationEl=document.getElementById("explanation");
+const nextBtn=document.getElementById("nextBtn");
+const progressText=document.getElementById("progressText");
+const progressBar=document.getElementById("progressBar");
+const quizEl=document.getElementById("quiz");
+const resultEl=document.getElementById("result");
+const scoreEl=document.getElementById("score");
+const messageEl=document.getElementById("message");
+const restartBtn=document.getElementById("restartBtn");
+
+function shuffleArray(array){
+  for(let i=array.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [array[i],array[j]]=[array[j],array[i]];
+  }
+  return array;
+}
+
+function showQuestion(){
+  locked=false;
+  const item=questions[current];
+  questionEl.textContent=item.q;
+  answersEl.innerHTML="";
+  explanationEl.style.display="none";
+  nextBtn.style.display="none";
+  progressText.textContent=`Klausimas ${current+1} iš ${questions.length}`;
+  progressBar.style.width=`${(current/questions.length)*100}%`;
+
+  const options=item.a.map((text,index)=>({
+    text:text,
+    correct:index===item.c
+  }));
+  shuffleArray(options);
+
+  options.forEach(option=>{
+    const btn=document.createElement("button");
+    btn.className="answer";
+    btn.textContent=option.text;
+    btn.dataset.correct=option.correct ? "1" : "0";
+    btn.onclick=()=>chooseAnswer(option.correct,btn);
+    answersEl.appendChild(btn);
+  });
+}
+
+function chooseAnswer(isCorrect,clickedBtn){
+  if(locked)return;
+  locked=true;
+  const item=questions[current];
+  const buttons=[...answersEl.querySelectorAll("button")];
+
+  if(isCorrect){
+    score++;
+    clickedBtn.classList.add("correct");
+    explanationEl.innerHTML="✅ <b>Teisingai!</b><br>"+item.e;
+  }else{
+    clickedBtn.classList.add("wrong");
+    const correctBtn=buttons.find(b=>b.dataset.correct==="1");
+    if(correctBtn) correctBtn.classList.add("correct");
+    explanationEl.innerHTML="❌ <b>Neteisingai.</b><br>"+item.e;
+  }
+
+  buttons.forEach(b=>b.disabled=true);
+  explanationEl.style.display="block";
+  nextBtn.style.display="inline-block";
+}
+nextBtn.onclick=()=>{
+  current++;
+  if(current<questions.length)showQuestion();
+  else finishQuiz();
+};
+function finishQuiz(){
+  quizEl.style.display="none";
+  resultEl.style.display="block";
+  restartBtn.style.display="inline-block";
+  scoreEl.textContent=`${score} / ${questions.length}`;
+  const p=Math.round(score/questions.length*100);
+  messageEl.textContent=p>=90?"Puikiai! Šią temą moki labai gerai.":p>=70?"Gerai! Dar pasikartok kelias sąvokas.":p>=50?"Neblogai. Peržiūrėk atmintinę ir pabandyk dar kartą.":"Pasikartok atmintinę ir bandyk dar kartą.";
+}
+restartBtn.onclick=()=>{
+  current=0;score=0;
+  resultEl.style.display="none";
+  quizEl.style.display="block";
+  showQuestion();
+};
+showQuestion();
+</script>
+
+</body>
+</html>
