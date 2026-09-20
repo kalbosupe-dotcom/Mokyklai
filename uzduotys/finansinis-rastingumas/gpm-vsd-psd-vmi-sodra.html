@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QUIZ – GPM • VSD • PSD • VMI • SODRA</title>
+<title>GPM, VSD, PSD, VMI, SODRA</title>
 
 <style>
 *{box-sizing:border-box}
@@ -28,14 +28,91 @@ button.answer.wrong{background:#f7dddd;border-color:#b95c5c}
 .cheat{margin-top:20px;background:#f3f1ea;padding:18px;border-radius:12px;text-align:left}
 .cheat p{margin:8px 0}
 @media(max-width:600px){body{font-size:17px}.wrap{margin:10px auto;padding:10px}.card{padding:20px}h1{font-size:26px}.question{font-size:21px}}
+
+/* --- Viršutinė juosta: grįžimo mygtukai + mokinio vardas --- */
+.site-header{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;margin-bottom:20px;
+}
+.back-buttons{display:flex;flex-wrap:wrap;gap:8px;}
+.back-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:8px 14px;background:#fff;border:2px solid #2f6f52;
+  color:#2f6f52;text-decoration:none;border-radius:20px;
+  font-weight:bold;font-size:0.82rem;white-space:nowrap;
+  transition:background-color .2s,color .2s;
+}
+.back-btn:hover{background:#2f6f52;color:#fff;}
+.student-info{
+  display:flex;align-items:center;gap:10px;background:#fff;
+  border:2px solid #2f6f52;border-radius:20px;padding:6px 6px 6px 14px;
+  font-size:0.9rem;flex-wrap:wrap;
+}
+.student-info strong{color:#2f6f52;}
+.change-name-btn{
+  font-family:inherit;font-size:0.8rem;font-weight:bold;
+  padding:6px 12px;border-radius:16px;border:none;
+  background:#2f6f52;color:#fff;cursor:pointer;
+}
+.change-name-btn:hover{opacity:.88;}
+@media(max-width:600px){
+  .site-header{flex-direction:column;align-items:stretch;}
+  .back-buttons{justify-content:center;}
+  .student-info{justify-content:center;}
+}
+
+/* --- Kvietimas pasitikrinti atmintinėje --- */
+.hint-atmintine{
+  background:#fff9e0;border:1.5px dashed #d8b34a;border-radius:10px;
+  padding:10px 14px;margin-bottom:18px;font-size:0.95rem;text-align:center;
+}
+.hint-atmintine button{
+  margin-left:4px;border:none;background:#d8b34a;color:#3a2e00;
+  font-weight:bold;padding:6px 14px;border-radius:8px;cursor:pointer;
+  font-family:inherit;font-size:0.9rem;
+}
+.hint-atmintine button:hover{background:#c49f3a;}
+
+/* --- Atmintinės sekcija --- */
+#cheatView{display:none;}
+.cheat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:10px;}
+.cheat-header h2{margin:0;font-size:1.5rem;}
+.back-to-quiz{
+  border:none;background:#2f6f52;color:#fff;font-weight:bold;
+  padding:10px 18px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:1rem;
+}
+.back-to-quiz:hover{background:#255a41;}
+.cheat-btn-result{
+  border:2px solid #2f6f52;background:#fff;color:#2f6f52;font-weight:bold;
+  padding:10px 18px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:1rem;
+  margin-top:12px;
+}
+.cheat-btn-result:hover{background:#2f6f52;color:#fff;}
 </style>
 
 </head>
 <body>
 <div class="wrap"><div class="card">
+
+<div class="site-header">
+  <div class="back-buttons">
+    <a href="../../index.html" class="back-btn">← Grįžti į pradžią</a>
+    <a href="../../index.html" class="back-btn">← Grįžti į visas finansinio raštingumo užduotis</a>
+  </div>
+  <div class="student-info">
+    <span>Mokinys: <strong id="studentNameDisplay"></strong></span>
+    <button class="change-name-btn" onclick="changeName()">Keisti vardą</button>
+  </div>
+</div>
+
 <div id="quiz">
 <h1>QUIZ 1 – Praeita pamoka</h1>
 <div class="subtitle">GPM • VSD • PSD • VMI • SODRA</div>
+
+<div class="hint-atmintine">
+  🤔 Abejoji dėl teisingo atsakymo? <button onclick="showCheat()">📖 Pasitikrink Atmintinėje</button>
+</div>
+
 <div class="progress" id="progressText"></div>
 <div class="bar"><div id="progressBar"></div></div>
 <div class="question" id="question"></div>
@@ -48,19 +125,53 @@ button.answer.wrong{background:#f7dddd;border-color:#b95c5c}
 <h1>Baigta! 🎉</h1>
 <div class="score" id="score"></div>
 <div id="message"></div>
-<div class="cheat">
-<h2>Trumpa atmintinė</h2>
-<p><b>GPM</b> – gyventojų pajamų mokestis.</p>
-<p><b>PSD</b> – privalomasis sveikatos draudimas.</p>
-<p><b>VSD</b> – valstybinis socialinis draudimas.</p>
-<p><b>VMI</b> – Valstybinė mokesčių inspekcija.</p>
-<p><b>SODRA</b> – valstybinio socialinio draudimo sistema / institucija.</p>
-</div>
 <button class="restart" id="restartBtn">Bandyti dar kartą ↻</button>
+<br>
+<button class="cheat-btn-result" onclick="showCheat()">📖 Peržiūrėti atmintinę</button>
 </div>
+
+<div id="cheatView">
+  <div class="cheat-header">
+    <h2>📖 Trumpa atmintinė</h2>
+    <button class="back-to-quiz" onclick="hideCheat()">← Grįžti į testą</button>
+  </div>
+  <div class="cheat">
+    <p><b>GPM</b> – gyventojų pajamų mokestis.</p>
+    <p><b>PSD</b> – privalomasis sveikatos draudimas.</p>
+    <p><b>VSD</b> – valstybinis socialinis draudimas.</p>
+    <p><b>VMI</b> – Valstybinė mokesčių inspekcija.</p>
+    <p><b>SODRA</b> – valstybinio socialinio draudimo sistema / institucija.</p>
+  </div>
+  <button class="back-to-quiz" onclick="hideCheat()">← Grįžti į testą</button>
+</div>
+
 </div></div>
 
 <script>
+// ---------- Mokinio vardo valdymas ----------
+function showNamePrompt(){
+  const savedName = localStorage.getItem('studentName');
+  if (!savedName){
+    const name = prompt('Įvesk savo vardą:');
+    if (name && name.trim() !== ''){
+      localStorage.setItem('studentName', name.trim());
+      return name.trim();
+    } else {
+      alert('Prašome įvesti vardą, kad galėtumėte pradėti užduotį.');
+      return showNamePrompt();
+    }
+  }
+  return savedName;
+}
+function changeName(){
+  localStorage.removeItem('studentName');
+  const newName = showNamePrompt();
+  alert(`Vardas pakeistas į: ${newName}`);
+  location.reload();
+}
+const studentName = showNamePrompt();
+document.getElementById('studentNameDisplay').textContent = studentName;
+
 const questions = [{"q": "1. Ką reiškia GPM?", "a": ["Gyventojų pajamų mokestis", "Gyventojų pirkimo mokestis", "Grynųjų pinigų mokestis", "Gyventojų pensijų mokestis"], "c": 0, "e": "GPM – gyventojų pajamų mokestis."}, {"q": "2. Kuri santrumpa reiškia „Gyventojų pajamų mokestis“?", "a": ["PSD", "GPM", "VMI", "VSD"], "c": 1, "e": "Gyventojų pajamų mokestis trumpinamas GPM."}, {"q": "3. Ką reiškia PSD?", "a": ["Privalomasis sveikatos draudimas", "Pagrindinis socialinis draudimas", "Privatus sveikatos draudimas", "Pajamų skaičiavimo dalis"], "c": 0, "e": "PSD – privalomasis sveikatos draudimas."}, {"q": "4. Kuri santrumpa reiškia „Privalomasis sveikatos draudimas“?", "a": ["VSD", "PSD", "GPM", "SODRA"], "c": 1, "e": "Privalomasis sveikatos draudimas trumpinamas PSD."}, {"q": "5. Ką reiškia VSD?", "a": ["Valstybinis socialinis draudimas", "Valstybinis sveikatos draudimas", "Viešasis socialinis draudimas", "Valstybinis skolų draudimas"], "c": 0, "e": "VSD – valstybinis socialinis draudimas."}, {"q": "6. Kuri santrumpa reiškia „Valstybinis socialinis draudimas“?", "a": ["VMI", "VSD", "PSD", "GPM"], "c": 1, "e": "Valstybinis socialinis draudimas trumpinamas VSD."}, {"q": "7. Ką reiškia VMI?", "a": ["Valstybinė mokesčių inspekcija", "Valstybinė medicinos įstaiga", "Viešoji mokesčių institucija", "Valstybinė mokėjimų inspekcija"], "c": 0, "e": "VMI – Valstybinė mokesčių inspekcija."}, {"q": "8. Kuri santrumpa reiškia „Valstybinė mokesčių inspekcija“?", "a": ["VSD", "SODRA", "VMI", "PSD"], "c": 2, "e": "Valstybinė mokesčių inspekcija trumpinama VMI."}, {"q": "9. Su kuo labiausiai susijusi SODRA?", "a": ["Socialiniu draudimu, pensijomis ir išmokomis", "Prekių kainomis", "Mokyklų finansavimu", "PVM kasose"], "c": 0, "e": "SODRA administruoja valstybinį socialinį draudimą, pensijas ir įvairias socialinio draudimo išmokas."}, {"q": "10. Kuri sąvoka geriausiai tinka santrumpai / pavadinimui SODRA?", "a": ["Valstybinio socialinio draudimo sistema ir institucija", "Valstybinė mokesčių inspekcija", "Pridėtinės vertės mokestis", "Gyventojų pajamų mokestis"], "c": 0, "e": "SODRA susijusi su valstybiniu socialiniu draudimu."}, {"q": "11. Kas administruoja daugumą mokesčių Lietuvoje?", "a": ["VMI", "PSD", "GPM", "VSD"], "c": 0, "e": "VMI administruoja daugelį mokesčių."}, {"q": "12. Kuris iš šių yra mokestis nuo gyventojo pajamų?", "a": ["GPM", "PSD", "VSD", "SODRA"], "c": 0, "e": "GPM yra gyventojų pajamų mokestis."}];
 let current=0,score=0,locked=false;
 const questionEl=document.getElementById("question");
@@ -74,6 +185,24 @@ const resultEl=document.getElementById("result");
 const scoreEl=document.getElementById("score");
 const messageEl=document.getElementById("message");
 const restartBtn=document.getElementById("restartBtn");
+const cheatViewEl=document.getElementById("cheatView");
+let cameFromResult=false;
+
+// ---------- Atmintinės rodymas / slėpimas ----------
+function showCheat(){
+  cameFromResult = resultEl.style.display === "block";
+  quizEl.style.display = "none";
+  resultEl.style.display = "none";
+  cheatViewEl.style.display = "block";
+}
+function hideCheat(){
+  cheatViewEl.style.display = "none";
+  if (cameFromResult){
+    resultEl.style.display = "block";
+  } else {
+    quizEl.style.display = "block";
+  }
+}
 
 function shuffleArray(array){
   for(let i=array.length-1;i>0;i--){
