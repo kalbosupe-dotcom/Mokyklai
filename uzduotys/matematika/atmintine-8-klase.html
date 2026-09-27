@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matematikos atmintinė</title>
+<style>
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: 'Aptos', 'Verdana', 'Calibri', sans-serif;
+        line-height: 1.9;
+        padding: 24px 20px 60px;
+        background-color: #FFF8DC;
+        max-width: 820px;
+        margin: 0 auto;
+        font-size: 16pt;
+        color: #1a1a1a;
+    }
+
+    /* ===== Header ===== */
+    header {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    h1 {
+        color: #C41E3A;
+        font-size: 24pt;
+        margin: 0 0 6px;
+    }
+
+    .subtitle {
+        color: #555;
+        font-size: 13pt;
+        margin: 0;
+    }
+
+    .wip-note {
+        margin: 18px auto 0;
+        max-width: 520px;
+        background: #FFFACD;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 12pt;
+        color: #6b5b00;
+        text-align: center;
+    }
+
+    /* ===== Chapter nav ===== */
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin: 24px 0 32px;
+    }
+
+    .chapter-btn {
+        font-family: inherit;
+        font-size: 13pt;
+        font-weight: bold;
+        border: 2px solid #90A4AE;
+        background: white;
+        color: #37474F;
+        padding: 12px 22px;
+        border-radius: 999px;
+        cursor: pointer;
+    }
+
+    .chapter-btn.active {
+        border-color: #1565C0;
+        background: #1565C0;
+        color: white;
+    }
+
+    /* ===== Chapters ===== */
+    .chapter { display: none; }
+    .chapter.active { display: block; }
+
+    .chapter-title {
+        font-size: 17pt;
+        color: #2E2E2E;
+        border-bottom: 3px solid #C41E3A;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+    }
+
+    .legend {
+        background: #F5F5F5;
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin: 14px 0 26px;
+        font-size: 12.5pt;
+        color: #444;
+    }
+
+    .legend strong { color: #1a1a1a; }
+
+    /* ===== Rule card ===== */
+    .rule {
+        background: white;
+        border-radius: 14px;
+        padding: 20px 22px;
+        margin: 22px 0;
+    }
+
+    .rule-title {
+        font-weight: bold;
+        font-size: 14.5pt;
+        color: #C41E3A;
+        margin-bottom: 10px;
+    }
+
+    .rule-statement {
+        margin-bottom: 14px;
+    }
+
+    .math-term { font-weight: bold; color: #1a1a1a; }
+
+    .var { font-style: normal; }
+
+    .annotation {
+        color: #8a8a8a;
+        font-size: 10.5pt;
+        font-style: normal;
+    }
+
+    .exponent { color: #1565C0; font-weight: bold; }
+
+    .formula-box {
+        background: #F5F5F5;
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin: 12px 0;
+        font-size: 14.5pt;
+        text-align: center;
+    }
+
+    .diagram { text-align: center; margin: 14px 0; }
+    svg { max-width: 100%; height: auto; }
+
+    /* ===== Toggle button ===== */
+    .toggle-btn {
+        font-family: inherit;
+        font-size: 12.5pt;
+        font-weight: bold;
+        border: 2px solid #66BB6A;
+        background: #E8F5E9;
+        color: #2E7D32;
+        padding: 9px 20px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .toggle-btn[aria-expanded="true"] {
+        background: #2E7D32;
+        color: white;
+        border-color: #2E7D32;
+    }
+
+    /* ===== Example panel ===== */
+    .example {
+        margin-top: 16px;
+        padding: 18px 20px;
+        background: #E8F5E9;
+        border-radius: 12px;
+        border: 2px solid #66BB6A;
+    }
+
+    .example[hidden] { display: none; }
+
+    .example-label {
+        font-weight: bold;
+        color: #2E7D32;
+        margin-bottom: 10px;
+    }
+
+    .step {
+        margin: 10px 0;
+        padding: 10px 14px;
+        background: white;
+        border-radius: 8px;
+        border-left: 4px solid #66BB6A;
+    }
+
+    .step-number { color: #2E7D32; font-weight: bold; }
+
+    .answer-step {
+        margin-top: 10px;
+        padding: 10px 14px;
+        background: white;
+        border-radius: 8px;
+        border-left: 4px solid #C41E3A;
+    }
+
+    .answer-label { color: #C41E3A; font-weight: bold; }
+
+    /* sqrt + fraction rendering */
+    .radical-sign { font-size: 1.3em; vertical-align: -0.02em; margin-right: -0.05em; }
+    .radicand { border-top: 0.09em solid black; padding: 0 0.12em; }
+
+    .fraction {
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 0.85em;
+        margin: 0 0.12em;
+        line-height: 1.15;
+    }
+    .fraction-num { display: block; border-bottom: 0.09em solid black; padding: 0 0.15em; }
+    .fraction-den { display: block; padding: 0 0.15em; }
+
+    @media (max-width: 480px) {
+        body { font-size: 14pt; padding: 16px 12px 40px; }
+        h1 { font-size: 19pt; }
+        .chapter-btn { font-size: 11pt; padding: 10px 16px; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🧠 Matematikos atmintinė</h1>
+    <p class="subtitle">7 klasė</p>
+    <p class="wip-note">🚧 Tik pradžia — atmintinę pildysime toliau, kai atsiras naujų temų.</p>
+</header>
+
+<nav>
+    <button class="chapter-btn active" data-chapter="kampai">📐 Lygiagrečios tiesės ir kampai</button>
+    <button class="chapter-btn" data-chapter="saknys">√ Kvadratinės šaknys</button>
+</nav>
+
+<!-- ============================================================= -->
+<!-- CHAPTER 1: KAMPAI -->
+<!-- ============================================================= -->
+<section class="chapter active" id="chapter-kampai">
+    <div class="chapter-title">Lygiagrečios tiesės ir kampai</div>
+
+    <div class="legend">
+        <strong>m, n</strong> — lygiagrečios tiesės &nbsp;•&nbsp;
+        <strong>p, k</strong> — kirstinė (tiesė, kertanti abi lygiagrečias tieses) &nbsp;•&nbsp;
+        <strong>∠1, ∠2...</strong> — susikirtimo taške susidarantys kampai
+    </div>
+
+    <!-- Rule 1: Vertikalūs kampai -->
+    <div class="rule">
+        <div class="rule-title">1. Vertikalūs (kryžminiai) kampai</div>
+        <div class="rule-statement">
+            Kai dvi tiesės kertasi, susidaro keturi kampai. Kampai, esantys vienas priešais kitą
+            (per susikirtimo tašką), vadinami <span class="math-term">vertikaliaisiais kampais</span>.
+            <br><strong>Vertikalūs kampai visada lygūs.</strong>
+        </div>
+
+        <div class="diagram">
+            <svg width="260" height="220" viewBox="0 0 260 220">
+                <line x1="30" y1="60" x2="230" y2="160" stroke="black" stroke-width="2.5"/>
+                <line x1="30" y1="160" x2="230" y2="60" stroke="black" stroke-width="2.5"/>
+                <rect x="112" y="72" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="119" y="92" font-size="16" font-weight="bold" fill="#1565C0">1</text>
+                <rect x="148" y="95" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="155" y="115" font-size="16" font-weight="bold" fill="#1565C0">2</text>
+                <rect x="112" y="118" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="119" y="138" font-size="16" font-weight="bold" fill="#1565C0">3</text>
+                <rect x="76" y="95" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="83" y="115" font-size="16" font-weight="bold" fill="#1565C0">4</text>
+            </svg>
+        </div>
+
+        <div class="formula-box">
+            ∠1 = ∠3 &nbsp;&nbsp;&nbsp;&nbsp; ∠2 = ∠4
+        </div>
+
+        <button class="toggle-btn" data-target="ex-vertikalus" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-vertikalus" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step"><span class="step-number">Duota:</span> ∠1 = 125°.</div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> ∠3 yra vertikalus ∠1, todėl ∠3 = ∠1.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> ∠2 ir ∠4 yra kita vertikalių kampų pora —
+                jie tarpusavyje lygūs, bet skiriasi nuo ∠1 ir ∠3.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span> ∠3 = 125°
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 2: Gretutiniai kampai -->
+    <div class="rule">
+        <div class="rule-title">2. Gretutiniai kampai</div>
+        <div class="rule-statement">
+            Du kampai, turintys bendrą kraštinę, o kitos dvi jų kraštinės sudaro tiesę,
+            vadinami <span class="math-term">gretutiniais kampais</span>.
+            <br><strong>Gretutinių kampų suma visada lygi 180°.</strong>
+        </div>
+
+        <div class="diagram">
+            <svg width="280" height="160" viewBox="0 0 280 160">
+                <line x1="20" y1="120" x2="260" y2="120" stroke="black" stroke-width="2.5"/>
+                <line x1="140" y1="120" x2="200" y2="20" stroke="black" stroke-width="2.5"/>
+                <rect x="115" y="90" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="122" y="110" font-size="16" font-weight="bold" fill="#1565C0">1</text>
+                <rect x="150" y="90" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="157" y="110" font-size="16" font-weight="bold" fill="#1565C0">2</text>
+            </svg>
+        </div>
+
+        <div class="formula-box">
+            ∠1 + ∠2 = 180°
+        </div>
+
+        <button class="toggle-btn" data-target="ex-gretutiniai" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-gretutiniai" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step"><span class="step-number">Duota:</span> ∠1 = 72°.</div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> ∠1 ir ∠2 yra gretutiniai, todėl
+                ∠1 + ∠2 = 180°.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> ∠2 = 180° − ∠1 = 180° − 72° = 108°.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span> ∠2 = 108°
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 3: Atitinkami kampai -->
+    <div class="rule">
+        <div class="rule-title">3. Atitinkami kampai</div>
+        <div class="rule-statement">
+            Kai dvi <span class="math-term">lygiagrečios tiesės</span> kertamos <span class="math-term">kirstinės</span>,
+            kampai, esantys tame pačiame "kampe" prie kiekvienos tiesės (ta pati pusė nuo kirstinės,
+            ta pati pusė nuo lygiagrečios tiesės), vadinami <span class="math-term">atitinkamais kampais</span>.
+            <br><strong>Atitinkami kampai visada lygūs.</strong>
+        </div>
+
+        <div class="diagram">
+            <svg width="320" height="220" viewBox="0 0 320 220">
+                <line x1="20" y1="70" x2="300" y2="70" stroke="black" stroke-width="2.5"/>
+                <line x1="20" y1="160" x2="300" y2="160" stroke="black" stroke-width="2.5"/>
+                <line x1="120" y1="20" x2="200" y2="210" stroke="black" stroke-width="2.5"/>
+                <text x="25" y="60" font-size="16" font-weight="bold">m</text>
+                <text x="25" y="150" font-size="16" font-weight="bold">n</text>
+                <text x="205" y="30" font-size="16" font-weight="bold">k</text>
+                <rect x="150" y="42" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="157" y="62" font-size="16" font-weight="bold" fill="#1565C0">1</text>
+                <rect x="175" y="132" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="182" y="152" font-size="16" font-weight="bold" fill="#1565C0">5</text>
+            </svg>
+        </div>
+
+        <div class="formula-box">
+            ∠1 = ∠5
+        </div>
+
+        <button class="toggle-btn" data-target="ex-atitinkami" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-atitinkami" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step"><span class="step-number">Duota:</span> m ∥ n, ∠1 = 68°.</div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> ∠5 yra atitinkamas kampui ∠1
+                (ta pati padėtis prie tiesės n, kaip ∠1 prie tiesės m).
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Kadangi m ∥ n, atitinkami kampai lygūs:
+                ∠5 = ∠1.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span> ∠5 = 68°
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 4: Įžambieji kampai -->
+    <div class="rule">
+        <div class="rule-title">4. Įžambieji (vidaus priešingi) kampai</div>
+        <div class="rule-statement">
+            Kai dvi <span class="math-term">lygiagrečios tiesės</span> kertamos <span class="math-term">kirstinės</span>,
+            kampai tarp lygiagrečių tiesių, bet priešingose kirstinės pusėse,
+            vadinami <span class="math-term">įžambiaisiais kampais</span>.
+            <br><strong>Įžambieji kampai visada lygūs.</strong>
+        </div>
+
+        <div class="diagram">
+            <svg width="320" height="220" viewBox="0 0 320 220">
+                <line x1="20" y1="70" x2="300" y2="70" stroke="black" stroke-width="2.5"/>
+                <line x1="20" y1="160" x2="300" y2="160" stroke="black" stroke-width="2.5"/>
+                <line x1="120" y1="20" x2="200" y2="210" stroke="black" stroke-width="2.5"/>
+                <text x="25" y="60" font-size="16" font-weight="bold">m</text>
+                <text x="25" y="150" font-size="16" font-weight="bold">n</text>
+                <text x="205" y="30" font-size="16" font-weight="bold">k</text>
+                <rect x="175" y="80" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="182" y="100" font-size="16" font-weight="bold" fill="#1565C0">3</text>
+                <rect x="130" y="130" width="26" height="26" rx="4" fill="#E3F2FD"/>
+                <text x="137" y="150" font-size="16" font-weight="bold" fill="#1565C0">6</text>
+            </svg>
+        </div>
+
+        <div class="formula-box">
+            ∠3 = ∠6
+        </div>
+
+        <button class="toggle-btn" data-target="ex-izambieji" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-izambieji" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step"><span class="step-number">Duota:</span> m ∥ n, ∠3 = 115°.</div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> ∠6 yra įžambusis kampui ∠3
+                (tarp lygiagrečių tiesių, priešingoje kirstinės pusėje).
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Kadangi m ∥ n, įžambieji kampai lygūs:
+                ∠6 = ∠3.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span> ∠6 = 115°
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================= -->
+<!-- CHAPTER 2: KVADRATINĖS ŠAKNYS -->
+<!-- ============================================================= -->
+<section class="chapter" id="chapter-saknys">
+    <div class="chapter-title">Kvadratinės šaknys</div>
+
+    <div class="legend">
+        <strong>a, b</strong> — bet kokie neneigiami skaičiai (a ≥ 0, b ≥ 0) &nbsp;•&nbsp;
+        <strong>√a</strong> — skaičiaus a kvadratinė šaknis
+    </div>
+
+    <!-- Rule 1 -->
+    <div class="rule">
+        <div class="rule-title">1. Šaknis kvadratu</div>
+        <div class="rule-statement">
+            Kai <span class="math-term">šaknis</span> keliama <span class="math-term">kvadratu</span>,
+            šaknis "dingsta" ir lieka tik pošaknio skaičius.
+        </div>
+
+        <div class="formula-box">
+            (<span class="radical-sign">√</span><span class="radicand">a</span>)<span class="exponent">²</span> = a
+            <span class="annotation">&nbsp; (a — skaičius po šaknimi, a ≥ 0)</span>
+        </div>
+
+        <button class="toggle-btn" data-target="ex-kvadratu" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-kvadratu" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Skaičiuojame:</span>
+                (<span class="radical-sign">√</span><span class="radicand">7</span>)<span class="exponent">²</span> = 7
+            </div>
+            <div class="step">
+                <span class="step-number">Patikrinimas:</span> √7 padauginta pati iš savęs duoda būtent 7 — todėl kėlimas kvadratu "panaikina" šaknį.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                (<span class="radical-sign">√</span><span class="radicand">7</span>)<span class="exponent">²</span> = 7
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 2 -->
+    <div class="rule">
+        <div class="rule-title">2. Sandaugos šaknis</div>
+        <div class="rule-statement">
+            Sandaugos šaknį galima traukti iš kiekvieno dauginamojo atskirai.
+        </div>
+
+        <div class="formula-box">
+            <span class="radical-sign">√</span><span class="radicand">a · b</span> =
+            <span class="radical-sign">√</span><span class="radicand">a</span> ·
+            <span class="radical-sign">√</span><span class="radicand">b</span>
+        </div>
+
+        <button class="toggle-btn" data-target="ex-sandauga" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-sandauga" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                <span class="radical-sign">√</span><span class="radicand">4 · 9</span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Ištraukiame šaknį iš kiekvieno dauginamojo atskirai:
+                <span class="radical-sign">√</span><span class="radicand">4</span> = 2,
+                <span class="radical-sign">√</span><span class="radicand">9</span> = 3.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Dauginame: 2 · 3 = 6.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                <span class="radical-sign">√</span><span class="radicand">4 · 9</span> = 6
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 3 -->
+    <div class="rule">
+        <div class="rule-title">3. Dalmens šaknis</div>
+        <div class="rule-statement">
+            Dalmens šaknį galima traukti iš dalinio ir daliklio atskirai.
+        </div>
+
+        <div class="formula-box">
+            <span class="radical-sign">√</span><span class="radicand">a : b</span> =
+            <span class="radical-sign">√</span><span class="radicand">a</span> :
+            <span class="radical-sign">√</span><span class="radicand">b</span>
+            <span class="annotation">&nbsp; (b > 0)</span>
+        </div>
+
+        <button class="toggle-btn" data-target="ex-dalmuo" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-dalmuo" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                <span class="radical-sign">√</span><span class="radicand">16 : 4</span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span>
+                <span class="radical-sign">√</span><span class="radicand">16</span> = 4,
+                <span class="radical-sign">√</span><span class="radicand">4</span> = 2.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Daliname: 4 : 2 = 2.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                <span class="radical-sign">√</span><span class="radicand">16 : 4</span> = 2
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 4 -->
+    <div class="rule">
+        <div class="rule-title">4. Šaknis iš laipsnio</div>
+        <div class="rule-statement">
+            Kai po šaknimi yra <span class="math-term">laipsnis</span> su lyginiu <span class="math-term">rodikliu</span>,
+            šaknį ištraukiame padalindami rodiklį iš 2.
+        </div>
+
+        <div class="formula-box">
+            <span class="radical-sign">√</span><span class="radicand">a<span class="exponent">²ⁿ</span></span> = a<span class="exponent">ⁿ</span>
+            <span class="annotation">&nbsp; (n — bet koks natūralusis skaičius; rodiklį dalijame iš 2)</span>
+        </div>
+
+        <button class="toggle-btn" data-target="ex-laipsnis" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-laipsnis" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                <span class="radical-sign">√</span><span class="radicand">2<span class="exponent">⁴</span> · 3<span class="exponent">²</span></span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Kiekvieną rodiklį dalijame iš 2:
+                2<span class="exponent">⁴</span> → 2<span class="exponent">²</span>,
+                3<span class="exponent">²</span> → 3.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Apskaičiuojame:
+                2<span class="exponent">²</span> · 3 = 4 · 3 = 12.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                <span class="radical-sign">√</span><span class="radicand">2<span class="exponent">⁴</span> · 3<span class="exponent">²</span></span> = 12
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 5 -->
+    <div class="rule">
+        <div class="rule-title">5. Šaknis iš didelio skaičiaus — pirminiai dauginamieji</div>
+        <div class="rule-statement">
+            Jei skaičius po šaknimi didelis, jį pirmiausia skaidome
+            <span class="math-term">pirminiais dauginamaisiais</span>, o tada traukiame šaknį pagal 4 taisyklę.
+        </div>
+
+        <button class="toggle-btn" data-target="ex-pirminiai" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-pirminiai" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                <span class="radical-sign">√</span><span class="radicand">4900</span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Skaidome 4900 pirminiais dauginamaisiais:<br>
+                4900 : 2 = 2450<br>
+                2450 : 2 = 1225<br>
+                1225 : 5 = 245<br>
+                245 : 5 = 49<br>
+                49 : 7 = 7<br>
+                7 : 7 = 1
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Užrašome sandauga:
+                4900 = 2<span class="exponent">²</span> · 5<span class="exponent">²</span> · 7<span class="exponent">²</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3 žingsnis:</span> Kiekvieną rodiklį dalijame iš 2:
+                <span class="radical-sign">√</span><span class="radicand">2<span class="exponent">²</span> · 5<span class="exponent">²</span> · 7<span class="exponent">²</span></span>
+                = 2 · 5 · 7
+            </div>
+            <div class="step">
+                <span class="step-number">4 žingsnis:</span> Apskaičiuojame: 2 · 5 · 7 = 70.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                <span class="radical-sign">√</span><span class="radicand">4900</span> = 70
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Chapter switching
+    document.querySelectorAll('.chapter-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.chapter-btn').forEach(function (b) { b.classList.remove('active'); });
+            document.querySelectorAll('.chapter').forEach(function (c) { c.classList.remove('active'); });
+            btn.classList.add('active');
+            document.getElementById('chapter-' + btn.dataset.chapter).classList.add('active');
+        });
+    });
+
+    // Example toggles
+    document.querySelectorAll('.toggle-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var panel = document.getElementById(btn.dataset.target);
+            var expanded = btn.getAttribute('aria-expanded') === 'true';
+            panel.hidden = expanded;
+            btn.setAttribute('aria-expanded', String(!expanded));
+            btn.querySelector('.icon').textContent = expanded ? '🔍' : '🔼';
+            btn.querySelector('.label').textContent = expanded ? 'Pavyzdys' : 'Slėpti pavyzdį';
+        });
+    });
+</script>
+
+</body>
+</html>
