@@ -74,6 +74,28 @@
         color: white;
     }
 
+    .chapter-btn[hidden] { display: none; }
+
+    /* ===== Class (grade) nav ===== */
+    .class-nav { margin-bottom: 6px; }
+
+    .class-btn {
+        font-family: inherit;
+        font-size: 13pt;
+        font-weight: bold;
+        border: 2px solid #C41E3A;
+        background: white;
+        color: #C41E3A;
+        padding: 10px 26px;
+        border-radius: 999px;
+        cursor: pointer;
+    }
+
+    .class-btn.active {
+        background: #C41E3A;
+        color: white;
+    }
+
     /* ===== Chapters ===== */
     .chapter { display: none; }
     .chapter.active { display: block; }
@@ -225,19 +247,22 @@
 
 <header>
     <h1>🧠 Matematikos atmintinė</h1>
-    <p class="subtitle">7 klasė</p>
-    <p class="wip-note">🚧 Tik pradžia — atmintinę pildysime toliau, kai atsiras naujų temų.</p>
 </header>
 
+<nav class="class-nav">
+    <button class="class-btn" data-class="7">7 klasė</button>
+    <button class="class-btn active" data-class="8">8 klasė</button>
+</nav>
+
 <nav>
-    <button class="chapter-btn active" data-chapter="kampai">📐 Lygiagrečios tiesės ir kampai</button>
-    <button class="chapter-btn" data-chapter="saknys">√ Kvadratinės šaknys</button>
+    <button class="chapter-btn" data-chapter="kampai" data-class="7" hidden>📐 Lygiagrečios tiesės ir kampai</button>
+    <button class="chapter-btn active" data-chapter="saknys" data-class="8">√ Kvadratinės šaknys</button>
 </nav>
 
 <!-- ============================================================= -->
 <!-- CHAPTER 1: KAMPAI -->
 <!-- ============================================================= -->
-<section class="chapter active" id="chapter-kampai">
+<section class="chapter" id="chapter-kampai">
     <div class="chapter-title">Lygiagrečios tiesės ir kampai</div>
 
     <div class="legend">
@@ -438,7 +463,7 @@
 <!-- ============================================================= -->
 <!-- CHAPTER 2: KVADRATINĖS ŠAKNYS -->
 <!-- ============================================================= -->
-<section class="chapter" id="chapter-saknys">
+<section class="chapter active" id="chapter-saknys">
     <div class="chapter-title">Kvadratinės šaknys</div>
 
     <div class="legend">
@@ -635,16 +660,255 @@
             </div>
         </div>
     </div>
+
+    <!-- Rule 6 -->
+    <div class="rule">
+        <div class="rule-title">6. Veiksmų tvarka su šaknimis</div>
+        <div class="rule-statement">
+            Skaičiuojant reiškinį po šaknimi, galioja įprasta <span class="math-term">veiksmų tvarka</span>:
+            pirmiausia keliame laipsniu, tada sudedame arba atimame — ir tik <u>tada</u> traukiame šaknį.
+            <br>⚠️ <strong>Dažna klaida:</strong>
+            <span class="radical-sign">√</span><span class="radicand">a<span class="exponent">²</span> + b<span class="exponent">²</span></span>
+            <strong>NĖRA</strong> lygu a + b!
+        </div>
+
+        <div class="formula-box">
+            1) a<span class="exponent">²</span>, b<span class="exponent">²</span> &nbsp;→&nbsp;
+            2) sudėtis/atimtis &nbsp;→&nbsp; 3) šaknis
+        </div>
+
+        <button class="toggle-btn" data-target="ex-tvarka" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-tvarka" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                <span class="radical-sign">√</span><span class="radicand">15<span class="exponent">²</span> − 9<span class="exponent">²</span></span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Pirmiausia keliame laipsniu:
+                15<span class="exponent">²</span> = 225, &nbsp; 9<span class="exponent">²</span> = 81.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Atimame po šaknimi: 225 − 81 = 144.
+            </div>
+            <div class="step">
+                <span class="step-number">3 žingsnis:</span> Tik dabar traukiame šaknį:
+                <span class="radical-sign">√</span><span class="radicand">144</span> = 12.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                <span class="radical-sign">√</span><span class="radicand">15<span class="exponent">²</span> − 9<span class="exponent">²</span></span> = 12
+                <span class="annotation">&nbsp; (o ne 15 − 9 = 6!)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 7 -->
+    <div class="rule">
+        <div class="rule-title">7. Dauginamojo įkėlimas į pošaknį</div>
+        <div class="rule-statement">
+            Kai prieš šaknį stovi <span class="math-term">dauginamasis</span> (skaičius be šaknies ženklo),
+            jį galima "įkelti" po šaknimi — tam jį reikia pakelti kvadratu.
+        </div>
+
+        <div class="formula-box">
+            a · <span class="radical-sign">√</span><span class="radicand">b</span> =
+            <span class="radical-sign">√</span><span class="radicand">a<span class="exponent">²</span> · b</span>
+            <span class="annotation">&nbsp; (a ≥ 0, b ≥ 0)</span>
+        </div>
+
+        <button class="toggle-btn" data-target="ex-ikelimas" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-ikelimas" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span> 4 · <span class="radical-sign">√</span><span class="radicand">3</span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Dauginamąjį 4 keliame kvadratu:
+                4<span class="exponent">²</span> = 16.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Įkeliame 16 po šaknimi, prie 3:
+                <span class="radical-sign">√</span><span class="radicand">16 · 3</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3 žingsnis:</span> Sudauginame po šaknimi: 16 · 3 = 48.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                4 · <span class="radical-sign">√</span><span class="radicand">3</span> =
+                <span class="radical-sign">√</span><span class="radicand">48</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 8 -->
+    <div class="rule">
+        <div class="rule-title">8. Dauginamojo iškėlimas prieš šaknį</div>
+        <div class="rule-statement">
+            Jei po šaknimi yra sandauga, kurioje vienas dauginamasis yra <span class="math-term">tikslus kvadratas</span>
+            (2<span class="exponent">²</span>, 3<span class="exponent">²</span>, 4<span class="exponent">²</span>... arba 4, 9, 16, 25, 36...),
+            jo šaknį galima ištraukti ir "iškelti" prieš likusią šaknį. Tai — 7 taisyklės atvirkštinis veiksmas.
+        </div>
+
+        <div class="formula-box">
+            <span class="radical-sign">√</span><span class="radicand">a<span class="exponent">²</span> · b</span> =
+            a · <span class="radical-sign">√</span><span class="radicand">b</span>
+            <span class="annotation">&nbsp; (a ≥ 0, b ≥ 0)</span>
+        </div>
+
+        <button class="toggle-btn" data-target="ex-iskelimas" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-iskelimas" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                <span class="radical-sign">√</span><span class="radicand">125</span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Ieškome tikslaus kvadrato, kuris dalija 125:
+                125 = 25 · 5, o 25 = 5<span class="exponent">²</span>.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Užrašome sandauga po šaknimi:
+                <span class="radical-sign">√</span><span class="radicand">25 · 5</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3 žingsnis:</span> Ištraukiame šaknį iš tikslaus kvadrato ir iškeliame prieš šaknį:
+                <span class="radical-sign">√</span><span class="radicand">25</span> = 5, taigi
+                5 · <span class="radical-sign">√</span><span class="radicand">5</span>
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                <span class="radical-sign">√</span><span class="radicand">125</span> =
+                5 · <span class="radical-sign">√</span><span class="radicand">5</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 9 -->
+    <div class="rule">
+        <div class="rule-title">9. Bendro daugiklio iškėlimas prieš traukiant šaknį</div>
+        <div class="rule-statement">
+            Jei po šaknimi yra <span class="math-term">sudėtis</span> ar <span class="math-term">atimtis</span>,
+            kurios abu nariai turi tą patį dauginamąjį, pirmiausia tą bendrą dauginamąjį iškeliame prieš skliaustus
+            (kaip įprastoje algebroje) — ir tik tada traukiame šaknį.
+        </div>
+
+        <div class="formula-box">
+            <span class="radical-sign">√</span><span class="radicand">a · c + a · d</span> =
+            <span class="radical-sign">√</span><span class="radicand">a · (c + d)</span>
+        </div>
+
+        <button class="toggle-btn" data-target="ex-bendras" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-bendras" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                <span class="radical-sign">√</span><span class="radicand">1,69 · 0,8 + 1,69 · 1,2</span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Abu nariai turi bendrą dauginamąjį 1,69 —
+                iškeliame jį prieš skliaustus:
+                <span class="radical-sign">√</span><span class="radicand">1,69 · (0,8 + 1,2)</span>
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Suskaičiuojame skliaustuose: 0,8 + 1,2 = 2.
+                Gauname: <span class="radical-sign">√</span><span class="radicand">1,69 · 2</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3 žingsnis:</span> Sandaugos šaknį traukiame iš kiekvieno dauginamojo atskirai (2 taisyklė):
+                <span class="radical-sign">√</span><span class="radicand">1,69</span> ·
+                <span class="radical-sign">√</span><span class="radicand">2</span>
+            </div>
+            <div class="step">
+                <span class="step-number">4 žingsnis:</span>
+                <span class="radical-sign">√</span><span class="radicand">1,69</span> = 1,3
+                (nes 1,3 · 1,3 = 1,69).
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                1,3 · <span class="radical-sign">√</span><span class="radicand">2</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule 10 -->
+    <div class="rule">
+        <div class="rule-title">10. Šaknies su dauginamuoju kėlimas kvadratu</div>
+        <div class="rule-statement">
+            Kai reiškinį, sudarytą iš dauginamojo ir šaknies, reikia kelti kvadratu — kvadratu keliame
+            <span class="math-term">abu</span> daugiklius: ir skaičių priešais šaknį, ir pačią šaknį.
+        </div>
+
+        <div class="formula-box">
+            (n · <span class="radical-sign">√</span><span class="radicand">a</span>)<span class="exponent">²</span> =
+            n<span class="exponent">²</span> · a
+        </div>
+
+        <button class="toggle-btn" data-target="ex-saknies-kvadratu" aria-expanded="false">
+            <span class="icon">🔍</span><span class="label">Pavyzdys</span>
+        </button>
+        <div class="example" id="ex-saknies-kvadratu" hidden>
+            <div class="example-label">Pavyzdys</div>
+            <div class="step">
+                <span class="step-number">Duota:</span>
+                (4 · <span class="radical-sign">√</span><span class="radicand">2</span>)<span class="exponent">²</span>
+            </div>
+            <div class="step">
+                <span class="step-number">1 žingsnis:</span> Keliame kvadratu skaičių priešais šaknį:
+                4<span class="exponent">²</span> = 16.
+            </div>
+            <div class="step">
+                <span class="step-number">2 žingsnis:</span> Keliame kvadratu šaknį —
+                pagal 1 taisyklę (<span class="radical-sign">√</span><span class="radicand">a</span>)<span class="exponent">²</span> = a,
+                taigi (<span class="radical-sign">√</span><span class="radicand">2</span>)<span class="exponent">²</span> = 2.
+            </div>
+            <div class="step">
+                <span class="step-number">3 žingsnis:</span> Dauginame: 16 · 2 = 32.
+            </div>
+            <div class="answer-step">
+                <span class="answer-label">Atsakymas:</span>
+                (4 · <span class="radical-sign">√</span><span class="radicand">2</span>)<span class="exponent">²</span> = 32
+            </div>
+        </div>
+    </div>
 </section>
 
 <script>
     // Chapter switching
+    function activateChapterBtn(btn) {
+        document.querySelectorAll('.chapter-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.chapter').forEach(function (c) { c.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('chapter-' + btn.dataset.chapter).classList.add('active');
+    }
+
     document.querySelectorAll('.chapter-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { activateChapterBtn(btn); });
+    });
+
+    // Class (grade) switching — filters which topic pills are shown
+    document.querySelectorAll('.class-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            document.querySelectorAll('.chapter-btn').forEach(function (b) { b.classList.remove('active'); });
-            document.querySelectorAll('.chapter').forEach(function (c) { c.classList.remove('active'); });
+            document.querySelectorAll('.class-btn').forEach(function (b) { b.classList.remove('active'); });
             btn.classList.add('active');
-            document.getElementById('chapter-' + btn.dataset.chapter).classList.add('active');
+
+            var selectedClass = btn.dataset.class;
+            var firstMatch = null;
+            document.querySelectorAll('.chapter-btn').forEach(function (chBtn) {
+                var matches = chBtn.dataset.class === selectedClass;
+                chBtn.hidden = !matches;
+                if (matches && !firstMatch) firstMatch = chBtn;
+            });
+            if (firstMatch) activateChapterBtn(firstMatch);
         });
     });
 
