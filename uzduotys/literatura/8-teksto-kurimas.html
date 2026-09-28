@@ -1,0 +1,346 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kalbos stiliai 4.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F2F6F4; --paper:#FFFFFF; --ink:#1E2A2C; --muted:#56666A; --line:#D5DFDB;
+  --accent:#2B6A7E; --accent-soft:#E1EEF1;
+  --mok:#3D5A99; --mok-soft:#E6ECF7;
+  --men:#8A3F74; --men-soft:#F5E7F0;
+  --dal:#5C6B25; --dal-soft:#EEF1DF;
+  --note:#7A5A12; --note-soft:#FBF1D9;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141B1C; --paper:#1D2627; --ink:#E6EEEC; --muted:#A3B3B1; --line:#33413F;
+    --accent:#7FC0D3; --accent-soft:#1F3439;
+    --mok:#9DB4EA; --mok-soft:#222D44;
+    --men:#E0A2CF; --men-soft:#3A2434;
+    --dal:#C3D27E; --dal-soft:#2C3219;
+    --note:#E9C877; --note-soft:#3A301A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141B1C; --paper:#1D2627; --ink:#E6EEEC; --muted:#A3B3B1; --line:#33413F;
+  --accent:#7FC0D3; --accent-soft:#1F3439;
+  --mok:#9DB4EA; --mok-soft:#222D44;
+  --men:#E0A2CF; --men-soft:#3A2434;
+  --dal:#C3D27E; --dal-soft:#2C3219;
+  --note:#E9C877; --note-soft:#3A301A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Lexend", "Verdana", "Segoe UI", sans-serif;
+  font-size:18px; line-height:1.7; letter-spacing:.01em; word-spacing:.08em;
+  padding-inline:16px; padding-block:24px 64px;
+  text-align:left; hyphens:none;
+}
+.wrap{max-width:760px; margin-inline:auto; display:flex; flex-direction:column; gap:28px}
+h1,h2,h3{line-height:1.3; text-wrap:balance; margin:0}
+h1{font-size:1.7rem; font-weight:700}
+h2{font-size:1.35rem; font-weight:600}
+h3{font-size:1.05rem; font-weight:600}
+p{margin:0}
+.eyebrow{font-size:.8rem; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); font-weight:500}
+header{display:flex; flex-direction:column; gap:8px}
+.goal{background:var(--accent-soft); border-radius:10px; padding:14px 18px}
+.goal b{color:var(--accent)}
+
+.steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; list-style:none; padding:0; margin:0}
+.steps li{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px 14px; display:flex; gap:12px; align-items:flex-start}
+.num{flex:none; width:32px; height:32px; border-radius:50%; background:var(--accent); color:var(--paper); display:grid; place-items:center; font-weight:700}
+
+section.block{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:22px 20px; display:flex; flex-direction:column; gap:16px}
+
+.table-wrap{overflow-x:auto}
+table{border-collapse:separate; border-spacing:0; width:100%; min-width:560px; font-size:.95rem}
+th,td{padding:10px 12px; vertical-align:top; text-align:left; border-bottom:1px solid var(--line)}
+thead th{font-weight:600}
+th.mok{background:var(--mok-soft); color:var(--mok)}
+th.men{background:var(--men-soft); color:var(--men)}
+th.dal{background:var(--dal-soft); color:var(--dal)}
+tbody th{font-weight:500; color:var(--muted); width:22%}
+.ex{font-style:normal; font-size:.92rem}
+
+.task-head{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+.chip{font-size:.85rem; font-weight:600; padding:4px 12px; border-radius:999px}
+.chip.mok{background:var(--mok-soft); color:var(--mok)}
+.chip.men{background:var(--men-soft); color:var(--men)}
+.chip.dal{background:var(--dal-soft); color:var(--dal)}
+.arrow{color:var(--muted); font-weight:600}
+
+.source{border-left:4px solid var(--line); padding:4px 0 4px 16px; display:flex; flex-direction:column; gap:10px}
+.source.mok{border-color:var(--mok)}
+.source.men{border-color:var(--men)}
+.source p{max-width:62ch}
+.src-cite{font-size:.85rem; color:var(--muted)}
+.gloss{font-size:.9rem; color:var(--muted)}
+
+.help{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px}
+.help > div{border-radius:10px; padding:14px 16px; display:flex; flex-direction:column; gap:8px}
+.help .bank{background:var(--men-soft)}
+.help .bank.d{background:var(--dal-soft)}
+.help .start{background:var(--accent-soft)}
+.help ul{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:4px}
+
+.frame{background:var(--dal-soft); border-radius:10px; padding:14px 16px; display:flex; flex-direction:column; gap:6px}
+.frame .blank{display:inline-block; min-width:7em; border-bottom:2px dotted var(--dal)}
+
+label.lab{font-weight:600}
+textarea{
+  width:100%; min-height:190px; resize:vertical;
+  font:inherit; font-size:1.05rem; line-height:2; color:var(--ink);
+  background:var(--paper); border:2px solid var(--line); border-radius:10px; padding:10px 14px;
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent calc(2em - 1px), var(--line) calc(2em - 1px), var(--line) 2em);
+  background-attachment:local; background-position:0 10px;
+}
+textarea:focus{outline:3px solid var(--accent); outline-offset:2px; border-color:var(--accent)}
+.meta{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:.88rem; color:var(--muted)}
+
+.check{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px}
+.check label{display:flex; gap:10px; align-items:flex-start; cursor:pointer}
+.check input{width:22px; height:22px; margin-top:4px; accent-color:var(--accent); flex:none}
+
+.poem-q{display:flex; flex-direction:column; gap:10px}
+.poem-q ol{margin:0; padding-left:1.3em; display:flex; flex-direction:column; gap:6px}
+
+.split{border:0; border-top:2px dashed var(--line); margin:0}
+.pause{text-align:center; font-size:.9rem; color:var(--muted)}
+
+.teacher{background:var(--note-soft); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:12px}
+.teacher h2{color:var(--note); font-size:1.15rem}
+.teacher ul{margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:6px; font-size:.95rem}
+
+button{
+  font:inherit; font-size:.95rem; font-weight:600; cursor:pointer;
+  background:var(--accent); color:var(--paper); border:0; border-radius:8px; padding:8px 16px;
+}
+button:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
+.actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+#copyMsg{font-size:.9rem; color:var(--muted)}
+@media (max-width:480px){ body{font-size:17px} h1{font-size:1.45rem} section.block{padding:18px 14px} }
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Lietuvių kalba · 8 klasė · Užduotis 4.2 (pritaikyta)</span>
+  <h1>Perrašyk tekstą kitu stiliumi</h1>
+  <div class="goal"><b>Tikslas:</b> parodyti, kad skiri kalbos stilius. Vertinamas stiliaus pakeitimas, ne rašyba.</div>
+</header>
+
+<ol class="steps" aria-label="Darbo eiga">
+  <li><span class="num">1</span><span>Perskaityk <b>atmintinę</b> apie stilius.</span></li>
+  <li><span class="num">2</span><span>Atlik <b>A dalį</b>: 3–5 sakiniai.</span></li>
+  <li><span class="num">3</span><span>Atlik <b>B dalį</b>: 3–5 sakiniai. Galima kitą dieną.</span></li>
+</ol>
+
+<section class="block" aria-labelledby="atm">
+  <h2 id="atm">Atmintinė: trys stiliai</h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th></th><th class="mok">Mokslinis</th><th class="men">Meninis</th><th class="dal">Dalykinis</th></tr></thead>
+    <tbody>
+      <tr><th>Tikslas</th><td>Paaiškinti, apibrėžti</td><td>Sukelti jausmą, vaizdą</td><td>Pranešti, paprašyti, pakviesti</td></tr>
+      <tr><th>Žodžiai</th><td>Terminai, tikslūs faktai</td><td>Epitetai, palyginimai, vaizdingi žodžiai</td><td>Trumpi, aiškūs, be jausmų</td></tr>
+      <tr><th>Sakiniai</th><td>Ilgi, sudėtingi</td><td>Įvairūs, su nuotaika</td><td>Trumpi, pagal šabloną</td></tr>
+      <tr><th>Kur randame</th><td>Enciklopedija, vadovėlis</td><td>Eilėraštis, apsakymas</td><td>Skelbimas, prašymas, instrukcija</td></tr>
+      <tr><th>Pavyzdys</th>
+        <td class="ex">Lietus – krituliai vandens lašų pavidalu.</td>
+        <td class="ex">Lietus tyliai beldžia į langą, lyg kviestų pasivaikščioti.</td>
+        <td class="ex">Rytoj lis. Pasiimkite skėtį.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="a">
+  <div class="task-head">
+    <h2 id="a">A dalis</h2>
+    <span class="chip mok">Mokslinis</span><span class="arrow" aria-hidden="true">→</span><span class="chip men">Meninis</span>
+  </div>
+  <p>Perskaityk tekstą. Parašyk apie garsinę knygą <b>meniniu stiliumi</b>: kad skaitytojas <b>pajustų</b>, ką reiškia klausytis knygos.</p>
+
+  <div class="source mok">
+    <p>Garsinė knyga (dar vadinama kalbančiąja knyga) – tai knygos, laikraščio ar žurnalo tekstas, įrašytas garsu.</p>
+    <p>Anksčiau tekstas buvo įrašomas į kasetes ir plokšteles. Dabar – į kompaktinius diskus ir kitas laikmenas.</p>
+    <p>Kartais kartu skamba muzika.</p>
+    <p>Garsinės knygos skirtos akliesiems, silpnaregiams, neįgaliesiems ir senyviems žmonėms.</p>
+    <p>Jos atsirado XX amžiaus 6–7 dešimtmečiais.</p>
+    <p class="src-cite">Pagal „Visuotinę lietuvių enciklopediją“ (supaprastinta)</p>
+    <p class="gloss"><b>Laikmena</b> – tai, kur saugomas įrašas (kasetė, diskas, telefonas). <b>Silpnaregis</b> – žmogus, kuris blogai mato.</p>
+  </div>
+
+  <div class="help">
+    <div class="bank">
+      <h3>Žodžių bankas</h3>
+      <ul>
+        <li><b>Epitetai:</b> šiltas balsas, tyli tamsa, stebuklinga istorija</li>
+        <li><b>Palyginimas:</b> balsas kaip draugo ranka</li>
+        <li><b>Knyga „gyva“:</b> knyga kalba, pasakoja, šnabžda</li>
+      </ul>
+    </div>
+    <div class="start">
+      <h3>Galima pradėti taip</h3>
+      <ul>
+        <li>Senelė užmerkia akis, ir knyga pradeda…</li>
+        <li>Tamsoje skamba balsas…</li>
+        <li>Knygos nemato, bet ją girdi…</li>
+      </ul>
+    </div>
+  </div>
+
+  <label class="lab" for="ansA">Mano tekstas</label>
+  <textarea id="ansA" placeholder="Rašyk čia arba sąsiuvinyje…"></textarea>
+  <div class="meta"><span>Tikslas: 3–5 sakiniai</span><span id="cntA">0 sakinių</span></div>
+
+  <ul class="check" aria-label="Pasitikrink A dalį">
+    <li><label><input type="checkbox" id="a1"> Yra bent vienas epitetas arba palyginimas</label></li>
+    <li><label><input type="checkbox" id="a2"> Aprašiau jausmą arba vaizdą</label></li>
+    <li><label><input type="checkbox" id="a3"> Nėra datų ir terminų sąrašo</label></li>
+  </ul>
+</section>
+
+<hr class="split">
+<p class="pause">Pertrauka. B dalį galima atlikti vėliau.</p>
+
+<section class="block" aria-labelledby="b">
+  <div class="task-head">
+    <h2 id="b">B dalis</h2>
+    <span class="chip men">Meninis</span><span class="arrow" aria-hidden="true">→</span><span class="chip dal">Dalykinis</span>
+  </div>
+  <p>Eilėraštis: Aidas Marčėnas „Knyga“ (vadovėlyje). Pirma perskaityk jį, tada <b>šį paaiškinimą</b>.</p>
+
+  <div class="source men">
+    <h3>Ką sako eilėraštis (paprastai)</h3>
+    <p>Knygos duoda mums „šviesą“: žinių ir supratimo.</p>
+    <p>Niekas negali to paaiškinti už tave. Turi skaityti pats.</p>
+    <p>Tai, kas buvo nežinoma („užrakinta“), atsivers pamažu.</p>
+    <p>Autorius kreipiasi į vaiką: skaityk ir įsimink, ką sužinai.</p>
+  </div>
+
+  <div class="poem-q">
+    <h3>Prieš rašant atsakyk sau žodžiu</h3>
+    <ol>
+      <li>Ką autorius ragina daryti?</li>
+      <li>Kodėl, jo nuomone, verta skaityti?</li>
+    </ol>
+  </div>
+
+  <p><b>Užduotis:</b> parašyk <b>mokyklos bibliotekos skelbimą</b>, kuris ragina mokinius skaityti knygas. Naudok eilėraščio mintį, bet rašyk trumpai ir aiškiai.</p>
+
+  <div class="frame" aria-label="Skelbimo šablonas">
+    <h3>Skelbimo šablonas</h3>
+    <p><b>SKELBIMAS</b></p>
+    <p>Kviečiame <span class="blank"></span> skaityti knygas.</p>
+    <p>Knygos padeda <span class="blank"></span>.</p>
+    <p>Knygas galima pasiimti <span class="blank"></span>.</p>
+    <p>Biblioteka dirba <span class="blank"></span>.</p>
+  </div>
+
+  <div class="help">
+    <div class="bank d">
+      <h3>Žodžių bankas</h3>
+      <ul>
+        <li>kviečiame, informuojame</li>
+        <li>mokyklos biblioteka, 2 aukštas</li>
+        <li>pirmadieniais–penktadieniais, 8–16 val.</li>
+      </ul>
+    </div>
+    <div class="start">
+      <h3>Dalykiniame stiliuje nerašome</h3>
+      <ul>
+        <li>„šviesa iš knygų“, „atvers akis“</li>
+        <li>kreipinių „vaikeli mano“</li>
+        <li>jausmų ir palyginimų</li>
+      </ul>
+    </div>
+  </div>
+
+  <label class="lab" for="ansB">Mano skelbimas</label>
+  <textarea id="ansB" placeholder="SKELBIMAS…"></textarea>
+  <div class="meta"><span>Tikslas: 3–5 sakiniai</span><span id="cntB">0 sakinių</span></div>
+
+  <ul class="check" aria-label="Pasitikrink B dalį">
+    <li><label><input type="checkbox" id="b1"> Sakiniai trumpi ir aiškūs</label></li>
+    <li><label><input type="checkbox" id="b2"> Yra faktų: kur, kada</label></li>
+    <li><label><input type="checkbox" id="b3"> Nėra palyginimų ir jausmų</label></li>
+  </ul>
+</section>
+
+<div class="actions">
+  <button type="button" id="copyBtn">Kopijuoti atsakymus</button>
+  <span id="copyMsg" role="status"></span>
+</div>
+
+<aside class="teacher" aria-labelledby="t">
+  <h2 id="t">Mokytojui: kas pritaikyta ir kodėl</h2>
+  <ul>
+    <li><b>Apimtis</b> sumažinta iki 3–5 sakinių kiekvienai daliai (disgrafija). Vertinamas stiliaus pakeitimas, ne rašyba ar dailyraštis.</li>
+    <li><b>Atmintinė</b> su stilių požymiais ir pavyzdžiais sumažina darbinės atminties krūvį.</li>
+    <li><b>Šaltinio tekstas</b> suskaidytas į trumpus sakinius, be žodžių kėlimo per eilutę, pasenę ir sudėtingi žodžiai paaiškinti (disleksija).</li>
+    <li><b>B daliai nurodytas konkretus žanras</b> (skelbimas) ir duotas šablonas. Be to užduotis neaiški, ką reikia sukurti.</li>
+    <li>Prie eilėraščio pateiktas <b>turinio paaiškinimas</b>: stilių galima pakeisti tik supratus turinį.</li>
+    <li>Dalys <b>atskirtos pertrauka</b>, pateikta aiški darbo eiga ir savikontrolės sąrašas (dėmesio sutrikimas).</li>
+    <li>Atsakymą galima <b>rinkti kompiuteriu, diktuoti arba pateikti žodžiu</b>.</li>
+  </ul>
+</aside>
+
+</div>
+
+<script>
+(function(){
+  const ids=["ansA","ansB","a1","a2","a3","b1","b2","b3"];
+  const KEY="stiliai42";
+  let saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ saved={}; }
+  function save(){
+    const d={};
+    ids.forEach(id=>{const el=document.getElementById(id); d[id]=el.type==="checkbox"?el.checked:el.value;});
+    try{ localStorage.setItem(KEY,JSON.stringify(d)); }catch(e){}
+  }
+  function count(text){
+    const s=text.split(/[.!?…]+/).map(x=>x.trim()).filter(Boolean);
+    return s.length;
+  }
+  function word(n){
+    const m10=n%10, m100=n%100;
+    if(m10===1&&m100!==11) return "sakinys";
+    if(m10>=2&&m10<=9&&(m100<10||m100>=20)) return "sakiniai";
+    return "sakinių";
+  }
+  function upd(ta,out){
+    const n=count(ta.value);
+    out.textContent=n+" "+word(n);
+  }
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(id in saved){ if(el.type==="checkbox") el.checked=!!saved[id]; else el.value=saved[id]; }
+    el.addEventListener(el.type==="checkbox"?"change":"input",save);
+  });
+  const A=document.getElementById("ansA"), B=document.getElementById("ansB");
+  const cA=document.getElementById("cntA"), cB=document.getElementById("cntB");
+  A.addEventListener("input",()=>upd(A,cA)); B.addEventListener("input",()=>upd(B,cB));
+  upd(A,cA); upd(B,cB);
+
+  const msg=document.getElementById("copyMsg");
+  document.getElementById("copyBtn").addEventListener("click",function(){
+    const text="Užduotis 4.2\n\nA dalis (meninis stilius):\n"+A.value.trim()+"\n\nB dalis (dalykinis stilius, skelbimas):\n"+B.value.trim();
+    const fallback=()=>{
+      const t=document.createElement("textarea"); t.value=text; document.body.appendChild(t); t.select();
+      msg.textContent="Tekstas pažymėtas. Paspausk Ctrl+C.";
+    };
+    try{
+      navigator.clipboard.writeText(text).then(()=>{msg.textContent="Nukopijuota.";},fallback);
+    }catch(e){ fallback(); }
+  });
+})();
+</script>
+
+</body></html>
